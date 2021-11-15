@@ -51,7 +51,7 @@
         <input type="password" class="form-control input-lg" required="" name="password" placeholder="Senha">       
       </div>
       <div class="row">
-        <center><div class="g-recaptcha" data-sitekey="6Lec7pccAAAAADjVhaqUDbN6AQMnpsJD4wBJHQOP"  data-callback="enableBtn"></div></center>
+        <center><div class="g-recaptchad" data-sitekey="6Lec7pccAAAAADjVhaqUDbN6AQMnpsJD4wBJHQOP"  data-callback="enableBtn"></div></center>
       </div> 
       <br>
       <div class="row">
@@ -60,7 +60,7 @@
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat btn-lg" id="button1" disabled>Entrar</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat btn-lg" id="button1">Entrar</button>
         </div>
         <!-- /.col -->
       </div>
