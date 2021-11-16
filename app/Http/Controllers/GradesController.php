@@ -41,7 +41,7 @@ sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor
 				left join saldos on saldos.curto = itens.id
 				where
 				
-				 itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') -- and itens.agrup like 'ah02%'  
+				 itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') 				 
 				 and saldos.disp_vendas > 10
                 and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 			) as fim2
@@ -226,7 +226,7 @@ from (
 				from itens 
 				left join saldos on saldos.curto = itens.id
 				
-				where itens.secundario not like '%semi%' and clasmod like 'linha%'  
+				where itens.secundario not like '%semi%' and clasmod in ('linha a++', 'linha a+', 'linha a', 'novo')  
                 and itens.agrup like '$agrup'  
                 and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 			) as fim2
