@@ -84,8 +84,7 @@ $query_3 = \DB::select("
 
 
 
-
-			  
+		  
 			
 @endphp
 
