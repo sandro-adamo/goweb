@@ -583,6 +583,8 @@ from(select *,
 		and ifnull(compras_entregas.qtde_entrega,0)-ifnull(compras_entregas.qtd_entregue,0) > 0
 		and (compras_entregas.exclui is null or compras_entregas.exclui = 0)
 		and ifnull(compras_entregas.qtde_entrega,0) <> 0
+		 and (compras_entregas.dt_alterada is null or compras_entregas.dt_alterada =0)
+		 and fornecedor not like '%kenerson%'
 		) as base) as base2
 
         group by ordem, dt_completa, anoentrega, tipo, fornecedor) base3

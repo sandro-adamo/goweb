@@ -417,10 +417,10 @@ $catalogo->modelo == 'HI1139'
               <div class="col-md-4" align="right">{{$catalogo->colitem}} @if ( \Auth::user()->admin == 1 )<a href="" class="alteraCaracteristica" data-tipo="item" data-caracteristica="colitem" data-value="{{$catalogo->id}}"><i class="fa fa-edit"></i></a>@endif</div>
 				<div class="col-md-8" align="left" ><b>EAN</b>: {{$catalogo->ean}}</div> 
 				
-				@if ( \Auth::user()->admin == 1 )
+				
 				
 				<div><a href="/itens_clientes?item={{$catalogo->secundario}}"><i class="fa fa-users"></i></i></a></div>
-			  @endif
+			 
 				
 				@if ($modelo->grife=="EVOKE") 
 				
