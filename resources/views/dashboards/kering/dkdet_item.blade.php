@@ -200,7 +200,7 @@ $query_3 = \DB::select("
 					
 					<td colspan="1" align="center">Pedido</td>
 					<td colspan="1" align="center">data</td>
-						<td colspan="1" align="center">status</td>
+					<td colspan="1" align="center">status</td>
 					<td colspan="1" align="center">tipo</td>
 					<td colspan="1" align="center">qtde</td>
 					
@@ -214,9 +214,10 @@ $query_3 = \DB::select("
 				<tr>
 				<td align="left"><a href="/dsimportdet?tipo={{$query3->tipo}}&pedido={{$query3->pedido}}">{{$query3->tipo.' '.$query3->pedido}}</a></td>
 				<td align="center">{{$query3->dt_pedido}}</td>
-					<td align="center">{{$query3->desc_status}}</td>
+			
 				<td align="center">{{$query3->tipo}}</td>
 				<td align="center">{{$query3->ult_prox}}</td>
+				<td align="center">{{$query3->desc_status}}</td>
 				<td align="center">{{number_format($query3->qtde)}}</td>
 				
 				</tr>
