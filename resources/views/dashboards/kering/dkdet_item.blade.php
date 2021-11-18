@@ -50,9 +50,7 @@ order by dt_pedido
 
 
 $query_3 = \DB::select(" 
-		select pedido, dt_pedido, tipo, ref_go, ref_despachante, ref_nac_01, 
-		concat(ult_status, ' / ',prox_status) ult_prox, imp.secundario, cod_item, codtipoitem,
-            
+		select pedido, dt_pedido, tipo, concat(ref_go,ref_despachante) obs, ref_nac_01, concat(ult_status, ' / ',prox_status) ult_prox, imp.secundario,             
 		case 
 		when prox_status = 230 then 'ped_inserido' 
 		when prox_status = 280 then 'PL_recebido' 
@@ -66,27 +64,25 @@ $query_3 = \DB::select("
         when prox_status = 379 then 'registrado'
         when prox_status = 385 then 'nf_emitida'
         when prox_status = 390 then 'carregada'
-        when prox_status = 400 then 'chegou_TO' else '' end as desc_status,
-			
-			case  when codtipoitem = 006 then 'PECA' 
-				 when (left(imp.secundario,3) = 'FR ' or left(imp.secundario,6) = 'PONTE ') then 'FRENTE' 
-				 when left(imp.secundario,2) IN ('LE','LD','HE','HD','PL','SC','BL') then 'ACESSORIOS'
-				 else 'OUTROS' end as tipoitem, qtde_sol qtde
-                 
+        when prox_status = 400 then 'chegou_TO' else '' end as desc_status, qtde_sol qtde
 			 
 			from importacoes_pedidos imp 
 			left join itens on itens.id = cod_item		
-			where ref_go not in ('LA200501','QGKI17-7B') and 
-			ult_status not in (980) and prox_status not in (999,400)
-            
+			where ref_go not in ('LA200501','QGKI17-7B') and ult_status not in (980) and prox_status not in (999,400)
 			and itens.secundario = '$item'
-
+            
+	union all 
+    
+    
+	select c.id pedido, c.dt_emissao dt_pedido, '' tipo, c.obs, '' ref_nac_1, '' ult_prox, itens.secundario, 'pre-embarque' as desc_status, sum(qtde) pre_embarque
+	from compras_itens ci
+	left join compras c on c.id = ci.id_compra
+	left join itens on ci.item = itens.secundario
+	where c.tipo = 'pre-embarque' and itens.secundario = '$item'
+	group by c.id, c.dt_emissao,  c.obs, itens.secundario
 ");
 
-
-
-
-			  
+		  
 			
 @endphp
 
@@ -204,7 +200,10 @@ $query_3 = \DB::select("
 					
 					<td colspan="1" align="center">Pedido</td>
 					<td colspan="1" align="center">data</td>
+					
 					<td colspan="1" align="center">tipo</td>
+					<td colspan="1" align="center">status</td>
+					<td colspan="1" align="center">desc status</td>
 					<td colspan="1" align="center">qtde</td>
 					
 					
@@ -217,8 +216,10 @@ $query_3 = \DB::select("
 				<tr>
 				<td align="left"><a href="/dsimportdet?tipo={{$query3->tipo}}&pedido={{$query3->pedido}}">{{$query3->tipo.' '.$query3->pedido}}</a></td>
 				<td align="center">{{$query3->dt_pedido}}</td>
+			
 				<td align="center">{{$query3->tipo}}</td>
 				<td align="center">{{$query3->ult_prox}}</td>
+				<td align="center">{{$query3->desc_status}}</td>
 				<td align="center">{{number_format($query3->qtde)}}</td>
 				
 				</tr>
