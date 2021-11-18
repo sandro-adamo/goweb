@@ -200,8 +200,10 @@ $query_3 = \DB::select("
 					
 					<td colspan="1" align="center">Pedido</td>
 					<td colspan="1" align="center">data</td>
-					<td colspan="1" align="center">status</td>
+					
 					<td colspan="1" align="center">tipo</td>
+					<td colspan="1" align="center">status</td>
+					<td colspan="1" align="center">desc status</td>
 					<td colspan="1" align="center">qtde</td>
 					
 					
