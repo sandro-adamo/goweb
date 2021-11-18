@@ -11,7 +11,7 @@
       <div class="box-header with-border"  > 
       @foreach($entregas as $entrega)
       
-        <div class="col-lg-4 " style="min-height:6600px">
+        <div class="col-lg-4 " style="min-height:600px">
           <div class="box box-primary">
             <h3> {{$entrega->dt_completa}}</h3>
             <table class="table table-bordered table-condensed">
