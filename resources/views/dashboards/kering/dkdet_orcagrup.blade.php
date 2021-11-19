@@ -15,7 +15,6 @@ if($representantes==101815)
 
 echo $agrup;
 
-
 $query_2 = \DB::select(" 
 
                 select abc.id codcli, cliente, fantasia, uf, municipio, financeiro, cod_risco, min(dt_venda) min_venda, max(dt_venda) max_venda, sum(qtde) qtde
