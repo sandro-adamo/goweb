@@ -35,7 +35,6 @@ from (
 	
 	group by colmod
 ) as fim group by colmod order by left(colmod,4) desc, right(colmod,2) asc
-
 ");
 
 
