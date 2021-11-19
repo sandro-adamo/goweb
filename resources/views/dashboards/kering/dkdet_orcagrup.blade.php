@@ -24,7 +24,7 @@ $query_2 = \DB::select("
 				left join itens on itens.id = vds.id_item and codtipoitem = 006
                 left join addressbook abc on abc.id = id_cliente
 				where ult_status not in ('980','984') and prox_status <= 515
-				and agrup in ('$agrup')
+				and left(agrup,4) in ('$agrup')
 				group by abc.id, cliente, fantasia, uf, municipio, financeiro, cod_risco
 
 ");
@@ -53,8 +53,7 @@ $query_2 = \DB::select("
 				</tr>
 		  			
 					<tr>	
-					<td colspan="1" align="center">codcli</td>	
-					<td colspan="1" align="center">cliente</td>					
+					<td colspan="1" align="center">codcli - cliente</td>	
 					<td colspan="1" align="center">fantasia</td>
 					<td colspan="1" align="center">uf</td>
 					<td colspan="1" align="center">municipio</td>				
@@ -62,7 +61,8 @@ $query_2 = \DB::select("
 					<td colspan="1" align="center">cod_risco</td>				
 					<td colspan="1" align="center">min_data</td>				
 					<td colspan="1" align="center">max_data</td>				
-					<td colspan="1" align="center">qtde</td>				
+					<td colspan="1" align="center">qt aberto</td>
+					<td colspan="1" align="center">qt atende</td>
 					</tr>
 			  
 			    </thead>
@@ -70,8 +70,8 @@ $query_2 = \DB::select("
 				@foreach ($query_2 as $query2)
 			  
 				<tr>
-					<td align="left"><a href="/dkdet_item?item={{$query2->codcli}}">{{$query2->codcli}}</a></td>
-					<td align="left"><a href="/dkdet_item?item={{$query2->codcli}}">{{$query2->cliente}}</a></td>
+					<td align="left"><a href="/dkdet_item?item={{$query2->codcli}}">{{$query2->codcli}} - {{$query2->cliente}}</a></td>
+					
 					<td align="left">{{$query2->fantasia}}</td>
 					<td align="center">{{$query2->uf}}</td>
 					<td align="center">{{$query2->municipio}}</td>
@@ -79,7 +79,8 @@ $query_2 = \DB::select("
 					<td align="center">{{$query2->cod_risco}}</td>
 					<td align="center">{{$query2->min_venda}}</td>
 					<td align="center">{{$query2->max_venda}}</td>
-					<td align="center">{{$query2->qtde}}</td>					
+					<td align="center">{{$query2->qtde}}</td>	
+					<td align="center"></td>	
 				</tr>
 			@endforeach 
 			
