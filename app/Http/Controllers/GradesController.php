@@ -226,7 +226,7 @@ from (
 				from itens 
 				left join saldos on saldos.curto = itens.id
 				
-				where itens.secundario not like '%semi%' and clasmod in ('novo') 
+				where itens.secundario not like '%semi%' and clasmod in ('linha a++') 
 				
                 and itens.agrup like '$agrup'  
                 and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
