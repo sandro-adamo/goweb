@@ -113,6 +113,7 @@ class ItemController extends Controller
 	}
 
 	public function atualizacaoMassa(Request $request) {
+	
 
 		 ini_set("display_errors", 0);
         ini_set('memory_limit', -1);
@@ -123,6 +124,7 @@ class ItemController extends Controller
      
         // Verifica se informou o arquivo e se é válido
         if ($request->hasFile('arquivo') && $request->file('arquivo')->isValid()) {
+				
             if ($request->arquivo->extension() == 'txt') {
                 // Define um aleatório para o arquivo baseado no timestamps atual
                 $name = uniqid(date('HisYmd'));
@@ -135,8 +137,9 @@ class ItemController extends Controller
          
                 // Faz o upload:
                 $upload = $request->arquivo->storeAs('uploads/carga', $nameFile);
+				
 
-                $arquivo = '/var/www/html/portalgo/storage/app/'.$upload;
+                $arquivo = '/var/www/html/portal-gestao/storage/app/'.$upload;
                 // Se tiver funcionado o arquivo foi armazenado em storage/app/public/categories/nomedinamicoarquivo.extensao
             } else {
                 $request->session()->flash('alert', 'Arquivo não é CSV');
@@ -147,6 +150,7 @@ class ItemController extends Controller
         } 
 
 	    if (file_exists($arquivo)) {
+			dd('oi');
 
 	        $handle = fopen($arquivo, "r"); 
 
@@ -241,6 +245,9 @@ class ItemController extends Controller
 
 
 	    }
+		else{
+			dd('nao achou arquivo');
+		}
 
 
 
