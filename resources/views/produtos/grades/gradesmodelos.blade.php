@@ -191,6 +191,49 @@
         </table>
     </div>
 </div>
+				
+				
+				
+				    <div class="row" style="padding-bottom: 2px;">
+    <div class="col-md-12">
+        <table width="100%">
+            <tr>
+                <td>
+                    <table class="table table-condensed table-bordered table2" style="text-align: center;">
+                        <tr>
+                            <td><i class="fa fa-shopping-cart text-green"></i></td>
+                            
+                            <td>
+                              @if ( \Auth::user()->admin == 1  or  \Auth::user()->id_perfil == 11 
+								or  \Auth::user()->id_perfil == 2 )
+                                <a href="/vendas_sint?modelo={{$catalogo->modelo}}">{{number_format($catalogo->qtde_tt)}}/{{number_format($catalogo->qtde_30)}}</a>
+                              @else 
+                                {{number_format($catalogo->qtde30)}}
+                              @endif 
+                            </td>
+                            
+                        </tr>
+                    </table>
+
+                </td>
+
+				
+				<td>
+                    <table class="table table-condensed table-bordered table2" style="text-align: center;">
+						
+                        <tr>
+                            <td><i class="fa fa-hourglass-3 text-purple"></i></td>
+                            <td>{{number_format($catalogo->imediata)}}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+				
+				
+				
 
             </div>
           </div>
