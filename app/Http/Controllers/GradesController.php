@@ -226,7 +226,7 @@ from (
 				from itens 
 				left join saldos on saldos.curto = itens.id
 				
-				where itens.secundario not like '%semi%' and clasmod in ('linha a++') 
+				where itens.secundario not like '%semi%' and clasmod in ('linha a++', 'linha a+', 'linha a', 'novo') 
 				
                 and itens.agrup like '$agrup'  
                 and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
@@ -290,7 +290,7 @@ public static function listaGradesModelos(Request $request, $agrup) {
 	 		{$where = 'where filtro =';} else {$where ='where filtro >=';}
 
 
-		$itensagregado1 = \DB::connection('go')->select("
+$itensagregado1 = \DB::connection('go')->select("
 
 select * from (
 select grife, codgrife, agrup, modelo, clasmod, right(clasmod,2) classif, colmod, (itens) as itens, 
@@ -326,9 +326,9 @@ from (
 			) as fim2
 		) as fim3 group by grife, codgrife, agrup, modelo, clasmod, colmod
 	) as fim4 
-) as fim5 $where '$request->cores' order by colmod desc
+) as fim5 $where '$request->cores' order by modelo asc
 
-		"); 
+"); 
 		
 
 		
