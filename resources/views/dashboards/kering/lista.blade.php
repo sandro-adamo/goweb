@@ -63,8 +63,8 @@ $query_2 = \DB::select("
 <div class="row"> 
 	
 	<div class="col-md-12">	
-	<div class="box box-body">
-			
+	
+	   <div class="box box-body">	
 	   <table class="table table-striped table-bordered compact" id="myTable">
 		  <thead>	
 			
@@ -118,12 +118,12 @@ $query_2 = \DB::select("
 		
 		   
 			</table>
-			<td></td> 
-		</div>
-		
-		
-		<div class="box box-body">
 			
+		</div>
+
+	
+
+		<div class="box box-body">	
 	   <table class="table table-striped table-bordered compact" id="myTable">
 		  <thead>	
 			
