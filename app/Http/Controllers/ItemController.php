@@ -150,7 +150,7 @@ class ItemController extends Controller
         } 
 
 	    if (file_exists($arquivo)) {
-			dd('oi');
+			//dd('oi');
 
 	        $handle = fopen($arquivo, "r"); 
 
@@ -246,7 +246,7 @@ class ItemController extends Controller
 
 	    }
 		else{
-			dd('nao achou arquivo');
+			//dd('nao achou arquivo');
 		}
 
 
