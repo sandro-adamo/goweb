@@ -150,7 +150,7 @@
             <option value="DISTRIBUIDO" @if (isset($_GET["status"]) && $_GET["status"] == 'DISTRIBUIDO') selected="" @endif>@lang('padrao.distribuido')</option>
             <option value="PRODUCAO" @if (isset($_GET["status"]) && $_GET["status"] == 'PRODUCAO') selected="" @endif>@lang('padrao.producao')</option>
             <option value="INVOICE" @if (isset($_GET["status"]) && $_GET["status"] == 'INVOICE') selected="" @endif>@lang('padrao.invoice')</option>
-			@if ($qtde_entreguett< '0' or $qtde_entreguett == '')
+			@if ($qtde_entreguett<= '0' or $qtde_entreguett == '')
             <option value="CANCELADO" @if (isset($_GET["status"]) && $_GET["status"] == 'CANCELADO') selected="" @endif>@lang('padrao.cancelado')</option>
 			@endif
             <option value="CONCLUIDO" @if (isset($_GET["status"]) && $_GET["status"] == 'CONCLUIDO') selected="" @endif>@lang('padrao.concluido')</option>
