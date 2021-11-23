@@ -24,7 +24,7 @@ class CompraController extends Controller {
     $usuario = \Auth::id();
     //dd($arquivo);
 
-    $uploaddir = '/var/www/html/portalgo/storage/app/uploads/compras/arquivos/' . $agora . '_';
+    $uploaddir = '/var/www/html/portal-gestao/storage/app/uploads/compras/arquivos/' . $agora . '_';
 
     $uploadfile = $uploaddir . basename( $_FILES[ 'arquivo' ][ 'name' ] );
     //dd( $uploadfile );
@@ -49,7 +49,7 @@ class CompraController extends Controller {
     $agora = date( '_d_m_Y_H_i' );
 	
 	$idcompra = $id_compra; 
-    $uploaddir1 = '/var/www/html/portalgo';
+    $uploaddir1 = '/var/www/html/portal-gestao';
 	$uploaddir2 = '/storage/';
 	$uploaddir3 = 'app/';
 	$uploaddir4 = 'uploads/compras/edita_entrega/edita_entrega_pedido_' . $id_compra . '_' . $agora;
@@ -271,7 +271,7 @@ class CompraController extends Controller {
     $drawing = new\ PhpOffice\ PhpSpreadsheet\ Worksheet\ Drawing();
     $drawing->setName( 'Paid' );
     $drawing->setDescription( 'Paid' );
-    $drawing->setPath( '/var/www/html/portalgo/public/img/logogo.png' ); // put your path and image here
+    $drawing->setPath( '/var/www/html/portal-gestao/public/img/logogo.png' ); // put your path and image here
     $drawing->setCoordinates( 'A1' );
     //$drawing->setOffsetX(110);
     $drawing->setHeight( 100 );
@@ -487,7 +487,7 @@ class CompraController extends Controller {
     $writer->save( 'php://output' );
 
 
-    $nome_excel = '/var/www/html/portalgo/storage/app/pedido.xlsx';
+    $nome_excel = '/var/www/html/portal-gestao/storage/app/pedido.xlsx';
     // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     // header('Content-Disposition: attachment;filename="'.$nome.'"');
     // header('Cache-Control: max-age=0');
@@ -990,7 +990,7 @@ where ci.id_item is null
 
       $agora = date( '_d_m_Y_H_i' );
 
-      $uploaddir = '/var/www/html/portalgo/storage/app/uploads/compras/invoices/invoice_' . $invoice . '_' . $agora;
+      $uploaddir = '/var/www/html/portal-gestao/storage/app/uploads/compras/invoices/invoice_' . $invoice . '_' . $agora;
       $uploadfile = $uploaddir . '.Xlsx';
 
 
@@ -1179,7 +1179,7 @@ where ci.id_item is null
 
       $agora = date( '_d_m_Y_H_i' );
 
-      $uploaddir = '/var/www/html/portalgo/storage/app/uploads/compras/arquivos/criacao_de_cores_' . $agora;
+      $uploaddir = '/var/www/html/portal-gestao/storage/app/uploads/compras/arquivos/criacao_de_cores_' . $agora;
       $uploadfile = $uploaddir . '.Xlsx';
 
 
@@ -1276,7 +1276,7 @@ $cor_logo_jde = $linhas[21];
 
       $agora = date( '_d_m_Y_H_i' );
 
-      $uploaddir = '/var/www/html/portalgo/storage/app/uploads/compras/arquivos/criacao_de_modelos_' . $agora;
+      $uploaddir = '/var/www/html/portal-gestao/storage/app/uploads/compras/arquivos/criacao_de_modelos_' . $agora;
       $uploadfile = $uploaddir . '.Xlsx';
 
 
@@ -1400,7 +1400,7 @@ $aprovacao_prototipo_cores = $linhas[44];
 	$extensao = $extensao['extension'];
 		
 		
-    $uploaddir1 = '/var/www/html/portalgo';
+    $uploaddir1 = '/var/www/html/portal-gestao';
 	$uploaddir2 = '/storage/';
 	$uploaddir3 = 'app/';
 	$uploaddir4 = 'uploads/compras/arquivos/'.$tipo.'_'. $idmodelo . '_' . $agora;
@@ -1441,7 +1441,7 @@ $aprovacao_prototipo_cores = $linhas[44];
 	$extensao = $extensao['extension'];
 		
 		
-    $uploaddir1 = '/var/www/html/portalgo';
+    $uploaddir1 = '/var/www/html/portal-gestao';
 	$uploaddir2 = '/storage/';
 	$uploaddir3 = 'app/';
 	$uploaddir4 = 'uploads/compras/arquivos/historico_'. $idmodelo . '_' . $agora;
@@ -1982,11 +1982,11 @@ from compras_modelos group by agrupamento, grife ) as base
 
     $path = $request->file( 'arquivo' )->store( 'uploads/compras' );
 
-    if ( file_exists( '/var/www/html/portalgo/storage/app/' . $path ) ) {
+    if ( file_exists( '/var/www/html/portal-gestao/storage/app/' . $path ) ) {
 
       $reader = \PhpOffice\ PhpSpreadsheet\ IOFactory::createReader( "Xlsx" );
 
-      $spreadsheet = $reader->load( '/var/www/html/portalgo/storage/app/' . $path );
+      $spreadsheet = $reader->load( '/var/www/html/portal-gestao/storage/app/' . $path );
 
       $sheet = $spreadsheet->getActiveSheet()->toArray();
 
@@ -2257,14 +2257,14 @@ from compras_modelos group by agrupamento, grife ) as base
     $path = $request->file( 'arquivo' )->store( 'uploads/compras' );
 	  $arquivo = '/storage/'.$path;
 	
-    if ( file_exists( '/var/www/html/portalgo/storage/app/' . $path ) ) {
+    if ( file_exists( '/var/www/html/portal-gestao/storage/app/' . $path ) ) {
 		 
 		$inserearquivos = \DB::select( "INSERT INTO `compras_arquivos`( `id_compra`, `tipo`, `arquivo`, `nome`, `obs`, `data`, `usuario`, `exclui`) VALUES ('$id','DISTRIBUIÇÃO','$arquivo','Distribuição de datas', '',CURRENT_DATE,'$cod_usuario','0')");
 		
 
       $reader = \PhpOffice\ PhpSpreadsheet\ IOFactory::createReader( "Xlsx" );
 
-      $spreadsheet = $reader->load( '/var/www/html/portalgo/storage/app/' . $path );
+      $spreadsheet = $reader->load( '/var/www/html/portal-gestao/storage/app/' . $path );
 
       $sheet = $spreadsheet->getActiveSheet()->toArray();
 
@@ -2669,7 +2669,7 @@ from compras_modelos group by agrupamento, grife ) as base
 
     $html .= '<table class="table">
 			<tr>
-			<td width="10%" valign="top"><img src="/var/www/html/portalgo/public/img/logogo.png" width="100"></td>
+			<td width="10%" valign="top"><img src="/var/www/html/portal-gestao/public/img/logogo.png" width="100"></td>
 			<td width="60%" valign="top">
 			<b style="text-size: 22px; font-weight:bold">Supplier</b>
 			<h4>' . $itens[ 0 ]->razao . '</h4>
@@ -3019,7 +3019,7 @@ from compras_modelos group by agrupamento, grife ) as base
 
     // Write some HTML code:
     //		$mpdf->SetHTMLFooter($rodape);
-    $stylesheet = file_get_contents( '/var/www/html/portalgo/public/css/bootstrap.min.css' );
+    $stylesheet = file_get_contents( '/var/www/html/portal-gestao/public/css/bootstrap.min.css' );
 
     $mpdf->WriteHTML( $stylesheet, 1 );
     $mpdf->WriteHTML( $html, 2 );
@@ -3035,7 +3035,7 @@ from compras_modelos group by agrupamento, grife ) as base
     $pedido_capa = \App\ Compra::find( $id_pedido );
 
 
-    $uploaddir = '/var/www/html/portalgo/storage/uploads/';
+    $uploaddir = '/var/www/html/portal-gestao/storage/uploads/';
     $uploadfile = $uploaddir . basename( $_FILES[ 'arquivo' ][ 'name' ] );
 
     $erros = array();
@@ -3743,7 +3743,7 @@ group by agrupamento" );
     $drawing = new\ PhpOffice\ PhpSpreadsheet\ Worksheet\ Drawing();
     $drawing->setName( 'Paid' );
     $drawing->setDescription( 'Paid' );
-    $drawing->setPath( '/var/www/html/portalgo/public/img/logogo.png' ); // put your path and image here
+    $drawing->setPath( '/var/www/html/portal-gestao/public/img/logogo.png' ); // put your path and image here
     $drawing->setCoordinates( 'A1' );
     //$drawing->setOffsetX(110);
     $drawing->setHeight( 100 );
@@ -3938,7 +3938,7 @@ group by agrupamento" );
     $writer->save( 'php://output' );
 
 
-    $nome_excel = '/var/www/html/portalgo/storage/app/pedido.xlsx';
+    $nome_excel = '/var/www/html/portal-gestao/storage/app/pedido.xlsx';
     // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     // header('Content-Disposition: attachment;filename="'.$nome.'"');
     // header('Cache-Control: max-age=0');
@@ -4003,7 +4003,7 @@ group by agrupamento" );
     $drawing = new\ PhpOffice\ PhpSpreadsheet\ Worksheet\ Drawing();
     $drawing->setName( 'Paid' );
     $drawing->setDescription( 'Paid' );
-    $drawing->setPath( '/var/www/html/portalgo/public/img/logogo.png' ); // put your path and image here
+    $drawing->setPath( '/var/www/html/portal-gestao/public/img/logogo.png' ); // put your path and image here
     $drawing->setCoordinates( 'A1' );
     //$drawing->setOffsetX(110);
     $drawing->setHeight( 100 );
@@ -4195,7 +4195,7 @@ group by agrupamento" );
     header( 'Cache-Control: max-age=0' );
 
 
-    $nome_excel = '/var/www/html/portalgo/storage/app/order#' . $itens[ 0 ]->id_compra . '.xlsx';
+    $nome_excel = '/var/www/html/portal-gestao/storage/app/order#' . $itens[ 0 ]->id_compra . '.xlsx';
     // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     // header('Content-Disposition: attachment;filename="'.$nome.'"');
     // header('Cache-Control: max-age=0');
@@ -4258,7 +4258,7 @@ group by agrupamento" );
 
         }
 
-        $nome_excel = '/var/www/html/portalgo/storage/app/order#' . $request->id_pedido . '.xlsx';
+        $nome_excel = '/var/www/html/portal-gestao/storage/app/order#' . $request->id_pedido . '.xlsx';
         $mail->AddAttachment( $nome_excel );
         //$mail->addAddress('fabio@oncore.com.br');               // Name is optional
         //$mail->addReplyTo('info@example.com', 'Information');
@@ -4383,7 +4383,7 @@ group by agrupamento" );
     $drawing = new\ PhpOffice\ PhpSpreadsheet\ Worksheet\ Drawing();
     $drawing->setName( 'Paid' );
     $drawing->setDescription( 'Paid' );
-    $drawing->setPath( '/var/www/html/portalgo/public/img/logogo.png' ); // put your path and image here
+    $drawing->setPath( '/var/www/html/portal-gestao/public/img/logogo.png' ); // put your path and image here
 
     //		$drawing->getShadow()->setDirection(45);
     //$drawing->setWorksheet($spreadsheet->getActiveSheet());
@@ -4455,7 +4455,7 @@ group by agrupamento" );
     //header('Cache-Control: max-age=0');
 
 
-    $nome_excel1 = '/var/www/html/portalgo/storage/app/relatorio_atrasos_' . $data . '.xlsx';
+    $nome_excel1 = '/var/www/html/portal-gestao/storage/app/relatorio_atrasos_' . $data . '.xlsx';
     // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     // header('Content-Disposition: attachment;filename="'.$nome.'"');
     // header('Cache-Control: max-age=0');
@@ -4550,7 +4550,7 @@ group by agrupamento" );
 
       //} 
 
-      //$nome_excel = '/var/www/html/portalgo/storage/app/order#'.$request->id_pedido.'.xlsx';
+      //$nome_excel = '/var/www/html/portal-gestao/storage/app/order#'.$request->id_pedido.'.xlsx';
       $mail->AddAttachment( $nome_excel1 );
       //$mail->addAddress('fabio@oncore.com.br');               // Name is optional
       //$mail->addReplyTo('info@example.com', 'Information');
@@ -4665,7 +4665,7 @@ group by agrupamento" );
     $drawing = new\ PhpOffice\ PhpSpreadsheet\ Worksheet\ Drawing();
     $drawing->setName( 'Paid' );
     $drawing->setDescription( 'Paid' );
-    $drawing->setPath( '/var/www/html/portalgo/public/img/logogo.png' ); // put your path and image here
+    $drawing->setPath( '/var/www/html/portal-gestao/public/img/logogo.png' ); // put your path and image here
 
     //		$drawing->getShadow()->setDirection(45);
     //$drawing->setWorksheet($spreadsheet->getActiveSheet());
@@ -4717,7 +4717,7 @@ group by agrupamento" );
     //header('Cache-Control: max-age=0');
 
 
-    $nome_excel1 = '/var/www/html/portalgo/storage/app/relatorio_diferencapedido_' . $data . '.xlsx';
+    $nome_excel1 = '/var/www/html/portal-gestao/storage/app/relatorio_diferencapedido_' . $data . '.xlsx';
     // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     // header('Content-Disposition: attachment;filename="'.$nome.'"');
     // header('Cache-Control: max-age=0');
@@ -4785,7 +4785,7 @@ group by agrupamento" );
 
       //} 
 
-      //$nome_excel = '/var/www/html/portalgo/storage/app/order#'.$request->id_pedido.'.xlsx';
+      //$nome_excel = '/var/www/html/portal-gestao/storage/app/order#'.$request->id_pedido.'.xlsx';
       $mail->AddAttachment( $nome_excel1 );
       //$mail->addAddress('fabio@oncore.com.br');               // Name is optional
       //$mail->addReplyTo('info@example.com', 'Information');
@@ -4922,7 +4922,7 @@ group by agrupamento" );
     $drawing = new\ PhpOffice\ PhpSpreadsheet\ Worksheet\ Drawing();
     $drawing->setName( 'Paid' );
     $drawing->setDescription( 'Paid' );
-    $drawing->setPath( '/var/www/html/portalgo/public/img/logogo.png' ); // put your path and image here
+    $drawing->setPath( '/var/www/html/portal-gestao/public/img/logogo.png' ); // put your path and image here
 
     //		$drawing->getShadow()->setDirection(45);
     //$drawing->setWorksheet($spreadsheet->getActiveSheet());
@@ -4981,7 +4981,7 @@ group by agrupamento" );
     //header('Cache-Control: max-age=0');
 
 
-    $nome_excel1 = '/var/www/html/portalgo/storage/app/relatorio_mudancadataentrega_' . $data . '.xlsx';
+    $nome_excel1 = '/var/www/html/portal-gestao/storage/app/relatorio_mudancadataentrega_' . $data . '.xlsx';
     // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     // header('Content-Disposition: attachment;filename="'.$nome.'"');
     // header('Cache-Control: max-age=0');
@@ -5063,7 +5063,7 @@ group by agrupamento" );
 
       //} 
 
-      //$nome_excel = '/var/www/html/portalgo/storage/app/order#'.$request->id_pedido.'.xlsx';
+      //$nome_excel = '/var/www/html/portal-gestao/storage/app/order#'.$request->id_pedido.'.xlsx';
       $mail->AddAttachment( $nome_excel1 );
       //$mail->addAddress('fabio@oncore.com.br');               // Name is optional
       //$mail->addReplyTo('info@example.com', 'Information');
@@ -5175,7 +5175,7 @@ group by agrupamento" );
     $drawing = new\ PhpOffice\ PhpSpreadsheet\ Worksheet\ Drawing();
     $drawing->setName( 'Paid' );
     $drawing->setDescription( 'Paid' );
-    $drawing->setPath( '/var/www/html/portalgo/public/img/logogo.png' ); // put your path and image here
+    $drawing->setPath( '/var/www/html/portal-gestao/public/img/logogo.png' ); // put your path and image here
 
     //		$drawing->getShadow()->setDirection(45);
     //$drawing->setWorksheet($spreadsheet->getActiveSheet());
@@ -5222,7 +5222,7 @@ group by agrupamento" );
     //header('Cache-Control: max-age=0');
 
 
-    $nome_excel1 = '/var/www/html/portalgo/storage/app/relatorio_faltacadastro_' . $data . '.xlsx';
+    $nome_excel1 = '/var/www/html/portal-gestao/storage/app/relatorio_faltacadastro_' . $data . '.xlsx';
     // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     // header('Content-Disposition: attachment;filename="'.$nome.'"');
     // header('Cache-Control: max-age=0');
@@ -5285,7 +5285,7 @@ group by agrupamento" );
 
       //} 
 
-      //$nome_excel = '/var/www/html/portalgo/storage/app/order#'.$request->id_pedido.'.xlsx';
+      //$nome_excel = '/var/www/html/portal-gestao/storage/app/order#'.$request->id_pedido.'.xlsx';
       $mail->AddAttachment( $nome_excel1 );
       //$mail->addAddress('fabio@oncore.com.br');               // Name is optional
       //$mail->addReplyTo('info@example.com', 'Information');
