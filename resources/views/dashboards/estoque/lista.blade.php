@@ -42,7 +42,7 @@ from (
 		
 $query_2 = \DB::select(" 
 
-	select grife, agrup, sum(itens_disp) itens_disp,
+	select case when agrup is null then concat(grife, ' TOTAL') else grife end as grife, agrup, sum(itens_disp) itens_disp,
 	sum(orca) orca, sum(disp) disp, sum(cet) cet, sum(etq) etq, sum(prod) prod, sum(etq_total_vendas) etq_total_vendas, sum(compras) pre_compras, 
 	sum(most) most, sum(reservas_estrat) reservas_estrat, sum(manut) manut
 	,sum(atual) atual, sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo
