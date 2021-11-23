@@ -4,11 +4,15 @@
     <section class="sidebar">
 @if  ( \Auth::user()->id_perfil <> 23)
       <!-- search form -->
-      <form class="navbar-form navbar-left" role="search" action="/painel/search/">
-            <div class="form-group">
-              <input type="text" class="form-control" name="busca" autofocus="" id="busca" id="navbar-search-input" placeholder="Search">
-            </div>
-          </form>
+      <form action="/painel/search/" method="get" class="sidebar-form">
+        <div class="input-group">
+          <input type="text" name="busca" class="form-control" placeholder="Item...">
+          <span class="input-group-btn">
+                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+        </div>
+      </form>
 	@endif
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
