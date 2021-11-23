@@ -112,6 +112,12 @@
 		if (file_exists($foto_baixa1)) {
 			$foto = $foto_baixa1;		
 		}
+		if (file_exists($foto_alta2)) {
+			$foto = $foto_alta2;	
+		}
+		if (file_exists($foto_alta1)) {
+			$foto = $foto_alta1;		
+		}
 		$foto = $foto;
 
 

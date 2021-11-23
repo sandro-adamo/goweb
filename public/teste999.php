@@ -112,6 +112,8 @@
 		if (file_exists($foto_baixa1)) {
 			$foto = $foto_baixa1;		
 		}
+		
+		
 		$foto = $foto;
 
 
