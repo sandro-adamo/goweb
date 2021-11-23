@@ -387,7 +387,7 @@ $catalogo->modelo == 'HI1139'
         @endphp
 
           <div id="foto" align="center" style="min-height: 180px; max-height: 180px;">
-            <a href="" class="zoom" data-value="{{$catalogo->secundario}}"><img src="/{{$foto}}" class="img-responsive" style="max-height: 180px;"></a>
+            <a href="" class="zoom" data-value="{{$catalogo->secundario}}"><img src="/{{$foto}}" class="img-responsive" style="max-height: 300px;"></a>
              @if ( \Auth::user()->admin == 1 ) 
         @if ($catalogo->adv == 'sim') 
           <a href="/painel/campanhas/{{$catalogo->secundario}}"><i class="fa fa-camera text-purple fa-2x" style="position:absolute; top:40px; left:5%; opacity:0.8;" ></i></a>
