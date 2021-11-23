@@ -50,68 +50,68 @@
 
 		$foto = 'fotos/no-image.png';
 	
-//		
-//		if (file_exists($agregado1)) {
-//
-//			$foto = $agregado1;	
-//		}
-//		
-//		if (file_exists($agregado2)) {
-//			$foto = $agregado2;	
-//		}
-//
-//		if (file_exists($combinacao1)) {
-//			$foto = $combinacao1;	
-//		}
-//		
-//		if (file_exists($combinacao2)) {
-//			$foto = $combinacao2;	
-//		}
-//		
-//		if (file_exists($foto_ficha1)) {
-//			$foto = $foto_ficha1;	
-//		}
-//		if (file_exists($foto_ficha2)) {
-//			$foto = $foto_ficha2;
-//		}
-//		
-//
-//		if (file_exists($foto_modelo1)) {
-//			$foto = $foto_modelo1;	
-//		}
-//		
-//		if (file_exists($foto_modelo2)) {
-//			$foto = $foto_modelo2;	
-//		}
-//	
-//		if (file_exists($foto_alta2)) {
-//			$foto = $foto_alta2;	
-//		}
-//		if (file_exists($foto_alta1)) {
-//			$foto = $foto_alta1;	
-//		}
-//
-//		if (file_exists($foto_prototipo1)) {
-//			$foto = $foto_prototipo1;	
-//		}
-//		if (file_exists($foto_prototipo2)) {
-//			$foto = $foto_prototipo2;		
-//		}
-//		if (file_exists($foto_ficha_design1)) {
-//			$foto = $foto_ficha_design1;
-//		}
-//
-//		if (file_exists($foto_ficha_design2)) {
-//			$foto = $foto_ficha_design2;
-//		}
-//
-//
-//		if (file_exists($foto_baixa2)) {
-//			$foto = $foto_baixa2;	
-//		}
-//		if (file_exists($foto_baixa1)) {
-//			$foto = $foto_baixa1;		
-//		}
+		
+		if (file_exists($agregado1)) {
+
+			$foto = $agregado1;	
+		}
+		
+		if (file_exists($agregado2)) {
+			$foto = $agregado2;	
+		}
+
+		if (file_exists($combinacao1)) {
+			$foto = $combinacao1;	
+		}
+		
+		if (file_exists($combinacao2)) {
+			$foto = $combinacao2;	
+		}
+		
+		if (file_exists($foto_ficha1)) {
+			$foto = $foto_ficha1;	
+		}
+		if (file_exists($foto_ficha2)) {
+			$foto = $foto_ficha2;
+		}
+		
+
+		if (file_exists($foto_modelo1)) {
+			$foto = $foto_modelo1;	
+		}
+		
+		if (file_exists($foto_modelo2)) {
+			$foto = $foto_modelo2;	
+		}
+	
+		if (file_exists($foto_alta2)) {
+			$foto = $foto_alta2;	
+		}
+		if (file_exists($foto_alta1)) {
+			$foto = $foto_alta1;	
+		}
+
+		if (file_exists($foto_prototipo1)) {
+			$foto = $foto_prototipo1;	
+		}
+		if (file_exists($foto_prototipo2)) {
+			$foto = $foto_prototipo2;		
+		}
+		if (file_exists($foto_ficha_design1)) {
+			$foto = $foto_ficha_design1;
+		}
+
+		if (file_exists($foto_ficha_design2)) {
+			$foto = $foto_ficha_design2;
+		}
+
+
+		if (file_exists($foto_baixa2)) {
+			$foto = $foto_baixa2;	
+		}
+		if (file_exists($foto_baixa1)) {
+			$foto = $foto_baixa1;		
+		}
 		if (file_exists($foto_alta2)) {
 			$foto = $foto_alta2;	
 		}
