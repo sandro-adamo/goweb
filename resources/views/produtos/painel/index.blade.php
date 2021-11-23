@@ -167,7 +167,7 @@ $(function () {
       var status = $(this).data('status');
 
       $("#zoom #myModalLabel").html(referencia);
-      $("#zoom #imagem").html('<img src="https://portal.goeyewear.com.br/teste999_alta.php?referencia='+referencia+'" class="img-responsive" >');
+      $("#zoom #imagem").html('<img src="https://portal.goeyewear.com.br/teste999.php?referencia='+referencia+'" class="img-responsive" >');
       $("#zoom #status").html(status);
       $("#zoom").modal('show');
   });
