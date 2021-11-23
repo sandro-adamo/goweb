@@ -119,13 +119,14 @@ Route::get('/dshome', function () {
 });
 
 
+
+/** DS_estoques **/
 Route::get('dsestoque', function () { return view('dashboards.estoque.lista'); });
 
 
 
-
+/** DS_kering **/
 Route::get('kering', function () { return view('dashboards.kering.lista'); });
-
 
 Route::get('dkdet_agrup', function () {
     return view('dashboards.kering.dkdet_agrup');
