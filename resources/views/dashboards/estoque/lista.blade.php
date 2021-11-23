@@ -12,8 +12,6 @@ if($representantes==101815)
 		else {
 			$grifes = Session::get('grifes'); }
 
-echo $grifes;
-
 $query_1 = \DB::select(" 
 
 select colmod, sum(compras) compras, sum(qtde_recebido) qtde_recebido, sum(qtde_transito) qtde_transito, sum(total_embarcado) total_embarcado, sum(falta_embarcar) falta_embarcar,
@@ -176,8 +174,8 @@ with rollup
 		   
 			  
 				<tr>
-				<td align="left"><a href="/dkdet_agrup?grife={{$query2->grife}}">{{$query2->grife}}</a></td>
-				<td align="center"><a href="/dkdet_comprasagrup?agrup={{$query2->agrup}}">{{$query2->agrup}}</a></td>
+				<td align="left">{{$query2->grife}}</td>
+				<td align="left"><a href="/dkdet_comprasagrup?agrup={{$query2->agrup}}">{{$query2->agrup}}</a></td>
 				<td align="center">{{number_format($query2->itens_disp)}}</td>
 				<td align="center">{{number_format($query2->orca)}}</td>
 				<td align="center">{{number_format($query2->disp)}}</td>
