@@ -38,14 +38,13 @@
 
       <div class="col-md-2">
         <div class="box box-widget">
-          <div  class="box-header with-border" style="font-size:14px; padding: 12px 10px 12px 10px;"> 
-          <b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
-          <span class="pull-right">  {{$catalogo->classif}}</span>
-			  <span class="pull-right">{{$catalogo->colmod}}</span>
-			 
           
-                
 			
+			
+			<div  class="box-header with-border" style="font-size:14px; padding: 12px 10px 12px 10px;"> 
+			  <b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
+			  <span class="pull-right">  {{$catalogo->classif}}</span>
+			  <span class="pull-right">{{$catalogo->colmod}}</span>
 			</div>
 
 
@@ -86,7 +85,9 @@
 		
 		@endif
 		
-          <div class="box-body">
+		
+		
+<div class="box-body">
            <!-- linha 452--> 
 			  
 			  
@@ -148,54 +149,99 @@
 			  
 			  
 			  
-            <div> 
-            @php
-          $mesesforn = 2;
-   
-@endphp     
+		<div> 
+			@php
+			$mesesforn = 2;
 
-     <div class="row" style="padding-bottom: 2px;">
-    <div class="col-md-12">
-        <table width="100%">
-            <tr>
-                <td>
-                    <table class="table table-condensed table-bordered table2" style="text-align: center;">
-                        <tr>
-                            <td><i class="fa fa-shopping-cart text-green"></i></td>
-                            
-                            <td>
-                              @if ( \Auth::user()->admin == 1  or  \Auth::user()->id_perfil == 11 
-								or  \Auth::user()->id_perfil == 2 )
-                                <a href="/vendas_sint?modelo={{$catalogo->modelo}}">{{number_format($catalogo->qtde_tt)}}/{{number_format($catalogo->qtde_30)}}</a>
-                              @else 
-                                {{number_format($catalogo->qtde30)}}
-                              @endif 
-                            </td>
-                            
-                        </tr>
-                    </table>
+			@endphp     
 
-                </td>
+			  <div class="row" style="padding-bottom: 2px;">
+				<div class="col-md-12">
+					<table width="100%">
+						<tr>
+							<td>
+								<table class="table table-condensed table-bordered table2" style="text-align: center;">
+									<tr>
+										<td><i class="fa fa-shopping-cart text-green"></i></td>
 
-				
-				<td>
-                    <table class="table table-condensed table-bordered table2" style="text-align: center;">
-						
-                        <tr>
-                            <td><i class="fa fa-hourglass-3 text-purple"></i></td>
-                            <td>{{number_format($catalogo->imediata)}}</td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </div>
+										<td>
+										  @if ( \Auth::user()->admin == 1  or  \Auth::user()->id_perfil == 11 
+											or  \Auth::user()->id_perfil == 2 )
+											<a href="/vendas_sint?modelo={{$catalogo->modelo}}">{{number_format($catalogo->qtde_tt)}}/{{number_format($catalogo->qtde_30)}}</a>
+										  @else 
+											{{number_format($catalogo->qtde30)}}
+										  @endif 
+										</td>
+
+									</tr>
+								</table>
+
+							</td>
+
+
+							<td>
+								<table class="table table-condensed table-bordered table2" style="text-align: center;">
+
+									<tr>
+										<td><i class="fa fa-hourglass-3 text-purple"></i></td>
+										<td>{{number_format($catalogo->imediata)}}</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+
+
+			<div class="row" style="padding-bottom: 2px;">
+				<div class="col-md-12">
+					<table width="100%">
+						<tr>
+							<td>
+								<table class="table table-condensed table-bordered table2" style="text-align: center;">
+									<tr>
+										<td><i class="fa fa-shopping-cart text-green"></i></td>
+
+										<td>
+										  @if ( \Auth::user()->admin == 1  or  \Auth::user()->id_perfil == 11 
+											or  \Auth::user()->id_perfil == 2 )
+											<a href="/vendas_sint?modelo={{$catalogo->modelo}}">{{number_format($catalogo->qtde_tt)}}/{{number_format($catalogo->qtde_30)}}</a>
+										  @else 
+											{{number_format($catalogo->qtde30)}}
+										  @endif 
+										</td>
+
+									</tr>
+								</table>
+
+							</td>
+
+
+							<td>
+								<table class="table table-condensed table-bordered table2" style="text-align: center;">
+
+									<tr>
+										<td><i class="fa fa-hourglass-3 text-purple"></i></td><td>{{number_format($catalogo->imediata)}}</td>
+										<td><i class="fa fa-hourglass-3 text-purple"></i></td><td>{{number_format($catalogo->imediata)}}</td>
+										<td><i class="fa fa-hourglass-3 text-purple"></i></td><td>{{number_format($catalogo->imediata)}}</td>
+										
+										
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			
+			
+			
+			</div>
+		</div>
+	</div>
 </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
       @endforeach
 
      
