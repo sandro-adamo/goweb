@@ -114,7 +114,7 @@ $uri = Request::path();
         </div>
         <div class="modal-footer">
           <div id="status" style="font-size: 16px;" class="pull-left"></div>
-          <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Close1</button>
         </div>
       </div>
     </div>
