@@ -119,8 +119,13 @@ Route::get('/dshome', function () {
 });
 
 
+Route::get('estoque', function () { return view('dashboards.estoque.lista'); });
+
+
+
 
 Route::get('kering', function () { return view('dashboards.kering.lista'); });
+
 
 Route::get('dkdet_agrup', function () {
     return view('dashboards.kering.dkdet_agrup');
@@ -493,12 +498,9 @@ Route::get('/produtos/agregados/{modelo}', 'AgregadosController@listaAgregadosIt
 
 
 Route::get('/produtos/grades', 'GradesController@listaGrades');
-
 Route::get('/produtos/gradesitens/{modelo}', 'GradesController@listaGradesItens');
 Route::get('/produtos/gradescolecoes/{modelo}', 'GradesController@listaGradesColecoes');
-
 Route::get('/produtos/gradesmodelos/{modelo}', 'GradesController@listaGradesModelos');
-
 Route::get('/produtos/gradescoldet/{modelo}', 'GradesController@listaGradesColdet');
 
 
