@@ -14,33 +14,43 @@ if($representantes==101815)
 
 $query_1 = \DB::select(" 
 
-select colmod, sum(compras) compras, sum(qtde_recebido) qtde_recebido, sum(qtde_transito) qtde_transito, sum(total_embarcado) total_embarcado, sum(falta_embarcar) falta_embarcar,
-	sum(disponivel) disponivel, sum(orcamentos) orcamentos, 
-	sum(vendas_0a30DD) vendas_0a30DD, sum(vendas_0a60DD) vendas_0a60DD, sum(vendas_total) vendas_total,
-	sum(mostruarios) mostruarios, sum(aberto_kering) aberto_kering, sum(alocado_kering) alocado_kering, sum(ajuste_go) ajuste_go
+
+    
+	select distinct colmod, itens_disp, orca, disp, cet,  etq,  prod, etq_total_vendas, 
+		 pre_compras,  most,  reservas_estrat, manut , atual,  ultimo, 
+		penultimo,  antipenultimo
 from (
 
- 	select case when left(colmod,4) < year(now()) then left(colmod,4) 
-    when right(colmod,2) in ('01','02','03','04','05','06') then concat(left(colmod,4), '  SS') else concat(left(colmod,4), ' FW') 
-     end as colmod, 
-    
-    sum(compras) compras, sum(qtde_recebido) qtde_recebido, sum(qtde_transito) qtde_transito, sum(total_embarcado) total_embarcado, sum(falta_embarcar) falta_embarcar,
-	sum(disponivel) disponivel, sum(orcamentos) orcamentos, 
-	sum(vendas_0a30DD) vendas_0a30DD, sum(vendas_0a60DD) vendas_0a60DD, sum(vendas_total) vendas_total,
-	sum(mostruarios) mostruarios, sum(aberto) aberto_kering, sum(alocado) alocado_kering, sum(ajuste_go) ajuste_go
-	
-	from go_storage.ds_kering 
-    where codgrife in $grifes
-	
-	group by colmod
-) as fim group by colmod order by left(colmod,4) desc, right(colmod,2) asc
+	select  anomod, case when colmod < year(now()) then concat(anomod, ' TOTAL')
+		when colmod is null then concat(anomod, ' TOTAL')  else colmod end as colmod, 
+		 
+		sum(itens_disp) itens_disp, sum(orca) orca, sum(disp) disp, sum(cet) cet, sum(etq) etq, sum(prod) prod, sum(etq_total_vendas) etq_total_vendas, 
+		sum(compras) pre_compras, sum(most) most, sum(reservas_estrat) reservas_estrat, sum(manut) manut ,sum(atual) atual, sum(ultimo) ultimo, 
+		sum(penultimo) penultimo, sum(antipenultimo) antipenultimo
+		from (
+		
+			select case when sint.colmod = ' <= 2016' then left(sint.colmod,8) else left(sint.colmod,4) end as anomod, 
+			case when sint.colmod < year(now()) then left(sint.colmod,4) else sint.colmod end as colmod,  itens.genero,
+			sum(orcamento) orca, sum(disponivel) disp, sum(cet) cet, sum(etq) etq, sum(cep) prod, sum(etq_total_vendas)etq_total_vendas, sum(compras) compras, 
+			sum(mostruarios) most, sum(reservas_estrat) reservas_estrat, sum(manutencao) manut
+			,sum(atual) atual,sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo, sum(itens_disp) itens_disp
+
+			from go_storage.sintetico_estoque sint
+			left join itens on itens.id = sint.id_item
+			
+			where codtipoarmaz not in ('o')
+			and secundario not like '%semi%'  
+			group by sint.colmod, itens.genero
+	) as fim 
+	group by anomod, colmod with rollup
+) as fim1 order by colmod
 ");
 
 
 		
 $query_2 = \DB::select(" 
 
-	select  case when agrup is null then concat(grife, ' TOTAL') else agrup end as agrup, sum(itens_disp) itens_disp,
+	select  case when agrup is null then concat('____',grife, ' TOTAL') else agrup end as agrup, sum(itens_disp) itens_disp,
 	sum(orca) orca, sum(disp) disp, sum(cet) cet, sum(etq) etq, sum(prod) prod, sum(etq_total_vendas) etq_total_vendas, sum(compras) pre_compras, 
 	sum(most) most, sum(reservas_estrat) reservas_estrat, sum(manut) manut
 	,sum(atual) atual, sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo
@@ -56,7 +66,7 @@ $query_2 = \DB::select("
 		
         where codtipoarmaz not in ('o')
         and secundario not like '%semi%'  
-		and itens.clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO') 
+		-- and itens.clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO') 
 
 		group by sint.grife, sint.agrup, itens.genero, sint.tecnologia
 ) as fim 
@@ -84,24 +94,30 @@ with rollup
 			
 		 <tr>	
 
-	 		<td colspan="12">Compras Kering</td>
+	 		<td colspan="12">Estoque Colecao</td>
+			 <td colspan="4">Vendas</td>
 		
 				</tr>
 		  			
 					<tr>	
 						
-					<td colspan="1" align="center">Colecao</td>				
-					<td colspan="1" align="center">Compras</td>
-					<td colspan="1" align="center">Recebido</td>
-					<td colspan="1" align="center">Transito</td>
-					<td colspan="1" align="center">Embarcado</td>
-					<td colspan="1" align="center">Falta embarcar</td>
-					<td colspan="1" align="center">Disponivel</td>
-					<td colspan="1" align="center">Orcamentos</td>
-					<td colspan="1" align="center">Vds 0a30</td>
-					<td colspan="1" align="center">aberto K</td>
-					<td colspan="1" align="center">alocado K</td>
-					<td colspan="1" align="center">ajuste go</td>
+					<td colspan="1" align="center">Colmod</td>
+					<td colspan="1" align="center">Itens_disp</td>
+					<td colspan="1" align="center">BO</td>
+					<td colspan="1" align="center">Disp_vda</td>
+					<td colspan="1" align="center">CET</td>
+					<td colspan="1" align="center">ETQ</td>
+					<td colspan="1" align="center">CEP</td>
+					<td colspan="1" align="center">Etq Vda</td>
+					<td colspan="1" align="center">Pre compra</td>
+					<td colspan="1" align="center">Most</td>
+					<td colspan="1" align="center">Reservas</td>
+					<td colspan="1" align="center">Manut</td>
+						
+					<td colspan="1" align="center">atual</td>
+					<td colspan="1" align="center">ultimo</td>
+					<td colspan="1" align="center">penultimo</td>
+					<td colspan="1" align="center">antipenultimo</td>
 					
 				
 					</tr>
@@ -114,18 +130,23 @@ with rollup
 		   
 			  
 				<tr>
-				<td align="left"><a href="/dkdet_agrup?agrup={{$query1->colmod}}">{{$query1->colmod}}</a></td>
-				<td align="center"><a href="/dkdet_comprasagrup?agrup={{$query1->colmod}}">{{number_format($query1->compras)}}</a></td>
-				<td align="center">{{number_format($query1->qtde_recebido)}}</td>
-				<td align="center">{{number_format($query1->qtde_transito)}}</td>
-				<td align="center">{{number_format($query1->total_embarcado)}}</td>
-				<td align="center">{{number_format($query1->falta_embarcar)}}</td>
-				<td align="center">{{number_format($query1->disponivel)}}</td>
-				<td align="center"><a href="/dkdet_orcagrup?agrup={{$query1->colmod}}">{{number_format($query1->orcamentos)}}</a></td>
-				<td align="center">{{number_format($query1->vendas_0a30DD)}}</td>	
-				<td align="center">{{number_format($query1->aberto_kering)}}</td>	
-				<td align="center">{{number_format($query1->alocado_kering)}}</td>	
-				<td align="center">{{number_format($query1->ajuste_go)}}</td>	
+				<td align="left"><a href="/dkdet_comprasagrup?colmod={{$query1->colmod}}">{{$query1->colmod}}</a></td>
+				<td align="center">{{number_format($query1->itens_disp)}}</td>
+				<td align="center">{{number_format($query1->orca)}}</td>
+				<td align="center">{{number_format($query1->disp)}}</td>
+				<td align="center">{{number_format($query1->cet)}}</td>
+				<td align="center">{{number_format($query1->etq)}}</td>
+				<td align="center"><a href="/dkdet_orcagrup?agrup={{$query1->colmod}}">{{number_format($query1->prod)}}</a></td>
+				<td align="center">{{number_format($query1->etq_total_vendas)}}</td>	
+				<td align="center">{{number_format($query1->pre_compras)}}</td>	
+				<td align="center">{{number_format($query1->most)}}</td>	
+				<td align="center">{{number_format($query1->reservas_estrat)}}</td>	
+				<td align="center">{{number_format($query1->manut)}}</td>
+				
+				<td align="center">{{number_format($query1->atual)}}</td>	
+				<td align="center">{{number_format($query1->ultimo)}}</td>	
+				<td align="center">{{number_format($query1->penultimo)}}</td>	
+				<td align="center">{{number_format($query1->antipenultimo)}}</td>		
 				</tr>
 			@endforeach 
 			
@@ -143,7 +164,8 @@ with rollup
 			
 		 <tr>	
 
-	 		<td colspan="12">Estoques GO</td>
+	 		<td colspan="12">Estoques Grifes</td>
+			<td colspan="4">Vendas</td>
 		
 				</tr>
 		  			
@@ -161,6 +183,12 @@ with rollup
 					<td colspan="1" align="center">Most</td>
 					<td colspan="1" align="center">Reservas</td>
 					<td colspan="1" align="center">Manut</td>
+						
+					<td colspan="1" align="center">atual</td>
+					<td colspan="1" align="center">ultimo</td>
+					<td colspan="1" align="center">penultimo</td>
+					<td colspan="1" align="center">antipenultimo</td>
+				
 					
 				
 					</tr>
@@ -185,7 +213,12 @@ with rollup
 				<td align="center">{{number_format($query2->pre_compras)}}</td>	
 				<td align="center">{{number_format($query2->most)}}</td>	
 				<td align="center">{{number_format($query2->reservas_estrat)}}</td>	
-				<td align="center">{{number_format($query2->manut)}}</td>	
+				<td align="center">{{number_format($query2->manut)}}</td>
+				
+				<td align="center">{{number_format($query2->atual)}}</td>	
+				<td align="center">{{number_format($query2->ultimo)}}</td>	
+				<td align="center">{{number_format($query2->penultimo)}}</td>	
+				<td align="center">{{number_format($query2->antipenultimo)}}</td>	
 				</tr>
 			@endforeach 
 			
