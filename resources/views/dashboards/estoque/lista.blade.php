@@ -1,6 +1,7 @@
 @extends('layout.principal')
 @section('conteudo')
 
+
 @php
 
 $representantes = Session::get('representantes');
@@ -176,7 +177,7 @@ with rollup
 			  
 				<tr>
 				<td align="left"><a href="/dkdet_agrup?grife={{$query2->grife}}">{{$query2->grife}}</a></td>
-				<td align="center"><a href="/dkdet_comprasagrup?agrup={{$query2->agrup}}">{{number_format($query2->compras)}}</a></td>
+				<td align="center"><a href="/dkdet_comprasagrup?agrup={{$query2->agrup}}">{{number_format($query2->agrup)}}</a></td>
 				<td align="center">{{number_format($query2->itens_disp)}}</td>
 				<td align="center">{{number_format($query2->orca)}}</td>
 				<td align="center">{{number_format($query2->disp)}}</td>
