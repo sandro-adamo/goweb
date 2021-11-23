@@ -119,7 +119,7 @@ Route::get('/dshome', function () {
 });
 
 
-Route::get('estoque', function () { return view('dashboards.estoque.lista'); });
+Route::get('dsestoque', function () { return view('dashboards.estoque.lista'); });
 
 
 
