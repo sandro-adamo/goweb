@@ -714,7 +714,7 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
 			 and ip.pedido = '$request->pedido'
 			 and ip.tipo = '$request->tipo'
 			 and (tipo = 'oi' or (tipo = 'op' and tipo_linha = 'bs'))
-			 and ie.clasitemfilho <> 'PARTE CLIPON'
+			 and IFNULL(ie.clasitemfilho,'') <> 'PARTE CLIPON'
 			 group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
 			item_filho, id_pai,
 			  ip.secundario , qtde_sol , vlr_unit ,i.id, item_pai
@@ -858,7 +858,7 @@ where   -- ip.dt_pedido > '2020-09-01'and
 ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
  'FR METAL                 ','FR ACETATO               ','FRASCO 30ML              ')
  and (tipo = 'oi' or (tipo = 'op' and tipo_linha = 'bs'))
- and ie.clasitemfilho <> 'PARTE CLIPON'
+ and IFNULL(ie.clasitemfilho,'') <> 'PARTE CLIPON'
  and ult_status <> 980
  and ip.pedido = '$request->pedido'
  and ip.tipo = '$request->tipo'
@@ -899,7 +899,7 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
  and ult_status <> 980
  and ip.pedido = '$request->pedido'
  and ip.tipo = '$request->tipo'
- and ie.clasitemfilho <> 'PARTE CLIPON'
+ and IFNULL(ie.clasitemfilho,'') <> 'PARTE CLIPON'
  group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
 			item_filho, id_pai,
 			  ip.secundario , qtde_sol , vlr_unit ,i.id, item_pai
@@ -941,7 +941,7 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
  -- and ci.id is not null
  and ult_status <> 980
  and (tipo = 'oi' or (tipo = 'op' and tipo_linha = 'bs'))
- and ie.clasitemfilho <> 'PARTE CLIPON'
+ and IFNULL(ie.clasitemfilho,'') <> 'PARTE CLIPON'
  group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
 			item_filho, id_pai,
 			  ip.secundario , qtde_sol , vlr_unit ,i.id, item_pai
