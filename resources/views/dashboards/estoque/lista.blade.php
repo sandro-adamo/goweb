@@ -40,7 +40,7 @@ from (
 		
 $query_2 = \DB::select(" 
 
-	select case when agrup is null then concat(grife, ' TOTAL') else grife end as grife, agrup, sum(itens_disp) itens_disp,
+	select  case when agrup is null then concat(grife, ' TOTAL') else agrup end as agrup, sum(itens_disp) itens_disp,
 	sum(orca) orca, sum(disp) disp, sum(cet) cet, sum(etq) etq, sum(prod) prod, sum(etq_total_vendas) etq_total_vendas, sum(compras) pre_compras, 
 	sum(most) most, sum(reservas_estrat) reservas_estrat, sum(manut) manut
 	,sum(atual) atual, sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo
@@ -148,8 +148,7 @@ with rollup
 				</tr>
 		  			
 					<tr>	
-						
-					<td colspan="1" align="center">Grife</td>				
+							
 					<td colspan="1" align="center">Agrup</td>
 					<td colspan="1" align="center">Itens_disp</td>
 					<td colspan="1" align="center">BO</td>
@@ -174,7 +173,7 @@ with rollup
 		   
 			  
 				<tr>
-				<td align="left">{{$query2->grife}}</td>
+			
 				<td align="left"><a href="/dkdet_comprasagrup?agrup={{$query2->agrup}}">{{$query2->agrup}}</a></td>
 				<td align="center">{{number_format($query2->itens_disp)}}</td>
 				<td align="center">{{number_format($query2->orca)}}</td>
