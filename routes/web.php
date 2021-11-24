@@ -123,6 +123,15 @@ Route::get('/dshome', function () {
 /** DS_estoques **/
 Route::get('dsestoque', function () { return view('dashboards.estoque.lista'); });
 
+Route::get('dsetq_agrup', function () {
+    return view('dashboards.estoque.dsetq_agrup');
+});
+
+
+
+
+
+
 
 
 /** DS_kering **/
