@@ -128,7 +128,9 @@ Route::get('dsetq_agrup', function () {
 });
 
 
-
+Route::get('dsetq_colecao', function () {
+    return view('dashboards.estoque.dsetq_colecao');
+});
 
 
 
