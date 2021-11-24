@@ -36,6 +36,7 @@ from (
 
 
 
+
 $query_2 = \DB::select(" 
 select distinct classif, case when clasmod is null then classif else clasmod end as clasmod, itens_disp, orca, disp, cet, etq, prod, etq_total_vendas, pre_compras, most, reservas_estrat, manut , atual,  ultimo, penultimo,  antipenultimo
 from (
