@@ -144,7 +144,7 @@ group by grife, agrup with rollup
 		   
 			  
 				<tr>
-				<td align="left"><a href="/dsetq_colecao?agrup={{$query1->agrup}}&agrup={{$query1->clasmod}}&">{{$query1->clasmod}}</a></td>
+				<td align="left"><a href="/dsetq_colecao?agrup={{$agrup}}&agrup={{$query1->clasmod}}&">{{$query1->clasmod}}</a></td>
 				<td align="center">{{number_format($query1->itens_disp)}}</td>
 				<td align="center">{{number_format($query1->orca)}}</td>
 				<td align="center">{{number_format($query1->disp)}}</td>
