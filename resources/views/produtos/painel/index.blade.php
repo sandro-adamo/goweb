@@ -103,7 +103,7 @@ $uri = Request::path();
 
   <!-- Modal -->
   <div class="modal fade" id="zoom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
+     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header bg-primary">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -167,7 +167,7 @@ $(function () {
       var status = $(this).data('status');
 
       $("#zoom #myModalLabel").html(referencia);
-      $("#zoom #imagem").html('<img src="https://portal.goeyewear.com.br/teste999.php?referencia='+referencia+'" class="img-responsive" >');
+      $("#zoom #imagem").html('<img src="https://gestao.goeyewear.com.br/teste999_alta.php?referencia='+referencia+'" class="img-responsive" >');
       $("#zoom #status").html(status);
       $("#zoom").modal('show');
   });

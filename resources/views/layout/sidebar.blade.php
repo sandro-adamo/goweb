@@ -4,9 +4,9 @@
     <section class="sidebar">
 @if  ( \Auth::user()->id_perfil <> 23)
       <!-- search form -->
-      <form action="/clientes" method="get" class="sidebar-form">
+      <form action="/painel/search/" method="get" class="sidebar-form">
         <div class="input-group">
-          <input type="text" name="busca" class="form-control" placeholder="Busca...">
+          <input type="text" name="busca" class="form-control" placeholder="Item...">
           <span class="input-group-btn">
                 <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                 </button>
