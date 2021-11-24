@@ -6,11 +6,14 @@
 
 $representantes = Session::get('representantes');
 
+ $agrup = $_GET["agrup"];
+
 
 if($representantes==101815) 
 	{$grifes="( 'AM', 'BC', 'BV', 'CT', 'SM', 'MC', 'CH', 'DU', 'AA', 'AZ', 'CL')";} 
 		else {
 			$grifes = Session::get('grifes'); }
+
 
 $query_1 = \DB::select(" 
 select distinct colmod, itens_disp, orca, disp, cet, etq, prod, etq_total_vendas, pre_compras, most, reservas_estrat, manut , atual,  ultimo, penultimo,  antipenultimo
@@ -28,7 +31,7 @@ from (
 		sum(mostruarios) most, sum(reservas_estrat) reservas_estrat, sum(manutencao) manut
 		,sum(atual) atual,sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo, sum(itens_disp) itens_disp
 
-		from go_storage.sintetico_estoque sint
+		from go_storage.sintetico_estoque sint where agrup = '$agrup'
 		group by sint.colmod, sint.genero
 	) as fim  group by anomod, colmod with rollup
 ) as fim1 order by colmod
@@ -54,7 +57,7 @@ from (
         sum(mostruarios) most, sum(reservas_estrat) reservas_estrat, 
         sum(manutencao) manut,sum(atual) atual,sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo, sum(itens_disp) itens_disp
 
-		from go_storage.sintetico_estoque sint
+		from go_storage.sintetico_estoque sint where agrup = '$agrup'
 		group by clasmod  
 ) as fim 
 group by classif, clasmod with rollup 
@@ -79,7 +82,7 @@ $query_3 = \DB::select("
         sum(mostruarios) most, sum(reservas_estrat) reservas_estrat, sum(manutencao) manut
         ,sum(atual) atual,sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo, sum(itens_disp) itens_disp
 
-		from go_storage.sintetico_estoque sint
+		from go_storage.sintetico_estoque sint where agrup = '$agrup'
 		group by sint.codgrife, sint.agrup, sint.genero, sint.tecnologia
 ) as fim 
 group by grife, agrup with rollup 
