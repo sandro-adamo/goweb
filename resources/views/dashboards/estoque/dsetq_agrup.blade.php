@@ -288,7 +288,7 @@ group by grife, agrup with rollup
 			  
 				<tr>
 			
-				<td align="left"><a href="/dsetq_agrup?agrup={{$query3->agrup}}">{{$query3->agrup}}</a></td>
+				<td align="left"><a href="/dkdet_comprasagrup?agrup={{$query3->agrup}}">{{$query3->agrup}}</a></td>
 				<td align="center">{{number_format($query3->itens_disp)}}</td>
 				<td align="center">{{number_format($query3->orca)}}</td>
 				<td align="center">{{number_format($query3->disp)}}</td>
