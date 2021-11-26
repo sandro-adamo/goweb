@@ -831,6 +831,7 @@ ini_set('display_errors',1);
 		$erros = array();
 
 		if (file_exists($uploadFile)) {
+			
 
 
 			$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader("Xlsx");
@@ -889,6 +890,9 @@ ini_set('display_errors',1);
 
 
 			}
+		else{
+			dd('não achou o arquivo no servidor');
+		}
 
 		
 			
