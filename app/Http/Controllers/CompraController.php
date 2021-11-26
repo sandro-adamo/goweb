@@ -2493,7 +2493,7 @@ from compras_modelos group by agrupamento, grife ) as base
 			$custo = "'".$linha[ 27 ]."'";
             $compra_item->qtde_conf = $linha[ 10 ];
             $compra_item->status = $status;
-				$compra->custo = $custo;
+			$compra_item->custo = $custo;
 			$compra_item->save();
 
             //rever campo da tabela item
