@@ -826,8 +826,8 @@ ini_set('display_errors',1);
 		//$uploadfile = $uploaddir . basename($_FILES['arquivo']);
 
 		$path = $request->file('arquivo')->store('processa');
-		$uploadFile = '/var/www/html/portalgo/storage/app/'.$path;
-
+		$uploadFile = '/var/www/html/portal-gestao/storage/app/'.$path;
+//dd($uploadFile	);
 		$erros = array();
 
 		if (file_exists($uploadFile)) {
