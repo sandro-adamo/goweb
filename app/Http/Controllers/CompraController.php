@@ -16,6 +16,7 @@ class CompraController extends Controller {
 
     $agora = date( '_d_m_Y_H_i' );
     $id_compras = $request->id_pedido;
+    $id_compras = $request->id_pedido;
     $nome = $request->nome;
     $obs = $request->obs;
     $data = $request->data;
@@ -2256,8 +2257,9 @@ from compras_modelos group by agrupamento, grife ) as base
 
     $path = $request->file( 'arquivo' )->store( 'uploads/compras' );
 	  $arquivo = '/storage/'.$path;
-	
+	//dd('oi');
     if ( file_exists( '/var/www/html/portal-gestao/storage/app/' . $path ) ) {
+		
 		 
 		$inserearquivos = \DB::select( "INSERT INTO `compras_arquivos`( `id_compra`, `tipo`, `arquivo`, `nome`, `obs`, `data`, `usuario`, `exclui`) VALUES ('$id','DISTRIBUIÇÃO','$arquivo','Distribuição de datas', '',CURRENT_DATE,'$cod_usuario','0')");
 		
@@ -2282,7 +2284,7 @@ from compras_modelos group by agrupamento, grife ) as base
 
           if ( $compra_item ) {
 
-
+ dd($linha[ 27 ] );
             //						$dt_confirmacao = explode('/', $linha[10]);
             //						$dt_confirmacao2 = $dt_confirmacao[2].'-'.$dt_confirmacao[1].'-'.$dt_confirmacao[0];
 
@@ -2499,6 +2501,7 @@ from compras_modelos group by agrupamento, grife ) as base
             if ( $status == 'DISTRIBUIDO' ) {
               $compra = \App\ Compra::find( $compra_item->id_compra );
               $compra->status = 'DISTRIBUIDO';
+				$compra->custo = $linha[ 27 ];
               $compra->save();
             }
 			}
