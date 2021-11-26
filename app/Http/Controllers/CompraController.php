@@ -2497,11 +2497,11 @@ from compras_modelos group by agrupamento, grife ) as base
 
             //rever campo da tabela item
             //$compra_item->$qtd_confirmadas
-
+				$custo = "'".$linha[ 27 ]."''";
             if ( $status == 'DISTRIBUIDO' ) {
               $compra = \App\ Compra::find( $compra_item->id_compra );
               $compra->status = 'DISTRIBUIDO';
-				$compra->custo = $linha[ 27 ];
+				$compra->custo = $custo;
               $compra->save();
             }
 			}
