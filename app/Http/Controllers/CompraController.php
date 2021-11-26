@@ -2284,7 +2284,7 @@ from compras_modelos group by agrupamento, grife ) as base
 
           if ( $compra_item ) {
 
- dd($linha[ 27 ] );
+ //dd($linha[ 27 ] );
             //						$dt_confirmacao = explode('/', $linha[10]);
             //						$dt_confirmacao2 = $dt_confirmacao[2].'-'.$dt_confirmacao[1].'-'.$dt_confirmacao[0];
 
