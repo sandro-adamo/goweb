@@ -320,7 +320,9 @@ from (
 				left join saldos on saldos.curto = itens.id
 				
 				where itens.secundario not like '%semi%' and clasmod in ('linha a++', 'linha a+', 'linha a', 'novo')  
-                and itens.agrup like '$agrup' and itens.colmod like '2022%'
+                and itens.agrup like '$agrup' and left(itens.colmod,4) in ('2021','2022') 
+				and codtipoarmaz not in ('o')
+				-- and itens.statusatual like 'entrega%'
 				
                 and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 			) as fim2

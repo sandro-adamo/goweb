@@ -6,11 +6,14 @@
 
 $representantes = Session::get('representantes');
 
+ $agrup = $_GET["agrup"];
+
 
 if($representantes==101815) 
 	{$grifes="( 'AM', 'BC', 'BV', 'CT', 'SM', 'MC', 'CH', 'DU', 'AA', 'AZ', 'CL')";} 
 		else {
 			$grifes = Session::get('grifes'); }
+
 
 $query_1 = \DB::select(" 
 select distinct colmod, itens_disp, orca, disp, cet, etq, prod, etq_total_vendas, pre_compras, most, reservas_estrat, manut , atual,  ultimo, penultimo,  antipenultimo
@@ -28,7 +31,7 @@ from (
 		sum(mostruarios) most, sum(reservas_estrat) reservas_estrat, sum(manutencao) manut
 		,sum(atual) atual,sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo, sum(itens_disp) itens_disp
 
-		from go_storage.sintetico_estoque sint
+		from go_storage.sintetico_estoque sint where agrup = '$agrup'
 		group by sint.colmod, sint.genero
 	) as fim  group by anomod, colmod with rollup
 ) as fim1 order by colmod
@@ -54,7 +57,7 @@ from (
         sum(mostruarios) most, sum(reservas_estrat) reservas_estrat, 
         sum(manutencao) manut,sum(atual) atual,sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo, sum(itens_disp) itens_disp
 
-		from go_storage.sintetico_estoque sint
+		from go_storage.sintetico_estoque sint where agrup = '$agrup'
 		group by clasmod  
 ) as fim 
 group by classif, clasmod with rollup 
@@ -67,22 +70,26 @@ group by classif, clasmod with rollup
 
 $query_3 = \DB::select(" 
 
-	select  case when agrup is null then concat('____',grife, ' TOTAL') else agrup end as agrup, sum(itens_disp) itens_disp,
-	sum(orca) orca, sum(disp) disp, sum(cet) cet, sum(etq) etq, sum(prod) prod, sum(etq_total_vendas) etq_total_vendas, sum(compras) pre_compras, 
-	sum(most) most, sum(reservas_estrat) reservas_estrat, sum(manut) manut
-	,sum(atual) atual, sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo
-	from (
-    
-		select sint.codgrife grife, case when sint.tecnologia = 'CLIP ON' then concat(left(sint.agrup,4),' - CLIP ON') else sint.agrup end as agrup, 
-        sint.genero,
-        sum(orcamento) orca, sum(disponivel) disp, sum(cet) cet, sum(etq) etq, sum(cep) prod, sum(etq_total_vendas)etq_total_vendas, sum(compras) compras, 
-        sum(mostruarios) most, sum(reservas_estrat) reservas_estrat, sum(manutencao) manut
-        ,sum(atual) atual,sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo, sum(itens_disp) itens_disp
+select distinct fornecedor, itens_disp, orca, disp, cet, etq, prod, etq_total_vendas, pre_compras, most, reservas_estrat, manut , atual,  ultimo, penultimo,  antipenultimo
+from (
 
-		from go_storage.sintetico_estoque sint
-		group by sint.codgrife, sint.agrup, sint.genero, sint.tecnologia
-) as fim 
-group by grife, agrup with rollup 
+	select fornecedor, 
+	sum(itens_disp) itens_disp, sum(orca) orca, sum(disp) disp, sum(cet) cet, sum(etq) etq, sum(prod) prod, sum(etq_total_vendas) etq_total_vendas, 
+	sum(compras) pre_compras, sum(most) most, sum(reservas_estrat) reservas_estrat, sum(manut) manut ,sum(atual) atual, sum(ultimo) ultimo, 
+	sum(penultimo) penultimo, sum(antipenultimo) antipenultimo
+	from (
+
+		select substring(fornecedor,10,10) fornecedor, secundario, case when sint.colmod = ' <= 2016' then left(sint.colmod,8) else left(sint.colmod,4) end as anomod, 
+		case when sint.colmod < year(now()) then left(sint.colmod,4) else sint.colmod end as colmod, sint.genero,
+		sum(orcamento) orca, sum(disponivel) disp, sum(cet) cet, sum(etq) etq, sum(cep) prod, sum(etq_total_vendas)etq_total_vendas, sum(compras) compras, 
+		sum(mostruarios) most, sum(reservas_estrat) reservas_estrat, sum(manutencao) manut
+		,sum(atual) atual,sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo, sum(itens_disp) itens_disp
+
+		from go_storage.sintetico_estoque sint left join itens on itens.id = sint.id_item where sint.agrup = '$agrup'
+		group by sint.colmod, sint.genero, substring(fornecedor,10,10), secundario
+	) as fim 
+	group by fornecedor
+) as fim1 order by fornecedor
 
 ");
 			  
@@ -141,7 +148,7 @@ group by grife, agrup with rollup
 		   
 			  
 				<tr>
-				<td align="left"><a href="/dkdet_comprasagrup?colmod={{$query1->colmod}}">{{$query1->colmod}}</a></td>
+				<td align="left"><a href="/dsetq_colecao?agrup={{$agrup}}&colecao={{$query1->colmod}}&">{{$query1->colmod}}</a></td>
 				<td align="center">{{number_format($query1->itens_disp)}}</td>
 				<td align="center">{{number_format($query1->orca)}}</td>
 				<td align="center">{{number_format($query1->disp)}}</td>
@@ -288,13 +295,13 @@ group by grife, agrup with rollup
 			  
 				<tr>
 			
-				<td align="left"><a href="/dsetq_agrup?agrup={{$query3->agrup}}">{{$query3->agrup}}</a></td>
+				<td align="left"><a href="/dkdet_comprasagrup?agrup={{$query3->fornecedor}}">{{$query3->fornecedor}}</a></td>
 				<td align="center">{{number_format($query3->itens_disp)}}</td>
 				<td align="center">{{number_format($query3->orca)}}</td>
 				<td align="center">{{number_format($query3->disp)}}</td>
 				<td align="center">{{number_format($query3->cet)}}</td>
 				<td align="center">{{number_format($query3->etq)}}</td>
-				<td align="center"><a href="/dkdet_orcagrup?agrup={{$query3->agrup}}">{{number_format($query3->prod)}}</a></td>
+				<td align="center"><a href="/dkdet_orcagrup?agrup={{$query3->prod}}">{{$query3->prod}}</a></td>
 				<td align="center">{{number_format($query3->etq_total_vendas)}}</td>	
 				<td align="center">{{number_format($query3->pre_compras)}}</td>	
 				<td align="center">{{number_format($query3->most)}}</td>	
