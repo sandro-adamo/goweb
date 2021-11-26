@@ -2490,18 +2490,19 @@ from compras_modelos group by agrupamento, grife ) as base
             }
             //dd('ok');
 
-
+			$custo = "'".$linha[ 27 ]."'";
             $compra_item->qtde_conf = $linha[ 10 ];
             $compra_item->status = $status;
+				$compra->custo = $custo;
 			$compra_item->save();
 
             //rever campo da tabela item
             //$compra_item->$qtd_confirmadas
-				$custo = "'".$linha[ 27 ]."'";
+				
             if ( $status == 'DISTRIBUIDO' ) {
               $compra = \App\ Compra::find( $compra_item->id_compra );
               $compra->status = 'DISTRIBUIDO';
-				$compra->custo = $custo;
+				
               $compra->save();
             }
 			}
