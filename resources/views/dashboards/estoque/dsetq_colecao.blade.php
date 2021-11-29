@@ -32,7 +32,8 @@ from (
 		sum(mostruarios) most, sum(reservas_estrat) reservas_estrat, sum(manutencao) manut
 		,sum(atual) atual,sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo, sum(itens_disp) itens_disp
 
-		from go_storage.sintetico_estoque sint left join itens on itens.id = sint.id_item where sint.agrup = '$agrup'
+		from go_storage.sintetico_estoque sint 
+-- left join itens on itens.id = sint.id_item where sint.agrup = '$agrup'
 		group by sint.colmod, sint.genero, substring(fornecedor,10,10), secundario
 	) as fim where colmod = '$colecao' 
 	group by fornecedor, anomod, colmod, secundario
