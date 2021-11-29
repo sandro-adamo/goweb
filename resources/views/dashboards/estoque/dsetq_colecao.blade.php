@@ -35,7 +35,7 @@ from (
 		from go_storage.sintetico_estoque sint 
 -- left join itens on itens.id = sint.id_item where sint.agrup = '$agrup'
 		group by sint.colmod, sint.genero, substring(fornecedor,10,10), secundario
-	) as fim where colmod = '$colecao' 
+	) as fim where colmod = '$colecao' and sint.agrup = '$agrup'
 	group by fornecedor, anomod, colmod, secundario
 ) as fim1 order by fornecedor, secundario
 ");
