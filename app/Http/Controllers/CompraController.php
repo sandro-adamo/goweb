@@ -2496,7 +2496,7 @@ from compras_modelos group by agrupamento, grife ) as base
  					} else {
  						$valor = 0;
  					}
-				$custo = "`".$valor."`";
+				$custo = $valor;
             $compra_item->qtde_conf = $linha[ 10 ];
             $compra_item->status = $status;
 			$compra_item->custo = $custo;
