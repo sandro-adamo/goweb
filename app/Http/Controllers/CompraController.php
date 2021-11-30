@@ -2491,8 +2491,8 @@ from compras_modelos group by agrupamento, grife ) as base
             //dd('ok');
 
 			if ($linha[ 27 ] <> '') {
- 						$valor = str_replace(".", "", $linha[ 27 ]);
- 						$valor = str_replace(",", ".", $valor);
+ 						$valor = str_replace(",", ".", $linha[ 27 ]);
+ 						//$valor = str_replace(",", ".", $valor);
  					} else {
  						$valor = 0;
  					}
