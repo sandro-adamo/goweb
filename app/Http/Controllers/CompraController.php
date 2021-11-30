@@ -2490,10 +2490,16 @@ from compras_modelos group by agrupamento, grife ) as base
             }
             //dd('ok');
 
-			$custo = "'".$linha[ 27 ]."'";
+			if ($linha[ 27 ] <> '') {
+ 						$valor = str_replace(".", "", $linha[ 27 ]);
+ 						$valor = str_replace(",", ".", $valor);
+ 					} else {
+ 						$valor = 0;
+ 					}
+				$custo = "'".$valor."'";
             $compra_item->qtde_conf = $linha[ 10 ];
             $compra_item->status = $status;
-			//$compra_item->custo = $custo;
+			$compra_item->custo = $custo;
 			$compra_item->save();
 
             //rever campo da tabela item
