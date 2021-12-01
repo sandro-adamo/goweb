@@ -2490,10 +2490,16 @@ from compras_modelos group by agrupamento, grife ) as base
             }
             //dd('ok');
 
-			$custo = "'".$linha[ 27 ]."'";
+			if ($linha[ 8 ] <> '') {
+ 						$valor = str_replace(",", ".", $linha[ 8 ]);
+ 						//$valor = str_replace(",", ".", $valor);
+ 					} else {
+ 						$valor = 0;
+ 					}
+				$custo = $valor;
             $compra_item->qtde_conf = $linha[ 10 ];
             $compra_item->status = $status;
-			//$compra_item->custo = $custo;
+			$compra_item->custo = $custo;
 			$compra_item->save();
 
             //rever campo da tabela item
@@ -4107,8 +4113,10 @@ group by agrupamento" );
     $sheet->setCellValue( 'Y4', '5º DELIVERY QUANTITY' );
     $sheet->setCellValue( 'Z4', '5º DATE DELIVERY CONFIRMED' );
     $sheet->setCellValue( 'AA4', '5º NOTE' );
+	  
 
-    $spreadsheet->getActiveSheet()->getStyle( 'A4:AA4' )->getAlignment()->setHorizontal( \PhpOffice\ PhpSpreadsheet\ Style\ Alignment::HORIZONTAL_CENTER )->setVertical( \PhpOffice\ PhpSpreadsheet\ Style\ Alignment::VERTICAL_CENTER );
+
+    $spreadsheet->getActiveSheet()->getStyle( 'A4:AB4' )->getAlignment()->setHorizontal( \PhpOffice\ PhpSpreadsheet\ Style\ Alignment::HORIZONTAL_CENTER )->setVertical( \PhpOffice\ PhpSpreadsheet\ Style\ Alignment::VERTICAL_CENTER );
 
     $spreadsheet->getActiveSheet()->getStyle( 'B1' )->getAlignment()->setHorizontal( \PhpOffice\ PhpSpreadsheet\ Style\ Alignment::HORIZONTAL_LEFT )->setVertical( \PhpOffice\ PhpSpreadsheet\ Style\ Alignment::VERTICAL_CENTER );
     $spreadsheet->getActiveSheet()->getStyle( 'B1' )->getFont()->setSize( 13 );
