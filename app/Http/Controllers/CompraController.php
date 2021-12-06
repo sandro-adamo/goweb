@@ -1022,7 +1022,7 @@ where ci.id_item is null
 
 
               $verifica = \DB::select( "select * from itens where secundario = '$item'" );
-dd($verifica);
+
 
               if ( count( $verifica ) > 0 ) {
 
