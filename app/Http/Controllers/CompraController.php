@@ -991,14 +991,14 @@ where ci.id_item is null
 
       $agora = date( '_d_m_Y_H_i' );
 
-      $uploaddir = '/var/www/html/portal/storage/app/uploads/compras/invoices/invoice_' . $invoice . '_' . $agora;
+      $uploaddir = '/var/www/html/portal-gestao/storage/app/uploads/compras/invoices/invoice_' . $invoice . '_' . $agora;
       $uploadfile = $uploaddir . '.Xlsx';
 
 
       $erros = array();
  
       if ( move_uploaded_file( $_FILES[ 'arquivo' ][ 'tmp_name' ], $uploadfile ) ) {
-		 dd('oi');
+		// dd('oi');
 
         if ( file_exists( $uploadfile ) ) {
 
