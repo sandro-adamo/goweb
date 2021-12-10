@@ -1,6 +1,15 @@
 @extends('produtos/painel/index')
 
-@section('titulo') {{$item->secundario}} @append
+@php
+$query_1 = \DB::select(" 
+select * from itens where modelo = 'AH6254';
+");
+
+
+$secundario = 'teste';
+@endphp
+
+@section('titulo') {{$secundario}} @append
 
 @section('title')
   <i class="fa fa-list"></i> Produtos
