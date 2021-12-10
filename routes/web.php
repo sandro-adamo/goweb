@@ -142,7 +142,7 @@ Route::get('ds_rep11', function () { return view('dashboards.kering.lista'); });
 
 
 /** DS_kering **/
-Route::get('kering', function () { return view('dashboards.kering.lista'); });
+Route::get('kering', function () { return view('dashboards.kering.lista1'); });
 
 Route::get('dkdet_agrup', function () {
     return view('dashboards.kering.dkdet_agrup');
