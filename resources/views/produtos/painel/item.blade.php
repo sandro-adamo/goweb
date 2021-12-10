@@ -7,7 +7,7 @@
 @append 
 
 @section('conteudo')
-pagina item
+pagina itemiiii
 <div class="row">
 
   <div class="col-md-4">
