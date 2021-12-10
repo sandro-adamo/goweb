@@ -134,6 +134,11 @@ Route::get('dsetq_colecao', function () {
 
 
 
+/** DS_representante **/
+Route::get('ds_rep', function () { return view('dashboards.representante.item'); });
+
+
+
 
 
 /** DS_kering **/
@@ -543,6 +548,8 @@ Route::get('/painel/{agrupamento}/{modelo}', 'PainelController@itens');
 Route::get('/painel/{agrupamento}/{modelo}/{item}', 'PainelController@item');
 
 Route::post('/painel/{agrupamento}/{modelo}/{item}', 'PainelController@gravaHistorico');
+
+
 Route::get('/exportasalesreport/{agrupamento}', 'PainelController@exportaSalesReport');
 Route::get('/exportaprecosugerido/{agrupamento}', 'PainelController@exportaPrecosugerido');
 Route::get('/exportaprecosugeridod/{agrupamento}', 'PainelController@exportaPrecosugeridod');
