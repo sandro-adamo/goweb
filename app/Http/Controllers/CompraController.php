@@ -996,8 +996,9 @@ where ci.id_item is null
 
 
       $erros = array();
-
+ 
       if ( move_uploaded_file( $_FILES[ 'arquivo' ][ 'tmp_name' ], $uploadfile ) ) {
+		// dd('oi');
 
         if ( file_exists( $uploadfile ) ) {
 
@@ -1024,8 +1025,15 @@ where ci.id_item is null
 
 
               if ( count( $verifica ) > 0 ) {
-
-                $verifica = \DB::select( "insert into compras_invoices (`item`, `qtd`, `invoice`, `dt_invoice`, `custo`, `usado`) values ('$linha[0]','$linha[1]','$invoice','$dt_invoice','$linha[2]','0')" );
+				  if($linha[2])
+				  {
+					  $custo2 = $linha[2];
+				  }
+				  else {
+					  $custo2 = 0;
+				  }
+				  	
+                $verifica = \DB::select( "insert into compras_invoices (`item`, `qtd`, `invoice`, `dt_invoice`, `custo`, `usado`) values ('$linha[0]','$linha[1]','$invoice','$dt_invoice','$custo2','0')" );
 
 
               } else {
