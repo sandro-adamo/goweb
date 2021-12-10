@@ -136,7 +136,7 @@ Route::get('dsetq_colecao', function () {
 
 /** DS_representante **/
 Route::get('ds_rep', function () { return view('dashboards.representante.item'); });
-Route::get('ds_rep11', function () { return view('dashboards.kering.lista'); });
+Route::get('ds_rep11', function () { return view('dashboards.representante.lista'); });
 
 
 
