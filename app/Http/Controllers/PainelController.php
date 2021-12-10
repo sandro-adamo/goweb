@@ -775,6 +775,44 @@ and  anomod not in ('.','cancelado','em branco') group by anomod order by anomod
 
 	}
 	
+	
+	public function dsrep($agrupamento, $modelo, $item) {
+
+		$item    = Item::where('secundario', $item)->first();
+		
+
+		if(isset($item->id))
+		{
+		$sql = "id_item = '$item->id'";
+			$item_id = $item->id;
+		}
+			else 
+			{
+					$sql = "modelo = '$modelo'";
+				$item_id = '4520';
+			}
+			
+		
+		
+		$historicos = \DB::select("select historicos.*, usuarios.* from historicos 
+		left join usuarios on usuarios.id = historicos.id_usuario 
+		left join itens on id_item = itens.id			
+		
+		where $sql order by historicos.id desc");
+			
+
+		$catalogo    = \App\Painel::listaItem($item_id);
+
+		return view('dashboards.representante.rep_det')->with('item', $item)->with('historicos', $historicos)->with('catalogo', $catalogo);		
+
+	}
+	
+	
+	
+	
+	
+	
+	
 	public function exportaSalesReport1(Request $request, $agrupamento) {
 		error_reporting(E_ALL);
 		ini_set('display_errors', 1);

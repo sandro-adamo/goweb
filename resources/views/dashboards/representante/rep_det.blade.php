@@ -7,6 +7,7 @@ select * from itens where modelo = 'AH6254';
 
 
 $secundario = 'teste';
+
 @endphp
 
 @section('titulo') {{$secundario}} @append
@@ -16,10 +17,10 @@ $secundario = 'teste';
 @append 
 
 @section('conteudo')
-
+pagina rep
 <div class="row">
 
-  <div class="col-md-4">
+  <div class="col-md-3">
     <div class="box box-widget">
       <div class="box-header with-border bg-gray"> 
         <b>{{$item->secundario}}</b>
