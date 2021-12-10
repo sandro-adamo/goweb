@@ -140,7 +140,6 @@ Route::get('ds_rep', function () { return view('dashboards.representante.item');
 
 
 
-
 /** DS_kering **/
 Route::get('kering', function () { return view('dashboards.kering.lista'); });
 
