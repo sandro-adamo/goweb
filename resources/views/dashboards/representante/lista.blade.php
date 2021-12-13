@@ -20,7 +20,7 @@ select * from (
 select id id_rep, codigo id_ssa, tipo, nome, fantasia, razao, uf, municipio, grupo, subgrupo, cadastro, flag_cadastro, sit_representante,
 	tipo_comissao, diretoria
 	from addressbook ab
-	where tipo in ('re','ri') 
+	where tipo in ('re','ri') -- and id in (77065, 101415)
 ) as base
 
 
