@@ -144,9 +144,12 @@ class Painel extends Model {
 
     $item = \DB::connection( 'go' )->select( "
 				select* from painel_modelo
-			where agrup = '$agrupamento'  $filtros
+			where agrup = '$agrupamento' 
+			-- and custo_2019 <'4.6'
+			$filtros
 
 			$ordem" );
+	  //dd($item);
 	  if(count($item)>0){
 		 return $item; 
 	  }

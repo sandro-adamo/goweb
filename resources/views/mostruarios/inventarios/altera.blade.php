@@ -41,6 +41,7 @@
               <option>Duplicidade</option>
               <option>Não vendo a grife</option>
               <option>Problema técnico</option>
+				<option>Faturar para a Empresa</option>
               <option>Outros</option>
 
             </select>
