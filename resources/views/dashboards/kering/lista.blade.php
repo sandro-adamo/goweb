@@ -18,7 +18,8 @@ $query_1 = \DB::select("
 select colmod, sum(compras) compras, sum(qtde_recebido) qtde_recebido, sum(qtde_transito) qtde_transito, sum(total_embarcado) total_embarcado, sum(falta_embarcar) falta_embarcar,
 	sum(disponivel) disponivel, sum(orcamentos) orcamentos, 
 	sum(vendas_0a30DD) vendas_0a30DD, sum(vendas_0a60DD) vendas_0a60DD, sum(vendas_total) vendas_total,
-	sum(mostruarios) mostruarios, sum(aberto_kering) aberto_kering, sum(alocado_kering) alocado_kering, sum(ajuste_go) ajuste_go
+	sum(mostruarios) mostruarios, sum(aberto_kering) aberto_kering, sum(alocado_kering) alocado_kering, sum(ajuste_go) ajuste_go,
+	sum(canc) canc
 from (
 
  	select case when left(colmod,4) < year(now()) then left(colmod,4) 
@@ -28,7 +29,8 @@ from (
     sum(compras) compras, sum(qtde_recebido) qtde_recebido, sum(qtde_transito) qtde_transito, sum(total_embarcado) total_embarcado, sum(falta_embarcar) falta_embarcar,
 	sum(disponivel) disponivel, sum(orcamentos) orcamentos, 
 	sum(vendas_0a30DD) vendas_0a30DD, sum(vendas_0a60DD) vendas_0a60DD, sum(vendas_total) vendas_total,
-	sum(mostruarios) mostruarios, sum(aberto) aberto_kering, sum(alocado) alocado_kering, sum(ajuste_go) ajuste_go
+	sum(mostruarios) mostruarios, sum(aberto) aberto_kering, sum(alocado) alocado_kering, sum(ajuste_go) ajuste_go,
+	sum(canc) canc
 	
 	from go_storage.ds_kering 
     where codgrife in $grifes
@@ -43,7 +45,8 @@ $query_2 = \DB::select("
 	select codgrife, left(agrup,5) agrup, sum(compras) compras, sum(qtde_recebido) qtde_recebido, sum(qtde_transito) qtde_transito, sum(total_embarcado) total_embarcado, sum(falta_embarcar) falta_embarcar,
 	sum(disponivel) disponivel, sum(orcamentos) orcamentos, 
 	sum(vendas_0a30DD) vendas_0a30DD, sum(vendas_0a60DD) vendas_0a60DD, sum(vendas_total) vendas_total,
-	sum(mostruarios) mostruarios, sum(aberto) aberto_kering, sum(alocado) alocado_kering, sum(ajuste_go) ajuste_go
+	sum(mostruarios) mostruarios, sum(aberto) aberto_kering, sum(alocado) alocado_kering, sum(ajuste_go) ajuste_go,
+	 sum(canc) canc
 	
 	from go_storage.ds_kering where codgrife in $grifes
 	
@@ -88,6 +91,7 @@ $query_2 = \DB::select("
 					<td colspan="1" align="center">aberto K</td>
 					<td colspan="1" align="center">alocado K</td>
 					<td colspan="1" align="center">ajuste go</td>
+					<td colspan="1" align="center">canc</td>
 					
 				
 					</tr>
@@ -112,6 +116,7 @@ $query_2 = \DB::select("
 				<td align="center">{{number_format($query1->aberto_kering)}}</td>	
 				<td align="center">{{number_format($query1->alocado_kering)}}</td>	
 				<td align="center">{{number_format($query1->ajuste_go)}}</td>	
+				<td align="center">{{number_format($query1->canc)}}</td>
 				</tr>
 			@endforeach 
 			
@@ -147,6 +152,7 @@ $query_2 = \DB::select("
 					<td colspan="1" align="center">aberto K</td>
 					<td colspan="1" align="center">alocado K</td>
 					<td colspan="1" align="center">ajuste go</td>
+						<td colspan="1" align="center">canc</td>
 					
 				
 					</tr>
@@ -171,6 +177,7 @@ $query_2 = \DB::select("
 				<td align="center">{{number_format($query2->aberto_kering)}}</td>	
 				<td align="center">{{number_format($query2->alocado_kering)}}</td>	
 				<td align="center">{{number_format($query2->ajuste_go)}}</td>	
+					<td align="center">{{number_format($query2->canc)}}</td>
 				</tr>
 			@endforeach 
 			
