@@ -405,15 +405,6 @@
               </select>
             </div>        
           </div>
-
-
-
-          <div class="form-group">
-            <label class="col-md-3 control-label">@lang('padrao.obs')</label>
-            <div class="col-md-8">
-                <textarea name="obs" class="form-control">{{$capa[0]->obs}}</textarea>
-            </div>        
-          </div>
 		  
 		  
 		  <div class="form-group">
