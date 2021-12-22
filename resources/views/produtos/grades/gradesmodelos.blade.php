@@ -95,7 +95,7 @@
     <div class="col-md-12">
         <table width="100%" style="text-align: center;">
             <tr>
-
+teste
 			 <td>
                     <table class="table table-condensed table-bordered table2"  style="text-align: center;">
                         <tr>
