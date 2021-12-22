@@ -364,7 +364,7 @@ from (
 				
 				where itens.secundario not like '%semi%' 
 				and clasmod in ('linha a++', 'linha a+', 'linha a', 'novo')    
-                and itens.agrup like '$agrup'  
+                and itens.agrup like '$agrup'  and itens.modelo like 'ah9%'
                 and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 			) as fim2
 		) as fim3 group by grife, codgrife, agrup, modelo, clasmod, colmod
