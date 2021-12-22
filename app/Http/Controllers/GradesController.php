@@ -321,7 +321,7 @@ from (
 				
 				where itens.secundario not like '%semi%' and clasmod in ('linha a++', 'linha a+', 'linha a', 'novo')  
                 and itens.agrup like '$agrup' and left(itens.colmod,4) in ('2021','2022') 
-				and codtipoarmaz not in ('o')
+				and codtipoarmaz not in ('o') and itens.modelo like 'ah9%'
 				-- and itens.statusatual like 'entrega%'
 				
                 and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
@@ -364,7 +364,7 @@ from (
 				
 				where itens.secundario not like '%semi%' 
 				and clasmod in ('linha a++', 'linha a+', 'linha a', 'novo')    
-                and itens.agrup like '$agrup'  and itens.modelo like 'ah9%'
+                and itens.agrup like '$agrup' 
                 and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 			) as fim2
 		) as fim3 group by grife, codgrife, agrup, modelo, clasmod, colmod
