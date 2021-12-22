@@ -83,7 +83,7 @@
                 <td align="center">{{$capa[0]->transporte}}</td>
             </tr> 
 				
-				
+			<tr></tr>	
 				
 			<tr>
                 <td>Prazo pagamento <a href="" class="pull-right" data-toggle="modal" 
@@ -94,7 +94,7 @@
 			<tr>
                 <td>Valor Adiantamento <a href="" class="pull-right" data-toggle="modal" 
 				data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
-                <td align="center">{{$teste_tmp[0]->adiantamento}}</td>
+                <td align="center">{{$adiantamento[0]->adiantamento}}</td>
             </tr> 
 				
 				

@@ -3283,7 +3283,7 @@ group by timestamp , id_compra, tipo, nome,obs,status_pedido
 
   public function detalhesCompra( $id ) {
 	
-	$teste_tmp = \DB::select( "
+	$adiantamento = \DB::select( "
 	select id_pedido, cp.id parcela, sum(valor) adiantamento 
 	from compras_parcelas cp 
     where cp.id_pedido = $id and tipo = 'adiantamento' and cp.origem = 'compras' group by id_pedido, cp.id ");
@@ -3372,7 +3372,7 @@ group by agrupamento" );
 				" );
 
 
-    return view( 'produtos.compras.detalhes' )->with( 'arquivos', $arquivos )->with( 'invoices', $invoices )->with( 'capa', $capa )->with( 'itens', $itens )->with( 'resumo', $resumo )->with( 'teste_tmp', $teste_tmp );
+    return view( 'produtos.compras.detalhes' )->with( 'arquivos', $arquivos )->with( 'invoices', $invoices )->with( 'capa', $capa )->with( 'itens', $itens )->with( 'resumo', $resumo )->with( 'adiantamento', $adiantamento );
 
   }
 
