@@ -3282,7 +3282,7 @@ group by timestamp , id_compra, tipo, nome,obs,status_pedido
 
 
   public function detalhesCompra( $id ) {
-
+	$teste_tmp = \DB::select( "select fantasia, nome , uf from adressbook where uf = 'am'");
 
     $capa = \DB::select( "select compras.*, razao as fornecedor, endereco, numero, municipio, uf, pais, email1, ddd1, tel1, date(dt_emissao) as dt_emissao
 				from compras
@@ -3290,6 +3290,7 @@ group by timestamp , id_compra, tipo, nome,obs,status_pedido
 				left join compras_itens on id_compra = compras.id
 				left join itens on item = secundario
 				where compras.id = $id" );
+	  
 	  if($capa[0]->tipo=='PRE-PEDIDO'){
 		  
 		  $itens = \DB::select( "Select 'cotacao' as status_pedido, cm.id as id, cm.created_at as 'timestamp', cin.id as iditem_old, cin.id as id_item, cm.id_compra, '' as pedido_nro, date(cin.created_at) as pedido_dt, ''dt_status, ''dt_prevista, ''dt_conf, 'cotação' as status, 'cotacao' origem,
