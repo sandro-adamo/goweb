@@ -494,14 +494,14 @@
 
 
           <div class="form-group">
-            <label class="col-md-3 control-label">@lang('padrao.transporte')</label>
+            <label class="col-md-3 control-label">moeda</label>
             <div class="col-md-5">
-              <select name="transporte" id="transporte" class="form-control">
+              <select name="moeda" id="moeda" class="form-control">
                 <option value=""> @lang('padrao.selecione') </option>
-                <option @if ($capa[0]->transporte == 'Plane') selected="" @endif> Plane </option>
-                <option @if ($capa[0]->transporte == 'Ship') selected="" @endif> Ship </option>
-				  <option @if ($capa[0]->transporte == 'CIP') selected="" @endif> CIP </option>
-                <option @if ($capa[0]->transporte == 'EXPRESS (FEDEX...)') selected="" @endif> EXPRESS (FEDEX...) </option>
+                <option @if ($capa[0]->transporte == 'Plane') selected="" @endif> Dolar </option>
+                <option @if ($capa[0]->transporte == 'Ship') selected="" @endif> Euro </option>
+				<option @if ($capa[0]->transporte == 'CIP') selected="" @endif> Real </option>
+                <option @if ($capa[0]->transporte == 'EXPRESS (FEDEX...)') selected="" @endif> RMB </option>
               </select>
             </div>        
           </div>
