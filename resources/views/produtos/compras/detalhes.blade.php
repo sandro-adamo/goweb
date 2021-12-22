@@ -482,9 +482,9 @@
 
                 @foreach ($fornecedores as $fornecedor) 
                     @if ($capa[0]->id_fornecedor == $fornecedor->codigo)
-                        <option value="{{$fornecedor->codigo}}" selected=""> {{$fornecedor->valor}} </option>
+                        <option value="{{$fornecedor->secundario}}" selected=""> {{$fornecedor->valor}} </option>
                     @else
-                        <option value="{{$fornecedor->codigo}}"> {{$fornecedor->valor}} </option>
+                        <option value="{{$fornecedor->secundario}}"> {{$fornecedor->valor}} </option>
                     @endif
                 @endforeach
 
