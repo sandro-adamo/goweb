@@ -89,7 +89,8 @@
 				
 				
 			<table class="table table-bordered table-condensed">
-				<tr>
+			
+			<tr>
                 <td>Prazo pagamento <a href="" class="pull-right" data-toggle="modal" 
 				data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
                 <td align="center">{{$capa[0]->transporte}}</td>
@@ -100,6 +101,13 @@
 				data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
                 <td align="center">{{$adiantamento[0]->adiantamento}}</td>
             </tr> 
+			
+			<tr>
+                <td>Adiantamento Distribuido<a href="" class="pull-right" data-toggle="modal" 
+				data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
+                <td align="center">{{$adiantamento[0]->adiantamento}}</td>
+            </tr> 
+				
 			</table>
 				
 				
