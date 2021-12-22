@@ -68,7 +68,8 @@
 				
 				
 </td>
-				<td> <h3 style="margin-top: 0;">@lang('padrao.pedido_compra') #{{$capa[0]->id}}</h3>    
+			<td> <h3 style="margin-top: 0;">@lang('padrao.pedido_compra') #{{$capa[0]->id}}</h3>    
+				
             <table class="table table-bordered table-condensed">
             <tr>
                 <td width="50%">P.O. Date</td>
@@ -83,9 +84,16 @@
                 <td align="center">{{$capa[0]->transporte}}</td>
             </tr> 
 				
-			<tr></tr>	
+		
 				
-			<tr>
+			
+				
+				
+            
+            </table>
+				
+			<table class="table table-bordered table-condensed">
+				<tr>
                 <td>Prazo pagamento <a href="" class="pull-right" data-toggle="modal" 
 				data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
                 <td align="center">{{$capa[0]->transporte}}</td>
@@ -96,11 +104,14 @@
 				data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
                 <td align="center">{{$adiantamento[0]->adiantamento}}</td>
             </tr> 
+			</table>
 				
 				
-            
-            </table></td>
+				</td>
 				</table>
+			
+		
+			
             </div>
         </div>                        
     </div>
