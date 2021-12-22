@@ -3282,7 +3282,7 @@ group by timestamp , id_compra, tipo, nome,obs,status_pedido
 
 
   public function detalhesCompra( $id ) {
-	$teste_tmp = \DB::select( "select fantasia, nome , uf from adressbook where uf = 'am'");
+	$teste_tmp = \DB::select( "select fantasia, nome , uf from addressbook where uf = 'am'");
 
     $capa = \DB::select( "select compras.*, razao as fornecedor, endereco, numero, municipio, uf, pais, email1, ddd1, tel1, date(dt_emissao) as dt_emissao
 				from compras
