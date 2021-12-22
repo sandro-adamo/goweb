@@ -11,7 +11,7 @@
   <div class="col-md-12">
     <span class="lead">Grade de Modelos </span>
     <div class="row">
-      @foreach ($gradesmodelos as $catalogo)
+      @foreach ($itensagregado1 as $catalogo)
 
         @php
           switch ($catalogo->imediata) {
