@@ -204,6 +204,7 @@
                 <option value=""> Selecione </option>
                 <option> Carta de Crédito </option>
                 <option> Bank </option>
+				<option> Other </option>
               </select>
             </div>        
           </div>
