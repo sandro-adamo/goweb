@@ -79,12 +79,15 @@
                 <td align="center">{{$capa[0]->pagamento}}</td>
             </tr>         
             <tr>
-                <td>@lang('padrao.tipodeenvio') <a href="" class="pull-right" data-toggle="modal" data-target="#modalAlteraFornecedor"><i class="fa fa-edit"></i></a></td>
+                <td>@lang('padrao.tipodeenvio') <a href="" class="pull-right" data-toggle="modal" data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
                 <td align="center">{{$capa[0]->transporte}}</td>
             </tr> 
 				
+				
+				
 			<tr>
-                <td>Prazo pagamento <a href="" class="pull-right" data-toggle="modal" data-target="#modalAlteraFornecedor"><i class="fa fa-edit"></i></a></td>
+                <td>Prazo pagamento <a href="" class="pull-right" data-toggle="modal" 
+				data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
                 <td align="center">{{$capa[0]->transporte}}</td>
             </tr> 
 				
@@ -436,6 +439,107 @@
   </div>
 </div>
 </form>
+
+
+
+<!-- novo modal para pagamento -->
+
+<form action="/compras/{{$capa[0]->id}}/edita" id="frmAlteraPagamento" class="form-horizontal" method="post">
+    @csrf 
+<div class="modal fade" id="modalAlteraPagamento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">altera pagamento</h4>
+      </div>
+      <div class="modal-body">
+
+
+          <div class="form-group">
+            <label class="col-md-3 control-label">@lang('padrao.data')</label>
+            <div class="col-md-4">
+              <small>@lang('padrao.emissao')</small>
+              <input type="date" name="dt_emissao" value="{{$capa[0]->dt_emissao}}" disabled id="dt_emissao" class="form-control">
+            </div>         
+            <div class="col-md-4">
+              <small>@lang('padrao.entrega')</small>
+              <input type="date" name="dt_entrega" id="dt_entrega"  value="{{$capa[0]->dt_entrega}}" class="form-control">
+            </div>        
+          </div>
+
+
+          <div class="form-group">
+            <label class="col-md-3 control-label">@lang('padrao.fornecedor')</label>
+            <div class="col-md-8">
+              <select name="id_fornecedor" id="id_fornecedor" class="form-control">
+                <option value=""> @lang('padrao.selecione') </option>
+
+                @php                  
+                    $fornecedores = \DB::select("select * from caracteristicas where campo = 'Fornecedor'");
+                @endphp                   
+
+                @foreach ($fornecedores as $fornecedor) 
+                    @if ($capa[0]->id_fornecedor == $fornecedor->codigo)
+                        <option value="{{$fornecedor->codigo}}" selected=""> {{$fornecedor->valor}} </option>
+                    @else
+                        <option value="{{$fornecedor->codigo}}"> {{$fornecedor->valor}} </option>
+                    @endif
+                @endforeach
+
+              </select>
+            </div>        
+          </div>
+
+
+          <div class="form-group">
+            <label class="col-md-3 control-label">@lang('padrao.transporte')</label>
+            <div class="col-md-5">
+              <select name="transporte" id="transporte" class="form-control">
+                <option value=""> @lang('padrao.selecione') </option>
+                <option @if ($capa[0]->transporte == 'Plane') selected="" @endif> Plane </option>
+                <option @if ($capa[0]->transporte == 'Ship') selected="" @endif> Ship </option>
+				  <option @if ($capa[0]->transporte == 'CIP') selected="" @endif> CIP </option>
+                <option @if ($capa[0]->transporte == 'EXPRESS (FEDEX...)') selected="" @endif> EXPRESS (FEDEX...) </option>
+              </select>
+            </div>        
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-3 control-label">@lang('padrao.pagamento')</label>
+            <div class="col-md-5">
+              <select name="pagamento" id="pagamento" class="form-control">
+                <option value=""> @lang('padrao.selecione') </option>
+                <option @if ($capa[0]->pagamento == 'Letter credit') selected="" @endif> @lang('padrao.cartacredito') </option>
+                <option @if ($capa[0]->pagamento == 'Bank Transfer') selected="" @endif> @lang('padrao.banktransfer')' </option>
+              </select>
+            </div>        
+          </div>
+		  
+		  
+		  <div class="form-group">
+            <label class="col-md-3 control-label">@lang('padrao.obs')</label>
+            <div class="col-md-8">
+                <textarea name="obs" class="form-control">{{$capa[0]->obs}}</textarea>
+            </div>        
+          </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">@lang('padrao.cancelar')</button>
+        <button type="submit" class="btn btn-flat btn-primary">@lang('padrao.salvar') </button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+
+
+
+
+
 
 
 
