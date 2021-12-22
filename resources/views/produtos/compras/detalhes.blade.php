@@ -481,7 +481,7 @@
                 @endphp                   
 
                 @foreach ($fornecedores as $fornecedor) 
-                    @if ($capa[0]->id_fornecedor == $fornecedor->codigo)
+                    @if ($capa[0]->id_fornecedor == $fornecedor->secundario)
                         <option value="{{$fornecedor->secundario}}" selected=""> {{$fornecedor->valor}} </option>
                     @else
                         <option value="{{$fornecedor->secundario}}"> {{$fornecedor->valor}} </option>
