@@ -93,7 +93,7 @@
 			<tr>
                 <td>Prazo pagamento <a href="" class="pull-right" data-toggle="modal" 
 				data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
-                <td align="center">{{$adiantamento[0]->tipo}}</td>
+                <td align="center">@if({{$adiantamento[0]->tipo}}){{$adiantamento[0]->tipo}}@endif</td>
             </tr> 
 				
 			<tr>
