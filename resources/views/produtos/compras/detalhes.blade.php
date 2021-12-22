@@ -94,7 +94,7 @@
 			<tr>
                 <td>Valor Adiantamento <a href="" class="pull-right" data-toggle="modal" 
 				data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
-                <td align="center">{{$teste_tmp[0]->fantasia}}</td>
+                <td align="center">{{$teste_tmp[0]->adiantamento}}</td>
             </tr> 
 				
 				
