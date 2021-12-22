@@ -9,8 +9,8 @@
 
 
 
-  @if (isset($gradeslista) && count($gradeslista) > 0)
-  @foreach ($gradeslista as $catalogo)
+  @if (isset($modeloagregado) && count($modeloagregado) > 0)
+  @foreach ($modeloagregado as $catalogo)
 
   <div class="col-md-2">
     <div class="box box-widget">
