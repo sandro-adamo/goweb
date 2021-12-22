@@ -97,20 +97,17 @@
             </tr> 
 				
 			<tr>
-                <td>Adiantamento Previsto<a href="" class="pull-right" data-toggle="modal" 
-				data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
+                <td>Adiantamento Previsto</td>
                 <td align="center">{{$adiantamento[0]->adiantamento}}</td>
             </tr> 
 			
 			<tr>
-                <td>Adiantamento Distribuido<a href="" class="pull-right" data-toggle="modal" 
-				data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
+                <td>Adiantamento Distribuido</td>
                 <td align="center">{{$adiantamento[0]->adiantamento}}</td>
             </tr> 
 				
 			<tr>
-                <td>Status Adiantamento<a href="" class="pull-right" data-toggle="modal" 
-				data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
+                <td>Status Adiantamento</td>
                 <td align="center">pago/atrasado/nao env</td>
             </tr> 
 				
