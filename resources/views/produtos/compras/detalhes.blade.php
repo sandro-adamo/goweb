@@ -507,13 +507,9 @@
           </div>
 
           <div class="form-group">
-            <label class="col-md-3 control-label">@lang('padrao.pagamento')</label>
+            <label class="col-md-3 control-label">Valor</label>
             <div class="col-md-5">
-              <select name="pagamento" id="pagamento" class="form-control">
-                <option value=""> @lang('padrao.selecione') </option>
-                <option @if ($capa[0]->pagamento == 'Letter credit') selected="" @endif> @lang('padrao.cartacredito') </option>
-                <option @if ($capa[0]->pagamento == 'Bank Transfer') selected="" @endif> @lang('padrao.banktransfer')' </option>
-              </select>
+              
             </div>        
           </div>
 		  
