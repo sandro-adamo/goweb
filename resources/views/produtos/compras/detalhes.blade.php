@@ -477,7 +477,7 @@
                 <option value=""> @lang('padrao.selecione') </option>
 
                 @php                  
-                    $fornecedores = \DB::select("select * from caracteristicas where campo = 'Fornecedor'");
+                    $fornecedores = \DB::select("select itens from itens where modelo = 'ah6254'");
                 @endphp                   
 
                 @foreach ($fornecedores as $fornecedor) 
