@@ -87,6 +87,13 @@
                 <td>Prazo pagamento <a href="" class="pull-right" data-toggle="modal" data-target="#modalAlteraFornecedor"><i class="fa fa-edit"></i></a></td>
                 <td align="center">{{$capa[0]->transporte}}</td>
             </tr> 
+				
+			<tr>
+                <td>Valor Adiantamento <a href="" class="pull-right" data-toggle="modal" data-target="#modalAlteraFornecedor"><i class="fa fa-edit"></i></a></td>
+                <td align="center">{{$capa[0]->transporte}}</td>
+            </tr> 
+				
+				
             
             </table></td>
 				</table>
