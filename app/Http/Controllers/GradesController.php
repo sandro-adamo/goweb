@@ -13,7 +13,7 @@ class GradesController extends Controller
 	public static function listaGrades() {
 
 
-		$modeloagregado = \DB::connection('go')->select("
+$modeloagregado = \DB::connection('go')->select("
 select grife, codgrife, agrup, count(modelo) modelos, sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
 sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor from (
 
