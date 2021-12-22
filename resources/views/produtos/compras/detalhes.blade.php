@@ -414,6 +414,15 @@
                 <textarea name="obs" class="form-control">{{$capa[0]->obs}}</textarea>
             </div>        
           </div>
+		  
+		  
+		  <div class="form-group">
+            <label class="col-md-3 control-label">@lang('padrao.obs')</label>
+            <div class="col-md-8">
+                <textarea name="obs" class="form-control">{{$capa[0]->obs}}</textarea>
+            </div>        
+          </div>
+
 
       </div>
       <div class="modal-footer">
@@ -424,6 +433,11 @@
   </div>
 </div>
 </form>
+
+
+
+
+
 @if ($capa[0]->tipo=='PRE-PEDIDO')
 <form action="/compras/pedidos/modelos/criacao/upload" id="frmImporta" method="post" enctype="multipart/form-data">
 	 @php $tipoarquivo ='O arquivo tem que estar no formato Xls'; @endphp
