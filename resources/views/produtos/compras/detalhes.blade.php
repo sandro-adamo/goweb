@@ -5,6 +5,7 @@
 @append 
 
 @section('conteudo')
+
     @php
         $qtde = 0;
         $qtde_conf = 0;
@@ -93,17 +94,17 @@
 			<tr>
                 <td>Prazo pagamento <a href="" class="pull-right" data-toggle="modal" 
 				data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
-                <td align="center">@if($adiantamento[0]->tipo){{$adiantamento[0]->tipo}}@endif</td>
+                <td align="center"> @if($adiantamento) {{$adiantamento[0]->tipo}} @endif</td>
             </tr> 
 				
 			<tr>
                 <td>Adiantamento Previsto</td>
-                <td align="center">{{$adiantamento[0]->adiantamento}}</td>
+                <td align="center">@if($adiantamento) {{$adiantamento[0]->adiantamento}} @endif</td>
             </tr> 
 			
 			<tr>
                 <td>Adiantamento Distribuido</td>
-                <td align="center">{{$adiantamento[0]->adiantamento}}</td>
+                <td align="center">@if($adiantamento) {{$adiantamento[0]->adiantamento}} @endif</td>
             </tr> 
 				
 			<tr>
