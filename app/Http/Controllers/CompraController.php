@@ -3282,7 +3282,13 @@ group by timestamp , id_compra, tipo, nome,obs,status_pedido
 
 
   public function detalhesCompra( $id ) {
-	$teste_tmp = \DB::select( "select fantasia, nome , uf from addressbook where uf = 'am' limit 1");
+	
+	$teste_tmp = \DB::select( "
+	select id_pedido, cp.id parcela, sum(valor) adiantamento 
+	from compras_parcelas cp 
+    where cp.id_pedido = $id and tipo = 'adiantamento' and cp.origem = 'compras' group by id_pedido, cp.id ");
+	  
+	  
 
     $capa = \DB::select( "select compras.*, razao as fornecedor, endereco, numero, municipio, uf, pais, email1, ddd1, tel1, date(dt_emissao) as dt_emissao
 				from compras
