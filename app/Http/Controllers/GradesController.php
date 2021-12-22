@@ -282,7 +282,9 @@ from (
 }
 	
 	
+
 	
+/**tela de modelosagregados**/	
 	
 public static function listaGradesModelos(Request $request, $agrup) {
 
