@@ -79,7 +79,7 @@
                 <td align="center">{{$capa[0]->pagamento}}</td>
             </tr>         
             <tr>
-                <td>@lang('padrao.tipodeenvio') <a href="" class="pull-right" data-toggle="modal" data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
+                <td>@lang('padrao.tipodeenvio') <a href="" class="pull-right" data-toggle="modal" data-target="#modalAlteraFornecedor"><i class="fa fa-edit"></i></a></td>
                 <td align="center">{{$capa[0]->transporte}}</td>
             </tr> 
 				
@@ -92,7 +92,8 @@
             </tr> 
 				
 			<tr>
-                <td>Valor Adiantamento <a href="" class="pull-right" data-toggle="modal" data-target="#modalAlteraFornecedor"><i class="fa fa-edit"></i></a></td>
+                <td>Valor Adiantamento <a href="" class="pull-right" data-toggle="modal" 
+				data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
                 <td align="center">{{$capa[0]->transporte}}</td>
             </tr> 
 				
@@ -463,14 +464,14 @@
               <input type="date" name="dt_emissao" value="{{$capa[0]->dt_emissao}}" disabled id="dt_emissao" class="form-control">
             </div>         
             <div class="col-md-4">
-              <small>@lang('padrao.entrega')</small>
+              <small>Vencimento</small>
               <input type="date" name="dt_entrega" id="dt_entrega"  value="{{$capa[0]->dt_entrega}}" class="form-control">
             </div>        
           </div>
 
 
           <div class="form-group">
-            <label class="col-md-3 control-label">@lang('padrao.fornecedor')</label>
+            <label class="col-md-3 control-label">Prazo de pagamento</label>
             <div class="col-md-8">
               <select name="id_fornecedor" id="id_fornecedor" class="form-control">
                 <option value=""> @lang('padrao.selecione') </option>
