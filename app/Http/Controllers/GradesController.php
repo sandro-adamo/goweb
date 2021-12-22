@@ -290,7 +290,7 @@ public static function listaGradesModelos(Request $request, $agrup) {
 	 		{$where = 'where filtro =';} else {$where ='where filtro >=';}
 
 
-$itensagregado1 = \DB::connection('go')->select("
+$gradesmodelos = \DB::connection('go')->select("
 
 select * from (
 select grife, codgrife, agrup, modelo, clasmod, right(clasmod,2) classif, colmod, (itens) as itens, 
@@ -374,7 +374,7 @@ from (
 		");
 			
 
-		return view('produtos.grades.gradesmodelos')->with('modeloagregado1', $modeloagregado1)->with('itensagregado1', $itensagregado1);
+		return view('produtos.grades.gradesmodelos')->with('modeloagregado1', $modeloagregado1)->with('gradesmodelos', $gradesmodelos);
 	
 	
 	
