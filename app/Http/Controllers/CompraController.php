@@ -3284,9 +3284,10 @@ group by timestamp , id_compra, tipo, nome,obs,status_pedido
   public function detalhesCompra( $id ) {
 	
 	$adiantamento = \DB::select( "
-	select id_pedido, cp.id parcela, sum(valor) adiantamento 
+	select id_pedido, cp.id parcela, tipo, sum(valor) adiantamento 
 	from compras_parcelas cp 
-    where cp.id_pedido = $id and tipo = 'adiantamento' and cp.origem = 'compras' group by id_pedido, cp.id ");
+    where cp.id_pedido = $id and tipo = 'adiantamento' and cp.origem = 'compras' 
+	group by id_pedido, cp.id, tipo ");
 	  
 	  
 
