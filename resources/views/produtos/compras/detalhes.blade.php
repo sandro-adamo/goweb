@@ -83,14 +83,10 @@
                 <td>@lang('padrao.tipodeenvio') <a href="" class="pull-right" data-toggle="modal" data-target="#modalAlteraFornecedor"><i class="fa fa-edit"></i></a></td>
                 <td align="center">{{$capa[0]->transporte}}</td>
             </tr> 
-				
-		
-				
-			
-				
-				
-            
+	           
             </table>
+				
+				
 				
 			<table class="table table-bordered table-condensed">
 				<tr>
@@ -107,8 +103,8 @@
 			</table>
 				
 				
-				</td>
-				</table>
+		</td>
+		</table>
 			
 		
 			
