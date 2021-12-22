@@ -9,7 +9,7 @@
 
  
   <div class="col-md-12">
-    <span class="lead">Modelos</span>
+    <span class="lead">Grade de Modelos </span>
     <div class="row">
       @foreach ($itensagregado1 as $catalogo)
 
@@ -95,7 +95,6 @@
     <div class="col-md-12">
         <table width="100%" style="text-align: center;">
             <tr>
-teste
 			 <td>
                     <table class="table table-condensed table-bordered table2"  style="text-align: center;">
                         <tr>
