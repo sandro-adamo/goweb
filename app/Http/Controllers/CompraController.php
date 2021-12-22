@@ -3366,7 +3366,7 @@ group by agrupamento" );
 				" );
 
 
-    return view( 'produtos.compras.detalhes' )->with( 'arquivos', $arquivos )->with( 'invoices', $invoices )->with( 'capa', $capa )->with( 'itens', $itens )->with( 'resumo', $resumo );
+    return view( 'produtos.compras.detalhes' )->with( 'arquivos', $arquivos )->with( 'invoices', $invoices )->with( 'capa', $capa )->with( 'itens', $itens )->with( 'resumo', $resumo )->with( 'teste_tmp', $teste_tmp );
 
   }
 
