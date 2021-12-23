@@ -43,7 +43,7 @@ sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor
 				where
 				
 				 itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') 				 
-				 and saldos.disp_vendas > 10
+				 -- and saldos.disp_vendas > 10
                 and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 			) as fim2
 		) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod
