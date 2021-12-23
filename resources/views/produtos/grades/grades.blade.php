@@ -7,12 +7,13 @@
 @section('conteudo')
 
  
-@foreach ($gradeslista as $catalogo)
+
 
   <div class="col-md-2">
     <div class="box box-widget">
      
-
+@foreach ($gradeslista as $catalogo)
+		
       <div class="box-header with-border" style="font-size:16px; padding: 3px 5px 3px 5px; margin-bottom: 0; vertical-align: top;">
         <span class="text-bold">{{trim($catalogo->agrup)}}</span> 
 
@@ -181,10 +182,10 @@
        
 
       </div>
-    </div>
+
 
   @endforeach
-
+    </div>
   </div> 
 @include('produtos.painel.modal.caracteristica')
 
