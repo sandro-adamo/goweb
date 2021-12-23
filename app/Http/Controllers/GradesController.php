@@ -14,10 +14,10 @@ class GradesController extends Controller
 
 /** 1a tela lista agrupamentos **/
 $gradeslista = \DB::connection('go')->select("
-select grife, codgrife, agrup, count(modelo) modelos, sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
+select fornecedor, grife, codgrife, agrup, count(modelo) modelos, sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
 sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor from (
 
-	select grife, codgrife, agrup, modelo, clasmod, colmod, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, (esgotado) esgotado,
+	select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, (esgotado) esgotado,
 		case when imediata+futura >= 3 then 1 else 0 end as am3cores,
 		case when imediata+futura  = 2 then 1 else 0 end as b2cores,
 		case when imediata+futura  = 1 then 1 else 0 end as c1cor,
@@ -25,18 +25,19 @@ sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor
         
 	from(
 
-		select grife, codgrife, agrup, modelo, clasmod, colmod, sum(itens) as itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado
+		select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, sum(itens) as itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado
 		
 		from (
 		 
-			select grife, codgrife, agrup, modelo, clasmod, colmod, 1 as itens,
+			select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, 1 as itens,
 				case when ultstatus = 'ENTREGA IMEDIATA' then 1 else 0 end as imediata,
 				case when ultstatus like '%DIAS' then 1 else 0 end as futura,
 				case when ultstatus like '%PROD%' then 1 else 0 end as producao,
 				case when ultstatus like '%ESGOTADO%' then 1 else 0 end as esgotado
 			from (
 						
-				select grife, codgrife, itens.agrup, itens.modelo, itens.secundario, colmod, clasmod, ultstatus, saldos.disp_vendas
+				select case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
+                grife, codgrife, itens.agrup, itens.modelo, itens.secundario, colmod, clasmod, ultstatus, saldos.disp_vendas
 				from itens 
 				left join saldos on saldos.curto = itens.id
 				where
@@ -45,9 +46,9 @@ sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor
 				 and saldos.disp_vendas > 10
                 and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 			) as fim2
-		) as fim3 group by grife, codgrife, agrup, modelo, clasmod, colmod
+		) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod
 	) as fim4 
-) as fim5 group by grife, codgrife, agrup order by grife, agrup
+) as fim5 group by fornecedor, grife, codgrife, agrup order by fornecedor, grife, agrup
 ");
 		
 		
