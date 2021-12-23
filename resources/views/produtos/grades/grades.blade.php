@@ -6,13 +6,13 @@
 
 @section('conteudo')
 
-<div class="col-md-20">
+<div class="col-md-12">
  <span class="lead">Grade de Modelos </span>
 <div class="row">
  
  @foreach ($gradeslista as $catalogo)
 
-  <div class="col-md-3">
+  <div class="col-xs-3">
     <div class="box box-widget">
 		
       <div class="box-header with-border" style="font-size:10px; padding: 3px 5px 3px 5px; margin-bottom: 0; vertical-align: top;">
