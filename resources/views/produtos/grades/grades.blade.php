@@ -59,7 +59,7 @@
                 <td>
                     <table class="table table-condensed table-bordered table2" style="text-align: left;">
                         <tr>
-                            <td>Modelos</i></td>
+                            <td>Mod</i></td>
                             
                             <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}">{{number_format($catalogo->modelos)}}</a></td>
                             
