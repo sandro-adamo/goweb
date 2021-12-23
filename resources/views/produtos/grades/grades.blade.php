@@ -58,15 +58,16 @@
             <tr>
                 <td>
                     <table class="table table-condensed table-bordered table2" style="text-align: left;">
-                        <tr>
-                            <td>Mod</i></td>
-                            
+                      <td>Mod</i></td>   
+						<tr>
                             <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}">{{number_format($catalogo->modelos)}}</a></td>
                             
                         </tr>
                     </table>
 
                 </td>
+	  
+	  
                 <td>
                     <table class="table table-condensed table-bordered table2" style="text-align: center;">
                         <tr>
