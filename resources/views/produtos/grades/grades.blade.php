@@ -174,12 +174,13 @@
 
         </table>
 
+@endforeach
 
     </div>
 </div>
 
        
-@endforeach
+
 
       </div>
     </div>
