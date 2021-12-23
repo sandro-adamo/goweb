@@ -8,9 +8,9 @@
 <div class="row">
 
  
-  <div class="col-md-12">
-    <span class="lead">Grade de Modelos </span>
-    <div class="row">
+<div class="col-md-12">
+ <span class="lead">Grade de Modelos </span>
+
  
  @foreach ($gradeslista as $catalogo)
 
