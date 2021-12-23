@@ -12,12 +12,12 @@ class GradesController extends Controller
 	
 	public static function listaGrades() {
 
-
-		$modeloagregado = \DB::connection('go')->select("
-select grife, codgrife, agrup, count(modelo) modelos, sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
+/** 1a tela lista agrupamentos **/
+$gradeslista = \DB::connection('go')->select("
+select fornecedor, grife, codgrife, agrup, count(modelo) modelos, sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
 sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor from (
 
-	select grife, codgrife, agrup, modelo, clasmod, colmod, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, (esgotado) esgotado,
+	select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, (esgotado) esgotado,
 		case when imediata+futura >= 3 then 1 else 0 end as am3cores,
 		case when imediata+futura  = 2 then 1 else 0 end as b2cores,
 		case when imediata+futura  = 1 then 1 else 0 end as c1cor,
@@ -25,18 +25,19 @@ sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor
         
 	from(
 
-		select grife, codgrife, agrup, modelo, clasmod, colmod, sum(itens) as itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado
+		select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, sum(itens) as itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado
 		
 		from (
 		 
-			select grife, codgrife, agrup, modelo, clasmod, colmod, 1 as itens,
+			select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, 1 as itens,
 				case when ultstatus = 'ENTREGA IMEDIATA' then 1 else 0 end as imediata,
 				case when ultstatus like '%DIAS' then 1 else 0 end as futura,
 				case when ultstatus like '%PROD%' then 1 else 0 end as producao,
 				case when ultstatus like '%ESGOTADO%' then 1 else 0 end as esgotado
 			from (
 						
-				select grife, codgrife, itens.agrup, itens.modelo, itens.secundario, colmod, clasmod, ultstatus, saldos.disp_vendas
+				select case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
+                grife, codgrife, itens.agrup, itens.modelo, itens.secundario, colmod, clasmod, ultstatus, saldos.disp_vendas
 				from itens 
 				left join saldos on saldos.curto = itens.id
 				where
@@ -45,16 +46,16 @@ sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor
 				 and saldos.disp_vendas > 10
                 and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 			) as fim2
-		) as fim3 group by grife, codgrife, agrup, modelo, clasmod, colmod
+		) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod
 	) as fim4 
-) as fim5 group by grife, codgrife, agrup order by grife, agrup
+) as fim5 group by fornecedor, grife, codgrife, agrup order by fornecedor, grife, agrup
 ");
 		
 		
-	return view('produtos.grades.grades')->with('modeloagregado', $modeloagregado);
+return view('produtos.grades.grades')->with('gradeslista', $gradeslista);
 		
 
-	}
+}
 	
 
 	
@@ -282,7 +283,9 @@ from (
 }
 	
 	
+
 	
+/**tela de modelosagregados**/	
 	
 public static function listaGradesModelos(Request $request, $agrup) {
 
@@ -290,7 +293,7 @@ public static function listaGradesModelos(Request $request, $agrup) {
 	 		{$where = 'where filtro =';} else {$where ='where filtro >=';}
 
 
-$itensagregado1 = \DB::connection('go')->select("
+$gradesmodelos = \DB::connection('go')->select("
 
 select * from (
 select grife, codgrife, agrup, modelo, clasmod, right(clasmod,2) classif, colmod, (itens) as itens, 
@@ -321,7 +324,7 @@ from (
 				
 				where itens.secundario not like '%semi%' and clasmod in ('linha a++', 'linha a+', 'linha a', 'novo')  
                 and itens.agrup like '$agrup' and left(itens.colmod,4) in ('2021','2022') 
-				and codtipoarmaz not in ('o')
+				and codtipoarmaz not in ('o') 
 				-- and itens.statusatual like 'entrega%'
 				
                 and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
@@ -364,7 +367,7 @@ from (
 				
 				where itens.secundario not like '%semi%' 
 				and clasmod in ('linha a++', 'linha a+', 'linha a', 'novo')    
-                and itens.agrup like '$agrup'  
+                and itens.agrup like '$agrup' 
                 and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 			) as fim2
 		) as fim3 group by grife, codgrife, agrup, modelo, clasmod, colmod
@@ -374,7 +377,7 @@ from (
 		");
 			
 
-		return view('produtos.grades.gradesmodelos')->with('modeloagregado1', $modeloagregado1)->with('itensagregado1', $itensagregado1);
+		return view('produtos.grades.gradesmodelos')->with('modeloagregado1', $modeloagregado1)->with('gradesmodelos', $gradesmodelos);
 	
 	
 	
