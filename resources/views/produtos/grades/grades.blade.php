@@ -186,8 +186,7 @@
 
 
   @endforeach
-</div>
-</div>
+
 
 @include('produtos.painel.modal.caracteristica')
 
