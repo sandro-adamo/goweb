@@ -8,8 +8,6 @@
 
 
 
-
-  @if (isset($gradeslista) && count($gradeslista) > 0)
   @foreach ($gradeslista as $catalogo)
 
   <div class="col-md-2">
@@ -188,11 +186,7 @@
   </div> 
   @endforeach
 
-  @else 
-
-    <h3 align="center">Nenhum modelo encontrado!</h3>
-
-  @endif
+ 
 
 </div>
 @include('produtos.painel.modal.caracteristica')
