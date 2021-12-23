@@ -19,7 +19,7 @@
         <span class="text-bold">{{trim($catalogo->agrup)}}</span> 
       </div>
           
-      <div id="foto" align="center" style="margin-top:30px; min-height:160;height:160; top:30%; margin-bottom:0; padding-bottom:0;">
+      <div id="foto" align="center" style="margin-top:20px; min-height:140;height:140; top:20%; margin-bottom:0; padding-bottom:0;">
   
 		<a href="" class="zoom" data-value="{{$catalogo->modelos}}"></a>     
 
