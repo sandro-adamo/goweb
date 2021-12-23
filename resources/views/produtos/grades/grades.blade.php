@@ -15,15 +15,13 @@
   <div class="col-md-2">
     <div class="box box-widget">
 		
-      <div class="box-header with-border" style="font-size:10px; padding: 3px 5px 3px 5px; margin-bottom: 0; vertical-align: top;">
+      <div class="box-header with-border" style="font-size:8px; padding: 3px 5px 3px 5px; margin-bottom: 0; vertical-align: top;">
         <span class="text-bold">{{trim($catalogo->agrup)}}</span> 
       </div>
           
       <div id="foto" align="center" style="margin-top:30px; min-height:160;height:160; top:30%; margin-bottom:0; padding-bottom:0;">
   
-		<a href="" class="zoom" data-value="{{$catalogo->modelos}}"></a>
-
-           
+		<a href="" class="zoom" data-value="{{$catalogo->modelos}}"></a>     
 
         @php
           $foto = app('App\Http\Controllers\ItemController')->consultaFoto(trim($catalogo->codgrife));
