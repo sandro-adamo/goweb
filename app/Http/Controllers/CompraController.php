@@ -1078,8 +1078,9 @@ where ci.id_item is null
 						 and qtde_entrega-ifnull(qtd_entregue,0) > 0 
 						 and qtde_entrega-ifnull(qtd_entregue,0) <> 0 
 						 and compras_itens.status in ('distribuido','producao', 'aguardando documentacao')
-						 and compras_entregas.exclui is null
-						order by compras.id asc, compras_entregas.qtde_entrega  desc 
+						 and (compras_entregas.exclui is null or compras_entregas.exclui = 0)
+						
+						order by pedido_dt asc, compras_entregas.qtde_entrega  desc 
 						" );
 
         foreach ( $verifica_compra as $linha ) {
