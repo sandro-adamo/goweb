@@ -186,8 +186,4 @@
  @endforeach 
 
 
-
-
-@include('produtos.painel.modal.caracteristica')
-
 @stop
