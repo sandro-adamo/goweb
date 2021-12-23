@@ -6,7 +6,7 @@
 
 @section('conteudo')
 
-<div class="col-md-12">
+<div class="col-md-14">
  <span class="lead">Grade de Modelos </span>
 <div class="row">
  
