@@ -56,7 +56,7 @@ from (
 					grife, codgrife, itens.agrup, itens.modelo, itens.secundario, colmod, clasmod, ultstatus,
 					case when (left(colmod,4) <= year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao
 					from itens 
-					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') 				 
+					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtpoitem = 006				 
 					and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 				
 				) as fim2
