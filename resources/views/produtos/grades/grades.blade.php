@@ -5,12 +5,10 @@
 @append 
 
 @section('conteudo')
-<div class="row">
 
- 
-<div class="col-md-10">
+<div class="col-md-12">
  <span class="lead">Grade de Modelos </span>
-
+<div class="row">
  
  @foreach ($gradeslista as $catalogo)
 
