@@ -71,7 +71,7 @@
                     <table class="table table-condensed table-bordered table2" style="text-align: center;">
                         <tr>
                             <td>N</i></td>
-                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=3">{{number_format($catalogo->am3cores)}}</a></td>
+                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=3">{{number_format($catalogo->novos)}}</a></td>
                         </tr>
                     </table>
                 </td>
@@ -80,7 +80,7 @@
                         <tr>
 
 							<td>A</td>
-							<td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=2">{{number_format($catalogo->b2cores)}}</a></td>
+							<td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=2">{{number_format($catalogo->aa)}}</a></td>
 							
                         </tr>
 						
@@ -93,7 +93,7 @@
 						
                         <tr>
                             <td>A-</td>
-                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=1">{{number_format($catalogo->c1cor)}}</a></td>
+                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=1">{{number_format($catalogo->a)}}</a></td>
                         </tr>
                     </table>
                 </td>
