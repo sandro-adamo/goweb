@@ -6,9 +6,8 @@
 
 @section('conteudo')
 
-
-
-  @foreach ($gradeslista as $catalogo)
+ 
+@foreach ($gradeslista as $catalogo)
 
   <div class="col-md-2">
     <div class="box box-widget">
@@ -186,9 +185,6 @@
   </div> 
   @endforeach
 
- 
-
-</div>
 @include('produtos.painel.modal.caracteristica')
 
 @stop
