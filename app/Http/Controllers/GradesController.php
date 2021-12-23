@@ -21,9 +21,9 @@ select fornecedor, grife, codgrife, agrup, count(modelo) modelos,
 from (
 
 	select fornecedor, grife, codgrife, agrup, colecao, modelo,
-	case when colecao = 'novo' then count(modelo) else 0 end as novos,
-	case when colecao = 'aa' then count(modelo) else 0 end as aa, 
-	case when colecao = 'a' then count(modelo) else 0 end as a, 
+	case when colecao = 'novo' then 1 else 0 end as novos,
+	case when colecao = 'aa' then 1 else 0 end as aa, 
+	case when colecao = 'a' then 1 else 0 end as a, 
 	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
 	sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
 	from (
@@ -36,7 +36,7 @@ from (
 			
 			 case when colecao = 'novo' then 'novo'
 			 when colecao <> 'novo' and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO') then 'aa'
-			 when colecao <> 'novo' and clasmod in ('LINHA A-') then 'a' else clasmod end as colecao
+			 when colecao <> 'novo' and clasmod in ('LINHA A-') then 'a' else '' end as colecao
 			
 			
 		from(
@@ -56,15 +56,16 @@ from (
 					grife, codgrife, itens.agrup, itens.modelo, itens.secundario, colmod, clasmod, ultstatus,
 					case when (left(colmod,4) <= year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao
 					from itens 
-					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoitem = 006 and codtipoarmaz not in ('i')			 
+					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoitem = 006				 
 					and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
-				
+					 and codtipoarmaz not in ('i')
 				) as fim2
 			) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao
 		) as fim4 
 	) as fim5 group by fornecedor, grife, codgrife, agrup, colecao, modelo
 ) as fim6 group by fornecedor, grife, codgrife, agrup
 order by fornecedor, agrup
+
 ");
 		
 		
