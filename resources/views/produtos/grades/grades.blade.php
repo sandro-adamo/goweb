@@ -182,8 +182,10 @@
 
       </div>
     </div>
-  </div> 
+
   @endforeach
+
+  </div> 
 
 @include('produtos.painel.modal.caracteristica')
 
