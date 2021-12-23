@@ -12,7 +12,7 @@
  
  @foreach ($gradeslista as $catalogo)
 
-  <div class="col-md-2">
+  <div class="col-md-3">
     <div class="box box-widget">
 		
       <div class="box-header with-border" style="font-size:10px; padding: 3px 5px 3px 5px; margin-bottom: 0; vertical-align: top;">
