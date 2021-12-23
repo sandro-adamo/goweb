@@ -112,17 +112,7 @@
 <div class="row" style="padding-bottom: 2px;">
     <div class="col-md-12">
         <table width="100%">
-            <tr>
-                <td>
-                    <table class="table table-condensed table-bordered table2" style="text-align: left;">
-                       
-						<tr> 
-							<td></i></td> 
-                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}">{{number_format($catalogo->modelos)}}</a></td> 
-                        </tr>
-                    </table>
-
-                </td>
+            <tr>               
 	  
 	  
                 <td>
