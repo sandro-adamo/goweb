@@ -20,7 +20,7 @@
           
       <div id="foto" align="center" style="margin-top:30px; min-height:160;height:160; top:30%; margin-bottom:0; padding-bottom:0;">
   
-		<a href="" class="zoom" data-value="{{$catalogo->modelos}}"><i class="fa fa-search text-blue" style="position:absolute; top:115px; left:93%; opacity:0.8;" ></i></a>
+		<a href="" class="zoom" data-value="{{$catalogo->modelos}}"></a>
 
            
 
@@ -30,13 +30,13 @@
 
         <a href="/produtos/gradescolecoes/{{$catalogo->agrup}}">
           <img src="/img/marcas/{{$catalogo->grife}}.png" style="max-height: 250px;" class="img-responsive">
-        </a>
-
-
-               
+        </a>     
       
       </div>
 
+		
+		
+		
       <div class="box-body">
 
         <div class="row">
