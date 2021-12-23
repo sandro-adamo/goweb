@@ -60,8 +60,7 @@
                     <table class="table table-condensed table-bordered table2" style="text-align: left;">
                       <td>Mod</i></td>   
 						<tr>
-                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}">{{number_format($catalogo->modelos)}}</a></td>
-                            
+                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}">{{number_format($catalogo->modelos)}}</a></td> 
                         </tr>
                     </table>
 
@@ -113,6 +112,75 @@
         </table>
     </div>
 </div>
+
+	
+	
+	
+	
+<div class="row" style="padding-bottom: 2px;">
+    <div class="col-md-12">
+        <table width="100%">
+            <tr>
+                <td>
+                    <table class="table table-condensed table-bordered table2" style="text-align: left;">
+                      <td>Mod</i></td>   
+						<tr>
+                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}">{{number_format($catalogo->modelos)}}</a></td> 
+                        </tr>
+                    </table>
+
+                </td>
+	  
+	  
+                <td>
+                    <table class="table table-condensed table-bordered table2" style="text-align: center;">
+                        <tr>
+                            <td><i class="fa fa-battery-full text-green"></i></td>
+                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=3">{{number_format($catalogo->am3cores)}}</a></td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table class="table table-condensed table-bordered table2" style="text-align: center;">
+                        <tr>
+
+							<td><i class="fa fa-battery-half text-blue"></i></td>
+							<td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=2">{{number_format($catalogo->b2cores)}}</a></td>
+							
+                        </tr>
+						
+						
+                    </table>
+                </td>
+				
+		<td>
+                    <table class="table table-condensed table-bordered table2" style="text-align: center;">
+						
+                        <tr>
+                            <td><i class="fa fa-battery-quarter text-yellow"></i></td>
+                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=1">{{number_format($catalogo->c1cor)}}</a></td>
+                        </tr>
+                    </table>
+                </td>
+	  
+	  		<td>
+                    <table class="table table-condensed table-bordered table2" style="text-align: center;">
+						
+                        <tr>
+                            <td><i class="fa fa-battery-empty text-red"></i></td>
+                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=0">{{number_format($catalogo->d0cor)}}</a></td>
+                        </tr>
+                    </table>
+                </td>
+	  
+            </tr>
+        </table>
+    </div>
+</div>	
+
+
+
+
 
  <div class="row">
     <div class="col-md-12">
