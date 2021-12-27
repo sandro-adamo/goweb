@@ -70,7 +70,7 @@ order by fornecedor, agrup
 
 
 <div class="col-md-12">
- <span class="lead">Grade de Modelos z </span>
+ <span class="lead">Grade de Modelos </span>
 <div class="row">
  
  @foreach ($gradeslista as $catalogo)
