@@ -6,13 +6,76 @@
 
 @section('conteudo')
 
-<div class="col-md-8">
- <span class="lead">Grade de Modelos </span>
+
+@php
+
+$gradeslista = \DB::select(" 
+select fornecedor, grife, codgrife, agrup, count(modelo) modelos,
+	sum(novos) novos, sum(aa) aa, sum(a) a, 
+	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
+	sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
+from (
+
+	select fornecedor, grife, codgrife, agrup, colecao, modelo,
+	case when colecao = 'novo' then 1 else 0 end as novos,
+	case when colecao = 'aa' then 1 else 0 end as aa, 
+	case when colecao = 'a' then 1 else 0 end as a, 
+	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
+	sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
+	from (
+
+		select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, (esgotado) esgotado,
+			case when imediata+futura >= 3 then 1 else 0 end as am3cores,
+			case when imediata+futura  = 2 then 1 else 0 end as b2cores,
+			case when imediata+futura  = 1 then 1 else 0 end as c1cor,
+			case when imediata+futura  = 0 then 1 else 0 end as d0cor,
+			
+			 case when colecao = 'novo' then 'novo'
+			 when colecao <> 'novo' and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO') then 'aa'
+			 when colecao <> 'novo' and clasmod in ('LINHA A-') then 'a' else '' end as colecao
+			
+			
+		from(
+
+			select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao, sum(itens) as itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado
+			
+			from (
+			 
+				select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao, 1 as itens,
+					case when ultstatus = 'ENTREGA IMEDIATA' then 1 else 0 end as imediata,
+					case when ultstatus like '%DIAS' then 1 else 0 end as futura,
+					case when ultstatus like '%PROD%' then 1 else 0 end as producao,
+					case when ultstatus like '%ESGOTADO%' then 1 else 0 end as esgotado
+				from (
+							
+					select case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
+					grife, codgrife, itens.agrup, itens.modelo, itens.secundario, colmod, clasmod, ultstatus,
+					case when (left(colmod,4) <= year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao
+					from itens 
+					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoitem = 006				 
+					and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
+					 and codtipoarmaz not in ('i')
+				) as fim2
+			) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao
+		) as fim4 
+	) as fim5 group by fornecedor, grife, codgrife, agrup, colecao, modelo
+) as fim6 group by fornecedor, grife, codgrife, agrup
+order by fornecedor, agrup
+
+");
+			  
+			
+@endphp
+
+
+
+<div class="col-md-12">
+ <span class="lead">Grade de Modelos z </span>
 <div class="row">
  
  @foreach ($gradeslista as $catalogo)
 
-  <div class="col-md-3">
+  <div class="col-xs-3">
     <div class="box box-widget">
 		
       <div class="box-header with-border" style="font-size:10px; padding: 3px 5px 3px 5px; margin-bottom: 0; vertical-align: top;">
@@ -71,7 +134,7 @@
                     <table class="table table-condensed table-bordered table2" style="text-align: center;">
                         <tr>
                             <td>N</i></td>
-                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=3">{{number_format($catalogo->am3cores)}}</a></td>
+                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=3">{{number_format($catalogo->novos)}}</a></td>
                         </tr>
                     </table>
                 </td>
@@ -80,7 +143,7 @@
                         <tr>
 
 							<td>A</td>
-							<td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=2">{{number_format($catalogo->b2cores)}}</a></td>
+							<td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=2">{{number_format($catalogo->aa)}}</a></td>
 							
                         </tr>
 						
@@ -93,7 +156,7 @@
 						
                         <tr>
                             <td>A-</td>
-                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=1">{{number_format($catalogo->c1cor)}}</a></td>
+                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=1">{{number_format($catalogo->a)}}</a></td>
                         </tr>
                     </table>
                 </td>
