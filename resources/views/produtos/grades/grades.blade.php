@@ -6,6 +6,26 @@
 
 @section('conteudo')
 
+
+@php
+
+	$query_2 = \DB::select(" 
+
+		select secundario, colmod, codgrife, agrup, sum(compras) compras, sum(qtde_recebido) qtde_recebido, sum(qtde_transito) qtde_transito, sum(total_embarcado) total_embarcado, sum(falta_embarcar) falta_embarcar,
+		sum(disponivel) disponivel, sum(orcamentos) orcamentos, 
+		sum(vendas_0a30DD) vendas_0a30DD, sum(vendas_0a60DD) vendas_0a60DD, sum(vendas_total) vendas_total,
+		sum(mostruarios) mostruarios, sum(aberto) aberto_kering, sum(alocado) alocado_kering, sum(ajuste_go) ajuste_go, sum(canc) canc
+
+		from go_storage.ds_kering where left(agrup,5) = '$agrup' 
+		group by secundario, colmod, codgrife, agrup 
+
+	");
+			  
+			
+@endphp
+
+
+
 <div class="col-md-12">
  <span class="lead">Grade de Modelos </span>
 <div class="row">
