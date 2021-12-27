@@ -9,7 +9,7 @@
 
 @php
 
-	$gradeslista = \DB::select(" 
+$gradeslista = \DB::select(" 
 select fornecedor, grife, codgrife, agrup, count(modelo) modelos,
 	sum(novos) novos, sum(aa) aa, sum(a) a, 
 	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
@@ -61,7 +61,7 @@ from (
 	) as fim5 group by fornecedor, grife, codgrife, agrup, colecao, modelo
 ) as fim6 group by fornecedor, grife, codgrife, agrup
 order by fornecedor, agrup
-
+limit 1
 
 	");
 			  
