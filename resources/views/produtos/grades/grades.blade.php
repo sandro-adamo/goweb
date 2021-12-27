@@ -61,9 +61,8 @@ from (
 	) as fim5 group by fornecedor, grife, codgrife, agrup, colecao, modelo
 ) as fim6 group by fornecedor, grife, codgrife, agrup
 order by fornecedor, agrup
-limit 1
 
-	");
+");
 			  
 			
 @endphp
@@ -71,7 +70,7 @@ limit 1
 
 
 <div class="col-md-12">
- <span class="lead">Grade de Modelos </span>
+ <span class="lead">Grade de Modelos z </span>
 <div class="row">
  
  @foreach ($gradeslista as $catalogo)
