@@ -54,7 +54,7 @@ from (
 					from itens 
 					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoitem = 006				 
 					and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
-					 and codtipoarmaz not in ('i')
+					 and codtipoarmaz not in ('o')
 				) as fim2
 			) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao
 		) as fim4 
@@ -70,7 +70,7 @@ order by fornecedor, agrup
 
 
 <div class="col-md-12">
- <span class="lead">Grade de Modelos z </span>
+ <span class="lead">Grade de Modelos </span>
 <div class="row">
  
  @foreach ($gradeslista as $catalogo)
