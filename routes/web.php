@@ -40,6 +40,9 @@ Route::get('/ajuste', function () {
 Route::get('/mapa', function () {
     return view('vendas.mapa');
 });
+Route::get('/mapa/2021', function () {
+    return view('vendas.mapa_2021');
+});
 Route::get('/malas', function () {
     return view('mostruarios.malas');
 });
