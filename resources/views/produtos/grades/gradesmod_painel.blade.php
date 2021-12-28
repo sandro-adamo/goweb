@@ -77,8 +77,8 @@ order by fornecedor, agrup
         <div class="box box-widget">
           <div  class="box-header with-border" style="font-size:14px; padding: 12px 10px 12px 10px;"> 
           <b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
-          <span class="pull-right">  {{$catalogo->classif}}</span>
-			  <span class="pull-right">{{$catalogo->colmod}}</span>
+          <span class="pull-right">  {{$catalogo->modelo}}</span>
+			  <span class="pull-right">{{$catalogo->colecao}}</span>
 			 
           
                 
