@@ -1,13 +1,8 @@
 
-<div class="row">
-
- 
-  <div class="col-md-12">
-    <span class="lead">Modelos</span>
-    <div class="row">
 
 @php
-		
+$agrup = $_GET["agrup"];		
+
 $gradesmod = \DB::select(" 
 		
 	select fornecedor, grife, codgrife, agrup, modelo, colecao, 
@@ -71,7 +66,13 @@ order by fornecedor, agrup
 
 		
 @foreach ($gradesmod as $catalogo)
-		
+
+<div class="row">
+
+ 
+  <div class="col-md-12">
+    <span class="lead">Modelos</span>
+    <div class="row">		
 		
       <div class="col-md-2">
         <div class="box box-widget">
