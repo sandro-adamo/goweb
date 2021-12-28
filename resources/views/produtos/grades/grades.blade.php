@@ -124,7 +124,7 @@ order by fornecedor, agrup
                     <table class="table table-condensed table-bordered table2" style="text-align: left;">                
 						<tr>
 							<td>Mod</i></td>  
-                            <td><a href="/gradesmod_painel??agrup={{$catalogo->agrup}}">{{number_format($catalogo->modelos)}}</a></td> 
+                            <td><a href="/gradescoldet_painel?agrup={{$catalogo->agrup}}">{{number_format($catalogo->modelos)}}</a></td> 
                         </tr>
                     </table>
 
