@@ -36,6 +36,10 @@
 						if ($_GET["view"] == 'painel') {
 							echo count($itensagregado1);
 						}
+				
+						if ($_GET["view"] == 'tabela') {
+							echo count($itensagregado1);
+						}
 
 					} else {
 						echo count($itensagregado);						
@@ -43,7 +47,7 @@
 				@endphp
 			 Modelos </h3>
 			
-			<a href="/produtos/gradescoldet/{{$agrup}}?colecao={{$colecao}}&view=" class="btn btn-flat btn-default btn-sm pull-right" @if (isset($_GET["view"]) && $_GET["view"] == 'grade') disabled 
+			<a href="/produtos/gradescoldet/{{$agrup}}?colecao={{$colecao}}&view=grade" class="btn btn-flat btn-default btn-sm pull-right" @if (isset($_GET["view"]) && $_GET["view"] == 'grade') disabled 
 			@endif>Grade</a>
 			
 			<a href="/produtos/gradescoldet/{{$agrup}}?colecao={{$colecao}}&view=painel" class="btn btn-flat btn-default btn-sm pull-right" @if (isset($_GET["view"]) && $_GET["view"] == 'painel') disabled @endif>Painel</a>
