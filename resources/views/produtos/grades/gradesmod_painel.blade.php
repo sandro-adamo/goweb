@@ -179,15 +179,10 @@ order by fornecedor, agrup
 			  
 			  
 			  
-			  
-			  
-			  
-			  
-			  
-			  
-            <div> 
-            @php
-          $mesesforn = 2;
+
+<div> 
+@php
+$mesesforn = 2;
    
 @endphp     
 
@@ -203,9 +198,9 @@ order by fornecedor, agrup
                             <td>
                               @if ( \Auth::user()->admin == 1  or  \Auth::user()->id_perfil == 11 
 								or  \Auth::user()->id_perfil == 2 )
-                                <a href="/vendas_sint?modelo={{$catalogo->modelo}}">{{number_format($catalogo->qtde_tt)}}/{{number_format($catalogo->qtde_30)}}</a>
+                                <a href="/vendas_sint?modelo={{$catalogo->modelo}}">{{number_format($catalogo->d0cor)}}/{{number_format($catalogo->d0cor)}}</a>
                               @else 
-                                {{number_format($catalogo->qtde30)}}
+                                {{number_format($catalogo->d0cor)}}
                               @endif 
                             </td>
                             
