@@ -49,7 +49,7 @@
 						}
 
 					} else {
-						echo count($itensagregado1);						
+						echo '';						
 					}
 				@endphp
 			 Modelos </h3>
