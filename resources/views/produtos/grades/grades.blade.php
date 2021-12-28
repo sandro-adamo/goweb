@@ -9,6 +9,12 @@
 
 @php
 
+
+$teste = 'Helena é muito inteligente';
+
+echo $teste; 
+
+
 $gradeslista = \DB::select(" 
 select fornecedor, grife, codgrife, agrup, count(modelo) modelos,
 	sum(novos) novos, sum(aa) aa, sum(a) a, 
