@@ -1,7 +1,7 @@
 @extends('produtos/painel/index')
 
 @section('title')
-  <i class="fa fa-list"></i> Produtos
+  <i class="fa fa-list"></i> Produtos1
 @append 
 
 @section('conteudo')
