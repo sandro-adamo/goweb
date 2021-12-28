@@ -43,7 +43,8 @@
 				@endphp
 			 Modelos </h3>
 			
-			<a href="/produtos/gradescoldet/{{$agrup}}?colecao={{$colecao}}&view=" class="btn btn-flat btn-default btn-sm pull-right" @if (isset($_GET["view"]) && $_GET["view"] == 'grade') disabled @endif ) >Grade</a>
+			<a href="/produtos/gradescoldet/{{$agrup}}?colecao={{$colecao}}&view=" class="btn btn-flat btn-default btn-sm pull-right" @if (isset($_GET["view"]) && $_GET["view"] == 'grade') disabled 
+			@endif>Grade</a>
 			
 			<a href="/produtos/gradescoldet/{{$agrup}}?colecao={{$colecao}}&view=painel" class="btn btn-flat btn-default btn-sm pull-right" @if (isset($_GET["view"]) && $_GET["view"] == 'painel') disabled @endif>Painel</a>
 
