@@ -529,6 +529,14 @@ Route::get('/produtos/gradescoldet/{modelo}', 'GradesController@listaGradesColde
 
 
 
+
+Route::get('/gradesmod_painel', function () {
+    //return view('layout.home');
+    return view('produtos/grades/gradesmod_painel');
+});
+
+
+
 Route::get('/catalogo_novo', function () {
     //return view('layout.home');
     return view('produtos.catalogos.index');
