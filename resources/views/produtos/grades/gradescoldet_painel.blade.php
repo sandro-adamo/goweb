@@ -2,7 +2,7 @@
 
 $representantes = Session::get('representantes');
 
-<!-- $agrup = $_GET["agrup"]; -->
+
 
 $agrup = 'ah02 - ana hickmann (rx)';
 $colecao = '2021 01';
