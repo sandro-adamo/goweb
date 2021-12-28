@@ -23,7 +23,7 @@
 	<!-- comeca itens -->
 
 <div class="col-md-12">
-	<span class="lead">Lancamentos  <td></td> </span>
+	<span class="lead">Lancamentos  <td>    </td> </span>
 
 	<div class="box box-widget">
 		<div class="box-header with-border">
@@ -43,7 +43,7 @@
 						}
 
 					} else {
-						echo count($itensagregado);						
+						echo count($itensagregado1);						
 					}
 				@endphp
 			 Modelos </h3>
