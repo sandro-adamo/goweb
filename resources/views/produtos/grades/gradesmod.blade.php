@@ -18,11 +18,12 @@
  
 @endphp
 
-<!-- comeca itens -->
 
+	
+	<!-- comeca itens -->
 
 <div class="col-md-12">
-	<span class="lead">Lancamentos  <td>{{$itensagregado[0]->colecao}} </td> </span>
+	<span class="lead">Lancamentos  <td></td> </span>
 
 	<div class="box box-widget">
 		<div class="box-header with-border">
