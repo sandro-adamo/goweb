@@ -115,7 +115,6 @@ order by fornecedor, agrup
 @endphp     
        
 
-
   <div class="row" style="padding-bottom: 2px;">
     <div class="col-md-12">
         <table width="100%">
