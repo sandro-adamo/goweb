@@ -10,11 +10,6 @@
 @php
 
 
-$teste = 'Helena é muito inteligente';
-
-echo $teste; 
-
-
 $gradeslista = \DB::select(" 
 select fornecedor, grife, codgrife, agrup, count(modelo) modelos,
 	sum(novos) novos, sum(aa) aa, sum(a) a, 
@@ -99,8 +94,6 @@ order by fornecedor, agrup
         <a href="/produtos/gradescolecoes/{{$catalogo->agrup}}">
           <img src="/img/marcas/{{$catalogo->grife}}.png" style="max-height: 250px;" class="img-responsive">
         </a>     
-		  
-		  <div>$catalogo->modelos</div>
       
       </div>
 
