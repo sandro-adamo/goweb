@@ -205,7 +205,7 @@ order by fornecedor, agrup
 						
                         <tr>
                             <td><i class="fa fa-battery-quarter text-yellow"></i></td>
-                            <td><a href="/produtos/gradesmod_painel?agrup={{$catalogo->agrup}}?cores=1">{{number_format($catalogo->c1cor)}}</a></td>
+                            <td><a href="/gradesmod_painel?agrup={{$catalogo->agrup}}?cores=1">{{number_format($catalogo->c1cor)}}</a></td>
                         </tr>
                     </table>
                 </td>
