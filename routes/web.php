@@ -527,7 +527,7 @@ Route::get('/produtos/grades', 'GradesController@listaGrades');
 Route::get('/produtos/gradesitens/{modelo}', 'GradesController@listaGradesItens');
 Route::get('/produtos/gradescolecoes/{modelo}', 'GradesController@listaGradesColecoes');
 Route::get('/produtos/gradesmodelos/{modelo}', 'GradesController@listaGradesModelos');
-Route::get('/produtos/gradescoldet/{modelo}', 'GradesController@listaGradesColdet');
+// Route::get('/produtos/gradescoldet/{modelo}', 'GradesController@listaGradesColdet');
 
 
 
