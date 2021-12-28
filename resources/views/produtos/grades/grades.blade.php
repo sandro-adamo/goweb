@@ -99,6 +99,8 @@ order by fornecedor, agrup
         <a href="/produtos/gradescolecoes/{{$catalogo->agrup}}">
           <img src="/img/marcas/{{$catalogo->grife}}.png" style="max-height: 250px;" class="img-responsive">
         </a>     
+		  
+		  <div>$catalogo->modelos</div>
       
       </div>
 
