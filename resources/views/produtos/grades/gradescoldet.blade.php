@@ -58,19 +58,21 @@
 		</div>
 		<div class="box-body">      
 
-			@if (isset($_GET["view"]))
-				@if ($_GET["view"] == 'tabela')
-					@include('produtos.grades.gradescoldet_tabela')
-				@endif
 			
 			@if (isset($_GET["view"]))
+				
 				@if ($_GET["view"] == 'grade')
 					@include('produtos.grades.gradescoldet_grade')
 				@endif
-			
-			@if ($_GET["view"] == 'painel')
+				
+				@if ($_GET["view"] == 'painel')
 					@include('produtos.grades.gradescoldet_painel')
 				@endif
+
+				@if ($_GET["view"] == 'tabela')
+					@include('produtos.grades.gradescoldet_tabela')
+				@endif
+
 			@else
 				@include('produtos.grades.gradescoldet_painel')
 			@endif
