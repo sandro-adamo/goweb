@@ -7,13 +7,10 @@ $representantes = Session::get('representantes');
 $agrup = 'ah02 - ana hickmann (rx)';
 $colecao = '2021 01';
 
+
 $query_2 = \DB::select(" 
-
 select 1 as imediata, modelo, clasmod as classif, colmod, 1 as itens, 2 as futura, 3 as producao, 4 as esgotado, 1 as qtde_tt, 1 as qtde30, 1 as qtde_30
-
 from itens where modelo like 'ah62%'
-	
-
 ");
 
 @endphp
@@ -25,7 +22,7 @@ from itens where modelo like 'ah62%'
   <div class="col-md-12">
     <span class="lead">Modelos</span>
     <div class="row">
-      @foreach ($query2 as $catalogo)
+      @foreach ($query_2 as $catalogo)
 
         @php
           switch ($catalogo->imediata) {
