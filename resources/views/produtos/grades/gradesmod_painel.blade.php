@@ -65,7 +65,7 @@ order by fornecedor, agrup
         @endphp
 
 		
-@foreach ($gradesmod as $catalogo)
+
 
 <div class="row">
 
@@ -74,6 +74,7 @@ order by fornecedor, agrup
     <span class="lead">Modelos</span>
     <div class="row">		
 		
+		@foreach ($gradesmod as $catalogo)
       <div class="col-md-2">
         <div class="box box-widget">
           <div  class="box-header with-border" style="font-size:14px; padding: 12px 10px 12px 10px;"> 
