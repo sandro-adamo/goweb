@@ -16,6 +16,10 @@
 		$colecao = '';
 	}
  
+	$itensagregado1 = 1;
+	$itensagregado = 0;
+	
+	
 @endphp
 
 
