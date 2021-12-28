@@ -72,7 +72,7 @@
 					@include('produtos.grades.gradescoldet_painel')
 				@endif
 			@else
-				@include('produtos.grades.gradescoldet_grade')
+				@include('produtos.grades.gradescoldet_painel')
 			@endif
 		</div>
 
