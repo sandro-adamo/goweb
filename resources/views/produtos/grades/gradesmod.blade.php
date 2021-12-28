@@ -9,15 +9,17 @@
 
 
 @php
-
+	$itensagregado1 = 1;
+	$itensagregado = 0;
+	
+	
 	if (isset($_GET["colecao"])) {
 		$colecao = $_GET["colecao"];
 	} else {
 		$colecao = '';
 	}
  
-	$itensagregado1 = 1;
-	$itensagregado = 0;
+
 	
 	
 @endphp
