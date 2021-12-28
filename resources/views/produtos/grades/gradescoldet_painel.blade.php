@@ -1,3 +1,23 @@
+@php
+
+$representantes = Session::get('representantes');
+
+<!-- $agrup = $_GET["agrup"]; -->
+
+$agrup = 'ah02 - ana hickmann (rx)';
+$colecao = '2021 01';
+
+$query_2 = \DB::select(" 
+
+select 1 as imediata, modelo, clasmod as classif, colmod, 1 as itens, 2 as futura, 3 as producao, 4 as esgotado, 1 as qtde_tt, 1 as qtde30, 1 s qtde_30
+
+from itens where modelo like 'ah62%'
+	
+
+");
+
+@endphp
+
 
 <div class="row">
 
@@ -5,7 +25,7 @@
   <div class="col-md-12">
     <span class="lead">Modelos</span>
     <div class="row">
-      @foreach ($itensagregado1 as $catalogo)
+      @foreach ($query2 as $catalogo)
 
         @php
           switch ($catalogo->imediata) {
