@@ -239,6 +239,8 @@ $string_grifes = substr($string_grifes,0,-1);
 							and codtipoitem ='006'
 							and anomod<>'CANCELADO'
 							and colmod <>'CANCELADO'
+							and secundario not like '%semi%'
+							and codtipoarmaz <> 'o'
 							
 							group by codagrup,agrup, codgrife, grife, linha
 							order By agrup");
