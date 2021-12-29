@@ -15,7 +15,6 @@
 	$itensagregado = 0;
 	$agrup = 'ah02 - ana hickmann (rx)';
 	$colecao = '2021 01';
-	echo count($gradeslista);
 	
 	
 	if (isset($_GET["colecao"])) {
