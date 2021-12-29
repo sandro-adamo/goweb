@@ -9,6 +9,7 @@
 
 @php
 
+
 $gradeslista = \DB::select(" 
 select fornecedor, grife, codgrife, agrup, count(modelo) modelos,
 	sum(novos) novos, sum(aa) aa, sum(a) a, 
@@ -114,7 +115,6 @@ order by fornecedor, agrup
 @endphp     
        
 
-
   <div class="row" style="padding-bottom: 2px;">
     <div class="col-md-12">
         <table width="100%">
@@ -123,7 +123,7 @@ order by fornecedor, agrup
                     <table class="table table-condensed table-bordered table2" style="text-align: left;">                
 						<tr>
 							<td>Mod</i></td>  
-                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}">{{number_format($catalogo->modelos)}}</a></td> 
+                            <td><a href="/gradesmod?agrup={{$catalogo->agrup}}">{{number_format($catalogo->modelos)}}</a></td> 
                         </tr>
                     </table>
 
@@ -134,7 +134,7 @@ order by fornecedor, agrup
                     <table class="table table-condensed table-bordered table2" style="text-align: center;">
                         <tr>
                             <td>N</i></td>
-                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=3">{{number_format($catalogo->novos)}}</a></td>
+                            <td><a href="/gradesmod?agrup={{$catalogo->agrup}}?cores=3">{{number_format($catalogo->novos)}}</a></td>
                         </tr>
                     </table>
                 </td>
@@ -143,7 +143,7 @@ order by fornecedor, agrup
                         <tr>
 
 							<td>A</td>
-							<td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=2">{{number_format($catalogo->aa)}}</a></td>
+							<td><a href="/gradesmod_painel??agrup={{$catalogo->agrup}}?cores=2">{{number_format($catalogo->aa)}}</a></td>
 							
                         </tr>
 						
@@ -156,7 +156,7 @@ order by fornecedor, agrup
 						
                         <tr>
                             <td>A-</td>
-                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=1">{{number_format($catalogo->a)}}</a></td>
+                            <td><a href="/gradesmod_painel??agrup={$catalogo->agrup}}?cores=1">{{number_format($catalogo->a)}}</a></td>
                         </tr>
                     </table>
                 </td>
@@ -182,7 +182,7 @@ order by fornecedor, agrup
                     <table class="table table-condensed table-bordered table2" style="text-align: center;">
                         <tr>
                             <td><i class="fa fa-battery-full text-green"></i></td>
-                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=3">{{number_format($catalogo->am3cores)}}</a></td>
+                            <td><a href="/gradesmod_painel??agrup={{$catalogo->agrup}}?cores=3">{{number_format($catalogo->am3cores)}}</a></td>
                         </tr>
                     </table>
                 </td>
@@ -191,7 +191,7 @@ order by fornecedor, agrup
                         <tr>
 
 							<td><i class="fa fa-battery-half text-blue"></i></td>
-							<td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=2">{{number_format($catalogo->b2cores)}}</a></td>
+							<td><a href="/gradesmod_painel??agrup={{$catalogo->agrup}}?cores=2">{{number_format($catalogo->b2cores)}}</a></td>
 							
                         </tr>
 						
@@ -204,7 +204,7 @@ order by fornecedor, agrup
 						
                         <tr>
                             <td><i class="fa fa-battery-quarter text-yellow"></i></td>
-                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=1">{{number_format($catalogo->c1cor)}}</a></td>
+                            <td><a href="/gradesmod_painel?agrup={{$catalogo->agrup}}?cores=1">{{number_format($catalogo->c1cor)}}</a></td>
                         </tr>
                     </table>
                 </td>
@@ -214,7 +214,7 @@ order by fornecedor, agrup
 						
                         <tr>
                             <td><i class="fa fa-battery-empty text-red"></i></td>
-                            <td><a href="/produtos/gradesmodelos/{{$catalogo->agrup}}?cores=0">{{number_format($catalogo->d0cor)}}</a></td>
+                            <td><a href="/gradesmod_painel?agrup={{$catalogo->agrup}}?cores=0">{{number_format($catalogo->d0cor)}}</a></td>
                         </tr>
                     </table>
                 </td>

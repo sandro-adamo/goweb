@@ -1,7 +1,7 @@
 @extends('produtos/painel/index')
 
 @section('title')
-  <i class="fa fa-list"></i> Produtos
+  <i class="fa fa-list"></i> Produtos1
 @append 
 
 @section('conteudo')
@@ -10,19 +10,31 @@
 
 @php
 
+	
+	
+	$itensagregado1 = 1;
+	$itensagregado = 0;
+	$agrup = 'ah02 - ana hickmann (rx)';
+	$colecao = '2021 01';
+	
+	
 	if (isset($_GET["colecao"])) {
 		$colecao = $_GET["colecao"];
 	} else {
 		$colecao = '';
 	}
  
+
+	
+	
 @endphp
 
-<!-- comeca itens -->
 
+	
+	<!-- comeca itens -->
 
 <div class="col-md-12">
-	<span class="lead">Lancamentos  <td>{{$itensagregado[0]->colecao}} </td> </span>
+	<span class="lead">Lancamentos  <td>    </td> </span>
 
 	<div class="box box-widget">
 		<div class="box-header with-border">
@@ -42,7 +54,7 @@
 						}
 
 					} else {
-						echo count($itensagregado);						
+						echo '';						
 					}
 				@endphp
 			 Modelos </h3>

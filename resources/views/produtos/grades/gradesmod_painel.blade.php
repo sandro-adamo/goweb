@@ -1,58 +1,87 @@
+
+
 @php
+$agrup = $_GET["agrup"];		
 
-$representantes = Session::get('representantes');
+$gradesmod = \DB::select(" 
+		
+	select fornecedor, grife, codgrife, agrup, modelo, colecao, 
+	sum(novos) novos, sum(aa) aa, sum(a) a, 
+	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
+	sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
+	from (
 
+	select fornecedor, grife, codgrife, agrup, colecao, modelo, 
+	case when colecao = 'novo' then 1 else 0 end as novos,
+	case when colecao = 'aa' then 1 else 0 end as aa, 
+	case when colecao = 'a' then 1 else 0 end as a, 
+	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
+	sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
+	from (
 
+		select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, (esgotado) esgotado,
+			case when imediata+futura >= 3 then 1 else 0 end as am3cores,
+			case when imediata+futura  = 2 then 1 else 0 end as b2cores,
+			case when imediata+futura  = 1 then 1 else 0 end as c1cor,
+			case when imediata+futura  = 0 then 1 else 0 end as d0cor,
+			
+			 case when colecao = 'novo' then 'novo'
+			 when colecao <> 'novo' and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO') then 'aa'
+			 when colecao <> 'novo' and clasmod in ('LINHA A-') then 'a' else '' end as colecao
+			
+			
+		from(
 
-$agrup = 'ah02 - ana hickmann (rx)';
-$colecao = '2021 01';
+			select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao, sum(itens) as itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado
+			
+			from (
+			 
+				select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao, 1 as itens,
+					case when ultstatus = 'ENTREGA IMEDIATA' then 1 else 0 end as imediata,
+					case when ultstatus like '%DIAS' then 1 else 0 end as futura,
+					case when ultstatus like '%PROD%' then 1 else 0 end as producao,
+					case when ultstatus like '%ESGOTADO%' then 1 else 0 end as esgotado
+				from (
+							
+					select case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
+					grife, codgrife, itens.agrup, itens.modelo, itens.secundario, colmod, clasmod, ultstatus,
+					case when (left(colmod,4) <= year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao
+					from itens 
+					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoitem = 006				 
+					and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
+					and codtipoarmaz not in ('o') and agrup = 'AH02 - ANA HICKMANN (RX)'
+				) as fim2
+			) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao
+		) as fim4 
+	) as fim5 group by fornecedor, grife, codgrife, agrup, colecao, modelo
+) as fim6 where novos > 0 
+group by fornecedor, grife, codgrife, agrup, modelo, colecao
+order by fornecedor, agrup
 
-
-$query_2 = \DB::select(" 
-select distinct 1 as imediata, modelo, clasmod as classif, colmod, 1 as itens, 2 as futura, 3 as producao, 4 as esgotado, 1 as qtde_tt, 1 as qtde30, 1 as qtde_30, agrup
-from itens where modelo like 'ah62%'
 ");
+		
 
 @endphp
-
-
-<div class="row">
 
  
   <div class="col-md-12">
     <span class="lead">Modelos</span>
-    <div class="row">
-      @foreach ($query_2 as $catalogo)
+    <div class="row">		
+		
+		@foreach ($gradesmod as $catalogo)
+		
+		
+		
 
-        @php
-          switch ($catalogo->imediata) {
-            case 'DISP':
-              $cor = 'green';
-              break;
-            case 'ESGOT':
-              $cor = 'red';
-              break;
-            case '15D':
-              $cor = 'blue';
-              break;
-            case '30D':
-              $cor = 'yellow';
-              break;
-            case 'PROD':
-              $cor = 'purple';
-              break;              
-            default:
-              $cor = 'blue';
 
-          }
-        @endphp
+<div class="row">
 
       <div class="col-md-2">
         <div class="box box-widget">
           <div  class="box-header with-border" style="font-size:14px; padding: 12px 10px 12px 10px;"> 
           <b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
-          <span class="pull-right">  {{$catalogo->classif}}</span>
-			  <span class="pull-right">{{$catalogo->colmod}}</span>
+          <span class="pull-right">  {{$catalogo->modelo}}</span>
+			  <span class="pull-right">{{$catalogo->colecao}}</span>
 			 
           
                 
@@ -153,15 +182,10 @@ from itens where modelo like 'ah62%'
 			  
 			  
 			  
-			  
-			  
-			  
-			  
-			  
-			  
-            <div> 
-            @php
-          $mesesforn = 2;
+
+<div> 
+@php
+$mesesforn = 2;
    
 @endphp     
 
@@ -177,9 +201,9 @@ from itens where modelo like 'ah62%'
                             <td>
                               @if ( \Auth::user()->admin == 1  or  \Auth::user()->id_perfil == 11 
 								or  \Auth::user()->id_perfil == 2 )
-                                <a href="/vendas_sint?modelo={{$catalogo->modelo}}">{{number_format($catalogo->qtde_tt)}}/{{number_format($catalogo->qtde_30)}}</a>
+                                <a href="/vendas_sint?modelo={{$catalogo->modelo}}">{{number_format($catalogo->d0cor)}}/{{number_format($catalogo->d0cor)}}</a>
                               @else 
-                                {{number_format($catalogo->qtde30)}}
+                                {{number_format($catalogo->d0cor)}}
                               @endif 
                             </td>
                             
