@@ -10,8 +10,7 @@
 
 @php
 
-	
-	
+		
 	$itensagregado1 = 1;
 	$itensagregado = 0;
 	$agrup = 'ah02 - ana hickmann (rx)';
@@ -24,8 +23,6 @@
 		$colecao = '';
 	}
  
-
-	
 	
 @endphp
 
@@ -43,7 +40,7 @@
 				@php
 					if (isset($_GET["view"])) {
 						if ($_GET["view"] == 'grade') {
-							echo count($itensagregado);
+							echo count($gradeslista);
 						}
 						if ($_GET["view"] == 'painel') {
 							echo count($itensagregado1);
