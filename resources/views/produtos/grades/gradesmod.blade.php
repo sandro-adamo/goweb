@@ -43,11 +43,11 @@
 							echo count($gradeslista);
 						}
 						if ($_GET["view"] == 'painel') {
-							echo count($itensagregado1);
+							echo count($gradeslista);
 						}
 				
 						if ($_GET["view"] == 'tabela') {
-							echo count($itensagregado1);
+							echo count($gradeslista);
 						}
 
 					} else {
