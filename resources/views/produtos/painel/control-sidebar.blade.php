@@ -327,17 +327,21 @@
 				 
                 <optgroup label="Vendas">
                   <option value="vda30dd" @if ($ordem == "vda30dd") echo selected @endif>Sales 30d</option>
+				  <option value="vda60dd" @if ($ordem == "vda60dd") echo selected @endif>Sales 60d</option>
                   <option value="a_180dd" @if ($ordem == "a_180dd") echo selected @endif>Sales 180d</option>
                   <option value="vendas" @if ($ordem == "vendas") echo selected @endif>Sales Total</option>
+				  <option value="orcamentos_valido" @if ($ordem == "orcamentos_valido") echo selected @endif>Orçamentos válidos</option>
                 </optgroup>
                 <optgroup label="Estoque">
                   <option value="brasil" @if ($ordem == "brasil") echo selected @endif> Brazil</option>
+					<option value="cet" @if ($ordem == "cet") echo selected @endif> CET</option>
+					<option value="cep" @if ($ordem == "cep") echo selected @endif> CEP</option>
 					<option value="totaletq" @if ($ordem == "totaletq") echo selected @endif> Total</option>
 								
                   
                   </optgroup>
                 <optgroup label="Preço">
-                  <option value="custo" @if ($ordem == "custo") echo selected @endif>Cost</option>
+                  <option value="custo_2019" @if ($ordem == "custo") echo selected @endif>Cost</option>
                   <option value="valor" @if ($ordem == "valor") echo selected @endif>Price</option>              
                 </optgroup>
 				  
@@ -347,7 +351,10 @@
                   <option value="clasmod" @if ($ordem == "clasmod") echo selected @endif >Classification</option>
                   <option value="colmod" @if ($ordem == "colmod") echo selected @endif>Collection</option>              
                   <option value="modelo" @if ($ordem == "modelo") echo selected @endif>Model</option>              
-                  <option value="estilo" @if ($ordem == "estilo") echo selected @endif>Style</option>              
+                  <option value="estilo" @if ($ordem == "estilo") echo selected @endif>Style</option> 
+					<option value="fixacao" @if ($ordem == "fixacao") echo selected @endif>Fixação</option> 
+					<option value="idade" @if ($ordem == "idade") echo selected @endif>Idade</option> 
+					<option value="tamolho" @if ($ordem == "tamolho") echo selected @endif>Tam Olho</option> 
                   @if(\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==11)
 					<option value="fornecedor" @if ($ordem == "fornecedor") echo selected @endif>Factory</option>
 					@endif
