@@ -13,7 +13,7 @@
 		
 	$itensagregado1 = 1;
 	$itensagregado = 0;
-	$agrup = 'ah02 - ana hickmann (rx)';
+	$agrup = 'ai02 - anima (rx)';
 	$colecao = '2021 01';
 	
 	
