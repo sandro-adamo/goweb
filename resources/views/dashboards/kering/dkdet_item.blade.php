@@ -25,7 +25,7 @@ $query_1 = \DB::select("
         left join compras on compras.id = ci.id_compra
 		
         where codgrife in $grifes and codtipoitem = 006 and secundario = '$item'
-		and ci.status not in ('cancelado','finalizado sistema') and ci.id_compra <> '202442'
+		and ci.status not in ('cancelado') and ci.id_compra <> '202442'
 		
         group by codgrife, agrup, colmod, primario, secundario, ci.id_compra, pedido_dt, compras.obs
 		order by pedido_dt
