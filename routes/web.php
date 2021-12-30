@@ -521,7 +521,7 @@ Route::get('/produtos/agregados/{modelo}', 'AgregadosController@listaAgregadosIt
 
 
 
-Route::get('/produtos/grades', 'GradesController@listaGrades');
+// Route::get('/produtos/grades', 'GradesController@listaGrades');
 
 
 Route::get('/produtos/gradesitens/{modelo}', 'GradesController@listaGradesItens');
@@ -530,6 +530,10 @@ Route::get('/produtos/gradesmodelos/{modelo}', 'GradesController@listaGradesMode
 // Route::get('/produtos/gradescoldet/{modelo}', 'GradesController@listaGradesColdet');
 
 
+Route::get('/grades', function () {
+    //return view('layout.home');
+    return view('produtos/grades/grades');
+});
 
 
 Route::get('/gradesmod', function () {
@@ -537,9 +541,10 @@ Route::get('/gradesmod', function () {
     return view('produtos/grades/gradesmod');
 });
 
-Route::get('/gradesmod_painel', function () {
+
+Route::get('/gradescoldet_painel', function () {
     //return view('layout.home');
-    return view('produtos/grades/gradesmod_painel');
+    return view('produtos/grades/gradescoldet_painel');
 });
 
 

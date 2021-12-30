@@ -10,17 +10,21 @@
 
 @php
 
-		
+	$agrup = $_GET["agrup"];
+
 	$itensagregado1 = 1;
 	$itensagregado = 0;
-	$agrup = 'ai02 - anima (rx)';
-	$colecao = '2021 01';
+
 	
 	
 	if (isset($_GET["colecao"])) {
 		$colecao = $_GET["colecao"];
+		echo $colecao;
+	
 	} else {
 		$colecao = '';
+	echo 'sem colecao';
+	
 	}
  
 	
@@ -54,7 +58,11 @@
 						echo '';						
 					}
 				@endphp
+				
 			 Modelos </h3>
+	
+			<a href="/produtos.grades.gradescoldet_painel" class="btn btn-flat btn-default btn-sm pull-right" @if (isset($_GET["view"]) && $_GET["view"] == 'grade') disabled 
+			@endif>Grade0</a>
 			
 			<a href="/produtos/gradescoldet/{{$agrup}}?colecao={{$colecao}}&view=grade" class="btn btn-flat btn-default btn-sm pull-right" @if (isset($_GET["view"]) && $_GET["view"] == 'grade') disabled 
 			@endif>Grade</a>

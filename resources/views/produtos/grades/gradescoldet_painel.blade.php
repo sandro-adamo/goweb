@@ -6,7 +6,15 @@ $representantes = Session::get('representantes');
 
 $agrup = $_GET["agrup"];
 
-$colecao = '2021 01';
+	if (isset($_GET["colecao"])) {
+		$colecao = $_GET["colecao"];
+		echo $colecao;
+	
+	} else {
+		$colecao = '';
+	echo 'sem colecao';
+	
+	}
 
 
 $query_2 = \DB::select(" 
