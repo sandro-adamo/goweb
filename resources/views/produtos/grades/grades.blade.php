@@ -8,6 +8,8 @@
 
 
 @php
+$colecoes = \DB::select("selet distinct anomod from itens where anomod >= '2017'");
+
 
 
 $gradeslista = \DB::select(" 
@@ -104,6 +106,12 @@ order by fornecedor, agrup
 
         <div class="row">
           <div class="col-sm-4 col-md-4">
+			@foreach ($colecoes as $ano)
+
+			   <a href="/painel/<?=urldecode($agrupamento->agrup)?>/?anomod={{$ano->anomod}}"><span class="label bg-blue">{{$ano->anomod}}</span></a>
+
+			@endforeach
+        	</br>
             
           </div>
           
