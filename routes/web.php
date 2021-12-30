@@ -552,9 +552,9 @@ Route::get('/gradescoldet_grade', function () {
     return view('produtos/grades/gradescoldet_grade');
 });
 
-Route::get('/gradescoldet_lista', function () {
+Route::get('/gradescoldet_tabela', function () {
     //return view('layout.home');
-    return view('produtos/grades/gradescoldet_lista');
+    return view('produtos/grades/gradescoldet_tabela');
 });
 
 Route::get('/catalogo_novo', function () {
