@@ -1,3 +1,14 @@
+@extends('produtos/painel/index')
+
+@section('title')
+  <i class="fa fa-list"></i> Produtos1
+@append 
+
+@section('conteudo')
+<div class="row">
+
+
+
 @php
 
 $representantes = Session::get('representantes');
@@ -8,11 +19,9 @@ $agrup = $_GET["agrup"];
 
 	if (isset($_GET["colecao"])) {
 		$colecao = $_GET["colecao"];
-		echo $colecao;
 	
 	} else {
 		$colecao = '';
-	echo 'sem colecao';
 	
 	}
 
@@ -77,7 +86,7 @@ order by fornecedor, agrup, modelo
 @endphp
 
 
-<div class="row">
+
 
  
   <div class="col-md-12">
@@ -276,5 +285,6 @@ order by fornecedor, agrup, modelo
   </div>
 
 </div>
+
 
 

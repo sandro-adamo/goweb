@@ -547,7 +547,15 @@ Route::get('/gradescoldet_painel', function () {
     return view('produtos/grades/gradescoldet_painel');
 });
 
+Route::get('/gradescoldet_grade', function () {
+    //return view('layout.home');
+    return view('produtos/grades/gradescoldet_grade');
+});
 
+Route::get('/gradescoldet_lista', function () {
+    //return view('layout.home');
+    return view('produtos/grades/gradescoldet_lista');
+});
 
 Route::get('/catalogo_novo', function () {
     //return view('layout.home');

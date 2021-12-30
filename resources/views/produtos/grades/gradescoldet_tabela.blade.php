@@ -126,7 +126,23 @@ order by fornecedor, agrup, modelo
 			<td align="left" class="{{$formato}}"> {{$catalogo->futura}}</td>
 			<td align="left">  <a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}">{{$catalogo->modelo}}</a></td>
 		
-
+	<!--	<td align="left"> {{$catalogo->clasmod}}</td>
+			<td align="left">{{$catalogo->entrada}}</td>
+			<td align="left">{{$catalogo->saida}}</td>
+			<td align="left">{{$catalogo->genero}}</td>
+			<td align="left">{{$catalogo->idade}}</td>
+			<td align="left">{{$catalogo->material}}</td>
+			<td align="left">{{$catalogo->fixacao}}</td>
+			<td align="left">{{$catalogo->estilo}}</td>
+			<td align="left">{{$catalogo->tamanho}}</td>
+			
+			<td align="left">{{$catalogo->qtde_30dd}}</td>
+			<td align="left">{{$catalogo->qtde_180dd}}</td>
+			<td align="left">{{$catalogo->qtde_total}}</td>
+			
+			<td align="left">{{$catalogo->disp_vendas}}</td>
+			<td align="left">{{$catalogo->etq_total}}</td>
+-->
 
 		</tr>
 		@endforeach
