@@ -8,7 +8,7 @@
 
 
 @php
-$colecoes = \DB::select("selet distinct anomod from itens where anomod >= '2017'");
+$colecoes = \DB::select("select distinct anomod from itens where anomod > year(now())-6 order by anomod desc ");
 
 
 
@@ -105,24 +105,23 @@ order by fornecedor, agrup
       <div class="box-body">
 
         <div class="row">
-          <div class="col-sm-4 col-md-4">
+          <div class="col-sm-4 col-md-12">
 			@foreach ($colecoes as $ano)
-
-			   <a href="/painel/<?=urldecode($agrupamento->agrup)?>/?anomod={{$ano->anomod}}"><span class="label bg-blue">{{$ano->anomod}}</span></a>
-
-			@endforeach
-        	</br>
-            
+			   <a href="/painel/<?=urldecode($catalogo->agrup)?>/?anomod={{$ano->anomod}}"><span class="label bg-blue">{{$ano->anomod}}</span></a>
+			@endforeach  
           </div>
-          
         </div>
+		  
+		  
+		  
         @php
     
       $mesesforn = 2;
    
 @endphp     
        
-
+			
+          </br>
   <div class="row" style="padding-bottom: 2px;">
     <div class="col-md-12">
         <table width="100%">
