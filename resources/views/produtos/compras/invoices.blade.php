@@ -9,7 +9,7 @@
   <div class="callout callout-success">{{Session::get("alert-success")}}</div>
 @endif 
 @php
-if(Session::has('alert-warning'))
+if(Session::has('alert-warning')){
 	$erros = Session::get('alert-warning');
 	echo '<div class="callout callout-warning"><ul>';
 	foreach($erros as $erro) {
