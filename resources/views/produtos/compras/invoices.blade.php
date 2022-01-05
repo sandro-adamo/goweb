@@ -12,7 +12,7 @@
 if (Session::has('alert-warning') ) {
 	$erros = Session::get('alert-warning');
 	echo '<div class="callout callout-warning"><ul>';
-	foreach ($erros as $erro) {
+	foreach($erros as $erro) {
 		echo '<li>'.$erro.'</li>';
 	}
 	echo '</div>';
