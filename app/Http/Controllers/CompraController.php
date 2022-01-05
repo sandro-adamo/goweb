@@ -1039,7 +1039,10 @@ where ci.id_item is null
               } else {
 
                 //$erros[] = 'Linha ' . $linha . ' ja foi importada. <br>';
-				   $request->session()->flash( 'alert-warning', 'Item ' . $item . ' não existe. </br>' );
+				   //$request->session()->flash( 'alert-warning', 'Item ' . $item . ' não existe. </br>' );
+				  
+				  $erros[] = 'Item ' . $item . ' não existe. </br>';
+                  $request->session()->flash('alert-warning', $erros);
 
 
               }
