@@ -1,22 +1,92 @@
+@extends('produtos/painel/index')
+
+@section('title')
+  <i class="fa fa-list"></i> Produtos1
+@append 
+
+@section('conteudo')
+<div class="row">
+
+
+
 @php
 
 $representantes = Session::get('representantes');
 
 
 
-$agrup = 'ah02 - ana hickmann (rx)';
-$colecao = '2021 01';
+$agrup = $_GET["agrup"];
+
+	if (isset($_GET["colecao"])) {
+		$colecao = $_GET["colecao"];
+	
+	} else {
+		$colecao = '';
+	
+	}
 
 
 $query_2 = \DB::select(" 
-select distinct 1 as imediata, modelo, clasmod as classif, colmod, 1 as itens, 2 as futura, 3 as producao, 4 as esgotado, 1 as qtde_tt, 1 as qtde30, 1 as qtde_30, agrup
-from itens where modelo like 'ah62%'
+
+select fornecedor, grife, codgrife, agrup, modelo, colecao,
+	sum(novos) novos, sum(aa) aa, sum(a) a, 
+	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
+	sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
+from (
+
+	select fornecedor, grife, codgrife, agrup, colecao, modelo,
+	case when colecao = 'novo' then 1 else 0 end as novos,
+	case when colecao = 'aa' then 1 else 0 end as aa, 
+	case when colecao = 'a' then 1 else 0 end as a, 
+	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
+	sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
+	from (
+
+		select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, (esgotado) esgotado,
+			case when imediata+futura >= 3 then 1 else 0 end as am3cores,
+			case when imediata+futura  = 2 then 1 else 0 end as b2cores,
+			case when imediata+futura  = 1 then 1 else 0 end as c1cor,
+			case when imediata+futura  = 0 then 1 else 0 end as d0cor,
+			
+			 case when colecao = 'novo' then 'novo'
+			 when colecao <> 'novo' and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO') then 'aa'
+			 when colecao <> 'novo' and clasmod in ('LINHA A-') then 'a' else '' end as colecao
+			
+			
+		from(
+
+			select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao, sum(itens) as itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado
+			
+			from (
+			 
+				select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao, 1 as itens,
+					case when ultstatus = 'ENTREGA IMEDIATA' then 1 else 0 end as imediata,
+					case when ultstatus like '%DIAS' then 1 else 0 end as futura,
+					case when ultstatus like '%PROD%' then 1 else 0 end as producao,
+					case when ultstatus like '%ESGOTADO%' then 1 else 0 end as esgotado
+				from (
+							
+					select case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
+					grife, codgrife, itens.agrup, itens.modelo, itens.secundario, colmod, clasmod, ultstatus,
+					case when (left(colmod,4) <= year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao
+					from itens 
+					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoitem = 006				 
+					and agrup = '$agrup'
+					 and codtipoarmaz not in ('o')
+				) as fim2
+			) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao
+		) as fim4 
+	) as fim5 group by fornecedor, grife, codgrife, agrup, colecao, modelo
+) as fim6 group by fornecedor, grife, codgrife, agrup, modelo, colecao
+order by fornecedor, agrup, modelo
+
+
 ");
 
 @endphp
 
 
-<div class="row">
+
 
  
   <div class="col-md-12">
@@ -51,8 +121,8 @@ from itens where modelo like 'ah62%'
         <div class="box box-widget">
           <div  class="box-header with-border" style="font-size:14px; padding: 12px 10px 12px 10px;"> 
           <b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
-          <span class="pull-right">  {{$catalogo->classif}}</span>
-			  <span class="pull-right">{{$catalogo->colmod}}</span>
+          <span class="pull-right">  {{$catalogo->colecao}}</span>
+			  <span class="pull-right">{{$catalogo->colecao}}</span>
 			 
           
                 
@@ -177,9 +247,9 @@ from itens where modelo like 'ah62%'
                             <td>
                               @if ( \Auth::user()->admin == 1  or  \Auth::user()->id_perfil == 11 
 								or  \Auth::user()->id_perfil == 2 )
-                                <a href="/vendas_sint?modelo={{$catalogo->modelo}}">{{number_format($catalogo->qtde_tt)}}/{{number_format($catalogo->qtde_30)}}</a>
+                                <a href="/vendas_sint?modelo={{$catalogo->modelo}}">{{number_format($catalogo->imediata)}}/{{number_format($catalogo->futura)}}</a>
                               @else 
-                                {{number_format($catalogo->qtde30)}}
+                                {{number_format($catalogo->futura)}}
                               @endif 
                             </td>
                             
@@ -215,5 +285,6 @@ from itens where modelo like 'ah62%'
   </div>
 
 </div>
+
 
 

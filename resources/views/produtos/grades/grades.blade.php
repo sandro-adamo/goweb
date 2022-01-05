@@ -8,6 +8,8 @@
 
 
 @php
+$colecoes = \DB::select("select distinct anomod from itens where anomod > year(now())-6 order by anomod desc ");
+
 
 
 $gradeslista = \DB::select(" 
@@ -54,7 +56,7 @@ from (
 					case when (left(colmod,4) <= year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao
 					from itens 
 					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoitem = 006				 
-					and codgrife in ('AH','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
+					and codgrife in ('AH','AI',  'AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 					 and codtipoarmaz not in ('o')
 				) as fim2
 			) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao
@@ -103,18 +105,23 @@ order by fornecedor, agrup
       <div class="box-body">
 
         <div class="row">
-          <div class="col-sm-4 col-md-4">
-            
+     		<div class="col-sm-4 col-md-12">
+			@foreach ($colecoes as $ano)
+			   <a href="/painel/<?=urldecode($catalogo->agrup)?>/?anomod={{$ano->anomod}}"><span class="label bg-blue">{{$ano->anomod}}</span></a> 
+			@endforeach  
           </div>
-          
         </div>
+		  
+		  
+		  
         @php
     
       $mesesforn = 2;
    
 @endphp     
        
-
+			
+          </br>
   <div class="row" style="padding-bottom: 2px;">
     <div class="col-md-12">
         <table width="100%">
@@ -123,7 +130,7 @@ order by fornecedor, agrup
                     <table class="table table-condensed table-bordered table2" style="text-align: left;">                
 						<tr>
 							<td>Mod</i></td>  
-                            <td><a href="/gradesmod?agrup={{$catalogo->agrup}}">{{number_format($catalogo->modelos)}}</a></td> 
+                            <td><a href="/gradesmod?agrup={{$catalogo->agrup}}&colecao=2022 01 ">{{number_format($catalogo->modelos)}}</a></td> 
                         </tr>
                     </table>
 
