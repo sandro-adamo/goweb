@@ -1,12 +1,13 @@
 @extends('produtos/painel/index')
 
 @php
-$item = \DB::select(" 
+$query2 = \DB::select(" 
 select * from itens where modelo = 'AH6254';
 ");
 
+@foreach ($query2 as $item)
+@endforeach
 
-$secundario = 'teste';
 
 @endphp
 
