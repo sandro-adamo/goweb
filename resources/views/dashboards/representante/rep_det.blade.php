@@ -1,7 +1,7 @@
 @extends('produtos/painel/index')
 
 @php
-$query_1 = \DB::select(" 
+$item = \DB::select(" 
 select * from itens where modelo = 'AH6254';
 ");
 
