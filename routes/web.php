@@ -530,28 +530,40 @@ Route::get('/produtos/gradesmodelos/{modelo}', 'GradesController@listaGradesMode
 // Route::get('/produtos/gradescoldet/{modelo}', 'GradesController@listaGradesColdet');
 
 
- Route::get('/grades', function () {    return view('produtos/grades/grades'); });
 
+/** nova pasta grade **/
+
+Route::get('/grades', function () {    return view('produtos/grade/grades'); });
 
 Route::get('/gradesmod', function () {
     //return view('layout.home');
-    return view('produtos/grades/gradesmod');
+    return view('produtos/grade/gradesmod');
 });
 
 
 Route::get('/gradescoldet_painel', function () {
-    return view('produtos/grades/gradescoldet_painel');
+    return view('produtos/grade/gradescoldet_painel');
 });
 
 Route::get('/gradescoldet_grade', function () {
     //return view('layout.home');
-    return view('produtos/grades/gradescoldet_grade');
+    return view('produtos/grade/gradescoldet_grade');
 });
 
 Route::get('/gradescoldet_tabela', function () {
     //return view('layout.home');
-    return view('produtos/grades/gradescoldet_tabela');
+    return view('produtos/grade/gradescoldet_tabela');
 });
+
+
+
+
+
+
+
+
+
+
 
 Route::get('/catalogo_novo', function () {
     //return view('layout.home');
