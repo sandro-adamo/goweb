@@ -63,10 +63,11 @@ order by fornecedor, agrup
 
 @endphp
 
- 
-  <div class="col-md-12">
-    <span class="lead">Modelos</span>
-    <div class="row">		
+
+
+<div class="col-md-12">
+<span class="lead">Modelos</span>
+<div class="row">		
 		
 		@foreach ($gradesmod as $catalogo)
 		

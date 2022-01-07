@@ -532,6 +532,7 @@ Route::get('/produtos/gradescoldet/{modelo}', 'GradesController@listaGradesColde
 /** nova pasta grade **/
 
 Route::get('/grades', function () {    return view('produtos/grade/grades'); });
+Route::get('/grade/detalhe/{agrupamento}/{modelo}/{item}', 'PainelController@item');
 
 
 
