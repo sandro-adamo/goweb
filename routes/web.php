@@ -521,39 +521,17 @@ Route::get('/produtos/agregados/{modelo}', 'AgregadosController@listaAgregadosIt
 
 
 
- Route::get('/produtos/grades', 'GradesController@listaGrades');
-
-
+Route::get('/produtos/grades', 'GradesController@listaGrades');
 Route::get('/produtos/gradesitens/{modelo}', 'GradesController@listaGradesItens');
 Route::get('/produtos/gradescolecoes/{modelo}', 'GradesController@listaGradesColecoes');
 Route::get('/produtos/gradesmodelos/{modelo}', 'GradesController@listaGradesModelos');
-// Route::get('/produtos/gradescoldet/{modelo}', 'GradesController@listaGradesColdet');
+Route::get('/produtos/gradescoldet/{modelo}', 'GradesController@listaGradesColdet');
 
 
 
 /** nova pasta grade **/
 
 Route::get('/grades', function () {    return view('produtos/grade/grades'); });
-
-Route::get('/gradesmod', function () {
-    //return view('layout.home');
-    return view('produtos/grade/gradesmod');
-});
-
-
-Route::get('/gradescoldet_painel', function () {
-    return view('produtos/grade/gradescoldet_painel');
-});
-
-Route::get('/gradescoldet_grade', function () {
-    //return view('layout.home');
-    return view('produtos/grade/gradescoldet_grade');
-});
-
-Route::get('/gradescoldet_tabela', function () {
-    //return view('layout.home');
-    return view('produtos/grade/gradescoldet_tabela');
-});
 
 
 
