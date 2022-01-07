@@ -5,8 +5,8 @@ $query2 = \DB::select("
 select * from itens where modelo = 'AH6254';
 ");
 
-@foreach ($query2 as $query_2)
-@endforeach
+foreach ($query2 as $query_2)
+endforeach
 
 
 @endphp
