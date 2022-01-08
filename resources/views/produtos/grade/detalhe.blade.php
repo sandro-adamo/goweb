@@ -14,13 +14,14 @@ $query = \DB::select("select * from itens where modelo = 'ah6254' ");
 $data = '2021-01-01';
 
 
-$modelos = \DB::select("select fornecedor, grife, codgrife, agrup, modelo,colecao,
+$modelos = \DB::select("
+select fornecedor, grife, codgrife, agrup, modelo, colecao, colmod,
 	sum(novos) novos, sum(aa) aa, sum(a) a, 
 	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
 	sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
 from (
 
-	select fornecedor, grife, codgrife, agrup, colecao, modelo,
+	select fornecedor, grife, codgrife, agrup, colecao, modelo, colmod,
 	case when colecao = 'novo' then 1 else 0 end as novos,
 	case when colecao = 'aa' then 1 else 0 end as aa, 
 	case when colecao = 'a' then 1 else 0 end as a, 
@@ -52,19 +53,20 @@ from (
 					case when ultstatus like '%ESGOTADO%' then 1 else 0 end as esgotado
 				from (
 							
-					select case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
+				    select case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
 					grife, codgrife, itens.agrup, itens.modelo, itens.secundario, colmod, clasmod, ultstatus,
-					case when (left(colmod,4) <= year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao
+					case when left(colmod,4) < year(now()) then 'lancado'
+					when (left(colmod,4) = year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao
 					from itens 
 					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoitem = 006				 
 					and codgrife in ('AH','AI',  'AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 					and codtipoarmaz not in ('o')
-                    and agrup = 'ah02 - ana hickmann (rx)'
+					and agrup = 'ah02 - ana hickmann (rx)'
 				) as fim2
 			) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao
 		) as fim4 
-	) as fim5 group by fornecedor, grife, codgrife, agrup, colecao, modelo
-) as fim6 group by fornecedor, grife, codgrife, agrup, modelo, colecao
+	) as fim5 group by fornecedor, grife, codgrife, agrup, colecao, modelo, colmod
+) as fim6 group by fornecedor, grife, codgrife, agrup, modelo, colecao, colmod
 order by fornecedor, agrup, modelo");
 
 
@@ -118,8 +120,8 @@ order by fornecedor, agrup, modelo");
          
 			<div  class="box-header with-border" style="font-size:14px; padding: 12px 10px 12px 10px;"> 
           		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
-          		<span class="pull-right">  {{$catalogo->modelo}}</span>
-			 	<span class="pull-right">{{$catalogo->colecao}}</span>
+          		<span class="pull-right">  {{$catalogo->colecao}}</span>
+			 	<span class="pull-right">{{$catalogo->colmod}}</span>
 			</div>
 
 
@@ -135,13 +137,48 @@ order by fornecedor, agrup, modelo");
 			
 			 
 		  <br>
-		  <table class="table table-bordered" style="text-align: left;">
-          <tr>
-			<td class=""><i class="fa fa-chain"></i><b> Itens</td>
-            <td class="">{{$catalogo->imediata}} </b> </td>
-          </tr> 
-		  </table>
+		  <table width="100%" style="text-align: center;">
+			<tr>
+				<td>
+					<table class="table table-condensed table-bordered table2"  style="text-align: center;">
+						<tr>
+							<td>Itens:</td>
+						</tr>
+					</table>
+				</td>
+
+				
+			 	<td>
+					<table class="table table-condensed table-bordered table2"  style="text-align: center;">
+						<tr>
+							<td align="center"><img src="/img/brasil.png" width="15"></i></td>
+							<td>{{number_format($catalogo->imediata)}}</td>
+						</tr>
+					</table>
+
+				</td>
+		  
+				<td>
+					<table class="table table-condensed table-bordered table2" style="text-align: center;">
+						<tr>
+							<td><i class="fa fa-plane text-blue"></i></td>
+							<td>{{number_format($catalogo->futura)}}</td>
+						</tr>
+					</table>
+				</td>
+				<td>
+					<table class="table table-condensed table-bordered table2" style="text-align: center;">
+						<tr>
+							<td><i class="fa fa-industry text-purple"></i></td>
+							<td>{{number_format($catalogo->producao)}}</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
  
+	
+	
 		
 		<br><br>
 		 <a title="Com estoque sem vinculo" href="" class="zoom" data-value="{{$catalogo->modelo}}"><i class="fa fa-chain-broken text-red fa-3x" style="position:absolute; top:200px; left:5%; opacity:0.8;" ></i> </a>
