@@ -116,7 +116,7 @@ order by fornecedor, agrup, modelo");
 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
 
 
-	
+<br>	
 <div class="col-md-12">
 		
 		@foreach ($modelos as $catalogo)
@@ -157,7 +157,7 @@ order by fornecedor, agrup, modelo");
 			 	<td>
 					<table class="table table-condensed table-bordered table2"  style="text-align: center;">
 						<tr>
-							<td align="center"><img src="/img/brasil.png" width="15"></i></td>
+							
 							<td>{{number_format($catalogo->imediata)}}</td>
 						</tr>
 					</table>
@@ -167,7 +167,7 @@ order by fornecedor, agrup, modelo");
 				<td>
 					<table class="table table-condensed table-bordered table2" style="text-align: center;">
 						<tr>
-							<td><i class="fa fa-plane text-blue"></i></td>
+						
 							<td>{{number_format($catalogo->futura)}}</td>
 						</tr>
 					</table>
@@ -175,7 +175,6 @@ order by fornecedor, agrup, modelo");
 				<td>
 					<table class="table table-condensed table-bordered table2" style="text-align: center;">
 						<tr>
-							<td><i class="fa fa-industry text-purple"></i></td>
 							<td>{{number_format($catalogo->producao)}}</td>
 						</tr>
 					</table>
@@ -185,15 +184,14 @@ order by fornecedor, agrup, modelo");
  
 	
 	
-		
-		<br><br>
+<!--	
+		<br>
 		 <a title="Com estoque sem vinculo" href="" class="zoom" data-value="{{$catalogo->modelo}}"><i class="fa fa-chain-broken text-red fa-3x" style="position:absolute; top:200px; left:5%; opacity:0.8;" ></i> </a>
-				
-			
-	<!--	 <a title="Revisar item"  href="" class="zoom" data-value="{{$catalogo->modelo}}"><i class="fa fa-warning text-orange fa-2x" style="position:absolute; top:50px; left:5%; opacity:0.8;" ></i></a>
+					
+		 <a title="Revisar item"  href="" class="zoom" data-value="{{$catalogo->modelo}}"><i class="fa fa-warning text-orange fa-2x" style="position:absolute; top:50px; left:5%; opacity:0.8;" ></i></a>
 		
 -->
-			  
+			  <br>
 					
 							<table width="100%" style="text-align: center;">
 								<tr>
