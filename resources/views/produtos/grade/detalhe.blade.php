@@ -1,6 +1,9 @@
 @extends('produtos/painel/index')
+@php
+$agrup = $_GET["agrup"];
+@endphp
 
-@section('titulo') 'agrupamento' @append
+@section('titulo') {{$agrup}} @append
 
 @section('title')
   <i class="fa fa-list"></i> Produtos
@@ -10,6 +13,8 @@
 
 
 @php
+
+
 $query = \DB::select("select * from itens where modelo = 'ah6254' ");
 $data = '2021-01-01';
 
@@ -61,7 +66,8 @@ from (
 					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoitem = 006				 
 					and codgrife in ('AH','AI',  'AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 					and codtipoarmaz not in ('o')
-					and agrup = 'ah02 - ana hickmann (rx)'
+					and agrup = '$agrup'
+
 				) as fim2
 			) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao
 		) as fim4 
@@ -184,9 +190,9 @@ order by fornecedor, agrup, modelo");
 		 <a title="Com estoque sem vinculo" href="" class="zoom" data-value="{{$catalogo->modelo}}"><i class="fa fa-chain-broken text-red fa-3x" style="position:absolute; top:200px; left:5%; opacity:0.8;" ></i> </a>
 				
 			
-		 <a title="Revisar item"  href="" class="zoom" data-value="{{$catalogo->modelo}}"><i class="fa fa-warning text-orange fa-2x" style="position:absolute; top:50px; left:5%; opacity:0.8;" ></i></a>
+	<!--	 <a title="Revisar item"  href="" class="zoom" data-value="{{$catalogo->modelo}}"><i class="fa fa-warning text-orange fa-2x" style="position:absolute; top:50px; left:5%; opacity:0.8;" ></i></a>
 		
-
+-->
 			  
 					
 							<table width="100%" style="text-align: center;">

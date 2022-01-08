@@ -133,7 +133,7 @@ order by fornecedor, agrup
                     <table class="table table-condensed table-bordered table2" style="text-align: left;">                
 						<tr>
 							<td>Mod</i></td>  
-                            <td><a href="/gradesmod?agrup={{$catalogo->agrup}}&colecao=2022 01 ">{{number_format($catalogo->modelos)}}</a></td> 
+                            <td><a href="/grade/detalhe?agrup={{$catalogo->agrup}}">{{number_format($catalogo->modelos)}}</a></td> 
                         </tr>
                     </table>
 
