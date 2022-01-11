@@ -305,7 +305,7 @@ order by fornecedor, agrup, modelo
 									<td>
 										<table class="table table-condensed table-bordered table2" style="text-align: center;">
 											<tr>
-												<td><i class="fa fa-plane text-red"></i></td>
+												<td>Tt</td>
 												<td>{{number_format($catalogo->total)}}</td>
 											</tr>
 										</table>
