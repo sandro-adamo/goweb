@@ -392,7 +392,7 @@ order by fornecedor, agrup, modelo
 	  
 	  
 
-<div class="active tab-pane" id="Fotos">
+<div id="Fotos">
 <div class="col-md-12">
 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
 
@@ -495,10 +495,10 @@ order by fornecedor, agrup, modelo
 
 
 	</div> 
-  
+  </div>
      
 	@endforeach
-	</div>
+	
   </div>
 
 
