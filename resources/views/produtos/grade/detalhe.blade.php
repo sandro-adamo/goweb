@@ -220,7 +220,7 @@ order by fornecedor, agrup, modelo
 										<table class="table table-condensed table-bordered table2" style="text-align: center;">
 											<tr>
 												<td><i class="fa fa-calendar-plus-o text-green"></i></td>
-												<td>{{$catalogo->clasmod}}</td>
+												<td>{{$catalogo->colmod}}</td>
 											</tr>
 										</table>
 									</td>
