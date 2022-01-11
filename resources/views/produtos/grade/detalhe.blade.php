@@ -495,10 +495,10 @@ order by fornecedor, agrup, modelo
 
 
 	</div> 
-  </div>
+  
      
 	@endforeach
-	
+	</div>
   </div>
 
 
@@ -506,7 +506,11 @@ order by fornecedor, agrup, modelo
 </div>
 </div>
 	  
-	  
+	
+	
+	
+	
+	
 	  
 <div class="tab-pane" id="Tabela">
 <!-- The timeline -->
