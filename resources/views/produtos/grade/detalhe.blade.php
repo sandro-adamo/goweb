@@ -143,7 +143,7 @@ order by fornecedor, agrup, modelo
       <div class="col-md-3">
         <div class="box box-widget">
          
-			<div  class="box-header with-border" style="font-size:14px; padding: 20px 20px 20px 20px;"> 
+			<div  class="box-header with-border" style="font-size:8px; padding: 5px 5px 5px 5px;"> 
 				
           		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
           		<span class="pull-center">{{$catalogo->clasmod}}</span>
@@ -156,7 +156,7 @@ order by fornecedor, agrup, modelo
           $foto = app('App\Http\Controllers\ItemController')->consultaFoto($catalogo->modelo);
         @endphp
 
-          <div id="foto" align="center" style="min-height: 120px; max-height: 120px;">
+          <div id="foto" align="center" style="min-height: 180px; max-height: 180px;">
             <a href="" class="zoom" data-value="{{$catalogo->modelo}}"><img src="/{{$foto}}" class="img-responsive"></a>   
           </div>
 			
