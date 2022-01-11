@@ -78,7 +78,7 @@ from (
                     (select clasmod from itens iclas where iclas.id = itens.id and clasmod  not in ('','.','colecao europra','cancelado') order by clasmod limit 1) clasmod
 					from itens 
 					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoitem = 006				 
-					and codgrife in ('AH','AI',  'AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
+					and codgrife in ('AH','AI','FE',  'AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 					and codtipoarmaz not in ('o')
 					and agrup = '$agrup'
 				) as fim2
