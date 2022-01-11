@@ -32,6 +32,7 @@ $data = '2021-01-01';
 
 
 $modelos = \DB::select("
+select * from (
 select fornecedor, grife, codgrife, agrup, modelo, colecao, colmod, clasmod,
 	sum(novos) novos, sum(aa) aa, sum(a) a, 
 	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
@@ -87,12 +88,15 @@ from (
 ) as fim6 
 $where
 group by fornecedor, grife, codgrife, agrup, modelo, colecao, colmod, clasmod
+) as modelos
+
+	left join (select modelo mod_saldo, sum(disponivel) disponivel, sum(conf_montado+em_beneficiamento+saldo_parte) beneficiamento, sum(cet) cet, sum(etq+cep) cep, sum(saldo_most) most
+    from saldos left join itens on itens.id = saldos.curto
+    group by modelo ) as saldos
+    on saldos.mod_saldo = modelo
+
 order by fornecedor, agrup, modelo
 ");
-
-
-
-echo $where;
 
 
 @endphp
@@ -216,7 +220,7 @@ echo $where;
 										<table class="table table-condensed table-bordered table2"  style="text-align: center;">
 											<tr>
 												<td align="center"><img src="/img/brasil.png" width="15"></i></td>
-												<td>{{number_format($catalogo->imediata)}}</td>
+												<td>{{number_format($catalogo->disponivel)}}</td>
 											</tr>
 										</table>
 
@@ -225,7 +229,7 @@ echo $where;
 										<table class="table table-condensed table-bordered table2" style="text-align: center;">
 											<tr>
 											<td align="center"><img src="/img/to.png" width="15"></i></td>
-												<td>{{number_format($catalogo->futura)}}</td>
+												<td>{{number_format($catalogo->beneficiamento)}}</td>
 											</tr>
 										</table>
 									</td>
@@ -233,7 +237,7 @@ echo $where;
 										<table class="table table-condensed table-bordered table2" style="text-align: center;">
 											<tr>
 												<td><i class="fa fa-truck text-green"></i></td>
-												<td>{{number_format($catalogo->producao)}}</td>
+												<td>0</td>
 											</tr>
 										</table>
 									</td>
@@ -251,7 +255,7 @@ echo $where;
 										<table class="table table-condensed table-bordered table2"  style="text-align: center;">
 											<tr>
 												<td><i class="fa fa-plane text-blue"></i></td>
-												<td>{{number_format($catalogo->imediata)}}</td>
+												<td>{{number_format($catalogo->cet)}}</td>
 											</tr>
 										</table>
 
@@ -260,7 +264,7 @@ echo $where;
 										<table class="table table-condensed table-bordered table2" style="text-align: center;">
 											<tr>
 												<td><i class="fa fa-plane text-red"></i></td>
-												<td>{{number_format($catalogo->imediata)}}</td>
+												<td>0</td>
 											</tr>
 										</table>
 									</td>
@@ -268,7 +272,39 @@ echo $where;
 										<table class="table table-condensed table-bordered table2" style="text-align: center;">
 											<tr>
 												<td><i class="fa fa-industry text-purple"></i></td>
-												<td>{{number_format($catalogo->imediata)}}</td>
+												<td>{{number_format($catalogo->cep)}}</td>
+											</tr>
+										</table>
+									</td>									
+								</tr>
+							</table>
+	<!-- terceira linha -->
+					
+							<table width="100%" style="text-align: center;">
+								<tr>
+
+								 <td>
+										<table class="table table-condensed table-bordered table2"  style="text-align: center;">
+											<tr>
+												<td><i class="fa fa-suitcase text-blue"></i></td>
+												<td>{{number_format($catalogo->most)}}</td>
+											</tr>
+										</table>
+
+									</td>
+									<td>
+										<table class="table table-condensed table-bordered table2" style="text-align: center;">
+											<tr>
+												<td><i class="fa fa-suitcase text-red"></i></td>
+												<td>0</td>
+											</tr>
+										</table>
+									</td>
+									<td>
+										<table class="table table-condensed table-bordered table2" style="text-align: center;">
+											<tr>
+												<td><i class="fa fa-recycle text-purple"></i></td>
+												<td>0</td>
 											</tr>
 										</table>
 									</td>									
