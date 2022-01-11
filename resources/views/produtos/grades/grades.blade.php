@@ -144,7 +144,7 @@ order by fornecedor, agrup
                     <table class="table table-condensed table-bordered table2" style="text-align: center;">
                         <tr>
                             <td>N</i></td>
-                            <td><a href="/gradesmod?agrup={{$catalogo->agrup}}?cores=3">{{number_format($catalogo->novos)}}</a></td>
+                            <td><a href="/grade/detalhe?agrup={{$catalogo->agrup}}&colecao='novo'">{{number_format($catalogo->novos)}}</a></td>
                         </tr>
                     </table>
                 </td>
@@ -153,7 +153,7 @@ order by fornecedor, agrup
                         <tr>
 
 							<td>A</td>
-							<td><a href="/gradesmod_painel??agrup={{$catalogo->agrup}}?cores=2">{{number_format($catalogo->aa)}}</a></td>
+							<td><a href="/grade/detalhe?agrup={{$catalogo->agrup}}&colecao='aa'">{{number_format($catalogo->aa)}}</a></td>
 							
                         </tr>
 						
@@ -166,7 +166,7 @@ order by fornecedor, agrup
 						
                         <tr>
                             <td>A-</td>
-                            <td><a href="/gradesmod_painel??agrup={$catalogo->agrup}}?cores=1">{{number_format($catalogo->a)}}</a></td>
+                           <td><a href="/grade/detalhe?agrup={{$catalogo->agrup}}&colecao='a'">{{number_format($catalogo->a)}}</a></td>
                         </tr>
                     </table>
                 </td>

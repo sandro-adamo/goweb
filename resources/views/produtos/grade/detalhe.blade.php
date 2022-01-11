@@ -1,6 +1,18 @@
 @extends('produtos/painel/index')
 @php
+
 $agrup = $_GET["agrup"];
+
+if(isset($_GET["colecao"])){
+	$colecao = $_GET["colecao"];
+	$where = "where colecao = $colecao";
+
+	$whereteste = "where agrup = '".$agrup."' and colecao = ".$colecao; 
+
+} else { $where = "where 1=1" ; }
+;
+
+
 @endphp
 
 @section('titulo') {{$agrup}} @append
@@ -72,12 +84,12 @@ from (
 			) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao
 		) as fim4 
 	) as fim5 group by fornecedor, grife, codgrife, agrup, colecao, modelo, colmod
-) as fim6 group by fornecedor, grife, codgrife, agrup, modelo, colecao, colmod
+) as fim6 $where group by fornecedor, grife, codgrife, agrup, modelo, colecao, colmod
 order by fornecedor, agrup, modelo");
 
 
 
-
+echo $where;
 
 
 @endphp
@@ -126,7 +138,7 @@ order by fornecedor, agrup, modelo");
          
 			<div  class="box-header with-border" style="font-size:14px; padding: 12px 10px 12px 10px;"> 
           		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
-          		<span class="pull-right">  {{$catalogo->colecao}}</span>
+          		<span class="pull-center">{{$catalogo->colecao}}</span>
 			 	<span class="pull-right">{{$catalogo->colmod}}</span>
 			</div>
 
