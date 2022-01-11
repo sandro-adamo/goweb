@@ -123,8 +123,10 @@ order by fornecedor, agrup, modelo
             <ul class="nav nav-tabs">
 				
 				<li  class="active"><a href="#Painel" data-toggle="tab">Painel</a></li>
+				
 				<li><a href="#Tabela" data-toggle="tab">Tabela</a></li>
 				<li><a href="#Grade" data-toggle="tab">Grade</a></li>
+				<li><a href="#Fotos" data-toggle="tab">Fotos</a></li>
 				<li><a href="#Representantes" data-toggle="tab">Representantes</a></li>
 				<li><a href="#Mediasugest" data-toggle="tab">Mediasugest</a></li>
 				<li><a href="#Timeline_lancamentos" data-toggle="tab">Timeline_lancamentos</a></li>
@@ -389,7 +391,120 @@ order by fornecedor, agrup, modelo
 
 	  
 	  
-	  
+
+<div class="active tab-pane" id="Fotos">
+<div class="col-md-12">
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+
+
+<br>	
+<div class="col-md-12">
+		
+		@foreach ($modelos as $catalogo)
+		
+      <div class="col-sm-2">
+        <div class="box box-widget">
+         
+			<div  class="box-header with-border" style="font-size:12px; padding: 15px 15px 15px 15px;"> 
+				
+          		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
+          		<span class="pull-center"></span>
+			 	<span class="pull-right">{{$catalogo->clasmod}}</span>
+			</div>
+
+
+
+        @php
+          $foto = app('App\Http\Controllers\ItemController')->consultaFoto($catalogo->modelo);
+        @endphp
+
+          <div id="foto" align="center" style="min-height: 180px; max-height: 180px;">
+            <a href="" class="zoom" data-value="{{$catalogo->modelo}}"><img src="/{{$foto}}" class="img-responsive"></a>   
+          </div>
+			
+			
+			 
+		  <br>
+		  <table width="100%"  style="font-size:12px;" style="text-align: center;">
+			<tr>
+				<td>
+					<table class="table table-condensed table-bordered table2"  style="text-align: center;">
+						<tr>
+							<td>Itens:</td>
+						</tr>
+					</table>
+				</td>
+
+				
+			 	<td>
+					<table class="table table-condensed table-bordered table2"  style="text-align: center;">
+						<tr>
+							
+							<td>{{number_format($catalogo->imediata)}}</td>
+						</tr>
+					</table>
+
+				</td>
+		  
+				<td>
+					<table class="table table-condensed table-bordered table2" style="text-align: center;">
+						<tr>
+						
+							<td>{{number_format($catalogo->futura)}}</td>
+						</tr>
+					</table>
+				</td>
+				<td>
+					<table class="table table-condensed table-bordered table2" style="text-align: center;">
+						<tr>
+							<td>{{number_format($catalogo->producao)}}</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+			
+	
+			
+			<table width="100%" style="font-size:12px;" style="text-align: center;">
+								<tr>
+
+								
+									<td>
+										<table class="table table-condensed table-bordered table2" style="text-align: center;">
+											<tr>
+												<td><i class="fa fa-calendar-plus-o text-green"></i></td>
+												<td>{{$catalogo->colmod}}</td>
+											</tr>
+										</table>
+									</td>
+									<td>
+										<table class="table table-condensed table-bordered table2" style="text-align: center;">
+											<tr>
+												<td><i class="fa fa-calendar-minus-o text-red"></i></td>
+												<td>2022 03</td>
+											</tr>
+										</table>
+									</td>
+									
+
+								</tr>
+							</table>
+			
+
+
+
+	</div> 
+  </div>
+     
+	@endforeach
+	
+  </div>
+
+
+</ul>
+</div>
+</div>
 	  
 	  
 	  
