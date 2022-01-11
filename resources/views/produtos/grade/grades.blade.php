@@ -66,8 +66,7 @@ from (
 order by fornecedor, agrup
 
 ");
-			  
-			
+			  			
 @endphp
 
 
