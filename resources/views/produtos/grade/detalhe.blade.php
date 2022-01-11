@@ -139,7 +139,8 @@ echo $where;
       <div class="col-md-3">
         <div class="box box-widget">
          
-			<div  class="box-header with-border" style="font-size:14px; padding: 12px 10px 12px 10px;"> 
+			<div  class="box-header with-border" style="font-size:14px; padding: 2px 10px 12px 10px;"> 
+				
           		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
           		<span class="pull-center">{{$catalogo->clasmod}}</span>
 			 	<span class="pull-right">{{$catalogo->colmod}}</span>
