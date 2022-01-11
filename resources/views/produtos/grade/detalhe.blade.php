@@ -140,10 +140,10 @@ order by fornecedor, agrup, modelo
 		
 		@foreach ($modelos as $catalogo)
 		
-      <div class="col-sm-3">
+      <div class="col-sm-2">
         <div class="box box-widget">
          
-			<div  class="box-header with-border" style="font-size:18px; padding: 15px 15px 15px 15px;"> 
+			<div  class="box-header with-border" style="font-size:12px; padding: 15px 15px 15px 15px;"> 
 				
           		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
           		<span class="pull-center">{{$catalogo->clasmod}}</span>
@@ -163,7 +163,7 @@ order by fornecedor, agrup, modelo
 			
 			 
 		  <br>
-		  <table width="100%" style="text-align: center;">
+		  <table width="100%"  style="font-size:12px;" style="text-align: center;">
 			<tr>
 				<td>
 					<table class="table table-condensed table-bordered table2"  style="text-align: center;">
@@ -213,7 +213,7 @@ order by fornecedor, agrup, modelo
 -->
 			  <br>
 					
-							<table width="100%" style="text-align: center;">
+							<table width="100%" style="font-size:12px;" style="text-align: center;">
 								<tr>
 
 								 <td>
@@ -248,7 +248,7 @@ order by fornecedor, agrup, modelo
 	
 <!-- segunda linha -->
 					
-							<table width="100%" style="text-align: center;">
+							<table width="100%" style="font-size:12px;" style="text-align: center;">
 								<tr>
 
 								 <td>
@@ -280,7 +280,7 @@ order by fornecedor, agrup, modelo
 							</table>
 	<!-- terceira linha -->
 					
-							<table width="100%" style="text-align: center;">
+							<table width="100%" style="font-size:12px;" style="text-align: center;">
 								<tr>
 
 								 <td>
@@ -313,7 +313,7 @@ order by fornecedor, agrup, modelo
 	
 	<!-- terceira linha -->
 					<br>
-							<table width="100%" style="text-align: center;">
+							<table width="100%" style="font-size:12px;" style="text-align: center;">
 								<tr>
 
 								 <td>
