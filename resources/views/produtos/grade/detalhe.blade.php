@@ -155,7 +155,7 @@ order by fornecedor, agrup, modelo
 				
           		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
           		<span class="pull-center"></span>
-			 	<span class="pull-right">{{$catalogo->colmod}}</span>
+			 	<span class="pull-right">{{$catalogo->clasmod}}</span>
 			</div>
 
 
