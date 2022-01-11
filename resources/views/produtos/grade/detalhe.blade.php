@@ -448,6 +448,12 @@ order by fornecedor, agrup, modelo
 			<td align="left" class="{{$formato}}"> {{$catalogo->imediata}}</td>
 			<td align="left">  <a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}">{{$catalogo->modelo}}</a></td>
 			<td align="left"> {{$catalogo->imediata}}</td>
+			<td align="left"> {{$catalogo->clasmod}}</td>
+			<td align="left"> {{$catalogo->disponivel}}</td>
+			<td align="left"> {{$catalogo->beneficiamento}}</td>
+			<td align="left"> {{$catalogo->cet}}</td>
+			<td align="left"> {{$catalogo->cep}}</td>
+				<td align="left"> {{$catalogo->qtde_vda}}</td>
 			
 		</tr>
 		@endforeach
