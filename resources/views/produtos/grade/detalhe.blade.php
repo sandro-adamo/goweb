@@ -156,7 +156,7 @@ order by fornecedor, agrup, modelo
           $foto = app('App\Http\Controllers\ItemController')->consultaFoto($catalogo->modelo);
         @endphp
 
-          <div id="foto" align="center" style="min-height: 20px; max-height: 20px;">
+          <div id="foto" align="center" style="min-height: 120px; max-height: 120px;">
             <a href="" class="zoom" data-value="{{$catalogo->modelo}}"><img src="/{{$foto}}" class="img-responsive"></a>   
           </div>
 			
