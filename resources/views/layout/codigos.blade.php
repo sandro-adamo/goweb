@@ -42,7 +42,8 @@
 	from (
 		select rep as codrep, codsuper, coddir, group_concat(distinct regiao,'' order by regiao) regioes, group_concat(distinct grife, '' order by grife) grifes
 		from go.carteira
-		$sql and status = 1 
+		$sql 
+-- and status = 1 
         group by rep, codsuper,coddir
 	) as carteira
 	left join go.addressbook rep on rep.id = carteira.codrep
