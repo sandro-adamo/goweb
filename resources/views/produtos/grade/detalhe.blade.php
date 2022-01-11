@@ -32,13 +32,13 @@ $data = '2021-01-01';
 
 
 $modelos = \DB::select("
-select fornecedor, grife, codgrife, agrup, modelo, colecao, colmod,
+select fornecedor, grife, codgrife, agrup, modelo, colecao, colmod, clasmod,
 	sum(novos) novos, sum(aa) aa, sum(a) a, 
 	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
 	sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
 from (
 
-	select fornecedor, grife, codgrife, agrup, colecao, modelo, colmod,
+	select fornecedor, grife, codgrife, agrup, colecao, modelo, colmod, clasmod,
 	case when colecao = 'novo' then 1 else 0 end as novos,
 	case when colecao = 'aa' then 1 else 0 end as aa, 
 	case when colecao = 'a' then 1 else 0 end as a, 
@@ -71,21 +71,24 @@ from (
 				from (
 							
 				    select case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
-					grife, codgrife, itens.agrup, itens.modelo, itens.secundario, colmod, clasmod, ultstatus,
+					grife, codgrife, itens.agrup, itens.modelo, itens.secundario, colmod,  ultstatus,
 					case when left(colmod,4) < year(now()) then 'lancado'
-					when (left(colmod,4) = year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao
+					when (left(colmod,4) = year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao,
+                    (select clasmod from itens iclas where iclas.id = itens.id and clasmod  not in ('','.','colecao europra','cancelado') order by clasmod limit 1) clasmod
 					from itens 
 					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoitem = 006				 
 					and codgrife in ('AH','AI',  'AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 					and codtipoarmaz not in ('o')
 					and agrup = '$agrup'
-
 				) as fim2
 			) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao
 		) as fim4 
-	) as fim5 group by fornecedor, grife, codgrife, agrup, colecao, modelo, colmod
-) as fim6 $where group by fornecedor, grife, codgrife, agrup, modelo, colecao, colmod
-order by fornecedor, agrup, modelo");
+	) as fim5 group by fornecedor, grife, codgrife, agrup, colecao, modelo, colmod, clasmod
+) as fim6 
+$where
+group by fornecedor, grife, codgrife, agrup, modelo, colecao, colmod, clasmod
+order by fornecedor, agrup, modelo
+");
 
 
 
@@ -133,12 +136,12 @@ echo $where;
 		
 		@foreach ($modelos as $catalogo)
 		
-      <div class="col-md-2">
+      <div class="col-md-3">
         <div class="box box-widget">
          
 			<div  class="box-header with-border" style="font-size:14px; padding: 12px 10px 12px 10px;"> 
           		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
-          		<span class="pull-center">{{$catalogo->colecao}}</span>
+          		<span class="pull-center">{{$catalogo->clasmod}}</span>
 			 	<span class="pull-right">{{$catalogo->colmod}}</span>
 			</div>
 
@@ -220,7 +223,42 @@ echo $where;
 									<td>
 										<table class="table table-condensed table-bordered table2" style="text-align: center;">
 											<tr>
+											<td align="center"><img src="/img/to.png" width="15"></i></td>
+												<td>{{number_format($catalogo->futura)}}</td>
+											</tr>
+										</table>
+									</td>
+									<td>
+										<table class="table table-condensed table-bordered table2" style="text-align: center;">
+											<tr>
+												<td><i class="fa fa-truck text-green"></i></td>
+												<td>{{number_format($catalogo->producao)}}</td>
+											</tr>
+										</table>
+									</td>
+									
+
+								</tr>
+							</table>
+	
+<!-- segunda linha -->
+					
+							<table width="100%" style="text-align: center;">
+								<tr>
+
+								 <td>
+										<table class="table table-condensed table-bordered table2"  style="text-align: center;">
+											<tr>
 												<td><i class="fa fa-plane text-blue"></i></td>
+												<td>{{number_format($catalogo->imediata)}}</td>
+											</tr>
+										</table>
+
+									</td>
+									<td>
+										<table class="table table-condensed table-bordered table2" style="text-align: center;">
+											<tr>
+												<td><i class="fa fa-plane text-red"></i></td>
 												<td>{{number_format($catalogo->imediata)}}</td>
 											</tr>
 										</table>
@@ -232,16 +270,35 @@ echo $where;
 												<td>{{number_format($catalogo->imediata)}}</td>
 											</tr>
 										</table>
-									</td>
-									<td>
-										<table class="table table-condensed table-bordered table2" style="text-align: center;">
+									</td>									
+								</tr>
+							</table>
+	
+	<!-- terceira linha -->
+					<br>
+							<table width="100%" style="text-align: center;">
+								<tr>
+
+								 <td>
+										<table class="table table-condensed table-bordered table2"  style="text-align: center;">
 											<tr>
-												<td><i class="fa fa-warning text-yellow"></i></td>
+												<td><i class="fa fa-shopping-cart text-green"></i></td>
+												<td>{{number_format($catalogo->imediata)}}</td>
+												<td>{{number_format($catalogo->imediata)}}</td>
 												<td>{{number_format($catalogo->imediata)}}</td>
 											</tr>
 										</table>
-									</td>
 
+									</td>
+									
+									<td>
+										<table class="table table-condensed table-bordered table2" style="text-align: center;">
+											<tr>
+												<td><i class="fa fa-hourglass-3 text-purple"></i></td>
+												<td>{{number_format($catalogo->imediata)}}</td>
+											</tr>
+										</table>
+									</td>									
 								</tr>
 							</table>
 
