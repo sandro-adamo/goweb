@@ -90,7 +90,10 @@ $where
 group by fornecedor, grife, codgrife, agrup, modelo, colecao, colmod, clasmod
 ) as modelos
 
-	left join (select modelo mod_saldo, sum(disponivel) disponivel, sum(conf_montado+em_beneficiamento+saldo_parte) beneficiamento, sum(cet) cet, sum(etq+cep) cep, sum(saldo_most) most
+	left join (select modelo mod_saldo, sum(disponivel) disponivel, sum(conf_montado+em_beneficiamento+saldo_parte) beneficiamento, sum(cet) cet, sum(etq+cep) cep, sum(saldo_most) most,
+
+sum(disponivel+conf_montado+em_beneficiamento+saldo_parte+cet+etq+cep) total
+
     from saldos left join itens on itens.id = saldos.curto where agrup = '$agrup'
     group by modelo ) as saldos
     on saldos.mod_saldo = modelo
@@ -206,9 +209,34 @@ order by fornecedor, agrup, modelo
 				</td>
 			</tr>
 		</table>
- 
+			
 	
-	
+			
+			<table width="100%" style="font-size:12px;" style="text-align: center;">
+								<tr>
+
+								
+									<td>
+										<table class="table table-condensed table-bordered table2" style="text-align: center;">
+											<tr>
+												<td><i class="fa fa-calendar-plus-o text-green"></i></td>
+												<td>2021 01</td>
+											</tr>
+										</table>
+									</td>
+									<td>
+										<table class="table table-condensed table-bordered table2" style="text-align: center;">
+											<tr>
+												<td><i class="fa fa-calendar-minus-o text-red"></i></td>
+												<td>2022 03</td>
+											</tr>
+										</table>
+									</td>
+									
+
+								</tr>
+							</table>
+			
 <!--	
 		<br>
 		 <a title="Com estoque sem vinculo" href="" class="zoom" data-value="{{$catalogo->modelo}}"><i class="fa fa-chain-broken text-red fa-3x" style="position:absolute; top:200px; left:5%; opacity:0.8;" ></i> </a>
@@ -265,14 +293,7 @@ order by fornecedor, agrup, modelo
 										</table>
 
 									</td>
-									<td>
-										<table class="table table-condensed table-bordered table2" style="text-align: center;">
-											<tr>
-												<td><i class="fa fa-plane text-red"></i></td>
-												<td>0</td>
-											</tr>
-										</table>
-									</td>
+									
 									<td>
 										<table class="table table-condensed table-bordered table2" style="text-align: center;">
 											<tr>
@@ -280,7 +301,15 @@ order by fornecedor, agrup, modelo
 												<td>{{number_format($catalogo->cep)}}</td>
 											</tr>
 										</table>
-									</td>									
+									</td>
+									<td>
+										<table class="table table-condensed table-bordered table2" style="text-align: center;">
+											<tr>
+												<td><i class="fa fa-plane text-red"></i></td>
+												<td>{{number_format($catalogo->total)}}</td>
+											</tr>
+										</table>
+									</td>
 								</tr>
 							</table>
 	<!-- terceira linha -->
