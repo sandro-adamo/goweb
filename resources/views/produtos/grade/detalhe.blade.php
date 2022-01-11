@@ -152,7 +152,7 @@ echo $where;
           $foto = app('App\Http\Controllers\ItemController')->consultaFoto($catalogo->modelo);
         @endphp
 
-          <div id="foto" align="center" style="min-height: 100px; max-height: 100px;">
+          <div id="foto" align="center" style="min-height: 50px; max-height: 50px;">
             <a href="" class="zoom" data-value="{{$catalogo->modelo}}"><img src="/{{$foto}}" class="img-responsive"></a>   
           </div>
 			
