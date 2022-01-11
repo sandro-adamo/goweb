@@ -140,7 +140,7 @@ order by fornecedor, agrup, modelo
 		
 		@foreach ($modelos as $catalogo)
 		
-      <div class="col-sm-3">
+      <div class="col-md-3">
         <div class="box box-widget">
          
 			<div  class="box-header with-border" style="font-size:18px; padding: 15px 15px 15px 15px;"> 
