@@ -140,10 +140,10 @@ order by fornecedor, agrup, modelo
 		
 		@foreach ($modelos as $catalogo)
 		
-      <div class="col-md-3">
+      <div class="col-sm-3">
         <div class="box box-widget">
          
-			<div  class="box-header with-border" style="font-size:8px; padding: 5px 5px 5px 5px;"> 
+			<div  class="box-header with-border" style="font-size:18px; padding: 15px 15px 15px 15px;"> 
 				
           		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
           		<span class="pull-center">{{$catalogo->clasmod}}</span>
