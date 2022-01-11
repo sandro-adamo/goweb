@@ -1,16 +1,17 @@
 @extends('produtos/painel/index')
 
 @php
-$query_1 = \DB::select(" 
+$query2 = \DB::select(" 
 select * from itens where modelo = 'AH6254';
 ");
 
+foreach ($query2 as $query_2)
+endforeach
 
-$secundario = 'teste';
 
 @endphp
 
-@section('titulo') {{$secundario}} @append
+@section('titulo') {{$query_2->secundario}} @append
 
 @section('title')
   <i class="fa fa-list"></i> Produtos
@@ -23,7 +24,7 @@ pagina rep
   <div class="col-md-3">
     <div class="box box-widget">
       <div class="box-header with-border bg-gray"> 
-        <b>{{$item->secundario}}</b>
+        <b>{{$query_2->secundario}}</b>
         <span class="pull-right"><b></b></span>
       </div>
       <div align="center" style="min-height: 200px;margin-top: 30px;">
