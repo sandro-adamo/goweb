@@ -154,7 +154,7 @@ order by fornecedor, agrup, modelo
 			<div  class="box-header with-border" style="font-size:12px; padding: 15px 15px 15px 15px;"> 
 				
           		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
-          		<span class="pull-center">{{$catalogo->clasmod}}</span>
+          		<span class="pull-center"></span>
 			 	<span class="pull-right">{{$catalogo->colmod}}</span>
 			</div>
 
@@ -220,7 +220,7 @@ order by fornecedor, agrup, modelo
 										<table class="table table-condensed table-bordered table2" style="text-align: center;">
 											<tr>
 												<td><i class="fa fa-calendar-plus-o text-green"></i></td>
-												<td>2021 01</td>
+												<td>{{$catalogo->clasmod}}</td>
 											</tr>
 										</table>
 									</td>
