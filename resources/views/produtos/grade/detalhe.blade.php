@@ -91,9 +91,14 @@ group by fornecedor, grife, codgrife, agrup, modelo, colecao, colmod, clasmod
 ) as modelos
 
 	left join (select modelo mod_saldo, sum(disponivel) disponivel, sum(conf_montado+em_beneficiamento+saldo_parte) beneficiamento, sum(cet) cet, sum(etq+cep) cep, sum(saldo_most) most
-    from saldos left join itens on itens.id = saldos.curto
+    from saldos left join itens on itens.id = saldos.curto where agrup = '$agrup'
     group by modelo ) as saldos
     on saldos.mod_saldo = modelo
+
+	left join (select modelo mod_vda, sum(qtde) qtde_vda from vendas_jde vds left join itens on itens.id = id_item 
+    where ult_status not in (980,984) and agrup = '$agrup' 
+    group by modelo) as vendas
+    on vendas.mod_vda =  modelo
 
 order by fornecedor, agrup, modelo
 ");
@@ -320,9 +325,9 @@ order by fornecedor, agrup, modelo
 										<table class="table table-condensed table-bordered table2"  style="text-align: center;">
 											<tr>
 												<td><i class="fa fa-shopping-cart text-green"></i></td>
-												<td>{{number_format($catalogo->imediata)}}</td>
-												<td>{{number_format($catalogo->imediata)}}</td>
-												<td>{{number_format($catalogo->imediata)}}</td>
+												<td>{{number_format($catalogo->qtde_vda)}}</td>
+												<td>{{number_format($catalogo->qtde_vda)}}</td>
+												<td>{{number_format($catalogo->qtde_vda)}}</td>
 											</tr>
 										</table>
 
