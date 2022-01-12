@@ -68,6 +68,7 @@
           <h4 class="modal-title" id="myModalLabel">Selecione os códigos</h4>
         </div>
         <div class="modal-body">
+			<div class="col-md-12">
 	        	<table class="table tabela2">
 	        		<thead>
 	        			<tr>
@@ -104,6 +105,7 @@
           <button type="submit" class="btn btn-primary">Salvar</button>
         </div>
       </div>
+		  </div>
     </div>
   </div>
 </form>
