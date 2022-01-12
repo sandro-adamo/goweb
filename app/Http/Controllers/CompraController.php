@@ -1042,7 +1042,7 @@ where ci.id_item is null
 				   //$request->session()->flash( 'alert-warning', 'Item ' . $item . ' não existe. </br>' );
 				  
 				  $erros[] = 'Item ' . $item . ' não existe. </br>';
-                  $request->session()->flash('alert-warning', $erros);
+                  $request->session()->flash('alert-warning2', $erros);
 
 
               }
@@ -3193,7 +3193,7 @@ from compras_modelos group by agrupamento, grife ) as base
       $msg .= '</ul>';
 
 
-      $request->session()->flash( 'alert-warning', $msg );
+      $request->session()->flash( 'alert-warning2', $msg );
 
 
     }
