@@ -58,7 +58,7 @@ case when left(colmod,4) < year(now()) then 'lancado'
     when (left(colmod,4) = year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao
 from itens 
 					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoitem = 006				 
-					and codgrife in ('AH','AI',  'AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
+					and codgrife in ('AH','AI', 'fe', 'AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 					 and codtipoarmaz not in ('o')
 				) as fim2
 			) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao
