@@ -36,6 +36,7 @@
             <th>Dt Invoice</th>
 			<th>Ult status</th>
 			<th>Prox status</th>
+			  <th>Desc status</th>
 
             
 
@@ -54,6 +55,7 @@
 			 <td>{{$cets->dt_pedido}}</td>
 			<td>{{$cets->ult_status}}</td>
 			 <td>{{$cets->prox_status}}</td>
+			<td>{{$cets->descricao_status}}</td>
             
            
 
