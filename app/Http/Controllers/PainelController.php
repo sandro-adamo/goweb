@@ -14,7 +14,27 @@ class PainelController extends Controller
 	public function cet_aberto(Request $request) {
 		$item = $request->item;
 
-		$cet = \DB::select("select * from importacoes_pedidos where secundario like '%$item%'
+		$cet = \DB::select("select * ,case when ult_status = '220' and prox_status = '280' then 'Pedido inserido'
+when ult_status = '280' and prox_status = '300' then 'Pedido inserido'
+when ult_status = '300' and prox_status = '345' then 'Pedido Confirmado Pela Gestão De Grifes'
+when ult_status = '345' and prox_status = '350' then 'Aguardando pagamento embarque'
+when ult_status = '350' and prox_status = '355' then 'LI for Deferida / Quando o Carregamento não possui LI'
+when ult_status = '355' and prox_status = '359' then 'Autorizado o Embarque / Carregamento Marítimo'
+when ult_status = '359' and prox_status = '365' then 'Processo Possui Booking'
+when ult_status = '365' and prox_status = '369' then 'Confirmada a Chegada no Brasil'
+when ult_status = '369' and prox_status = '375' then 'Confirmada a Remoção do Processo para Porto Seco (EADI)'
+when ult_status = '375' and prox_status = '379' then 'DI Registrada'
+when ult_status = '379' and prox_status = '385' then 'Emissão de Nota Fiscal de Importação'
+when ult_status = '385' and prox_status = '390' then 'Confirmação de Carregamento para Transporte Interno'
+when ult_status = '390' and prox_status = '400' then 'Confirmação da Carga na Fábrica de Destino'
+when ult_status = '400' and prox_status = '999' then 'Recebimento'
+else '' end as 'descricao_status'
+
+
+
+from importacoes_pedidos 
+left join itens_estrutura on itens_estrutura.item_filho = ltrim(rtrim(importacoes_pedidos.secundario))
+where (ltrim(rtrim(item_pai)) = '$item' or ltrim(rtrim(secundario)) = '$item')
 		and ult_status not in  ('980','400')");
 		//dd($cet);
 		
