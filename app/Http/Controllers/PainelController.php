@@ -35,7 +35,9 @@ else '' end as 'descricao_status'
 from importacoes_pedidos 
 left join itens_estrutura on itens_estrutura.item_filho = ltrim(rtrim(importacoes_pedidos.secundario))
 where (ltrim(rtrim(item_pai)) = '$item' or ltrim(rtrim(secundario)) = '$item')
-		and ult_status not in  ('980','400')");
+		and ult_status not in  ('980','400')
+		and ltrim(rtrim(secundario)) not like '%plaqueta%'
+		");
 		//dd($cet);
 		
 		return view('produtos.painel.cet')->with('cet', $cet);
