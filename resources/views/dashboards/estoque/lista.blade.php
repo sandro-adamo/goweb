@@ -50,7 +50,7 @@ from (
 		select case when clasmod in ('NOVO','LINHA A++','LINHA A+','LINHA A') then 'A - TOTAL' 
          when clasmod in ('LINHA A-', 'COLECAO B') then 'B - TOTAL'  when clasmod in ('PROMOCIONAL C') then 'C - TOTAL' else clasmod end as classif, 
          clasmod,
-        sum(orcamento) orca, sum(disponivel) disp, sum(cet) cet, sum(etq) etq, sum(cep) prod, sum(etq_total_vendas)etq_total_vendas, sum(compras) compras, 
+        sum(orcamento_liber+orcamento_bloq) orca, sum(disponivel) disp, sum(cet) cet, sum(etq) etq, sum(cep) prod, sum(etq_total_vendas)etq_total_vendas, sum(compras) compras, 
         sum(mostruarios) most, sum(reservas_estrat) reservas_estrat, 
         sum(manutencao) manut,sum(atual) atual,sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo, sum(itens_disp) itens_disp
 
@@ -75,7 +75,7 @@ $query_3 = \DB::select("
     
 		select sint.codgrife grife, case when sint.tecnologia = 'CLIP ON' then concat(left(sint.agrup,4),' - CLIP ON') else sint.agrup end as agrup, 
         sint.genero,
-        sum(orcamento) orca, sum(disponivel) disp, sum(cet) cet, sum(etq) etq, sum(cep) prod, sum(etq_total_vendas)etq_total_vendas, sum(compras) compras, 
+        sum(orcamento_liber+orcamento_bloq) orca, sum(disponivel) disp, sum(cet) cet, sum(etq) etq, sum(cep) prod, sum(etq_total_vendas)etq_total_vendas, sum(compras) compras, 
         sum(mostruarios) most, sum(reservas_estrat) reservas_estrat, sum(manutencao) manut
         ,sum(atual) atual,sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo, sum(itens_disp) itens_disp
 
