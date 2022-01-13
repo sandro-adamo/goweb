@@ -37,6 +37,7 @@ left join itens_estrutura on itens_estrutura.item_filho = ltrim(rtrim(importacoe
 where (ltrim(rtrim(item_pai)) = '$item' or ltrim(rtrim(secundario)) = '$item')
 		and ult_status not in  ('980','400')
 		and ltrim(rtrim(secundario)) not like '%plaqueta%'
+		order by ult_status, secundario asc
 		");
 		//dd($cet);
 		
