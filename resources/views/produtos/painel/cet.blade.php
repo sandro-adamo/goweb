@@ -47,9 +47,10 @@
         <tbody>
           @foreach ($cet as $cets)
           <tr>
-			  <td> {{$cets->secundario}}</a></td>
-            <td> {{$cets->ref_go}}</a></td>
-            <td> {{$cets->pedido}}</a></td>
+			  
+			  <td> {{$cets->secundario}}</td>
+            <td> {{$cets->ref_go}}</td>
+            <td> <a href="/dsimportdet?tipo={{$cets->tipo}}&pedido={{$cets->pedido}}">{{$cets->pedido}}</a></td>
             <td>{{$cets->tipo}}</td>
             <td>{{number_format($cets->qtde_sol,0)}}</td>
 			 <td>{{$cets->dt_pedido}}</td>
