@@ -3,9 +3,9 @@
 
 @php
 
-$representantes = Session::get('representantes');
 
-$base = \DB::select("select distinct data_base from ds_carteira");
+
+
 
 
 
@@ -114,11 +114,12 @@ group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_statu
 	
 	
 
+<!--
 	<div class="col-md-12">	O QUE ESTA SENDO PROCESSADO NO MES - PRE-VENDAS ACUMULADAS </div>
 	
 				<div class="col-lg-3 col-xs-6 col-md-3" style="width: 20%">
 
-				  <!-- small box -->
+				   small box 
 			 <div class="small-box bg-aqua">
 
 					<div title="Pedidos Gerados no mes vigente" class="inner">
@@ -131,6 +132,7 @@ group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_statu
 					<a title="Vendas do mês atual" href="/vendas?ano={{date('Y')}}&mes={{date('m')}}" class="small-box-footer">Mais informações <i class="fa fa-arrow-circle-right"></i></a>
 				  </div>
 				</div>
+-->
 	
 	
 	
