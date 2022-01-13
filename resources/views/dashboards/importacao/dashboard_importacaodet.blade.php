@@ -182,7 +182,7 @@ group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_statu
 						<td ></td>	
 						<td colspan="1" align="center">ref_go</td>	
 					<td colspan="1" align="center">Secundario</td>
-						<td colspan="1" align="center">Item</td>
+						
 				
 					<td colspan="1" align="center">desc1</td>
 					
@@ -208,7 +208,7 @@ group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_statu
 					
 					<td align="left">{{$query2->tipo.' '.$query2->ref_go}}</td>	
 					<td align="left"><a href="/painel/{{$query2->agrup}}/{{$query2->modelo}}">{{$query2->secundario}}</a></td>
-					<td align="center">{{$query2->item}}</td>
+					
 					
 					<td align="center">{{$query2->ref}}</td>
 					
