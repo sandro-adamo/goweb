@@ -8,9 +8,13 @@
 @if (Session::has('alert-success'))
   <div class="callout callout-success">{{Session::get("alert-success")}}</div>
 @endif 
+
+@if (Session::has('alert-warning'))
+  <div class="callout callout-warning">{{Session::get("alert-warning")}}</div>
+@endif 
 @php
-if(Session::has('alert-warning')){
-	$erros = Session::get('alert-warning');
+if(Session::has('alert-warning2')){
+	$erros = Session::get('alert-warning2');
 	echo '<div class="callout callout-warning"><ul>';
 	foreach($erros as $erro) {
 		echo '<li>'.$erro.'</li>';
