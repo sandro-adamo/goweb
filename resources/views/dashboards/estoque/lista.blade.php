@@ -13,7 +13,7 @@ if($representantes==101815)
 			$grifes = Session::get('grifes'); }
 
 $query_1 = \DB::select(" 
-select distinct colmod_a, itens_disp, orca, disp, cet, etq, prod, etq_total_vendas, pre_compras, most, reservas_estrat, manut , atual,  ultimo, penultimo,  antipenultimo
+select distinct colmod_a colmod, itens_disp, orca, disp, cet, etq, prod, etq_total_vendas, pre_compras, most, reservas_estrat, manut , atual,  ultimo, penultimo,  antipenultimo
 from (
 
 	select anomod, case when colmod_a < year(now()) then concat(anomod, ' TOTAL') when colmod_a is null then concat(anomod, ' TOTAL')  else colmod_a end as colmod_a, 
