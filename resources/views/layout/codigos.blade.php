@@ -67,8 +67,9 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="myModalLabel">Selecione os códigos</h4>
         </div>
+		  <div class="col-md-8">
         <div class="modal-body">
-			<div class="col-md-12">
+			
 	        	<table class="table tabela2">
 	        		<thead>
 	        			<tr>
