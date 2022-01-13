@@ -13,25 +13,25 @@ if($representantes==101815)
 			$grifes = Session::get('grifes'); }
 
 $query_1 = \DB::select(" 
-select distinct colmod, itens_disp, orca, disp, cet, etq, prod, etq_total_vendas, pre_compras, most, reservas_estrat, manut , atual,  ultimo, penultimo,  antipenultimo
+select distinct colmod_a colmod, itens_disp, orca, disp, cet, etq, prod, etq_total_vendas, pre_compras, most, reservas_estrat, manut , atual,  ultimo, penultimo,  antipenultimo
 from (
 
-	select  anomod, case when colmod < year(now()) then concat(anomod, ' TOTAL') when colmod is null then concat(anomod, ' TOTAL')  else colmod end as colmod, 
+	select anomod, case when colmod_a < year(now()) then concat(anomod, ' TOTAL') when colmod_a is null then concat(anomod, ' TOTAL')  else colmod_a end as colmod_a, 
 	sum(itens_disp) itens_disp, sum(orca) orca, sum(disp) disp, sum(cet) cet, sum(etq) etq, sum(prod) prod, sum(etq_total_vendas) etq_total_vendas, 
 	sum(compras) pre_compras, sum(most) most, sum(reservas_estrat) reservas_estrat, sum(manut) manut ,sum(atual) atual, sum(ultimo) ultimo, 
 	sum(penultimo) penultimo, sum(antipenultimo) antipenultimo
 	from (
 
-		select case when sint.colmod = ' <= 2016' then left(sint.colmod,8) else left(sint.colmod,4) end as anomod, 
-		case when sint.colmod < year(now()) then left(sint.colmod,4) else sint.colmod end as colmod, sint.genero,
-		sum(orcamento) orca, sum(disponivel) disp, sum(cet) cet, sum(etq) etq, sum(cep) prod, sum(etq_total_vendas)etq_total_vendas, sum(compras) compras, 
+		select case when sint.colmod_a = ' <= 2016' then left(sint.colmod_a,8) else left(sint.colmod_a,4) end as anomod, 
+		case when sint.colmod_a < year(now()) then left(sint.colmod_a,4) else sint.colmod_a end as colmod_a, sint.genero,
+		sum(orcamento_liber+orcamento_bloq) orca, sum(disponivel) disp, sum(cet) cet, sum(etq) etq, sum(cep) prod, sum(etq_total_vendas)etq_total_vendas, sum(compras) compras, 
 		sum(mostruarios) most, sum(reservas_estrat) reservas_estrat, sum(manutencao) manut
 		,sum(atual) atual,sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo, sum(itens_disp) itens_disp
 
 		from go_storage.sintetico_estoque sint
-		group by sint.colmod, sint.genero
-	) as fim  group by anomod, colmod with rollup
-) as fim1 order by colmod
+		group by sint.colmod_a, sint.genero
+	) as fim  group by anomod, colmod_a with rollup
+) as fim1 order by colmod_a
 ");
 
 
@@ -50,7 +50,7 @@ from (
 		select case when clasmod in ('NOVO','LINHA A++','LINHA A+','LINHA A') then 'A - TOTAL' 
          when clasmod in ('LINHA A-', 'COLECAO B') then 'B - TOTAL'  when clasmod in ('PROMOCIONAL C') then 'C - TOTAL' else clasmod end as classif, 
          clasmod,
-        sum(orcamento) orca, sum(disponivel) disp, sum(cet) cet, sum(etq) etq, sum(cep) prod, sum(etq_total_vendas)etq_total_vendas, sum(compras) compras, 
+        sum(orcamento_liber+orcamento_bloq) orca, sum(disponivel) disp, sum(cet) cet, sum(etq) etq, sum(cep) prod, sum(etq_total_vendas)etq_total_vendas, sum(compras) compras, 
         sum(mostruarios) most, sum(reservas_estrat) reservas_estrat, 
         sum(manutencao) manut,sum(atual) atual,sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo, sum(itens_disp) itens_disp
 
@@ -75,7 +75,7 @@ $query_3 = \DB::select("
     
 		select sint.codgrife grife, case when sint.tecnologia = 'CLIP ON' then concat(left(sint.agrup,4),' - CLIP ON') else sint.agrup end as agrup, 
         sint.genero,
-        sum(orcamento) orca, sum(disponivel) disp, sum(cet) cet, sum(etq) etq, sum(cep) prod, sum(etq_total_vendas)etq_total_vendas, sum(compras) compras, 
+        sum(orcamento_liber+orcamento_bloq) orca, sum(disponivel) disp, sum(cet) cet, sum(etq) etq, sum(cep) prod, sum(etq_total_vendas)etq_total_vendas, sum(compras) compras, 
         sum(mostruarios) most, sum(reservas_estrat) reservas_estrat, sum(manutencao) manut
         ,sum(atual) atual,sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo, sum(itens_disp) itens_disp
 

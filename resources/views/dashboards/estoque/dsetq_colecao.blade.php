@@ -30,7 +30,7 @@ from (
 
 		select substring(fornecedor,10,10) fornecedor, secundario, case when sint.colmod = ' <= 2016' then left(sint.colmod,8) else left(sint.colmod,4) end as anomod, 
 		case when sint.colmod < year(now()) then left(sint.colmod,4) else sint.colmod end as colmod, sint.genero,
-		sum(orcamento) orca, sum(disponivel) disp, sum(cet) cet, sum(etq) etq, sum(cep) prod, sum(etq_total_vendas)etq_total_vendas, sum(compras) compras, 
+		sum(orcamento_liber+orcamento_bloq) orca, sum(disponivel) disp, sum(cet) cet, sum(etq) etq, sum(cep) prod, sum(etq_total_vendas)etq_total_vendas, sum(compras) compras, 
 		sum(mostruarios) most, sum(reservas_estrat) reservas_estrat, sum(manutencao) manut
 		,sum(atual) atual,sum(ultimo) ultimo, sum(penultimo) penultimo, sum(antipenultimo) antipenultimo, sum(itens_disp) itens_disp
 
