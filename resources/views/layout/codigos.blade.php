@@ -2,7 +2,7 @@
 @php
 	$sql = '';
 	//admin
-	if (\Auth::user()->id_perfil == 1) {
+	if (\Auth::user()->id_perfil == 1 or \Auth::user()->id_perfil == 2) {
 
 		$sql = "where 1";
 
@@ -67,7 +67,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="myModalLabel">Selecione os códigos</h4>
         </div>
-		  <div class="col-md-8">
+		  <div class="col-md-12">
         <div class="modal-body">
 			
 	        	<table class="table tabela2">
