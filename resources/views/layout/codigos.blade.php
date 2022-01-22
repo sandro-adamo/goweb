@@ -2,7 +2,7 @@
 @php
 	$sql = '';
 	//admin
-	if (\Auth::user()->id_perfil == 1) {
+	if (\Auth::user()->id_perfil == 1 or \Auth::user()->id_perfil == 2) {
 
 		$sql = "where 1";
 
@@ -60,6 +60,7 @@
 
 <form action="/codigos" method="post">
 	@csrf
+	<div class="col-md-12">
   <div class="modal fade" id="modalCodigos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
@@ -67,8 +68,10 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="myModalLabel">Selecione os códigos</h4>
         </div>
+		  
         <div class="modal-body">
-			<div class="col-md-12">
+			
+			
 	        	<table class="table tabela2">
 	        		<thead>
 	        			<tr>

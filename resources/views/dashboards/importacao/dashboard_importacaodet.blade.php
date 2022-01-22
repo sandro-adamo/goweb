@@ -3,17 +3,12 @@
 
 @php
 
-$representantes = Session::get('representantes');
-
-$base = \DB::select("select distinct data_base from ds_carteira");
 
 
 
 
-if($representantes==101815) 
-	{$grifes="( 'AM', 'BC', 'BV', 'CT', 'SM', 'MC', 'CH', 'DU', 'AA', 'AZ', 'CL')";} 
-		else {
-			$grifes = Session::get('grifes'); }
+
+
 
 
 $tipo  = $_GET["tipo"];
@@ -26,7 +21,9 @@ $query_2 = \DB::select("
 select pedido, tipo, ref_go, item , secundario, concat(trim(ref_despachante),' ',trim(ref_nac_01)) ref, ult_prox, desc_status, group_concat(distinct left(fornecedor,20),' ') fornecedor,  
 group_concat(distinct tipoitem,' ') tipoitem, group_concat(distinct codgrife,' ') codgrife, group_concat(distinct linha,' ') linha,
 case when CHAR_LENGTH(group_concat(distinct colmod,' ')) > 26 then concat('...',right(group_concat(distinct colmod,' '),26)) else group_concat(distinct colmod,' ') end as colmod, 
-sum(qtde) qtde, sum(atende) atende from (
+sum(qtde) qtde, sum(atende) atende,
+(select modelo from itens where item = secundario) as modelo,
+(select agrup from itens where item = secundario) as agrup from (
 
 select *, case when orcamentos > qtde then qtde else orcamentos end as atende from (
 	select pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status, secundario, cod_item, codtipoitem, tipoitem, id_pai,
@@ -51,7 +48,7 @@ select *, case when orcamentos > qtde then qtde else orcamentos end as atende fr
 		when prox_status = 230 then 'ped_inserido' 
 		when prox_status = 280 then 'PL_recebido' 
 		when prox_status = 345 then 'confirmado' 
-        when prox_status = 350 then 'li_solicitado'
+        when prox_status = 350 then 'aguardando_pagamento'
         when prox_status = 355 then 'li_deferida'
         when prox_status = 359 then 'emb_autorizado'
         when prox_status = 365 then 'booking'
@@ -98,7 +95,7 @@ group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_statu
 			
 @endphp
 
-<form action="" method="get"> 
+
 
 <h6>
 
@@ -114,11 +111,12 @@ group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_statu
 	
 	
 
+<!--
 	<div class="col-md-12">	O QUE ESTA SENDO PROCESSADO NO MES - PRE-VENDAS ACUMULADAS </div>
 	
 				<div class="col-lg-3 col-xs-6 col-md-3" style="width: 20%">
 
-				  <!-- small box -->
+				   small box 
 			 <div class="small-box bg-aqua">
 
 					<div title="Pedidos Gerados no mes vigente" class="inner">
@@ -131,13 +129,15 @@ group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_statu
 					<a title="Vendas do mês atual" href="/vendas?ano={{date('Y')}}&mes={{date('m')}}" class="small-box-footer">Mais informações <i class="fa fa-arrow-circle-right"></i></a>
 				  </div>
 				</div>
+-->
 	
 	
 	
 	
+<!--
 			<div class="col-lg-3 col-xs-6 col-md-3" style="width: 20%">
 
-				  <!-- small box -->
+				 
 			  <div class="small-box bg-green">
 
 					<div title="Faturamentos no mes vigente" class="inner">
@@ -151,6 +151,7 @@ group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_statu
 					<a title="Vendas do mês atual" href="/vendas?ano={{date('Y')}}&mes={{date('m')}}" class="small-box-footer">Mais informações <i class="fa fa-arrow-circle-right"></i></a>
 				  </div>
 			</div>
+-->
 
 	
 	
@@ -177,9 +178,11 @@ group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_statu
 		
 				</tr>
 		  			
-					<tr>	
+					<tr>
+						<td ></td>	
 						<td colspan="1" align="center">ref_go</td>	
-					<td colspan="1" align="center">Secundario</td>				
+					<td colspan="1" align="center">Secundario</td>
+						
 				
 					<td colspan="1" align="center">desc1</td>
 					
@@ -197,7 +200,15 @@ group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_statu
 			@foreach ($query_2 as $query2)
 			  
 				<tr>
-					<td align="left"><a href="/cliente_diasdet?dias={{$query2->tipo}}&codgrife={{$query2->ref_go}}">{{$query2->tipo.' '.$query2->ref_go}}</a></td>	<td align="left"><a href="/cliente_diasdet?dias={{$query2->tipo}}&codgrife={{$query2->ref_go}}">{{$query2->secundario}}</a></td>
+					<td id="foto" align="center" style="min-height:60px;">
+               
+                <a href="" class="zoom" data-value="{{$query2->item}}"><img src="https://portal.goeyewear.com.br/teste999.php?referencia={{$query2->item}}" style="max-height: 60px;" class="img-responsive"></a>
+                
+              </td>
+					
+					<td align="left">{{$query2->tipo.' '.$query2->ref_go}}</td>	
+					<td align="left"><a href="/painel/{{$query2->agrup}}/{{$query2->modelo}}">{{$query2->secundario}}</a></td>
+					
 					
 					<td align="center">{{$query2->ref}}</td>
 					

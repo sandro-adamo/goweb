@@ -457,8 +457,8 @@ FROM
         *,
             CASE
                 
-                WHEN col_mod > '2021 11' THEN 'EM PRODUCAO'
-                WHEN col_item > '2021 11' THEN 'EM PRODUCAO'
+                WHEN col_mod > '2022 01' THEN 'EM PRODUCAO'
+                WHEN col_item > '2022 01' THEN 'EM PRODUCAO'
 				
                 
                 WHEN

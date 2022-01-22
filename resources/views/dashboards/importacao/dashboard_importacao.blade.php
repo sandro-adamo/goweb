@@ -3,16 +3,6 @@
 
 @php
 
-$representantes = Session::get('representantes');
-
-$base = \DB::select("select distinct data_base from ds_carteira");
-
-
-
-if($representantes==101815) 
-	{$grifes="( 'AM', 'BC', 'BV', 'CT', 'SM', 'MC', 'CH', 'DU', 'AA', 'AZ', 'CL')";} 
-		else {
-			$grifes = Session::get('grifes'); }
 
 
 

@@ -67,6 +67,7 @@
   <input type="checkbox" value="AT" name="at"><label>AT</label>
   <input type="checkbox" value="BG" name="bg"><label for="BG">BG</label>
   <input type="checkbox" value="EV" name="ev"><label for="EV">EV</label>
+<input type="checkbox" value="FE" name="ev"><label for="EV">FE</label>
   <input type="checkbox" value="HI" name="hi"><label for="HI">HI</label>
   <input type="checkbox" value="JO" name="jo"><label for="JO">JO</label>
   <input type="checkbox" value="SP" name="sp"><label for="SP">SP</label>

@@ -36,6 +36,7 @@
             <th>Dt Invoice</th>
 			<th>Ult status</th>
 			<th>Prox status</th>
+			  <th>Desc status</th>
 
             
 
@@ -46,14 +47,16 @@
         <tbody>
           @foreach ($cet as $cets)
           <tr>
-			  <td> {{$cets->secundario}}</a></td>
-            <td> {{$cets->ref_go}}</a></td>
-            <td> {{$cets->pedido}}</a></td>
+			  
+			  <td> {{$cets->secundario}}</td>
+            <td> {{$cets->ref_go}}</td>
+            <td> <a href="/dsimportdet?tipo={{$cets->tipo}}&pedido={{$cets->pedido}}">{{$cets->pedido}}</a></td>
             <td>{{$cets->tipo}}</td>
             <td>{{number_format($cets->qtde_sol,0)}}</td>
 			 <td>{{$cets->dt_pedido}}</td>
 			<td>{{$cets->ult_status}}</td>
 			 <td>{{$cets->prox_status}}</td>
+			<td>{{$cets->descricao_status}}</td>
             
            
 
