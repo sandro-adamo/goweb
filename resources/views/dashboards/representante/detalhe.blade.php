@@ -1,7 +1,9 @@
 @extends('produtos/painel/index')
 @php
 
-$agrup = 'fe02 - ferrati (rx)'
+$agrup = 'fe02 - ferrati (rx)';
+$colecao = '2022 03';
+
 
 if(isset($_GET["colecao"])){
 	$colecao = $_GET["colecao"];
