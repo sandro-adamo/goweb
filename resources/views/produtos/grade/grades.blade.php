@@ -53,10 +53,12 @@ from (
 							
 					select case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
 					grife, codgrife, itens.agrup, itens.modelo, itens.secundario, colmod, clasmod, ultstatus,
-					case when (left(colmod,4) <= year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao
-					from itens 
+					
+case when left(colmod,4) < year(now()) then 'lancado'
+    when (left(colmod,4) = year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao
+from itens 
 					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoitem = 006				 
-					and codgrife in ('AH','AI',  'AT','BG','EV','FE','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
+					and codgrife in ('AH','AI', 'fe', 'AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
 					 and codtipoarmaz not in ('o')
 				) as fim2
 			) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao
@@ -66,10 +68,11 @@ from (
 order by fornecedor, agrup
 
 ");
-			  			
+			  
+			
 @endphp
 
-teste
+novo
 
 <div class="col-md-12">
  <span class="lead">Grade de Modelos </span>
@@ -130,7 +133,7 @@ teste
                     <table class="table table-condensed table-bordered table2" style="text-align: left;">                
 						<tr>
 							<td>Mod</i></td>  
-                            <td><a href="/gradesmod?agrup={{$catalogo->agrup}}&colecao=2022 01 ">{{number_format($catalogo->modelos)}}</a></td> 
+                            <td><a href="/grade/detalhe?agrup={{$catalogo->agrup}}">{{number_format($catalogo->modelos)}}</a></td> 
                         </tr>
                     </table>
 
@@ -141,7 +144,7 @@ teste
                     <table class="table table-condensed table-bordered table2" style="text-align: center;">
                         <tr>
                             <td>N</i></td>
-                            <td><a href="/gradesmod?agrup={{$catalogo->agrup}}?cores=3">{{number_format($catalogo->novos)}}</a></td>
+                            <td><a href="/grade/detalhe?agrup={{$catalogo->agrup}}&colecao='novo'">{{number_format($catalogo->novos)}}</a></td>
                         </tr>
                     </table>
                 </td>
@@ -150,7 +153,7 @@ teste
                         <tr>
 
 							<td>A</td>
-							<td><a href="/gradesmod_painel??agrup={{$catalogo->agrup}}?cores=2">{{number_format($catalogo->aa)}}</a></td>
+							<td><a href="/grade/detalhe?agrup={{$catalogo->agrup}}&colecao='aa'">{{number_format($catalogo->aa)}}</a></td>
 							
                         </tr>
 						
@@ -163,7 +166,7 @@ teste
 						
                         <tr>
                             <td>A-</td>
-                            <td><a href="/gradesmod_painel??agrup={$catalogo->agrup}}?cores=1">{{number_format($catalogo->a)}}</a></td>
+                           <td><a href="/grade/detalhe?agrup={{$catalogo->agrup}}&colecao='a'">{{number_format($catalogo->a)}}</a></td>
                         </tr>
                     </table>
                 </td>
