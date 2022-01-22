@@ -72,7 +72,7 @@ order by fornecedor, agrup
 			
 @endphp
 
-novo
+teste novo
 
 <div class="col-md-12">
  <span class="lead">Grade de Modelos </span>
