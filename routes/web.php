@@ -140,6 +140,7 @@ Route::get('dsetq_colecao', function () {
 /** DS_representante **/
 Route::get('ds_rep', function () { return view('dashboards.representante.lista'); });
 Route::get('rep_det', function () { return view('dashboards.representante.rep_det'); });
+Route::get('rep_det1', function () { return view('dashboards.representante.detalhe'); });
 
 
 Route::get('/ds_rep/{agrupamento}/{modelo}/{item}', 'RepresController@ListaReps');
