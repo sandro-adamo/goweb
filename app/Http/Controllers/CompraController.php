@@ -3337,7 +3337,7 @@ group by agrupamento" );
 			) as qtd_entregue,
 			( select sum(qtde_entrega) from compras_entregas where compras_entregas.id_compra_item = compras_itens.id and compras_entregas.exclui is null and compras_entregas.dt_alterada is null
 			) as qtde_entrega,
-            ( select dt_confirmada from compras_entregas where compras_entregas.id_compra_item = compras_itens.id and compras_entregas.exclui is null and compras_entregas.dt_alterada is null  order by dt_confirmada asc limit 1
+            ( select dt_confirmada from compras_entregas where compras_entregas.id_compra_item = compras_itens.id and compras_entregas.exclui is null and compras_entregas.dt_alterada is null   order by dt_confirmada asc, qtde_entrega-qtd_entregue desc limit 1
 			)dt_confirmada,
 			( select count(id) from compras_entregas where compras_entregas.id_compra_item = compras_itens.id and compras_entregas.exclui is null and compras_entregas.dt_alterada = 1
 			) as dt_alterada
