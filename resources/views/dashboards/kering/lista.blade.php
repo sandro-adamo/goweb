@@ -90,8 +90,7 @@ $query_2 = \DB::select("
 					<td colspan="1" align="center">Vds 0a30</td>
 					<td colspan="1" align="center">aberto K</td>
 					<td colspan="1" align="center">alocado K</td>
-					<td colspan="1" align="center">ajuste go</td>
-					<td colspan="1" align="center">canc</td>
+					
 					
 				
 					</tr>
@@ -115,8 +114,7 @@ $query_2 = \DB::select("
 				<td align="center">{{number_format($query1->vendas_0a30DD)}}</td>	
 				<td align="center">{{number_format($query1->aberto_kering)}}</td>	
 				<td align="center">{{number_format($query1->alocado_kering)}}</td>	
-				<td align="center">{{number_format($query1->ajuste_go)}}</td>	
-				<td align="center">{{number_format($query1->canc)}}</td>
+				
 				</tr>
 			@endforeach 
 			
@@ -151,8 +149,7 @@ $query_2 = \DB::select("
 					<td colspan="1" align="center">Vds 0a30</td>
 					<td colspan="1" align="center">aberto K</td>
 					<td colspan="1" align="center">alocado K</td>
-					<td colspan="1" align="center">ajuste go</td>
-						<td colspan="1" align="center">canc</td>
+					
 					
 				
 					</tr>
@@ -176,8 +173,7 @@ $query_2 = \DB::select("
 				<td align="center">{{number_format($query2->vendas_0a30DD)}}</td>	
 				<td align="center">{{number_format($query2->aberto_kering)}}</td>	
 				<td align="center">{{number_format($query2->alocado_kering)}}</td>	
-				<td align="center">{{number_format($query2->ajuste_go)}}</td>	
-					<td align="center">{{number_format($query2->canc)}}</td>
+				
 				</tr>
 			@endforeach 
 			
