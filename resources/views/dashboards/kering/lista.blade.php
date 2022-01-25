@@ -180,10 +180,8 @@ $query_2 = \DB::select("
 		
 		   
 			</table>
-			<td></td> 
-		</div>
-		
 			
+		</div>	
 	</div>	
 </div>
 </h6>			
