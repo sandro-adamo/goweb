@@ -216,6 +216,14 @@ class RepresentanteController extends Controller
 			} else {
 
 				if ($representate->sit_representante <> 'VO') {
+					$email12 = strtolower($representate->email1);
+					
+					 $verifica_email = \DB::select( "select* from usuarios where email = '$email12'");
+					if(count($verifica_email)>1)
+					   {
+						   echo $verifica_email[0]->email.'email já existe para id'.$verifica_email[0]->id_addressbook;
+					   }
+					else{
 
 					$novo = new \App\Usuario();
 					//$novo->status = 1;
@@ -249,7 +257,7 @@ class RepresentanteController extends Controller
 
 				}
 
-
+					}
 
 			}
 
