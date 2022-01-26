@@ -219,9 +219,11 @@ class RepresentanteController extends Controller
 					$email12 = strtolower($representate->email1);
 					
 					 $verifica_email = \DB::select( "select* from usuarios where email = '$email12'");
-					if(count($verifica_email)>1)
+					
+					if(count($verifica_email)>0)
 					   {
-						   echo $verifica_email[0]->email.'email já existe para id'.$verifica_email[0]->id_addressbook;
+						
+						   echo '<FONT color="#ff0000">'.$verifica_email[0]->email.' email já existe para id '.$verifica_email[0]->id_addressbook.'</font></br>';
 					   }
 					else{
 
