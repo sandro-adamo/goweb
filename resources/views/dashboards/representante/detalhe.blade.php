@@ -222,13 +222,12 @@ order by fornecedor, agrup, modelo
 </ul>
 </div>
 </div>     	  				  
-				  				  				  
-				  				  				  				  
 				  				  				  				  				  				  
-</div> <!-- div tab content -->
-
-  </div>
-
+</div> 
+</div>
+</div>		  
+</div> 
+</div>
 </div>
 
 @include('produtos.painel.modal.genero')
