@@ -28,8 +28,7 @@ from (
     sum(compras) compras, sum(qtde_recebido) qtde_recebido, sum(qtde_transito) qtde_transito, sum(total_embarcado) total_embarcado, sum(falta_embarcar) falta_embarcar,
 	sum(disponivel) disponivel, sum(orcamentos) orcamentos, 
 	sum(vendas_0a30DD) vendas_0a30DD, sum(vendas_0a60DD) vendas_0a60DD, sum(vendas_total) vendas_total,
-	sum(mostruarios) mostruarios, sum(aberto) aberto_kering, sum(alocado) alocado_kering,ajuste_go,
-	sum(canc) canc
+	sum(mostruarios) mostruarios, sum(aberto) aberto_kering, sum(alocado) alocado_kering
 	
 	from go_storage.ds_kering 
     where codgrife in $grifes
@@ -45,6 +44,7 @@ $query_2 = \DB::select("
 	sum(disponivel) disponivel, sum(orcamentos) orcamentos, 
 	sum(vendas_0a30DD) vendas_0a30DD, sum(vendas_0a60DD) vendas_0a60DD, sum(vendas_total) vendas_total,
 	sum(mostruarios) mostruarios, sum(aberto) aberto_kering, sum(alocado) alocado_kering	
+												 
 	from go_storage.ds_kering where codgrife in $grifes
 	
 	group by  codgrife, left(agrup,5) 
