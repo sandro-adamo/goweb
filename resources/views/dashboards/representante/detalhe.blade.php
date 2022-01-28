@@ -145,6 +145,10 @@ order by fornecedor, agrup, modelo
 <div class="active tab-pane" id="Painel">
 	<div class="col-md-12">
 		<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+			
+			painel
+			
+			
 		</ul>
 	</div>
 </div>
