@@ -18,8 +18,7 @@ $query_1 = \DB::select("
 select colmod, sum(compras) compras, sum(qtde_recebido) qtde_recebido, sum(qtde_transito) qtde_transito, sum(total_embarcado) total_embarcado, sum(falta_embarcar) falta_embarcar,
 	sum(disponivel) disponivel, sum(orcamentos) orcamentos, 
 	sum(vendas_0a30DD) vendas_0a30DD, sum(vendas_0a60DD) vendas_0a60DD, sum(vendas_total) vendas_total,
-	sum(mostruarios) mostruarios, sum(aberto_kering) aberto_kering, sum(alocado_kering) alocado_kering, sum(ajuste_go) ajuste_go,
-	sum(canc) canc
+	sum(mostruarios) mostruarios, sum(aberto_kering) aberto_kering, sum(alocado_kering) alocado_kering
 from (
 
  	select case when left(colmod,4) < year(now()) then left(colmod,4) 
