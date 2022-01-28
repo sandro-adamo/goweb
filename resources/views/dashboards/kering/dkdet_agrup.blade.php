@@ -68,8 +68,7 @@ group by secundario, colmod, codgrife, agrup
 						
 					<td colspan="1" align="center">aberto K</td>
 					<td colspan="1" align="center">alocado K</td>
-					<td colspan="1" align="center">ajuste GO</td>
-						<td colspan="1" align="center">canc</td>
+					
 					
 				
 					</tr>
@@ -92,8 +91,7 @@ group by secundario, colmod, codgrife, agrup
 					
 				<td align="center">{{number_format($query2->aberto_kering)}}</td>	
 				<td align="center">{{number_format($query2->alocado_kering)}}</td>
-				<td align="center">{{number_format($query2->ajuste_go)}}</td>
-						<td align="center">{{number_format($query2->canc)}}</td>
+				
 				</tr>
 			@endforeach 
 			
