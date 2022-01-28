@@ -21,7 +21,7 @@ $query_2 = \DB::select("
 select secundario, colmod, codgrife, agrup, sum(compras) compras, sum(qtde_recebido) qtde_recebido, sum(qtde_transito) qtde_transito, sum(total_embarcado) total_embarcado, sum(falta_embarcar) falta_embarcar,
 sum(disponivel) disponivel, sum(orcamentos) orcamentos, 
 sum(vendas_0a30DD) vendas_0a30DD, sum(vendas_0a60DD) vendas_0a60DD, sum(vendas_total) vendas_total,
-sum(mostruarios) mostruarios, sum(aberto) aberto_kering, sum(alocado) alocado_kering, sum(ajuste_go) ajuste_go, sum(canc) canc
+sum(mostruarios) mostruarios, sum(aberto) aberto_kering, sum(alocado) alocado_kering
 
 from go_storage.ds_kering where left(agrup,5) = '$agrup' 
 	
@@ -87,8 +87,7 @@ group by secundario, colmod, codgrife, agrup
 				<td align="center">{{number_format($query2->disponivel)}}</td>
 				<td align="center"><a href="/dkorc_item?item={{$query2->secundario}}">{{number_format($query2->orcamentos)}}</a></td>
 				<td align="center">{{number_format($query2->vendas_0a30DD)}}</td>	
-				<td align="center"><a href="/dkvds_item?item={{$query2->secundario}}">{{number_format($query2->vendas_total)}}</a></td>	
-					
+				<td align="center"><a href="/dkvds_item?item={{$query2->secundario}}">{{number_format($query2->vendas_total)}}</a></td>		
 				<td align="center">{{number_format($query2->aberto_kering)}}</td>	
 				<td align="center">{{number_format($query2->alocado_kering)}}</td>
 				
