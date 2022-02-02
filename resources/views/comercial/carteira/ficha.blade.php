@@ -124,7 +124,7 @@ group by cliente, grife_jde");
 
 @endphp
 
- @if (\Auth::user()->id_perfil == 5 or \Auth::user()->id_perfil == 1) 
+ @if (\Auth::user()->id_perfil == 5 or \Auth::user()->id_perfil == 1 or \auth::user()->id_perfil ==25) 
  <div class="row">
   <div class="col-md-12">
     <div class="box box-widget">
