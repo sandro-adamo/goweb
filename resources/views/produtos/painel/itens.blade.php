@@ -437,14 +437,14 @@ $catalogo->modelo == 'HI1139'
 				
 				@endif
 				
-				@if ($catalogo->codfornecedor == '47663' and $catalogo->disponivel_venda < 0){
-				     <div class="col-md-12" align="left" ><b>Saldo</b>: 0</div>}
+				@if ($catalogo->codfornecedor == '47663' and $catalogo->disponivel_venda < 0)
+				     <div class="col-md-12" align="left" ><b>Saldo</b>: 0</div>
 				
-				@elseif ($catalogo->codfornecedor == '47663' and $catalogo->disponivel_venda >10){
-						<div class="col-md-12" align="left" ><b>Saldo</b>:maior que 10</div>}
+				@elseif ($catalogo->codfornecedor == '47663' and $catalogo->disponivel_venda >10)
+						<div class="col-md-12" align="left" ><b>Saldo</b>:maior que 10</div>
 
-				@elseif ($catalogo->codfornecedor == '47663' and $catalogo->disponivel_venda < 10){
-						 <div class="col-md-12" align="left" ><b>Saldo</b>:{{number_format($catalogo->disponivel_venda)}}</div>}
+				@elseif ($catalogo->codfornecedor == '47663' and $catalogo->disponivel_venda < 10)
+						 <div class="col-md-12" align="left" ><b>Saldo</b>:{{number_format($catalogo->disponivel_venda)}}</div>
 						 
 						 @endif
 			
