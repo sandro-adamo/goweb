@@ -449,11 +449,11 @@ $catalogo->modelo == 'HI1139'
 						 @endif
 			
 			
-				@if ($catalogo->codfornecedor == '47663'  and $catalogo->etq > 30){
-				     <div class="col-md-12" align="left" ><b>Com saldo na Kering</b>: </div>}
+				@if ($catalogo->codfornecedor == '47663'  and $catalogo->etq > 30)
+				     <div class="col-md-12" align="left" ><b>Com saldo na Kering</b>: </div>
 				
-				@elseif ($catalogo->codfornecedor == '47663'  and $catalogo->etq < 30){
-						<div class="col-md-12" align="left" ><b>Sem saldo na Kering</b></div>}
+				@elseif ($catalogo->codfornecedor == '47663'  and $catalogo->etq < 30)
+						<div class="col-md-12" align="left" ><b>Sem saldo na Kering</b></div>
 				
 						 
 						 @endif
