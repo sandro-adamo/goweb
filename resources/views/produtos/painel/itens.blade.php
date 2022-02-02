@@ -357,7 +357,7 @@ $catalogo->modelo == 'HI1139'
           @if (Session::has('novocatalogo'))
             <input type="checkbox" name="item" class="addItemCatalogo" @if (\App\Catalogo::verificaItemHabilitado($catalogo->secundario) == true) checked @endif value="{{$catalogo->secundario}}">
           @endif
-           @if ( \Auth::user()->admin == 1 ) 
+           @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
 
           <b><a  href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->secundario}}" class="text-black">{{$catalogo->secundario}}</a></b>
           @else
