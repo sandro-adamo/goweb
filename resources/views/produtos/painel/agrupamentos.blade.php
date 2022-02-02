@@ -19,7 +19,7 @@
 
 
        @if ( \Auth::user()->admin == 1  
-        or  \Auth::user()->id_perfil == 2 )
+        or  \Auth::user()->id_perfil == 2 or \auth::user()->id_perfil ==25)
       <tr>
        <a href="/sugestoes?agrup={{$agrupamento->agrup}}">
         <i class="fa fa-object-group" title="Sales Sugestion">

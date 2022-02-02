@@ -157,7 +157,7 @@ $catalogo->modelo == 'HI1139'
       <div class=" box-body">
         <div class="row">
           <div class="col-md-6">
-            @if ( \Auth::user()->admin == 1 or \Auth::user()->id_perfil == 2) {{$modelo->clasmod}} <a href="" class="alteraCaracteristica" data-tipo="modelo" data-caracteristica="clasmod" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a> 
+            @if ( \Auth::user()->admin == 1 or \Auth::user()->id_perfil == 2 or \auth::user()->id_perfil ==25) {{$modelo->clasmod}} <a href="" class="alteraCaracteristica" data-tipo="modelo" data-caracteristica="clasmod" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a> 
             @endif
           </div>
 			
@@ -178,7 +178,7 @@ $catalogo->modelo == 'HI1139'
 
             </div>
             <div>
-      @if (\Auth::user()->id_perfil == 1 or \Auth::user()->id_perfil == 2) 
+      @if (\Auth::user()->id_perfil == 1 or \Auth::user()->id_perfil == 2 or \auth::user()->id_perfil ==25) 
                 @if (isset($modelo->qtde_compra))
                  <b>{{'Pedido aberto '}}</b>{{$modelo->qtde_compra}}
                 @else  <b>{{'Pedido aberto '}}</b>{{0}}
@@ -373,7 +373,7 @@ $catalogo->modelo == 'HI1139'
             @endif
           </span>
           
-          @if ( (\Auth::user()->admin == 1 or \Auth::user()->id_perfil ==2 or \Auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==17) and $catalogo->historico <> 0)
+          @if ( (\Auth::user()->admin == 1 or \Auth::user()->id_perfil ==2 or \Auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==17 or \auth::user()->id_perfil ==25) and $catalogo->historico <> 0)
 		        <span data-toggle="tooltip" title="{{$catalogo->historico}} Históricos" class="badge bg-yellow">{{$catalogo->historico}}</span>
 			    @endif
                 
@@ -483,7 +483,7 @@ $catalogo->modelo == 'HI1139'
             @include('produtos.painel.info-estoques')
             </div>
             <small><i class="fa fa-circle text-{{$cor}}"></i> {{$catalogo->statusatual}} @if ( \Auth::user()->admin == 1 )<a href="" class="alteraCaracteristica" data-tipo="item" data-caracteristica="status" data-value="{{$catalogo->id}}"><i class="fa fa-edit"></i></a>@endif</small>
-            @if (\Auth::user()->id_perfil == 1 or \Auth::user()->id_perfil == 2) <a href="" class="novoPedido pull-right" data-value="{{$catalogo->secundario}}"><i title="Pedido em aberto" class="fa   fa-pencil text-blue"> 
+            @if (\Auth::user()->id_perfil == 1 or \Auth::user()->id_perfil == 2 or \auth::user()->id_perfil ==25) <a href="" class="novoPedido pull-right" data-value="{{$catalogo->secundario}}"><i title="Pedido em aberto" class="fa   fa-pencil text-blue"> 
 								@if (isset($catalogo->pedidoaberto))
 								{{$catalogo->pedidoaberto}}
 								@else {{$catalogo->qtde_compra}}
@@ -493,7 +493,7 @@ $catalogo->modelo == 'HI1139'
       </div>
       @endforeach
 
-      @if ( \Auth::user()->admin == 1 or \Auth::user()->id_perfil == 2) 
+      @if ( \Auth::user()->admin == 1 or \Auth::user()->id_perfil == 2 or \auth::user()->id_perfil ==25) 
       <div class="col-md-4" align="center" style="height: 300px;"><a href="" data-toggle="modal" data-target="#modalNovoItem" ><i class="fa fa-plus fa-4x" style="margin-top: 80px;"></i><br> Novo Item</a></div>
       @endif
 

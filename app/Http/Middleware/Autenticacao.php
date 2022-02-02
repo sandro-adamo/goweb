@@ -77,8 +77,8 @@ class Autenticacao
 
         if (Auth::check()) {
 
-
-            if (Auth::user()->id_perfil == 1  ) {
+            
+            if (Auth::user()->id_perfil == 1  or Auth::user()->id_perfil == 25   ) {
 
                 config(['app.debug' => true]);
     

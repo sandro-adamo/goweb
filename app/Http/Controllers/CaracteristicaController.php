@@ -22,7 +22,7 @@ class CaracteristicaController extends Controller
 	public function alteraCaracteristica(Request $request) {
 
 	
-		if  (\Auth::user()->id_perfil <> 1 and \Auth::user()->id_perfil <> 2 ) {
+		if  (\Auth::user()->id_perfil <> 1 and \Auth::user()->id_perfil <> 2 and \Auth::user()->id_perfil <> 25) {
 			die('sem permissao');
 		}
 

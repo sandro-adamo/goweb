@@ -411,7 +411,7 @@
                             
                             <td>
                               @if ( \Auth::user()->admin == 1  or  \Auth::user()->id_perfil == 11 
-								or  \Auth::user()->id_perfil == 2 )
+								or  \Auth::user()->id_perfil == 2 or \auth::user()->id_perfil ==25)
                                 <a href="/vendas_sint?modelo={{$catalogo->modelo}}">{{number_format($catalogo->imediata)}}/{{number_format($catalogo->imediata)}}</a>
                               @else 
                                 {{number_format($catalogo->imediata)}}/{{number_format($catalogo->imediata)}}
