@@ -46,7 +46,7 @@ on vendas.rep_vda = base.id_rep
 
 
 
-$query_2 = \DB::select("select distinct dir from carteira where status = 1"); 
+$query_2 = \DB::select("select distinct dir from carteira where status = 1 and dt_fim >= now() "); 
 
 
 			
@@ -160,7 +160,7 @@ $query_2 = \DB::select("select distinct dir from carteira where status = 1");
 				
 <!-- for supervisor -->
 			@php
-			$query_3 = \DB::select("select distinct sup from carteira where status = 1 and dir = '$query2->dir' "); 
+			$query_3 = \DB::select("select distinct sup from carteira where status = 1 and dt_fim >= now() and dir = '$query2->dir' "); 
 			@endphp
 				
 				
