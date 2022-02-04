@@ -45,10 +45,6 @@ on vendas.rep_vda = base.id_rep
 ");
 
 
-
-$query_2 = \DB::select("select distinct dir from carteira where status = 1 and dt_fim >= now() "); 
-
-
 			
 @endphp
 
@@ -147,6 +143,9 @@ $query_2 = \DB::select("select distinct dir from carteira where status = 1 and d
             </span>
           </a>
 
+		@php	  
+		 $query_2 = \DB::select("select distinct dir from carteira where status = 1 and dt_fim >= now() "); 	  
+		@endphp	  
           <ul class="treeview-menu">
 		  @foreach ($query_2 as $query2)
 			  
