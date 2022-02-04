@@ -126,11 +126,10 @@ on vendas.rep_vda = base.id_rep
 	
 	
 	
-<div class="row"> 
-	
-	<div class="col-md-12">	
-	
-	   <div class="box box-body">		
+
+	<div class="row"> 	
+	<div class="col-md-4">	
+	<div class="box box-body">		
 	
 	
 	
