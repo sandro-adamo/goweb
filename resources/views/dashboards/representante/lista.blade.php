@@ -136,12 +136,12 @@ $query_2 = \DB::select("select distinct dir from carteira where status = 1");
 <div class="box box-body">		
 	
 	<ul class="sidebar-menu tree" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
+        <li class="header">Diretoria</li>
         
   
 		  <li class="treeview">
           <a href="https://adminlte.io/themes/AdminLTE/index2.html#">
-            <i class="fa fa-share"></i> <span>Multilevel</span>
+            <i class="fa fa-share"></i> <span>Total</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
