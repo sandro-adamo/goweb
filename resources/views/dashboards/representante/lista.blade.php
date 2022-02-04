@@ -172,11 +172,11 @@ on vendas.rep_vda = base.id_rep
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
                   </a>
-              @endforeach     
+              
 <!-- for rep -->			
 					  @php
-			$query_4 = \DB::select("select distinct rep from carteira where status = 1 and dt_fim >= now() and sup = '$query3->sup' "); 
-			@endphp
+						$query_4 = \DB::select("select distinct rep from carteira where status = 1 and dt_fim >= now() and sup = '$query3->sup' "); 
+						@endphp
 						<ul class="treeview-menu">
 						@foreach ($query_4 as $query4)
 							
@@ -191,7 +191,7 @@ on vendas.rep_vda = base.id_rep
 				  
 				  
 				
-              </ul>
+              </ul> @endforeach    
             </li>
             @endforeach 
 	<!-- end for diretor -->		  
