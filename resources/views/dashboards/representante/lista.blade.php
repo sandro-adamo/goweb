@@ -150,7 +150,7 @@ on vendas.rep_vda = base.id_rep
 			  
 <!-- for diretor -->  			  
             <li class="treeview">
-              <a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Diretor 1
+              <a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query1->id_rep}}
                 <span class="pull-right-container">
                  20 <i class="fa fa-angle-left pull-right"></i>
                 </span>
