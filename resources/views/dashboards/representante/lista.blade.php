@@ -45,7 +45,10 @@ on vendas.rep_vda = base.id_rep
 ");
 
 
-	  
+
+$query_2 = \DB::select("select distinct dir from carteira where status = 1"); 
+
+
 			
 @endphp
 
@@ -146,11 +149,11 @@ on vendas.rep_vda = base.id_rep
 
           <ul class="treeview-menu">
  
-			  @foreach ($query_1 as $query1)
+			  @foreach ($query_2 as $query2)
 			  
 <!-- for diretor -->  			  
             <li class="treeview">
-              <a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query1->id_rep}}
+              <a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query2->dir}}
                 <span class="pull-right-container">
                  20 <i class="fa fa-angle-left pull-right"></i>
                 </span>
