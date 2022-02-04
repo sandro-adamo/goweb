@@ -29,18 +29,18 @@ left join (
 		select rep rep_cart, cli,
 		case when status = 1 then 1 else 0 end as cli_ativos,
 		min(dt_inicio) dt_inicio, max(dt_fim) dt_fim 
-		from carteira
+		from carteira where rep in (77065, 101415)
 		group by rep, status, cli
 		) as fim group by rep_cart
 	) as cart
 on cart.rep_cart = base.id_rep
 
 
-left join (select id_rep rep_most, sum(qtde) qtde_most from malas group by id_rep) as malas
+left join (select id_rep rep_most, sum(qtde) qtde_most from malas where id_rep in (77065, 101415) group by id_rep) as malas
 on malas.rep_most = base.id_rep
 
 
-left join (select id_rep rep_vda, sum(qtde) qtde_vda from vendas_jde where datediff(now(),dt_venda) <= 30 group by id_rep) as vendas
+left join (select id_rep rep_vda, sum(qtde) qtde_vda from vendas_jde where id_rep in (77065, 101415) and  datediff(now(),dt_venda) <= 30 group by id_rep) as vendas
 on vendas.rep_vda = base.id_rep
 ");
 
