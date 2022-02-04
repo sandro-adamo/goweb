@@ -40,7 +40,7 @@ left join (select id_rep rep_most, sum(qtde) qtde_most from malas where id_rep i
 on malas.rep_most = base.id_rep
 
 
-left join (select id_rep rep_vda, sum(qtde) qtde_vda from vendas_jde where id_rep in (77065, 101415) group by id_rep limit 1) as vendas
+left join (select id_rep rep_vda, sum(qtde) qtde_vda from vendas_jde where id_rep in (77065, 101415) and id_cliente = 1 group by id_rep) as vendas
 on vendas.rep_vda = base.id_rep
 ");
 
