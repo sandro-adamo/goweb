@@ -133,85 +133,7 @@ on vendas.rep_vda = base.id_rep
 <div class="box box-body">		
 	
 	<ul class="sidebar-menu tree" data-widget="tree">
-        <li class="header">Diretoria</li>
-        
-  
-		  <li class="treeview">
-          <a href="https://adminlte.io/themes/AdminLTE/index2.html#">
-            <i class="fa fa-share"></i> <span>Total</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-
-          <ul class="treeview-menu">
- 
-			  
-<!-- for diretor -->  			  
-            <li class="treeview">
-              <a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Diretor 1
-                <span class="pull-right-container">
-                 20 <i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-				
-<!-- for supervisor -->
-				
-              <ul class="treeview-menu">
-                
-				  <li class="treeview">
-                  <a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Supervisor 1
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                  </a>
-                  
-<!-- for rep -->					
-						<ul class="treeview-menu">
-						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Representente</a></li>
-						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Representente</a></li>
-					  	</ul>
-                	
-				  </li>
-				  
-				  
-				 
-				  
-				  
-				  <li class="treeview">
-                  <a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Supervisor 2
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                  </a>
-                  
-					
-						<ul class="treeview-menu">
-						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Representente 1</a></li>
-						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Representente 2</a></li>
-					  	</ul>
-                	
-				  </li>
-              </ul>
-            </li>
-            
-	<!-- end for diretor -->		  
-
-          </ul>
-        </li>
-      </ul>
-
-</div>
-</div>
-</div>
-	
-	
-<div class="row"> 	
-<div class="col-md-4">	
-<div class="box box-body">		
-	
-	<ul class="sidebar-menu tree" data-widget="tree">
-        <li class="header">Regiao</li>
+        <li class="header">MAIN NAVIGATION</li>
         
   
 		  <li class="treeview">
@@ -224,6 +146,7 @@ on vendas.rep_vda = base.id_rep
 
           <ul class="treeview-menu">
  
+			  @foreach ($query_1 as $query1)
 			  
 <!-- for diretor -->  			  
             <li class="treeview">
@@ -272,7 +195,7 @@ on vendas.rep_vda = base.id_rep
 				  </li>
               </ul>
             </li>
-            
+            @endforeach 
 	<!-- end for diretor -->		  
 
           </ul>
@@ -281,6 +204,9 @@ on vendas.rep_vda = base.id_rep
 
 </div>
 </div>
-</div>	
+</div>
+	
+	
+	
 	
 @stop
