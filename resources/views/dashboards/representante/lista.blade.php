@@ -148,8 +148,7 @@ $query_2 = \DB::select("select distinct dir from carteira where status = 1");
           </a>
 
           <ul class="treeview-menu">
- 
-			  @foreach ($query_2 as $query2)
+		  @foreach ($query_2 as $query2)
 			  
 <!-- for diretor -->  			  
             <li class="treeview">
@@ -161,19 +160,20 @@ $query_2 = \DB::select("select distinct dir from carteira where status = 1");
 				
 <!-- for supervisor -->
 @php
-				$query_2 = \DB::select("select distinct super from carteira where status = 1"); 
+				$query_3 = \DB::select("select distinct super from carteira where status = 1"); 
 @endphp
 				
 				
               <ul class="treeview-menu">
-                
+              @foreach ($query_3 as $query3)
+				  
 				  <li class="treeview">
-                  <a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Supervisor 1
+                  <a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query3->super}}
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
                   </a>
-                  
+              @endforeach     
 <!-- for rep -->					
 						<ul class="treeview-menu">
 						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Representente</a></li>
