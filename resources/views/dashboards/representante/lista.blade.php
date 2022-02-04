@@ -159,9 +159,9 @@ $query_2 = \DB::select("select distinct dir from carteira where status = 1");
               </a>
 				
 <!-- for supervisor -->
-@php
-				$query_3 = \DB::select("select distinct sup from carteira where status = 1"); 
-@endphp
+			@php
+			$query_3 = \DB::select("select distinct sup from carteira where status = 1 and dir = '$query2->dir' "); 
+			@endphp
 				
 				
               <ul class="treeview-menu">
