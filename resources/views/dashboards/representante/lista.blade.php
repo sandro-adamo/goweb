@@ -20,7 +20,7 @@ select * from (
 select id id_rep, codigo id_ssa, tipo, nome, fantasia, razao, uf, municipio, grupo, subgrupo, cadastro, flag_cadastro, sit_representante,
 	tipo_comissao, diretoria
 	from addressbook ab
-	where tipo in ('re','ri') and id in (77065, 101415)
+	where tipo in ('re','ri') and id in (77065, 101415) limit 1
 ) as base
 
 
@@ -30,7 +30,7 @@ left join (
 		case when status = 1 then 1 else 0 end as cli_ativos,
 		min(dt_inicio) dt_inicio, max(dt_fim) dt_fim 
 		from carteira where rep in (77065, 101415)
-		group by rep, status, cli
+		group by rep, status, cli limit 1
 		) as fim group by rep_cart
 	) as cart
 on cart.rep_cart = base.id_rep
@@ -126,6 +126,13 @@ on vendas.rep_vda = base.id_rep
 	
 	
 	
+<div class="row"> 
+	
+	<div class="col-md-12">	
+	
+	   <div class="box box-body">		
+	
+	
 	
 	
 	<ul class="sidebar-menu tree" data-widget="tree">
@@ -197,4 +204,11 @@ on vendas.rep_vda = base.id_rep
         </li>
       </ul>
 
+	</div>
+	</div>
+	</div>
+	
+	
+	
+	
 @stop
