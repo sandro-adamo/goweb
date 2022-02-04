@@ -40,7 +40,7 @@ left join (select id_rep rep_most, sum(qtde) qtde_most from malas where id_rep i
 on malas.rep_most = base.id_rep
 
 
-left join (select id_rep rep_vda, sum(qtde) qtde_vda from vendas_jde where id_rep in (77065, 101415) and  datediff(now(),dt_venda) <= 30 group by id_rep) as vendas
+left join (select id_rep rep_vda, sum(qtde) qtde_vda from vendas_jde where id_rep in (77065, 101415) group by id_rep limit 1) as vendas
 on vendas.rep_vda = base.id_rep
 ");
 
@@ -126,13 +126,11 @@ on vendas.rep_vda = base.id_rep
 	
 	
 	
+	
 
-	<div class="row"> 	
-	<div class="col-md-4">	
-	<div class="box box-body">		
-	
-	
-	
+<div class="row"> 	
+<div class="col-md-4">	
+<div class="box box-body">		
 	
 	<ul class="sidebar-menu tree" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
@@ -203,9 +201,9 @@ on vendas.rep_vda = base.id_rep
         </li>
       </ul>
 
-	</div>
-	</div>
-	</div>
+</div>
+</div>
+</div>
 	
 	
 	
