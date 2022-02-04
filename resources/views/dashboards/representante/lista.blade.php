@@ -173,10 +173,15 @@ on vendas.rep_vda = base.id_rep
                     </span>
                   </a>
               @endforeach     
-<!-- for rep -->					
+<!-- for rep -->			
+					  @php
+			$query_4 = \DB::select("select distinct rep from carteira where status = 1 and dt_fim >= now() and sup = '$query3->sup' "); 
+			@endphp
 						<ul class="treeview-menu">
-						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Representente</a></li>
-						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Representente</a></li>
+						@foreach ($query_4 as $query4)
+							
+						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query4->rep}}</a></li>
+			
 					  	</ul>
                 	
 				  </li>
