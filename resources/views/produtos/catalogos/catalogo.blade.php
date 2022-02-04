@@ -28,7 +28,7 @@ if (Session::has('alert-danger') ) {
           
               @if (Session::has('novocatalogo')) 
 
-                @if (\Auth::user()->id_perfil == 1)
+                @if (\Auth::user()->id_perfil == 1 or \Auth::user()->id_perfil ==25)
                 <div class="form-group">
                   <label class="col-md-2 control-label">Publico</label>
                   <div class="col-md-8">

@@ -82,7 +82,7 @@ order by a_180dd desc
 			  Modelo - <a href="/painel/{{$query[0]->agrupamento}}/{{$query[0]->modelo}}"><?php echo $modelo.' / ' ;?></a>
           
 			  
-            @if (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==11) 
+            @if (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==11 or \auth::user()->id_perfil ==25) 
             <a href="" class="text-black alteraClasMod">{{$query[0]->clasmod}} @if ( \Auth::user()->admin == 1 )<a href="" class="alteraCaracteristica" data-tipo="modelo" data-caracteristica="classmod" data-value="{{$query[0]->iditem}}"><i class="fa fa-edit"></i></a>@endif</a>
             @endif
         

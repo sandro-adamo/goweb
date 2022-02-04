@@ -230,7 +230,7 @@
           
 
            
-			@if(\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1)
+			@if(\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==25)
           @if (isset($filtro_fornecedores))
           <div class="form-group">
             <p><a href="" class="retrai" data-value="fornecedor">
@@ -355,7 +355,7 @@
 					<option value="fixacao" @if ($ordem == "fixacao") echo selected @endif>Fixação</option> 
 					<option value="idade" @if ($ordem == "idade") echo selected @endif>Idade</option> 
 					<option value="tamolho" @if ($ordem == "tamolho") echo selected @endif>Tam Olho</option> 
-                  @if(\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==11)
+                  @if(\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==11 or \auth::user()->id_perfil ==25)
 					<option value="fornecedor" @if ($ordem == "fornecedor") echo selected @endif>Factory</option>
 					@endif
                 </optgroup>

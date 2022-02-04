@@ -157,7 +157,7 @@ $catalogo->modelo == 'HI1139'
       <div class=" box-body">
         <div class="row">
           <div class="col-md-6">
-            @if ( \Auth::user()->admin == 1 or \Auth::user()->id_perfil == 2) {{$modelo->clasmod}} <a href="" class="alteraCaracteristica" data-tipo="modelo" data-caracteristica="clasmod" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a> 
+            @if ( \Auth::user()->admin == 1 or \Auth::user()->id_perfil == 2 or \auth::user()->id_perfil ==25) {{$modelo->clasmod}} <a href="" class="alteraCaracteristica" data-tipo="modelo" data-caracteristica="clasmod" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a> 
             @endif
           </div>
 			
@@ -168,7 +168,7 @@ $catalogo->modelo == 'HI1139'
 			
           <div class="col-md-6" align="right">{{$modelo->colecao}} @if ( \Auth::user()->admin == 1 )<a href="" class="alteraCaracteristica" data-tipo="modelo" data-caracteristica="colmod" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a>@endif</div>
         </div>
-         @if ( \Auth::user()->admin == 1 ) 
+         @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
         <a href="/painel/imprimir/{{$modelo->modelo}}">Imprimir</a>
         @endif
 		   <div> 
@@ -178,7 +178,7 @@ $catalogo->modelo == 'HI1139'
 
             </div>
             <div>
-      @if (\Auth::user()->id_perfil == 1 or \Auth::user()->id_perfil == 2) 
+      @if (\Auth::user()->id_perfil == 1 or \Auth::user()->id_perfil == 2 or \auth::user()->id_perfil ==25) 
                 @if (isset($modelo->qtde_compra))
                  <b>{{'Pedido aberto '}}</b>{{$modelo->qtde_compra}}
                 @else  <b>{{'Pedido aberto '}}</b>{{0}}
@@ -189,7 +189,7 @@ $catalogo->modelo == 'HI1139'
           <tr>
             <td><i class="fa fa-th"></i> Tipo</td>
             <td>{{$modelo->tipoitem}} 
-              @if ( \Auth::user()->admin == 1 ) 
+              @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
               <span class="pull-right">
                 <a href="" class="alteraCaracteristica" data-caracteristica="tipoitem" data-tipo="modelo" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a>
               </span>
@@ -199,7 +199,7 @@ $catalogo->modelo == 'HI1139'
           <tr>
             <td><i class="fa fa-tag"></i> Grife</td>
             <td>{{$modelo->grife}} 
-              @if ( \Auth::user()->admin == 1 ) 
+              @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
               <span class="pull-right"><a href="" class="alteraCaracteristica" data-tipo="modelo"  data-caracteristica="grife" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a></span>
               @endif
             </td>
@@ -207,7 +207,7 @@ $catalogo->modelo == 'HI1139'
           <tr>
             <td><i class="fa fa-list"></i> Agrupamento</td>
             <td>{{$modelo->agrup}} 
-              @if ( \Auth::user()->admin == 1 ) 
+              @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
               <span class="pull-right"><a href="" class="alteraCaracteristica" data-tipo="modelo" data-caracteristica="agrupamento" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a></span>
               @endif
             </td>
@@ -215,17 +215,17 @@ $catalogo->modelo == 'HI1139'
           <tr>
             <td><i class="fa fa-code-fork"></i> Linha</td>
             <td>{{$modelo->linha}} 
-              @if ( \Auth::user()->admin == 1 ) 
+              @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
               <span class="pull-right"><a href="" class="alteraCaracteristica" data-tipo="modelo" data-caracteristica="linha" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a></span>
               @endif
             </td>
           </tr>   
 
-          @if ( \Auth::user()->admin == 1 ) 
+          @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
           <tr>
             <td><i class="fa fa-industry"></i> Fornecedor</td>
             <td>{{$modelo->fornecedor2}} 
-              @if ( \Auth::user()->admin == 1 ) 
+              @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
                <span class="pull-right"><a href="" class="alteraCaracteristica" data-tipo="modelo"  data-caracteristica="fornecedor" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a></span>
               @endif
             </td>
@@ -234,7 +234,7 @@ $catalogo->modelo == 'HI1139'
           <tr>
             <td><i class="fa fa-intersex"></i> Genêro</td>
             <td>{{$modelo->genero}} 
-              @if ( \Auth::user()->admin == 1 ) 
+              @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
               <span class="pull-right"><a href="" class="alteraCaracteristica" data-tipo="modelo"  data-caracteristica="genero" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a></span>
               @endif
             </td>
@@ -242,7 +242,7 @@ $catalogo->modelo == 'HI1139'
           <tr>
             <td><i class="fa fa-child"></i> Idade</td>
             <td>{{$modelo->idade}} 
-              @if ( \Auth::user()->admin == 1 ) 
+              @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
               <span class="pull-right"><a href="" class="alteraCaracteristica" data-tipo="modelo"  data-caracteristica="idade" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a></span>
               @endif
             </td>
@@ -250,7 +250,7 @@ $catalogo->modelo == 'HI1139'
           <tr>
             <td><i class="fa fa-wrench"></i> Material</td>
             <td>{{$modelo->material}} 
-              @if ( \Auth::user()->admin == 1 ) 
+              @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
               <span class="pull-right"><a href="" class="alteraCaracteristica" data-tipo="modelo"  data-caracteristica="material" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a></span>
               @endif
             </td>
@@ -258,7 +258,7 @@ $catalogo->modelo == 'HI1139'
           <tr>
             <td><i class="fa fa-link"></i> Fixação</td>
             <td>{{$modelo->fixacao}} 
-              @if ( \Auth::user()->admin == 1 ) 
+              @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
               <span class="pull-right"><a href="" class="alteraCaracteristica" data-tipo="modelo"  data-caracteristica="fixacao" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a></span>
               @endif
             </td>
@@ -266,7 +266,7 @@ $catalogo->modelo == 'HI1139'
           <tr>
             <td><i class="fa fa-user-secret"></i> Estilo</td>
             <td>{{$modelo->estilo}} 
-              @if ( \Auth::user()->admin == 1 ) 
+              @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
               <span class="pull-right"><a href="" class="alteraCaracteristica" data-tipo="modelo"  data-caracteristica="estilo" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a></span>
               @endif
             </td>
@@ -274,7 +274,7 @@ $catalogo->modelo == 'HI1139'
 			<tr>
             <td><i class="fa  fa-magic"></i> Tecnologia</td>
             <td>{{$modelo->tecnologia}} 
-              @if ( \Auth::user()->admin == 1 ) 
+              @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
               <span class="pull-right"><a href="" class="alteraCaracteristica" data-tipo="modelo"  data-caracteristica="tecnologia" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a></span>
               @endif
             </td>
@@ -282,7 +282,7 @@ $catalogo->modelo == 'HI1139'
 			<tr>
             <td><i class="fa   fa-tripadvisor"></i> Tamanho Olho</td>
             <td>{{$modelo->tamolho}} 
-              @if ( \Auth::user()->admin == 1 ) 
+              @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
               <span class="pull-right"><a href="" class="alteraCaracteristica" data-tipo="modelo"  data-caracteristica="tamolho" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a></span>
               @endif
             </td>
@@ -290,7 +290,7 @@ $catalogo->modelo == 'HI1139'
 				<tr>
             <td><i class="fa fa-code-fork"></i> Tamanho Haste</td>
             <td>{{$modelo->tamhaste}} 
-              @if ( \Auth::user()->admin == 1 ) 
+              @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
               <span class="pull-right"><a href="" class="alteraCaracteristica" data-tipo="modelo"  data-caracteristica="tamhaste" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a></span>
               @endif
             </td>
@@ -298,7 +298,7 @@ $catalogo->modelo == 'HI1139'
 				<tr>
             <td><i class="fa fa-map-signs"></i> Tamanho Ponte</td>
             <td>{{$modelo->tamponte}} 
-              @if ( \Auth::user()->admin == 1 ) 
+              @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
               <span class="pull-right"><a href="" class="alteraCaracteristica" data-tipo="modelo"  data-caracteristica="tamponte" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a></span>
               @endif
             </td>
@@ -307,7 +307,7 @@ $catalogo->modelo == 'HI1139'
 			
         </table>
   
-        @if ( \Auth::user()->admin == 1 ) 
+        @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
 
         <label>CICLO DE COLEÇÕES (quando sera substituido)</label>
         <div class="row">
@@ -357,7 +357,7 @@ $catalogo->modelo == 'HI1139'
           @if (Session::has('novocatalogo'))
             <input type="checkbox" name="item" class="addItemCatalogo" @if (\App\Catalogo::verificaItemHabilitado($catalogo->secundario) == true) checked @endif value="{{$catalogo->secundario}}">
           @endif
-           @if ( \Auth::user()->admin == 1 ) 
+           @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
 
           <b><a  href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->secundario}}" class="text-black">{{$catalogo->secundario}}</a></b>
           @else
@@ -373,7 +373,7 @@ $catalogo->modelo == 'HI1139'
             @endif
           </span>
           
-          @if ( (\Auth::user()->admin == 1 or \Auth::user()->id_perfil ==2 or \Auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==17) and $catalogo->historico <> 0)
+          @if ( (\Auth::user()->admin == 1 or \Auth::user()->id_perfil ==2 or \Auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==17 or \auth::user()->id_perfil ==25) and $catalogo->historico <> 0)
 		        <span data-toggle="tooltip" title="{{$catalogo->historico}} Históricos" class="badge bg-yellow">{{$catalogo->historico}}</span>
 			    @endif
                 
@@ -388,7 +388,7 @@ $catalogo->modelo == 'HI1139'
 
           <div id="foto" align="center" style="min-height: 180px; max-height: 180px;">
             <a href="" class="zoom" data-value="{{$catalogo->secundario}}"><img src="/{{$foto}}" class="img-responsive" style="max-height: 180px;"></a>
-             @if ( \Auth::user()->admin == 1 ) 
+             @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
         @if ($catalogo->adv == 'sim') 
           <a href="/painel/campanhas/{{$catalogo->secundario}}"><i class="fa fa-camera text-purple fa-2x" style="position:absolute; top:40px; left:5%; opacity:0.8;" ></i></a>
         @else 
@@ -408,13 +408,13 @@ $catalogo->modelo == 'HI1139'
         @endif               
           </div>
           <div class="box-body">
-             @if ( \Auth::user()->admin == 1 ) 
+             @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
             <a href="" class="uploadFoto" data-value="{{$catalogo->secundario}}" data-tipo="item"><i class="fa fa-upload" style="position:absolute; top:215px; left:5%; opacity:0.8;"  data-toggle="tooltip" data-placement="top" title="Upload Foto" ></i></a>
             @endif
 
             <div class="row">
-              <div class="col-md-8">@if ( \Auth::user()->admin == 1 ) {{$catalogo->clasitem}} <a href="" class="alteraCaracteristica" data-tipo="item" data-caracteristica="clasitem" data-value="{{$catalogo->id}}"><i class="fa fa-edit"></i></a>@endif</div>
-              <div class="col-md-4" align="right">{{$catalogo->colitem}} @if ( \Auth::user()->admin == 1 )<a href="" class="alteraCaracteristica" data-tipo="item" data-caracteristica="colitem" data-value="{{$catalogo->id}}"><i class="fa fa-edit"></i></a>@endif</div>
+              <div class="col-md-8">@if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) {{$catalogo->clasitem}} <a href="" class="alteraCaracteristica" data-tipo="item" data-caracteristica="clasitem" data-value="{{$catalogo->id}}"><i class="fa fa-edit"></i></a>@endif</div>
+              <div class="col-md-4" align="right">{{$catalogo->colitem}} @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25)<a href="" class="alteraCaracteristica" data-tipo="item" data-caracteristica="colitem" data-value="{{$catalogo->id}}"><i class="fa fa-edit"></i></a>@endif</div>
 				<div class="col-md-8" align="left" ><b>EAN</b>: {{$catalogo->ean}}</div> 
 				
 				
@@ -437,23 +437,23 @@ $catalogo->modelo == 'HI1139'
 				
 				@endif
 				
-				@if ($catalogo->codfornecedor == '47663' and $catalogo->disponivel_venda < 0){
-				     <div class="col-md-12" align="left" ><b>Saldo</b>: 0</div>}
+				@if ($catalogo->codfornecedor == '47663' and $catalogo->disponivel_venda < 0)
+				     <div class="col-md-12" align="left" ><b>Saldo</b>: 0</div> 
 				
-				@elseif ($catalogo->codfornecedor == '47663' and $catalogo->disponivel_venda >10){
-						<div class="col-md-12" align="left" ><b>Saldo</b>:maior que 10</div>}
+				@elseif ($catalogo->codfornecedor == '47663' and $catalogo->disponivel_venda >10)
+						<div class="col-md-12" align="left" ><b>Saldo</b>:maior que 10</div>
 
-				@elseif ($catalogo->codfornecedor == '47663' and $catalogo->disponivel_venda < 10){
-						 <div class="col-md-12" align="left" ><b>Saldo</b>:{{number_format($catalogo->disponivel_venda)}}</div>}
+				@elseif ($catalogo->codfornecedor == '47663' and $catalogo->disponivel_venda < 10)
+						 <div class="col-md-12" align="left" ><b>Saldo</b>:{{number_format($catalogo->disponivel_venda)}}</div>
 						 
 						 @endif
 			
 			
-				@if ($catalogo->codfornecedor == '47663'  and $catalogo->etq > 30){
-				     <div class="col-md-12" align="left" ><b>Com saldo na Kering</b>: </div>}
+				@if ($catalogo->codfornecedor == '47663'  and $catalogo->etq > 30)
+				     <div class="col-md-12" align="left" ><b>Com saldo na Kering</b>: </div>
 				
-				@elseif ($catalogo->codfornecedor == '47663'  and $catalogo->etq < 30){
-						<div class="col-md-12" align="left" ><b>Sem saldo na Kering</b></div>}
+				@elseif ($catalogo->codfornecedor == '47663'  and $catalogo->etq < 30)
+						<div class="col-md-12" align="left" ><b>Sem saldo na Kering</b></div>
 				
 						 
 						 @endif
@@ -482,8 +482,8 @@ $catalogo->modelo == 'HI1139'
             @include('produtos.painel.info-vendas')
             @include('produtos.painel.info-estoques')
             </div>
-            <small><i class="fa fa-circle text-{{$cor}}"></i> {{$catalogo->statusatual}} @if ( \Auth::user()->admin == 1 )<a href="" class="alteraCaracteristica" data-tipo="item" data-caracteristica="status" data-value="{{$catalogo->id}}"><i class="fa fa-edit"></i></a>@endif</small>
-            @if (\Auth::user()->id_perfil == 1 or \Auth::user()->id_perfil == 2) <a href="" class="novoPedido pull-right" data-value="{{$catalogo->secundario}}"><i title="Pedido em aberto" class="fa   fa-pencil text-blue"> 
+            <small><i class="fa fa-circle text-{{$cor}}"></i> {{$catalogo->statusatual}} @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25)<a href="" class="alteraCaracteristica" data-tipo="item" data-caracteristica="status" data-value="{{$catalogo->id}}"><i class="fa fa-edit"></i></a>@endif</small>
+            @if (\Auth::user()->id_perfil == 1 or \Auth::user()->id_perfil == 2 or \auth::user()->id_perfil ==25) <a href="" class="novoPedido pull-right" data-value="{{$catalogo->secundario}}"><i title="Pedido em aberto" class="fa   fa-pencil text-blue"> 
 								@if (isset($catalogo->pedidoaberto))
 								{{$catalogo->pedidoaberto}}
 								@else {{$catalogo->qtde_compra}}
@@ -493,7 +493,7 @@ $catalogo->modelo == 'HI1139'
       </div>
       @endforeach
 
-      @if ( \Auth::user()->admin == 1 or \Auth::user()->id_perfil == 2) 
+      @if ( \Auth::user()->admin == 1 or \Auth::user()->id_perfil == 2 or \auth::user()->id_perfil ==25) 
       <div class="col-md-4" align="center" style="height: 300px;"><a href="" data-toggle="modal" data-target="#modalNovoItem" ><i class="fa fa-plus fa-4x" style="margin-top: 80px;"></i><br> Novo Item</a></div>
       @endif
 

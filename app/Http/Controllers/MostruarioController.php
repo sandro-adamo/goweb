@@ -976,7 +976,7 @@ order by Agrupamento, Cod_Secundario asc");
       $id_usuario = \Auth::id();
 
 
-      if(\Auth::user()->id_perfil == 4 or \Auth::user()->id_perfil == 23 ){
+      if(\Auth::user()->id_perfil == 4 or \Auth::user()->id_perfil == 23 or \auth::user()->id_perfil ==25 ){
 
       $inventarios = \DB::select("select id_inventario, cast(min(created_at) as date) as dt_inicio, count(item) as item, status, tipo  from inventarios where  exclui = 0 and id_rep = $id_rep and tipo = '$acao' group by id_inventario, status, tipo ");
       }else{

@@ -219,7 +219,7 @@ $catalogo->modelo == 'HI1139'
       <div class="box-header with-border" style="font-size:16px; padding: 3px 8px 3px 8px; margin-bottom: 0; vertical-align: top; height: 30px;" >
         <span class="text-bold" color="red">{{$catalogo->modelo}} <font color="red">{{$N}}</font> </span> 
 		  
-		  @if ((\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==17) and $catalogo->historico <> 0)
+		  @if ((\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==17 or \auth::user()->id_perfil ==25) and $catalogo->historico <> 0)
 		  <a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}"></a><span  data-toggle="tooltip" title="{{$catalogo->historico}} Históricos" class="badge bg-yellow">
 		  {{$catalogo->historico}}</span></a>
 		  
@@ -238,7 +238,7 @@ $catalogo->modelo == 'HI1139'
       </div>
       
 
-      @if (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==11) 
+      @if (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==11 or \auth::user()->id_perfil ==25) 
     	<a href="/exemplo?modelo={{$catalogo->modelo}}">
     		<i class="fa fa-cart-plus pull-right" placeholder ="Data da Atualização"></i>
       </a>
@@ -342,7 +342,7 @@ $catalogo->modelo == 'HI1139'
 
         <a href="" class="zoom" data-value="{{$catalogo->item}}"><i class="fa fa-search text-blue" style="position:absolute; top:235px; left:93%; opacity:0.8;" ></i></a>
 
-        @if (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==4 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==11) 
+        @if (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==4 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==11 or \auth::user()->id_perfil ==25) 
 
         @if ($catalogo->adv == 'sim') 
           <a href="/painel/campanhas/{{$catalogo->modelo}}"><i class="fa fa-camera text-purple fa-2x" style="position:absolute; top:40px; left:5%; opacity:0.8;" ></i></a>
@@ -372,7 +372,7 @@ $catalogo->modelo == 'HI1139'
         <div class="row">
           <div class="col-sm-6 col-md-6">
 
-{{--             @if (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==11) 
+{{--             @if (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==11 or \auth::user()->id_perfil ==25) 
  --}}
             <a href="" class="text-black alteraClasMod">
               {{$catalogo->clasmod}} 
@@ -391,7 +391,7 @@ $catalogo->modelo == 'HI1139'
 
         @include('produtos.painel.info-estoques')
       <div>
-      @if (\Auth::user()->id_perfil == 1 or \Auth::user()->id_perfil == 2) 
+      @if (\Auth::user()->id_perfil == 1 or \Auth::user()->id_perfil == 2 or \auth::user()->id_perfil ==25) 
                 @if (isset($catalogo->qtde_compra))
                  <b>{{'Pedido aberto '}}</b>{{$catalogo->qtde_compra}}
                 @else  <b>{{'Pedido aberto '}}</b>{{0}}

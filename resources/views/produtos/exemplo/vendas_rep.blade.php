@@ -167,7 +167,7 @@ order by sum(a330360+b300330+c270300+d240270+e210240+f180210+g150180+h120150+i90
 			  Item - <a href="/painel/{{$query2[0]->agrup}}/{{$query2[0]->modelo}}"><?php echo $item.' / ' ;?></a>
           
 			  
-            @if (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==11) 
+            @if (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==11 or \auth::user()->id_perfil ==25) 
             <a href="" class="text-black alteraClasMod">{{$query2[0]->clasmod}} @if ( \Auth::user()->admin == 1 )<a href="" class="alteraCaracteristica" data-tipo="modelo" data-caracteristica="classmod" data-value="{{$query2[0]->id}}"><i class="fa fa-edit"></i></a>@endif</a>
             @endif
         

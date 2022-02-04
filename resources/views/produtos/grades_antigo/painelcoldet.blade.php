@@ -165,7 +165,7 @@
                             
                             <td>
                               @if ( \Auth::user()->admin == 1  or  \Auth::user()->id_perfil == 11 
-								or  \Auth::user()->id_perfil == 2 )
+								or  \Auth::user()->id_perfil == 2 or \auth::user()->id_perfil ==25)
                                 <a href="/vendas_sint?modelo={{$catalogo->modelo}}">{{number_format($catalogo->qtde_tt)}}/{{number_format($catalogo->qtde_30)}}</a>
                               @else 
                                 {{number_format($catalogo->qtde30)}}

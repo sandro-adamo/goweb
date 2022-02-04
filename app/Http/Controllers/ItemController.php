@@ -306,11 +306,11 @@ public function sobePreco() {
 
 		$foto = 'fotos/nopicture.jpg';
 	
-		if (file_exists($foto_ficha_design1)and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+		if (file_exists($foto_ficha_design1)and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==25  or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 			$foto = $foto_ficha_design1;
 		}
 
-		if (file_exists($foto_ficha_design2)and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+		if (file_exists($foto_ficha_design2)and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==25  or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 			$foto = $foto_ficha_design2;
 		}
 		if (file_exists($foto_modelo1) ) {
@@ -428,50 +428,50 @@ public function sobePreco() {
 				$foto = $agregado2;	
 			}
 
-			if (file_exists($combinacao1) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($combinacao1) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 				$foto = $combinacao1;	
 			}
 			
-			if (file_exists($combinacao2) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($combinacao2) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 				$foto = $combinacao2;	
 			}
 			
-			if (file_exists($foto_ficha1) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($foto_ficha1) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 				$foto = $foto_ficha1;	
 			}
-			if (file_exists($foto_ficha2) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($foto_ficha2) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 				$foto = $foto_ficha2;
 			}
 
-			if (file_exists($foto_ficha_design1) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($foto_ficha_design1) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 				$foto = $foto_ficha_design1;	
 			}
-			if (file_exists($foto_ficha_design2) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($foto_ficha_design2) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 				$foto = $foto_ficha_design2;
 			}
 
-			if (file_exists($foto_ficha1) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($foto_ficha1) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 				$foto = $foto_ficha1;	
 			}
-			if (file_exists($foto_ficha2) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($foto_ficha2) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 				$foto = $foto_ficha2;
 			}
 			
 		
 			
 
-			if (file_exists($foto_prototipo1) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1  or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($foto_prototipo1) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==1  or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 				$foto = $foto_prototipo1;	
 			}
-			if (file_exists($foto_prototipo2) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($foto_prototipo2) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==17)) {
 				$foto = $foto_prototipo2;		
 			}
 			
-			if (file_exists($foto_modelo1)and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($foto_modelo1)and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 				$foto = $foto_modelo1;	
 			}
 			
-			if (file_exists($foto_modelo2)and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($foto_modelo2)and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 				$foto = $foto_modelo2;	
 			}
 			
@@ -566,28 +566,28 @@ public function sobePreco() {
 				$foto = $agregado2;	
 			}
 
-			if (file_exists($combinacao1) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($combinacao1) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 				$foto = $combinacao1;	
 			}
 			
-			if (file_exists($combinacao2) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($combinacao2) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 				$foto = $combinacao2;	
 			}
 			
-			if (file_exists($foto_ficha1) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($foto_ficha1) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 				$foto = $foto_ficha1;	
 			}
-			if (file_exists($foto_ficha2) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($foto_ficha2) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 				$foto = $foto_ficha2;
 			}
 			
 		
 			
 
-			if (file_exists($foto_prototipo1) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1  or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($foto_prototipo1) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==1  or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==17)) {
 				$foto = $foto_prototipo1;	
 			}
-			if (file_exists($foto_prototipo2) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==17)) {
+			if (file_exists($foto_prototipo2) and (\auth::user()->admin ==1 or \auth::user()->id_perfil ==2 or \auth::user()->id_perfil ==7 or \auth::user()->id_perfil ==25 or \auth::user()->id_perfil ==1 or \auth::user()->id_perfil ==17)) {
 				$foto = $foto_prototipo2;		
 			}
 			
