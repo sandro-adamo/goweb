@@ -183,27 +183,14 @@ on vendas.rep_vda = base.id_rep
 						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query4->rep}}</a></li>
 			
 					  	</ul>
-                	
+                	 	@endforeach  
 				  </li>
 				  
-				  
+				   
 				 
 				  
 				  
-				  <li class="treeview">
-                  <a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Supervisor 2
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                  </a>
-                  
-					
-						<ul class="treeview-menu">
-						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Representente 1</a></li>
-						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Representente 2</a></li>
-					  	</ul>
-                	
-				  </li>
+				
               </ul>
             </li>
             @endforeach 
