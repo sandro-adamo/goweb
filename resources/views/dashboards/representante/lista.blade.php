@@ -24,7 +24,7 @@ select id id_rep, codigo id_ssa, tipo, nome, fantasia, razao, uf, municipio, gru
 ) as base
 
 
-left join (
+
 	select rep_cart, count(cli) clientes, sum(cli_ativos) cli_ativos, min(dt_inicio) dt_inicio, max(dt_fim) dt_fim from  (
 		select rep rep_cart, cli,
 		case when status = 1 then 1 else 0 end as cli_ativos,
@@ -33,15 +33,7 @@ left join (
 		group by rep, status, cli limit 1
 		) as fim group by rep_cart
 	) as cart
-on cart.rep_cart = base.id_rep
 
-
-left join (select id_rep rep_most, sum(qtde) qtde_most from malas where id_rep in (77065, 101415) group by id_rep) as malas
-on malas.rep_most = base.id_rep
-
-
-left join (select id_rep rep_vda, sum(qtde) qtde_vda from vendas_jde where id_rep in (77065, 101415) and id_cliente = 1 group by id_rep) as vendas
-on vendas.rep_vda = base.id_rep
 ");
 
 
@@ -64,26 +56,14 @@ on vendas.rep_vda = base.id_rep
 			
 		 <tr>	
 
-	 		<td colspan="12">Compras Kering</td>
+	 		<td colspan="12">Lista represernatantes</td>
 		
 				</tr>
 		  			
-					<tr>	
+				<tr>	
 					<td colspan="1" align="center">id jde</td>
 					<td colspan="1" align="center">id ssa</td>
-					<td colspan="1" align="center">sit rep</td>				
-					<td colspan="1" align="center">flag cad</td>
-					<td colspan="1" align="center">nome</td>
-					<td colspan="1" align="center">fantasia</td>
-					<td colspan="1" align="center">uf</td>
-					<td colspan="1" align="center">municipio</td>
-					<td colspan="1" align="center">diretoria</td>
-					<td colspan="1" align="center">cli</td>
-					<td colspan="1" align="center">cli ativo </td>
-					<td colspan="1" align="center">qtde_most</td>
-					
-				
-					</tr>
+				</tr>
 			    </thead>
 			  
 		  
@@ -94,29 +74,14 @@ on vendas.rep_vda = base.id_rep
 			  
 				<tr>
 					<td align="center"><a href="">{{$query1->id_rep}}</a></td>
-					<td align="center">{{$query1->id_ssa}}</td>
-					<td align="center">{{$query1->sit_representante}}</td>
-					<td align="center">{{$query1->flag_cadastro}}</td>
-					<td align="center">{{$query1->nome}}</td>
-					<td align="center">{{$query1->fantasia}}</td>
-					<td align="center">{{$query1->uf}}</td>
-					<td align="center">{{$query1->municipio}}</td>
-					<td align="center">{{$query1->diretoria}}</td>
-					<td align="center">{{$query1->clientes}}</td>
-					<td align="center">{{$query1->cli_ativos}}</td>
-					<td align="center">{{$query1->qtde_most}}</td>
-
-					
+					<td align="center">{{$query1->id_rep}}</td>
 				</tr>
 			@endforeach 
 			
 		
 		   
 			</table>
-			
 		</div>
-		
-			
 	</div>	
 </div>
 </h6>			
