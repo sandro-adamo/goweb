@@ -126,10 +126,14 @@ select id id_rep, codigo id_ssa, tipo, nome, fantasia, razao, uf, municipio, gru
                   </a>
               @endforeach     
 <!-- for rep -->			
-					  
+					  @php
+			$query_4 = \DB::select("select distinct rep from carteira where status = 1 and dt_fim >= now() and dir = '$query3->sup' "); 
+			@endphp
 						<ul class="treeview-menu">
-						@foreach ($query_3 as $query3)
-						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Representente</a>
+						@foreach ($query_4 as $query4)
+							
+						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query3->rep}}</a>
+						
 						@endforeach	
 						</li>
 						
