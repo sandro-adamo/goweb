@@ -14,25 +14,12 @@ if($representantes==101815)
 echo $grifes;
 
 $query_1 = \DB::select(" 
-
-
-select * from (
+select distinct id_rep from (
 select id id_rep, codigo id_ssa, tipo, nome, fantasia, razao, uf, municipio, grupo, subgrupo, cadastro, flag_cadastro, sit_representante,
 	tipo_comissao, diretoria
 	from addressbook ab
 	where tipo in ('re','ri') and id in (77065, 101415) limit 1
-) as base
-
-
-
-	select rep_cart, count(cli) clientes, sum(cli_ativos) cli_ativos, min(dt_inicio) dt_inicio, max(dt_fim) dt_fim from  (
-		select rep rep_cart, cli,
-		case when status = 1 then 1 else 0 end as cli_ativos,
-		min(dt_inicio) dt_inicio, max(dt_fim) dt_fim 
-		from carteira where rep in (77065, 101415)
-		group by rep, status, cli limit 1
-		) as fim group by rep_cart
-	) as cart
+) as final
 
 ");
 
