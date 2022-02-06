@@ -15,7 +15,7 @@ echo $grifes;
 
 $query_1 = \DB::select(" 
 
-select distinct id_rep
+select distinct id id_rep
 	from addressbook ab limit 1
 
 ");
