@@ -132,9 +132,9 @@ select distinct id id_rep
 							
 						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query4->rep}}</a>
 						
-						@endforeach	
-						</li>
 						
+						</li>
+						@endforeach	
 							
 					  	</ul>
                 	
