@@ -77,7 +77,7 @@ select distinct id id_rep
 	
 
 <div class="row"> 	
-<div class="col-md-4">	
+<div class="col-md-6">	
 <div class="box box-body">		
 	
 	<ul class="sidebar-menu tree" data-widget="tree">
@@ -123,10 +123,11 @@ select distinct id id_rep
                   </a>
               @endforeach     
 <!-- for rep -->			
-					  @php
-			$query_4 = \DB::select("select distinct rep from carteira where status = 1 and dt_fim >= now() and sup = '$query3->sup' "); 
-			@endphp
-						<ul class="treeview-menu">
+					    @php
+						$query_4 = \DB::select("select distinct rep from carteira where status = 1 and dt_fim >= now() and sup = '$query3->sup' "); 
+						@endphp
+						
+					    <ul class="treeview-menu">
 						@foreach ($query_4 as $query4)
 							
 						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query4->rep}}</a>
