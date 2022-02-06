@@ -128,8 +128,12 @@ select id id_rep, codigo id_ssa, tipo, nome, fantasia, razao, uf, municipio, gru
 <!-- for rep -->			
 					  
 						<ul class="treeview-menu">
-						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Representente</a></li>
-						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Representente</a></li>
+						@foreach ($query_3 as $query3)
+						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> Representente</a>
+						@endforeach	
+						</li>
+						
+							
 					  	</ul>
                 	
 				  </li>
