@@ -131,6 +131,7 @@ select distinct id id_rep
 						@foreach ($query_4 as $query4)
 							
 						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query4->rep}}</a>
+							<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i>REP</a>
 						
 						
 						</li>
