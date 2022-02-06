@@ -14,12 +14,9 @@ if($representantes==101815)
 echo $grifes;
 
 $query_1 = \DB::select(" 
-select distinct id_rep from (
-select id id_rep, codigo id_ssa, tipo, nome, fantasia, razao, uf, municipio, grupo, subgrupo, cadastro, flag_cadastro, sit_representante,
-	tipo_comissao, diretoria
-	from addressbook ab
-	where tipo in ('re','ri') and id in (77065, 101415) limit 1
-) as final
+
+select distinct id_rep
+	from addressbook ab limit 1
 
 ");
 
