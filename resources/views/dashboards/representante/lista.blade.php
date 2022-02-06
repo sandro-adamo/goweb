@@ -127,7 +127,7 @@ select id id_rep, codigo id_ssa, tipo, nome, fantasia, razao, uf, municipio, gru
               @endforeach     
 <!-- for rep -->			
 					  @php
-			$query_4 = \DB::select("select distinct rep from carteira where status = 1 and dt_fim >= now() and dir = '$query3->sup' "); 
+			$query_4 = \DB::select("select distinct rep from carteira where status = 1 and dt_fim >= now() and sup = '$query3->sup' "); 
 			@endphp
 						<ul class="treeview-menu">
 						@foreach ($query_4 as $query4)
