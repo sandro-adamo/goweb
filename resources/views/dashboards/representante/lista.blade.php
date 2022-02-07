@@ -118,13 +118,15 @@ select distinct id id_rep
                  
 <!-- for rep -->			
 					    @php
-						$query_4 = \DB::select("select distinct rep from carteira where status = 1 and dt_fim >= now() and codsuper = '$query3->codsuper' and cli_ativo = 1"); 
+						$query_4 = \DB::select("
+					  select distinct rep, nome from carteira cart left join addressbook ab on ab.id = rep 
+					  where status = 1 and dt_fim >= now() and codsuper = '$query3->codsuper' and cli_ativo = 1"); 
 						@endphp
 						
 					    <ul class="treeview-menu">
 						@foreach ($query_4 as $query4)
 							
-						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query4->rep}}</a>
+						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query4->rep}}{{$query4->nome}}</a>
 							
 						@endforeach	
 							
