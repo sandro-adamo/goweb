@@ -118,7 +118,7 @@ select distinct id id_rep
                  
 <!-- for rep -->			
 					    @php
-						$query_4 = \DB::select("select distinct rep from carteira where status = 1 and dt_fim >= now() and sup = '$query3->codsuper' and cli_ativo = 1"); 
+						$query_4 = \DB::select("select distinct rep from carteira where status = 1 and dt_fim >= now() and codsuper = '$query3->codsuper' and cli_ativo = 1"); 
 						@endphp
 						
 					    <ul class="treeview-menu">
