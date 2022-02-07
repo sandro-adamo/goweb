@@ -126,7 +126,7 @@ select distinct id id_rep
 					    <ul class="treeview-menu">
 						@foreach ($query_4 as $query4)
 							
-						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query4->rep}}{{$query4->nome}}</a>
+						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query4->rep}} {{$query4->nome}}</a>
 							
 						@endforeach	
 							
