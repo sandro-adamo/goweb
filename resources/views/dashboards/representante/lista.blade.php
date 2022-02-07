@@ -121,7 +121,7 @@ select distinct id id_rep
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
                   </a>
-              @endforeach     
+                 
 <!-- for rep -->			
 					    @php
 						$query_4 = \DB::select("select distinct rep from carteira where status = 1 and dt_fim >= now() and sup = '$query3->sup' "); 
@@ -141,7 +141,7 @@ select distinct id id_rep
                 	
 				  </li>
 				  
-				  
+				@endforeach    
 				 
 				  
 				  
