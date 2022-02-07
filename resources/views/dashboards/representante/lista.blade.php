@@ -135,7 +135,7 @@ select distinct id id_rep
 						
 						
 						</li>
-						
+						@endforeach	
 							
 					  	</ul>
 				  </li>
