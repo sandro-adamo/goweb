@@ -175,7 +175,7 @@ select distinct id id_rep
 				  </a>
 
 				@php	  
-				 $query_2 = \DB::select("select distinct coddir, dir from carteira where status = 1 and dt_fim >= now() and cli_ativo = 1 ");
+				 $query_2 = \DB::select("select distinct grife from carteira where status = 1 and dt_fim >= now() and cli_ativo = 1 ");
 				@endphp	  
 				  <ul class="treeview-menu">
 				  @foreach ($query_2 as $query2)
@@ -190,7 +190,7 @@ select distinct id id_rep
 
 		<!-- for supervisor -->
 					@php
-					$query_3 = \DB::select("select distinct codsuper, sup from carteira where status = 1 and dt_fim >= now() and coddir = '$query2->coddir' and cli_ativo = 1"); 
+					$query_3 = \DB::select("select distinct codsuper, sup from carteira where status = 1 and dt_fim >= now() and grife = '$query2->grife' and cli_ativo = 1"); 
 					@endphp
 
 
