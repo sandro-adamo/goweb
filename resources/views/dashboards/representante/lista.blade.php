@@ -71,7 +71,7 @@ select distinct id id_rep
 
 
 <div class="row"> 	
-<div class="col-md-6">	
+<div class="col-md-5">	
 <div class="box box-body">		
 	
 	<ul class="sidebar-menu tree" data-widget="tree">
