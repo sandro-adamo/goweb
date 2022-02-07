@@ -182,7 +182,7 @@ select distinct id id_rep
 
 		<!-- for diretor -->  			  
 					<li class="treeview">
-					  <a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query2->dir}}
+					  <a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query2->grife}}
 						<span class="pull-right-container">
 						 20 <i class="fa fa-angle-left pull-right"></i>
 						</span>
