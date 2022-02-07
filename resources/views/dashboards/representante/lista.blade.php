@@ -156,6 +156,101 @@ select distinct id id_rep
 </div>
 	
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="row"> 	
+<div class="col-md-6">	
+<div class="box box-body">		
 	
+	<ul class="sidebar-menu tree" data-widget="tree">
+        <li class="header">Diretoria</li>
+        
+  
+		  <li class="treeview">
+          <a href="https://adminlte.io/themes/AdminLTE/index2.html#">
+            <i class="fa fa-share"></i> <span>Total</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+
+		@php	  
+		 $query_2 = \DB::select("select distinct dir from carteira where status = 1 and dt_fim >= now() "); 	  
+		@endphp	  
+          <ul class="treeview-menu">
+		  @foreach ($query_2 as $query2)
+			  
+<!-- for diretor -->  			  
+            <li class="treeview">
+              <a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query2->dir}}
+                <span class="pull-right-container">
+                 20 <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+				
+<!-- for supervisor -->
+			@php
+			$query_3 = \DB::select("select distinct sup from carteira where status = 1 and dt_fim >= now() and dir = '$query2->dir' "); 
+			@endphp
+				
+				
+              <ul class="treeview-menu">
+              @foreach ($query_3 as $query3)
+				  
+				  <li class="treeview">
+                  <a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query3->sup}}
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                  </a>
+                 
+<!-- for rep -->			
+					    @php
+						$query_4 = \DB::select("select distinct rep from carteira where status = 1 and dt_fim >= now() and sup = '$query3->sup' "); 
+						@endphp
+						
+					    <ul class="treeview-menu">
+						@foreach ($query_4 as $query4)
+							
+						<li><a href="https://adminlte.io/themes/AdminLTE/index2.html#"><i class="fa fa-circle-o"></i> {{$query4->rep}}</a>
+							
+						@endforeach	
+							
+					  	</ul>
+				  </li>
+				  
+				@endforeach    
+				 
+				  
+				  
+				 
+              </ul>
+            </li>
+            @endforeach 
+	<!-- end for diretor -->		  
+
+          </ul>
+        </li>
+      </ul>
+
+</div>
+</div>
+</div>
 	
 @stop
