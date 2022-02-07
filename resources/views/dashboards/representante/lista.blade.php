@@ -120,7 +120,8 @@ select distinct id id_rep
 		<!-- for rep -->			
 								@php
 								$query_4 = \DB::select("
-	 						    select distinct rep, nome from carteira cart left join addressbook ab on ab.id = rep 
+	 						    select distinct rep, case when nome = '' then fantasia else nome end as nome 
+							    from carteira cart left join addressbook ab on ab.id = rep 
 							    where status = 1 and dt_fim >= now() and codsuper = '$query3->codsuper' and coddir = '$query2->coddir' and cli_ativo = 1"); 
 								@endphp
 
