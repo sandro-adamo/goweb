@@ -49,32 +49,26 @@ select distinct id id_rep
 					<td colspan="1" align="center">id ssa</td>
 				</tr>
 			    </thead>
-			  
-		  
 		   
 			@foreach ($query_1 as $query1)
-		   
 		   
 			  
 				<tr>
 					<td align="center"><a href="">{{$query1->id_rep}}</a></td>
 					<td align="center">{{$query1->id_rep}}</td>
 				</tr>
-			@endforeach 
-			
-		
+			@endforeach 	
 		   
 			</table>
 		</div>
 	</div>	
 </div>
 </h6>			
-	
 </form>
 	
-	
-	
-	
+
+
+
 
 <div class="row"> 	
 <div class="col-md-6">	
@@ -93,7 +87,7 @@ select distinct id id_rep
           </a>
 
 		@php	  
-		 $query_2 = \DB::select("select distinct dir from carteira where status = 1 and dt_fim >= now() "); 	  
+		 $query_2 = \DB::select("select distinct dir from carteira where status = 1 and dt_fim >= now() and cli_ativo = 1 ");
 		@endphp	  
           <ul class="treeview-menu">
 		  @foreach ($query_2 as $query2)
@@ -108,7 +102,7 @@ select distinct id id_rep
 				
 <!-- for supervisor -->
 			@php
-			$query_3 = \DB::select("select distinct sup from carteira where status = 1 and dt_fim >= now() and dir = '$query2->dir' "); 
+			$query_3 = \DB::select("select distinct sup from carteira where status = 1 and dt_fim >= now() and dir = '$query2->dir' and cli_ativo = 1"); 
 			@endphp
 				
 				
@@ -124,7 +118,7 @@ select distinct id id_rep
                  
 <!-- for rep -->			
 					    @php
-						$query_4 = \DB::select("select distinct rep from carteira where status = 1 and dt_fim >= now() and sup = '$query3->sup' "); 
+						$query_4 = \DB::select("select distinct rep from carteira where status = 1 and dt_fim >= now() and sup = '$query3->sup' and cli_ativo = 1"); 
 						@endphp
 						
 					    <ul class="treeview-menu">
@@ -137,9 +131,7 @@ select distinct id id_rep
 					  	</ul>
 				  </li>
 				  
-				@endforeach    
-				 
-				  
+				@endforeach    				  
 				  
 				 
               </ul>
@@ -179,7 +171,7 @@ select distinct id id_rep
 <div class="box box-body">		
 	
 	<ul class="sidebar-menu tree" data-widget="tree">
-        <li class="header">Diretoria</li>
+        <li class="header">Grifes</li>
         
   
 		  <li class="treeview">
