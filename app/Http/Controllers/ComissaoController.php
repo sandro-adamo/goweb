@@ -61,10 +61,10 @@ from (
 	select ano, periodo, id_rep, case when nome <> '' then nome else rtrim(razao) end as razao, notafiscal,
 	-- case when categoria in ('Comissoes','Bonus') then ifnull(sum(comissao),0) else 0 end as valor_nf,
 	ifnull(sum(comissao),0) as valor_nf,
-	ifnull((select sum(valor) from descontos adt where tipo in ('Imposto') and adt.id_rep in ($representante) and adt.periodo = comissoes.periodo and adt.ano = comissoes.ano),0) as valor_irpj,
-	ifnull((select sum(valor) from descontos adt where tipo in ('Adiantamento', 'Leitor', 'Antecipação') and adt.id_rep in ($representante)and adt.periodo = comissoes.periodo and adt.ano = comissoes.ano),0) as valor_descontos,
-	ifnull((select sum(valor) from descontos adt where tipo in ('Diferença pagamento') and adt.id_rep in ($representante)and adt.periodo = comissoes.periodo and adt.ano = comissoes.ano),0) as 'Diferenca_pagamento',
-	ifnull((select sum(valor) from descontos adt where tipo in ('ajuste nf') and adt.id_rep in ($representante)and adt.periodo = comissoes.periodo and adt.ano = comissoes.ano),0) as 'ajuste_nf'
+	ifnull((select sum(valor) from descontos adt where tipo in ('Imposto') and adt.id_rep = comissoes.id_rep and adt.periodo = comissoes.periodo and adt.ano = comissoes.ano),0) as valor_irpj,
+	ifnull((select sum(valor) from descontos adt where tipo in ('Adiantamento', 'Leitor', 'Antecipação') and adt.id_rep = comissoes.id_rep and adt.periodo = comissoes.periodo and adt.ano = comissoes.ano),0) as valor_descontos,
+	ifnull((select sum(valor) from descontos adt where tipo in ('Diferença pagamento') and adt.id_rep = comissoes.id_rep and adt.periodo = comissoes.periodo and adt.ano = comissoes.ano),0) as 'Diferenca_pagamento',
+	ifnull((select sum(valor) from descontos adt where tipo in ('ajuste nf') and adt.id_rep = comissoes.id_rep and adt.periodo = comissoes.periodo and adt.ano = comissoes.ano),0) as 'ajuste_nf'
 
 					from comissoes 
 					left join addressbook on id_rep = addressbook.id
