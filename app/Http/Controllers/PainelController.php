@@ -26,7 +26,7 @@ when ult_status = '369' and prox_status = '375' then 'Confirmada a Remoção do 
 when ult_status = '375' and prox_status = '379' then 'DI Registrada'
 when ult_status = '379' and prox_status = '385' then 'Emissão de Nota Fiscal de Importação'
 when ult_status = '385' and prox_status = '390' then 'Confirmação de Carregamento para Transporte Interno'
-when ult_status = '390' and prox_status = '400' then 'Confirmação da Carga na Fábrica de Destino'
+when ult_status = '390' and prox_status = '400' then 'Em trânsito para TO'
 when ult_status = '400' and prox_status = '999' then 'Recebimento'
 else '' end as 'descricao_status'
 
