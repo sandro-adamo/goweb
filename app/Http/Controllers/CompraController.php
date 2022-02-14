@@ -1032,7 +1032,7 @@ where ci.id_item is null
 					  $custo2 = 0;
 				  }
 				  	
-                $verifica = \DB::select( "insert into compras_invoices (`item`, `qtd`, `invoice`, `dt_invoice`, `custo`, `usado`, `usado`) values ('$linha[0]','$linha[1]','$invoice','$dt_invoice','$custo2','0','0')" );
+                $verifica = \DB::select( "insert into compras_invoices (`item`, `qtd`, `invoice`, `dt_invoice`, `custo`, `usado`) values ('$linha[0]','$linha[1]','$invoice','$dt_invoice','$custo2','0')" );
 
 
               } else {
