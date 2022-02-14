@@ -1061,7 +1061,7 @@ where ci.id_item is null
 
 
       $itens = \DB::select( "select* from compras_invoices  where invoice = '$invoice' 
-		 (and exclui is null or exclui = 0) " );
+		 and (exclui is null or exclui = 0) " );
       //dd($itens);
 
 
