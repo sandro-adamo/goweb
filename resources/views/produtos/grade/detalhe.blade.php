@@ -33,7 +33,7 @@ $data = '2021-01-01';
 
 $modelos = \DB::select("
 
-select ciclo, fornecedor, codgrife grife, agrup, modelo, colecao, colmod, clasmod,
+select ciclo, fornecedor, codgrife, codgrife grife, agrup, modelo, colecao, colmod, clasmod,
 sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
 sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total) qtde_total,
 sum(novos) novos, sum(aa) aa, sum(a) a, 
