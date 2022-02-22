@@ -434,7 +434,7 @@ order by modelo
 			<td align="left"> {{$catalogo->beneficiamento}}</td>
 			<td align="left"> {{$catalogo->cet}}</td>
 			<td align="left"> {{$catalogo->cep}}</td>
-				<td align="left"> {{$catalogo->qtde_vda}}</td>
+				<td align="left"> {{$catalogo->atual}}</td>
 			
 		</tr>
 		@endforeach
