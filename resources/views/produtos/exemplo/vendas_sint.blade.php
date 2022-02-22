@@ -27,7 +27,7 @@ select itens.id iditem, itens.agrup agrupamento, itens.modelo as modelos,itens.s
 (select idade from itens d where d.secundario = itens.secundario and colmod not in ('','Add sales cat S5 codes here') limit 1 ) idade,
 (select tamolho from itens d where d.secundario = itens.secundario and colmod not in ('','Add sales cat S5 codes here') limit 1 ) tamolho,
 
- vendas_sint.*, sld.disponivel+sld.reserva_most Availability, 
+ vendas_sint.*, sld.disponivel+sld.reserva_most+sld.conf_montado Availability, 
   conf_montado+em_beneficiamento+saldo_parte as Factoring_BR, 
   qtd_rot_receb+cet as In_transit, 
 	etq as Stock_Factory, cep  as In_production,
