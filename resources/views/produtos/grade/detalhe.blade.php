@@ -336,9 +336,10 @@ order by modelo
 										<table class="table table-condensed table-bordered table2"  style="text-align: center;">
 											<tr>
 												<td><i class="fa fa-shopping-cart text-green"></i></td>
-												<td>{{number_format($catalogo->qtde_vda)}}</td>
-												<td>{{number_format($catalogo->qtde_vda)}}</td>
-												<td>{{number_format($catalogo->qtde_vda)}}</td>
+												<td>{{number_format($catalogo->atual)}}</td>
+												<td>{{number_format($catalogo->ultimo)}}</td>
+												<td>{{number_format($catalogo->mes_sem)}}</td>
+												<td>{{number_format($catalogo->mes_ano)}}</td>
 											</tr>
 										</table>
 
