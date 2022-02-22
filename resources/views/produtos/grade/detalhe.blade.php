@@ -35,6 +35,7 @@ $modelos = \DB::select("
 
 select ciclo, fornecedor, codgrife, agrup, modelo, colecao, colmod, clasmod,
 sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
+sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total) qtde_total,
 sum(novos) novos, sum(aa) aa, sum(a) a, 
 sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, 
 sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
@@ -43,12 +44,14 @@ from (
 	select ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod,
 	case when colecao = 'novo' then 1 else 0 end as novos, case when colecao = 'aa' then 1 else 0 end as aa, case when colecao = 'a' then 1 else 0 end as a, 
 	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor,
-    sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total
+    sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
+    sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total) qtde_total
 
 	from (
     
 		select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, 
         (disponivel) disponivel, (beneficiamento) beneficiamento, (cet) cet, (cep) cep, (most) most, (total) total,
+        atual, ultimo, mes_sem, mes_ano, qtde_total,
 
 		case when imediata+futura >= 3 then 1 else 0 end as am3cores,
 		case when imediata+futura  = 2 then 1 else 0 end as b2cores,
@@ -62,7 +65,8 @@ from (
 
 			select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, 
 			count(secundario) as itens, sum(itens_imed) imediata, sum(itens_trans) futura, sum(itens_prod) producao,
-            sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total
+            sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
+            sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total_jde) qtde_total
 			from (
 
 				select ciclo, case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
@@ -71,17 +75,20 @@ from (
 				(select clasmod from itens iclas where iclas.id = id_item and clasmod  not in ('','.','colecao europra','cancelado') order by clasmod limit 1) clasmod,
 				itens_imed, itens_trans, itens_prod, 
                 (disponivel) disponivel, (conferencia+montagem) beneficiamento, (cet) cet, (etq+cep) cep, (mostruarios) most,
-				(disponivel+conferencia+montagem+cet+etq+cep) total
+				(disponivel+conferencia+montagem+cet+etq+cep) total, 
+                atual, ultimo, mes_sem, mes_ano, qtde_total_jde
 				
 				from go_storage.sintetico_estoque
 				where secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoarmaz not in ('o') 		 
 				and codgrife in ('AH','AI','FE','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM','CH') 
 				and left(agrup,4) = 'ah02'
+                
 			) as base group by ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao
 		) as base1
 	) as base2 group by ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod
 ) as base3 group by ciclo, fornecedor, codgrife, agrup, modelo, colecao, colmod, clasmod
 order by modelo
+
 
 
 ");
