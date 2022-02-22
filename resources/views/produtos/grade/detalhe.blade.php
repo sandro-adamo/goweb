@@ -364,14 +364,7 @@ order by fornecedor, agrup, modelo
 
 									</td>
 									
-									<td>
-										<table class="table table-condensed table-bordered table2" style="text-align: center;">
-											<tr>
-												<td><i class="fa fa-hourglass-3 text-purple"></i></td>
-												<td>{{number_format($catalogo->imediata)}}</td>
-											</tr>
-										</table>
-									</td>									
+																	
 								</tr>
 							</table>
 
