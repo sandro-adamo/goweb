@@ -183,7 +183,7 @@ class Painel extends Model {
 			totaletqkering,
 			ifnull(saldo_industria,0) as saldo_industria,
 				
-			disponivel+conf_montado-ifnull(orc.qtde_valido,0) as disponivel_venda,
+			disponivel-ifnull(orc.qtde_valido,0) as disponivel_venda,
            
 			ifnull(saldo.mostruarios,0) mostruarios,
 			custo_2019,
