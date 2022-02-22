@@ -266,7 +266,7 @@ $catalogo->modelo == 'HI1139'
           <tr>
             <td><i class="fa fa-user-secret"></i> Estilo</td>
             <td>{{$modelo->estilo}} 
-              @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25) 
+              @if ( \Auth::user()->admin == 1 or \auth::user()->id_perfil ==25 or \auth::user()->id ==525) 
               <span class="pull-right"><a href="" class="alteraCaracteristica" data-tipo="modelo"  data-caracteristica="estilo" data-value="{{$modelo->id_item}}"><i class="fa fa-edit"></i></a></span>
               @endif
             </td>
@@ -330,10 +330,10 @@ $catalogo->modelo == 'HI1139'
 
         @php
           switch ($catalogo->codstatusatual) {
-            case 'DISP':
+            case 'DIS':
               $cor = 'green';
               break;
-            case 'ESGOT':
+            case 'ESG':
               $cor = 'red';
               break;
             case '15D':
@@ -342,7 +342,7 @@ $catalogo->modelo == 'HI1139'
             case '30D':
               $cor = 'yellow';
               break;
-            case 'PROD':
+            case 'PRO':
               $cor = 'purple';
               break;              
             default:

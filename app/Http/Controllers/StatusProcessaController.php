@@ -865,12 +865,12 @@ ini_set('display_errors',1);
 							
 
 							} 
-//							else {
-//
-//								$erros = '[ ' . $coluna2 . ' ] - Status não correto';
-//
-//								dd( $erros ) ;
-//							}
+						else {
+
+								$erros = '[ ' . $coluna2 . ' ] - Status não correto';
+
+								dd( $erros ) ;
+							}
 
 						} else {
 

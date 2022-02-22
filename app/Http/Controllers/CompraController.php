@@ -977,8 +977,7 @@ where ci.id_item is null
 
 
     $verifica_invoices = \DB::select( "select invoice from compras_invoices 
-		 where compras_invoices.exclui <> 1
-		 and invoice = '$invoice'
+		 where  invoice = '$invoice'
 		group by invoice, dt_invoice " );
 
 
@@ -1062,7 +1061,7 @@ where ci.id_item is null
 
 
       $itens = \DB::select( "select* from compras_invoices  where invoice = '$invoice' 
-		 and exclui is null " );
+		 and (exclui is null or exclui = 0) " );
       //dd($itens);
 
 
@@ -1125,7 +1124,7 @@ where ci.id_item is null
     $sobra_pedido1 = \DB::select( "select*, qtd-usado sobra from compras_invoices  where invoice = '$invoice' and exclui is null and qtd-usado>0 " );
 
     foreach ( $sobra_pedido1 as $linhas_sobra ) {
-      $grava_compras_entregas_invoices = \DB::select( "INSERT INTO compras_entregas_invoices(item, id_compras_invoices, qtd_invoice, id_compras_entrega, qtd_entregue, status,invoice,dt_invoice,qtde_tabela_entregas) VALUES ('$linhas_sobra->item','$linhas_sobra->id','$linhas_sobra->qtd','','$linhas_sobra->sobra','SEM PEDIDO','$invoice','$linhas_sobra->dt_invoice','$linhas_sobra->qtd')" );
+      $grava_compras_entregas_invoices = \DB::select( "INSERT INTO compras_entregas_invoices(item, id_compras_invoices, qtd_invoice, id_compras_entrega, qtd_entregue, status,invoice,dt_invoice,qtde_tabela_entregas,exclui) VALUES ('$linhas_sobra->item','$linhas_sobra->id','$linhas_sobra->qtd','','$linhas_sobra->sobra','SEM PEDIDO','$invoice','$linhas_sobra->dt_invoice','$linhas_sobra->qtd','0')" );
 
       echo 'sempedido ' . $linhas_sobra->sobra . '<br>';
     }
