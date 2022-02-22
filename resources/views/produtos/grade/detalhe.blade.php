@@ -217,7 +217,7 @@ order by modelo
 										<table class="table table-condensed table-bordered table2" style="text-align: center;">
 											<tr>
 												<td><i class="fa fa-calendar-minus-o text-red"></i></td>
-												<td>2022 03</td>
+												<td>{{$catalogo->ciclo}}</td>
 											</tr>
 										</table>
 									</td>
