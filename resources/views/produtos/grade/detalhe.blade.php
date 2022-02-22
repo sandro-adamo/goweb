@@ -32,78 +32,65 @@ $data = '2021-01-01';
 
 
 $modelos = \DB::select("
-select * from (
-select fornecedor, grife, codgrife, agrup, modelo, colecao, colmod, clasmod,
-	sum(novos) novos, sum(aa) aa, sum(a) a, 
-	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
-	sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
+
+select ciclo, fornecedor, codgrife, codgrife grife, agrup, modelo, colecao, colmod, clasmod,
+sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
+sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total) qtde_total,
+sum(novos) novos, sum(aa) aa, sum(a) a, 
+sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, 
+sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
 from (
 
-	select fornecedor, grife, codgrife, agrup, colecao, modelo, colmod, clasmod,
-	case when colecao = 'novo' then 1 else 0 end as novos,
-	case when colecao = 'aa' then 1 else 0 end as aa, 
-	case when colecao = 'a' then 1 else 0 end as a, 
-	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
-	sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
-	from (
+	select ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod,
+	case when colecao = 'novo' then 1 else 0 end as novos, case when colecao = 'aa' then 1 else 0 end as aa, case when colecao = 'a' then 1 else 0 end as a, 
+	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor,
+    sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
+    sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total) qtde_total
 
-		select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, (esgotado) esgotado,
-			case when imediata+futura >= 3 then 1 else 0 end as am3cores,
-			case when imediata+futura  = 2 then 1 else 0 end as b2cores,
-			case when imediata+futura  = 1 then 1 else 0 end as c1cor,
-			case when imediata+futura  = 0 then 1 else 0 end as d0cor,
-			
-			 case when colecao = 'novo' then 'novo'
-			 when colecao <> 'novo' and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO') then 'aa'
-			 when colecao <> 'novo' and clasmod in ('LINHA A-') then 'a' else '' end as colecao
-			
-			
+	from (
+    
+		select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, 
+        (disponivel) disponivel, (beneficiamento) beneficiamento, (cet) cet, (cep) cep, (most) most, (total) total,
+        atual, ultimo, mes_sem, mes_ano, qtde_total,
+
+		case when imediata+futura >= 3 then 1 else 0 end as am3cores,
+		case when imediata+futura  = 2 then 1 else 0 end as b2cores,
+		case when imediata+futura  = 1 then 1 else 0 end as c1cor,
+		case when imediata+futura  = 0 then 1 else 0 end as d0cor,
+		case when colecao = 'novo' then 'novo'
+		when colecao <> 'novo' and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO') then 'aa'
+		when colecao <> 'novo' and clasmod in ('LINHA A-') then 'a' else '' end as colecao			
 		from(
 
-			select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao, sum(itens) as itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado
-			
+
+			select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, 
+			count(secundario) as itens, sum(itens_imed) imediata, sum(itens_trans) futura, sum(itens_prod) producao,
+            sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
+            sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total_jde) qtde_total
 			from (
-			 
-				select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao, 1 as itens,
-					case when ultstatus = 'ENTREGA IMEDIATA' then 1 else 0 end as imediata,
-					case when ultstatus like '%DIAS' then 1 else 0 end as futura,
-					case when ultstatus like '%PROD%' then 1 else 0 end as producao,
-					case when ultstatus like '%ESGOTADO%' then 1 else 0 end as esgotado
-				from (
-							
-				    select case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
-					grife, codgrife, itens.agrup, itens.modelo, itens.secundario, colmod,  ultstatus,
-					case when left(colmod,4) < year(now()) then 'lancado'
-					when (left(colmod,4) = year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao,
-                    (select clasmod from itens iclas where iclas.id = itens.id and clasmod  not in ('','.','colecao europra','cancelado') order by clasmod limit 1) clasmod
-					from itens 
-					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoitem = 006				 
-					and codgrife in ('AH','AI','FE',  'AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM') 
-					and codtipoarmaz not in ('o')
-					and agrup = '$agrup'
-				) as fim2
-			) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao
-		) as fim4 
-	) as fim5 group by fornecedor, grife, codgrife, agrup, colecao, modelo, colmod, clasmod
-) as fim6 
-$where
-group by fornecedor, grife, codgrife, agrup, modelo, colecao, colmod, clasmod
-) as modelos
 
-	left join (select modelo mod_saldo, sum(disponivel) disponivel, sum(conf_montado+em_beneficiamento+saldo_parte) beneficiamento, sum(cet) cet, sum(etq+cep) cep, sum(saldo_most) most,
+				select ciclo, case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
+				codgrife, agrup, modelo, secundario, colmod, case when left(colmod,4) < year(now()) then 'lancado'
+				when (left(colmod,4) = year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao,
+				(select clasmod from itens iclas where iclas.id = id_item and clasmod  not in ('','.','colecao europra','cancelado') order by clasmod limit 1) clasmod,
+				itens_imed, itens_trans, itens_prod, 
+                (disponivel) disponivel, (conferencia+montagem) beneficiamento, (cet) cet, (etq+cep) cep, (mostruarios) most,
+				(disponivel+conferencia+montagem+cet+etq+cep) total, 
+                atual, ultimo, mes_sem, mes_ano, qtde_total_jde
+				
+				from go_storage.sintetico_estoque
+				where secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoarmaz not in ('o') 		 
+				and codgrife in ('AH','AI','FE','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM','CH') 
+				and left(agrup,4) = 'ah02'
+                
+			) as base group by ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao
+		) as base1
+	) as base2 group by ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod
+) as base3 group by ciclo, fornecedor, codgrife, agrup, modelo, colecao, colmod, clasmod
+order by modelo
 
-sum(disponivel+conf_montado+em_beneficiamento+saldo_parte+cet+etq+cep) total
 
-    from saldos left join itens on itens.id = saldos.curto where agrup = '$agrup'
-    group by modelo ) as saldos
-    on saldos.mod_saldo = modelo
 
-	left join (select modelo mod_vda, sum(qtde) qtde_vda from vendas_jde vds left join itens on itens.id = id_item 
-    where ult_status not in (980,984) and agrup = '$agrup' 
-    group by modelo) as vendas
-    on vendas.mod_vda =  modelo
-
-order by fornecedor, agrup, modelo
 ");
 
 
@@ -230,7 +217,7 @@ order by fornecedor, agrup, modelo
 										<table class="table table-condensed table-bordered table2" style="text-align: center;">
 											<tr>
 												<td><i class="fa fa-calendar-minus-o text-red"></i></td>
-												<td>2022 03</td>
+												<td>{{$catalogo->ciclo}}</td>
 											</tr>
 										</table>
 									</td>
@@ -356,22 +343,16 @@ order by fornecedor, agrup, modelo
 										<table class="table table-condensed table-bordered table2"  style="text-align: center;">
 											<tr>
 												<td><i class="fa fa-shopping-cart text-green"></i></td>
-												<td>{{number_format($catalogo->qtde_vda)}}</td>
-												<td>{{number_format($catalogo->qtde_vda)}}</td>
-												<td>{{number_format($catalogo->qtde_vda)}}</td>
+												<td>{{number_format($catalogo->atual)}}</td>
+												<td>{{number_format($catalogo->ultimo)}}</td>
+												<td>{{number_format($catalogo->mes_sem)}}</td>
+												<td>{{number_format($catalogo->mes_ano)}}</td>
 											</tr>
 										</table>
 
 									</td>
 									
-									<td>
-										<table class="table table-condensed table-bordered table2" style="text-align: center;">
-											<tr>
-												<td><i class="fa fa-hourglass-3 text-purple"></i></td>
-												<td>{{number_format($catalogo->imediata)}}</td>
-											</tr>
-										</table>
-									</td>									
+																	
 								</tr>
 							</table>
 
@@ -453,7 +434,7 @@ order by fornecedor, agrup, modelo
 			<td align="left"> {{$catalogo->beneficiamento}}</td>
 			<td align="left"> {{$catalogo->cet}}</td>
 			<td align="left"> {{$catalogo->cep}}</td>
-				<td align="left"> {{$catalogo->qtde_vda}}</td>
+				<td align="left"> {{$catalogo->atual}}</td>
 			
 		</tr>
 		@endforeach
