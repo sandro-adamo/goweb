@@ -5,20 +5,15 @@ $agrup = $_GET["agrup"];
 
 
 if(isset($_GET["colecao"])){
+
 	$colecao = $_GET["colecao"];
-	$where = "where colecao = $colecao";
+	$where1 = "where colecao = $colecao";
 
 	$whereteste = "where agrup = '".$agrup."' and colecao = ".$colecao; 
 
-} else { $where = "where 1=1" ; }
+
+} else { $where1 = "where 1=1" ; }
 ;
-
-
-
-echo $where;
-echo $colecao;
-
-
 
 @endphp
 
@@ -89,11 +84,11 @@ from (
 				from go_storage.sintetico_estoque
 				where secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoarmaz not in ('o') 		 
 				and codgrife in ('AH','AI','FE','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM','CH') 
-				and left(agrup,5) = '$agrup'
+				and left(agrup,5) = '$agrup' 
                 
 			) as base group by ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao
-		) as base1
-	) as base2 group by ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod
+		) as base1 
+	) as base2 $where1 group by ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod
 ) as base3 group by ciclo, fornecedor, codgrife, agrup, modelo, colecao, colmod, clasmod
 order by modelo
 
@@ -107,7 +102,8 @@ order by modelo
 
 
 <div class="row">
-{{$where}}
+{{$where1}}
+	
   <div class="col-md-12">
 
     <!-- row -->
