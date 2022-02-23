@@ -258,10 +258,10 @@ end as 'mediavenda'
 			/**saldos**/
 		    left join (
 				select  b.id,
-				sum(disponivel)+sum(reserva_most) as brasil, sum(saldo_manutencao) as saldo_manutencao, sum(/*cet_benef*/+cet) as cet,sum(/*cet_benef*/+cet_li) as cet_li, sum(saldo_parte) as saldo_parte , sum(saldo_most) as mostruarios,		    
+				sum(disponivel)+sum(reserva_most)+sum(conf_montado) as brasil, sum(saldo_manutencao) as saldo_manutencao, sum(/*cet_benef*/+cet) as cet,sum(/*cet_benef*/+cet_li) as cet_li, sum(saldo_parte) as saldo_parte , sum(saldo_most) as mostruarios,		    
 				sum(etq) as etq,
 				sum(cep)  as cep,
-				sum(disponivel)+sum(reserva_most) as disponivel,
+				sum(disponivel)+sum(reserva_most)+sum(conf_montado) as disponivel,
 				sum(em_beneficiamento+saldo_parte) as saldo_industria
 
 				from saldos a 
@@ -405,7 +405,7 @@ end as 'mediavenda'
 			
 			/**saldos**/
 		    left join (
-		    select b.modelo, b.secundario, sum(disponivel+em_beneficiamento) as brasil, sum(saldo_manutencao) as saldo_manutencao,
+		    select b.modelo, b.secundario, sum(disponivel+em_beneficiamento+conf_montado) as brasil, sum(saldo_manutencao) as saldo_manutencao,
 			sum(/*cet_benef*/+cet+(saldo_parte)) as cet,
 		    sum(etq) as etq,
 				sum(cep)  as cep,
@@ -515,7 +515,7 @@ end as 'mediavenda'
 			
 			/**saldos**/
 		    left join (
-		    select b.modelo, b.secundario, sum(disponivel+em_beneficiamento) as brasil, sum(saldo_manutencao) as saldo_manutencao,
+		    select b.modelo, b.secundario, sum(disponivel+em_beneficiamento+conf_montado) as brasil, sum(saldo_manutencao) as saldo_manutencao,
 			sum(/*cet_benef*/+cet+(saldo_parte)) as cet,
 		    sum(etq) as etq,
 				sum(cep)  as cep,
@@ -645,7 +645,7 @@ end as 'mediavenda'
 				select modelo, sum(brasil) brasil, sum(saldo_manutencao) saldo_manutencao, sum(cet) cet, sum(mostruarios) mostruarios, sum(etq) etq, sum(cep) cep
 				from (
 				select a.secundario, b.modelo, 
-				sum(disponivel+em_beneficiamento) as brasil, sum(saldo_manutencao) as saldo_manutencao,
+				sum(disponivel+em_beneficiamento+conf_montado) as brasil, sum(saldo_manutencao) as saldo_manutencao,
 				sum(cet+(saldo_parte)) as cet, sum(saldo_most) as mostruarios,
 
 				sum(etq) as etq,

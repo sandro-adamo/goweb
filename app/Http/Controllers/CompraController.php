@@ -974,6 +974,7 @@ where ci.id_item is null
     $cod_usuario = \Auth::id();
     $invoice = $request->invoice;
     $dt_invoice = $request->data;
+    $etq_kering = $request->etq;
 
 
     $verifica_invoices = \DB::select( "select invoice from compras_invoices 
@@ -1032,7 +1033,7 @@ where ci.id_item is null
 					  $custo2 = 0;
 				  }
 				  	
-                $verifica = \DB::select( "insert into compras_invoices (`item`, `qtd`, `invoice`, `dt_invoice`, `custo`, `usado`) values ('$linha[0]','$linha[1]','$invoice','$dt_invoice','$custo2','0')" );
+                $verifica = \DB::select( "insert into compras_invoices (`item`, `qtd`, `invoice`, `dt_invoice`, `custo`, `usado`,etq) values ('$linha[0]','$linha[1]','$invoice','$dt_invoice','$custo2','0','$etq_kering')" );
 
 
               } else {
