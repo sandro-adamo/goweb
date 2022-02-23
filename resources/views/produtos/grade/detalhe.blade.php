@@ -106,7 +106,7 @@ order by modelo
 
   <div class="col-md-12">
 
- {{$whereteste;}}
+ {{$whereteste}}
     <!-- row -->
     <div class="row">
 		<div class="col-md-12">
@@ -127,9 +127,7 @@ order by modelo
 
 				
 <div class="tab-content">
-	
-	{{$where}}
-	
+		
 <!-- aba geral inicio -->	
 <div class="active tab-pane" id="Painel">
 <div class="col-md-12">
