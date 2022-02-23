@@ -106,7 +106,7 @@ order by modelo
 
   <div class="col-md-12">
 
- 
+ {{$whereteste;}}
     <!-- row -->
     <div class="row">
 		<div class="col-md-12">
