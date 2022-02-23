@@ -82,6 +82,13 @@ if(Session::has('alert-warning2')){
       <div class="modal-body">
         <label>Arquivo</label>
         <input type="file" name="arquivo" required="" id="arquivo" class="form-control">
+        <br>
+        <label>Tipo</label>
+        <select class="form-control" name="etq" required >
+                <option value="0">Confirma embarque</option>
+                <option value="1">Estoque Kering</option>
+             </select></th>
+             
       </div>
 		 <div class="col-md-4">
 		<h6>O arquivo deverá estar em Xlsx, Coluna 1 Item<br>, Coluna 2 quantidade<br>, Coluna 3 custo unitario(campo formatado em texto e se for decimal deverá estar com ponto e não virgula.</h6>
@@ -95,6 +102,8 @@ if(Session::has('alert-warning2')){
         <label>Data</label>
         <input type="date" name="data" required="" id="data" class="form-control">
         </div>
+        
+        
       <div class="modal-footer">
         <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">Fechar</button>
         <button type="submit" class="btn btn-flat btn-primary"><i class="fa fa-upload"></i> Importar</button>
