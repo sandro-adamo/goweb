@@ -13,7 +13,7 @@ $colecoes = \DB::select("select distinct anomod from itens where anomod > year(n
 
 
 $gradeslista = \DB::select(" 
-select fornecedor, grife, codgrife, agrup, count(modelo) modelos,
+select fornecedor, grife, codgrife, left(agrup,5) agrup, count(modelo) modelos,
 	sum(novos) novos, sum(aa) aa, sum(a) a, 
 	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
 	sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
@@ -64,7 +64,7 @@ from itens
 			) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao
 		) as fim4 
 	) as fim5 group by fornecedor, grife, codgrife, agrup, colecao, modelo
-) as fim6 group by fornecedor, grife, codgrife, agrup
+) as fim6 group by fornecedor, grife, codgrife, agrup, left(agrup,5)
 order by fornecedor, agrup
 
 ");
