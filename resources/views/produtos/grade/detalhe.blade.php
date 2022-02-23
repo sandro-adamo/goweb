@@ -107,7 +107,7 @@ order by modelo
 
 
 <div class="row">
-
+{{$where}}
   <div class="col-md-12">
 
     <!-- row -->
