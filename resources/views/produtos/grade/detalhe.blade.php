@@ -13,7 +13,11 @@ if(isset($_GET["colecao"])){
 } else { $where = "where 1=1" ; }
 ;
 
+
+
 echo $where;
+echo $colecao;
+
 
 
 @endphp
