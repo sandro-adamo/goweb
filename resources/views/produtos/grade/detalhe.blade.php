@@ -128,7 +128,7 @@ order by modelo
 				
 <div class="tab-content">
 	
-	
+	{{$where}}
 	
 <!-- aba geral inicio -->	
 <div class="active tab-pane" id="Painel">
