@@ -38,7 +38,7 @@
 			case when sup.nome = '' then left(sup.razao,10) else left(sup.nome,10) end as supervisor,
 		codrep, 
 			case when rep.nome = '' then rep.razao else rep.nome end as representante,
-        regioes, grifes, case when status = 1 then 'ATIVO' ELSE 'INATIVO' END AS 'STATUS'
+        regioes, grifes, case when status = 1 then 'ATIVO' ELSE 'INATIVO' END AS 'status'
 	from (
 		select rep as codrep, codsuper, coddir, group_concat(distinct regiao,'' order by regiao) regioes, group_concat(distinct grife, '' order by grife) grifes, status
 		from go.carteira
