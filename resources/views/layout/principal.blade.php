@@ -68,7 +68,8 @@
   }
 }
 
-  </style>  
+  </style>
+  @yield('css')
 </head>
 <body class="hold-transition skin-red-light sidebar-mini {{$sidebar_collapse}} fixed">
   <div class="carregando"></div>  
@@ -478,5 +479,6 @@ function beep() {
 //   //$(this).submit();
 // });
 </script>
+  @yield('js')
 </body>
 </html>

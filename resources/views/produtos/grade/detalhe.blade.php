@@ -3,15 +3,17 @@
 
 $agrup = $_GET["agrup"];
 
+
 if(isset($_GET["colecao"])){
+
 	$colecao = $_GET["colecao"];
-	$where = "where colecao = $colecao";
+	$where1 = "where colecao = $colecao";
 
 	$whereteste = "where agrup = '".$agrup."' and colecao = ".$colecao; 
 
-} else { $where = "where 1=1" ; }
-;
 
+} else { $where1 = "where 1=1" ; }
+;
 
 @endphp
 
@@ -72,7 +74,8 @@ from (
 				select ciclo, case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
 				codgrife, agrup, modelo, secundario, colmod, case when left(colmod,4) < year(now()) then 'lancado'
 				when (left(colmod,4) = year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao,
-				(select clasmod from itens iclas where iclas.id = id_item and clasmod  not in ('','.','colecao europra','cancelado') order by clasmod limit 1) clasmod,
+				(select clasmod from itens iclas where left(agrup,5) = '$agrup' and  iclas.id = id_item and clasmod  not in ('','.','colecao europra','cancelado') order by clasmod limit 1) clasmod,
+
 				itens_imed, itens_trans, itens_prod, 
                 (disponivel) disponivel, (conferencia+montagem) beneficiamento, (cet) cet, (etq+cep) cep, (mostruarios) most,
 				(disponivel+conferencia+montagem+cet+etq+cep) total, 
@@ -81,11 +84,11 @@ from (
 				from go_storage.sintetico_estoque
 				where secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoarmaz not in ('o') 		 
 				and codgrife in ('AH','AI','FE','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM','CH') 
-				and left(agrup,4) = 'ah02'
+				and left(agrup,5) = '$agrup' 
                 
 			) as base group by ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao
-		) as base1
-	) as base2 group by ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod
+		) as base1 
+	) as base2 $where1 group by ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod
 ) as base3 group by ciclo, fornecedor, codgrife, agrup, modelo, colecao, colmod, clasmod
 order by modelo
 
@@ -99,10 +102,10 @@ order by modelo
 
 
 <div class="row">
-
+{{$where1}}
+	
   <div class="col-md-12">
 
- 
     <!-- row -->
     <div class="row">
 		<div class="col-md-12">
@@ -123,9 +126,7 @@ order by modelo
 
 				
 <div class="tab-content">
-	
-	
-	
+		
 <!-- aba geral inicio -->	
 <div class="active tab-pane" id="Painel">
 <div class="col-md-12">
