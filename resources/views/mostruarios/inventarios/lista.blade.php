@@ -76,7 +76,7 @@
                 @if (\Auth::user()->id_perfil <> 4 and \Auth::user()->id_perfil <> 23)
                 <td>{{$inventario->id_devolucao}}</td>
               <td> <a href="/mostruarios/inventarios/reabre/{{$inventario->id_inventario}}" >Reabrir</a></td>
-              @if($inventario->status=='iniciada')
+              @if($inventario->status=='Iniciada')
               <td> <a href="/mostruarios/inventarios/cancela/{{$inventario->id_inventario}}" >Cancelar</a></td>
               @else
               <td></td>
