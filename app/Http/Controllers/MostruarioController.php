@@ -1011,7 +1011,7 @@ order by Agrupamento, Cod_Secundario asc");
       //dd($id_inventario);
 
 
-      $inventarios = \DB::select("update inventarios set status = 'cancelado', exclui = '1' where id_inventario = '$id_inventario' and status = 'iniciada' ");
+      $inventarios = \DB::select("update inventarios set status = 'cancelado', exclui = '1', obs='cancelado por operações' where id_inventario = '$id_inventario' and status = 'iniciada' ");
       
        return redirect('/mostruarios/inventarios/inventario');
     } 
