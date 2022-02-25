@@ -10,7 +10,7 @@ class ExemploController extends Controller
 {
     public function index(){
 
-        $pedidos = PedidopJDE::orderBy('id', 'desc')->paginate(15);
+        $pedidos = PedidoJDE::orderBy('id', 'desc')->paginate(15);
 		
         return view('exemplo.index', compact('pedidos'));
 
@@ -18,7 +18,7 @@ class ExemploController extends Controller
 
     public function store(Request $request){
         
-       $exemplo = Exemplo::create($request->all());
+      // $exemplo = Exemplo::create($request->all());
 		
 		$exemplo = new Exemplo();
 		
