@@ -216,13 +216,6 @@ Route::get('/dsimportdet', function () {
 
 
 
-	Route::get('/exemplo', 'ExemploController@index')->name('exemplo.index');
-
-	Route::post('/exemplo/cadastrar', 'ExemploController@store')->name('exemplo.store');
-
-
-
-
 
 Route::get('/comercial', function () {
     return view('dashboards.comercial.dashboard_comercial');
@@ -905,5 +898,11 @@ Route::get('/inventario/dashboard', function() {
 	// QUAL O ARQUIVO PRA EXIBIR
 	return view('layout.dashboard_inventario');
 	});
+
+
+	Route::get('/exemplo', 'ExemploController@index')->name('exemplo.index');
+	Route::post('/exemplo/cadastrar', 'ExemploController@store')->name('exemplo.store');
+
+
 
 

@@ -36,7 +36,8 @@ class ExemploController extends Controller
 		// $exemplo->campo1 = $request->campo1;
 		// $exemplo->save();
 		
-        return redirect()->route('exemplo.index');
-
+         // return redirect()->route('exemplo.index');
+		// return redirect()->route('dashboards.importacao.dashboard_importacao');
+		return redirect()->back();
     }
 }
