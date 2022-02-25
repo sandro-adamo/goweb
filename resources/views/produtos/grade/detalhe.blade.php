@@ -4,15 +4,28 @@
 $agrup = $_GET["agrup"];
 
 
-if(isset($_GET["colecao"])){
+if(isset($_GET["colecao"]))
+
+{
 
 	$colecao = $_GET["colecao"];
 	$where1 = "where colecao = $colecao";
 
 	$whereteste = "where agrup = '".$agrup."' and colecao = ".$colecao; 
+} 
 
+	elseif (isset($_GET["cores"]))
+{
+	$cores = $_GET["cores"];
 
-} else { $where1 = "where 1=1" ; }
+	$where1 = "where cores = $cores" ; 
+
+}
+
+ else { 
+	$where1 = "where 1=1" ; 
+
+}
 ;
 
 @endphp
