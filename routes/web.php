@@ -450,6 +450,7 @@ Route::get('/mostruarios/inventarios/altera/{id}/{id_inventario}/{acao}', 'Mostr
 Route::post('/mostruarios/inventarios/alteracao', 'MostruarioController@alteracaoInventario');
 
 Route::get('/mostruarios/inventarios/reabre/{id_inventario}', 'MostruarioController@reabreInvetario');
+Route::get('/mostruarios/inventarios/cancela/{id_inventario}', 'MostruarioController@cancelaInventario');
 
 
 Route::get('/mostruarios/inventarios/{id}/exportadevolucao', 'MostruarioController@exportaDevolucao');

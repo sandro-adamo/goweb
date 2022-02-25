@@ -1003,7 +1003,17 @@ order by Agrupamento, Cod_Secundario asc");
       $iddev = $id[0]->id_devolucao;
        $cancela = \DB::connection('goweb')->select("update devolucoes set situacao = 'Cancelada' where id = '$iddev'");
      }
-       return redirect('/mostruarios/inventarios');
+       return redirect('/mostruarios/inventarios/inventario');
+    } 
+
+
+    public function cancelaInventario($id_inventario) {
+      //dd($id_inventario);
+
+
+      $inventarios = \DB::select("update inventarios set status = 'cancelado', exclui = '1' where id_inventario = '$id_inventario' and status = 'iniciada' ");
+      
+       return redirect('/mostruarios/inventarios/inventario');
     } 
 
     public function importaInventario(Request $request, $acao) {
