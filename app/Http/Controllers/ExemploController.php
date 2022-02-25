@@ -21,16 +21,19 @@ class ExemploController extends Controller
       // $exemplo = Exemplo::create($request->all());
 		
 		$exemplo = new Exemplo();
-		
+		$exemplo->id_pedido = $request->id_pedido;
 		$exemplo->campo1 = $request->campo1;
+		$exemplo->campo2 = $request->campo2;
+		$exemplo->campo3 = $request->campo3;
+		$exemplo->campo4 = $request->campo4;
 		$exemplo->save();
 		
 		
-		dd($exemplo);
+		// dd($exemplo);
 		
-		$exemplo = Exemplo::find($id);
-		$exemplo->campo1 = $request->campo1;
-		$exemplo->save();
+		// $exemplo = Exemplo::find($id);
+		// $exemplo->campo1 = $request->campo1;
+		// $exemplo->save();
 		
         return redirect()->route('exemplo.index');
 
