@@ -38,13 +38,13 @@
 			case when sup.nome = '' then left(sup.razao,10) else left(sup.nome,10) end as supervisor,
 		codrep, 
 			case when rep.nome = '' then rep.razao else rep.nome end as representante,
-        regioes, grifes
+        regioes, grifes, case when status = 1 then 'ATIVO' ELSE 'INATIVO' END AS 'status'
 	from (
-		select rep as codrep, codsuper, coddir, group_concat(distinct regiao,'' order by regiao) regioes, group_concat(distinct grife, '' order by grife) grifes
+		select rep as codrep, codsuper, coddir, group_concat(distinct regiao,'' order by regiao) regioes, group_concat(distinct grife, '' order by grife) grifes, status
 		from go.carteira
 		$sql 
 -- and status = 1 
-        group by rep, codsuper,coddir
+        group by rep, codsuper,coddir, status
 	) as carteira
 	left join go.addressbook rep on rep.id = carteira.codrep
 	left join go.addressbook sup on sup.id = carteira.codsuper
@@ -91,7 +91,7 @@
 		        				<td width="1%">
 		        					<input type="checkbox" class="seleItem" name="reps[]" value="{{$codigo->codrep}}" @if (in_array($codigo->codrep, $array_rep)) checked="" @endif>
 		        				</td>
-								<td>{{$codigo->codrep}} </td>
+								<td>{{$codigo->status.' - '.$codigo->codrep}} </td>
 								<td>{{$codigo->representante}}</td>
 		        				<td>{{$codigo->supervisor}}</td>
 		        				<td>{{$codigo->diretor}}</td>

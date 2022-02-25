@@ -110,6 +110,12 @@
             @endif
         @endforeach
 
+        <li>
+          <a href="/exemplo">
+            <i class="fa fa-circle"></i> <span>Exemplo</span>
+          </a>
+        </li>
+
       </ul>
     </section>
     <!-- /.sidebar -->
