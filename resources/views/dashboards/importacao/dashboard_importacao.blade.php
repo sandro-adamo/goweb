@@ -7,11 +7,13 @@
 
 
 $query_2 = \DB::select(" 
-
+select * from (
 select pedido, tipo, ref_go, concat(trim(ref_despachante),' ',trim(ref_nac_01)) ref, ult_prox, desc_status, group_concat(distinct left(fornecedor,20),' ') fornecedor,  
 group_concat(distinct tipoitem,' ') tipoitem, group_concat(distinct codgrife,' ') codgrife, group_concat(distinct linha,' ') linha,
 case when CHAR_LENGTH(group_concat(distinct colmod,' ')) > 26 then concat('...',right(group_concat(distinct colmod,' '),26)) else group_concat(distinct colmod,' ') end as colmod, 
-sum(qtde) qtde, sum(atende) atende from (
+sum(qtde) qtde, sum(atende) atende 
+
+from (
 
 select *, case when orcamentos > qtde then qtde else orcamentos end as atende from (
 	select pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status, secundario, cod_item, codtipoitem, tipoitem, id_pai,
@@ -78,6 +80,13 @@ item_pai, tipo_pai, id_filho, tipo_filho, agrupador, codgrife, colmod, fornecedo
 ) as final2
 group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status
 
+ 
+) as final
+
+	left join (select * from exemplos ) as ex
+    on ex.id_pedido = final.pedido
+
+
 ");
 			  
 			
@@ -117,6 +126,7 @@ group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_statu
 					<td colspan="1" align="center">Linhas</td>
 					<td colspan="1" align="center">qtde pecas</td>
 					<td colspan="1" align="center">atende BO</td>
+						<td colspan="1" align="center">campo1</td>
 					
 				
 					</tr>
@@ -137,7 +147,8 @@ group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_statu
 				<td align="center">{{$query2->colmod}}</td>
 							<td align="center">{{$query2->linha}}</td>
 				<td align="center">{{number_format($query2->qtde)}}</td>	
-				<td align="center">{{number_format($query2->atende)}}</td>	
+				<td align="center">{{number_format($query2->atende)}}</td>
+					<td align="center">{{number_format($query2->campo1)}}</td>
 				
 					<td><button class="btn btn-primary btn-cadastrar" data-toggle="modal" data-target="#modal" data-pedido="{{ $query2->pedido}}" data-item="{{$query2->tipo}}" id="{{ $query2->pedido }}"> Cadastrar</button>
                                         </td>	
