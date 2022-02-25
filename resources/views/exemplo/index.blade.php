@@ -99,13 +99,16 @@
 @stop
 
 @section('js')
+
 <script>
     $('.btn-cadastrar').on('click', function(){
       $('#form-cadastrar > div > div > div > input[type="text"]').val('')
       $('.modal-title').html('Pedido #' + $(this).data('pedido'))
+		
       $('#campo-pedido').val($(this).data('pedido'))
     })
 </script>
+
 @stop
 
 @section('css')

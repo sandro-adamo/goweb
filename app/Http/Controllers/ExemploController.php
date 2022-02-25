@@ -10,7 +10,8 @@ class ExemploController extends Controller
 {
     public function index(){
 
-        $pedidos = PedidoJDE::orderBy('id', 'desc')->paginate(15);
+        // $pedidos = PedidoJDE::orderBy('id', 'desc')->paginate(15);
+		$pedidos = \DB::select(" select * from pedidos_jde where pedido = '1074320'");
 		
         return view('exemplo.index', compact('pedidos'));
 
