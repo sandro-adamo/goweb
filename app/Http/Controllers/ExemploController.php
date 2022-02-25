@@ -18,7 +18,7 @@ class ExemploController extends Controller
 
     public function store(Request $request){
         
-       // $exemplo = Exemplo::create($request->all());
+       $exemplo = Exemplo::create($request->all());
 		
 		$exemplo = new Exemplo();
 		
