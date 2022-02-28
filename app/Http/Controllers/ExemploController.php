@@ -12,8 +12,6 @@ class ExemploController extends Controller
 
         $pedidos = PedidoJDE::with('exemplo')->orderBy('id', 'desc')->paginate(15);
 
-        //dd($pedidos);
-
         return view('exemplo.index', compact('pedidos'));
 
     }

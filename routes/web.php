@@ -213,6 +213,10 @@ Route::get('/dsimportdet', function () {
     return view('dashboards.importacao.dashboard_importacaodet');	
 });
 
+
+
+
+
 Route::get('/comercial', function () {
     return view('dashboards.comercial.dashboard_comercial');
 	
@@ -450,6 +454,7 @@ Route::get('/mostruarios/inventarios/altera/{id}/{id_inventario}/{acao}', 'Mostr
 Route::post('/mostruarios/inventarios/alteracao', 'MostruarioController@alteracaoInventario');
 
 Route::get('/mostruarios/inventarios/reabre/{id_inventario}', 'MostruarioController@reabreInvetario');
+Route::get('/mostruarios/inventarios/cancela/{id_inventario}', 'MostruarioController@cancelaInventario');
 
 
 Route::get('/mostruarios/inventarios/{id}/exportadevolucao', 'MostruarioController@exportaDevolucao');
@@ -894,6 +899,10 @@ Route::get('/inventario/dashboard', function() {
 	return view('layout.dashboard_inventario');
 	});
 
-	Route::get('/exemplo', 'ExemploController@index')->name('exemplo.index');
 
+	Route::get('/exemplo', 'ExemploController@index')->name('exemplo.index');
 	Route::post('/exemplo/cadastrar', 'ExemploController@store')->name('exemplo.store');
+
+
+
+
