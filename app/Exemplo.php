@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Exemplo extends Model
 {
-    protected $fillable = ['id_pedido', 'campo1', 'campo2', 'campo3', 'campo4'];
+    protected $fillable = ['id_pedido', 'linha', 'campo1', 'campo2', 'campo3', 'campo4'];
 
     public $timestamps = false;
 
