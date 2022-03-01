@@ -106,7 +106,7 @@ select * from (
 			
 		 <tr>	
 
-	 		<td colspan="12">Importações em aberto </td>
+	 		<td colspan="13">Importações em aberto </td>
 		
 				</tr>
 		  			
@@ -124,7 +124,7 @@ select * from (
 					<td colspan="1" align="center">Linhas</td>
 					<td colspan="1" align="center">qtde pecas</td>
 					<td colspan="1" align="center">atende BO</td>
-						<td colspan="1" align="center">campo1</td>
+					<td colspan="1" align="center">campo1</td>
 					
 				
 					</tr>
