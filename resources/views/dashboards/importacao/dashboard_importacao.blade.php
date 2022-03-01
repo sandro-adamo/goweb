@@ -153,10 +153,6 @@ select * from (
 				</tr>
 			@endforeach 
 			
-			</table>
-			
-		</div>
-	</div>	
 
 
 
@@ -214,6 +210,10 @@ select * from (
 	
 	
 	
+			</table>
+			
+		</div>
+	</div>	
 	
 	
 	
