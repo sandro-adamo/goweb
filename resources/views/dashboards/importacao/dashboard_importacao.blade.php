@@ -58,6 +58,7 @@ select * from (
 				left join itens on itens.id = cod_item		
 				where ref_go not in ('LA200501','QGKI17-7B') and 
 				ult_status not in (980) and prox_status not in (999,400)
+and fornecedor like 'kering%'
 
 				
 			) as base 
