@@ -157,11 +157,6 @@ select * from (
 			
 		</div>
 	</div>	
-</div>
-</h6>			
-	
-</form>
-
 
 
 
@@ -214,6 +209,23 @@ select * from (
         </div>
     </div>
 </div>
+
+	
+	
+	
+	
+	
+	
+	
+	
+	</div>
+</h6>			
+	
+</form>
+
+
+
+
 
 @stop
 
