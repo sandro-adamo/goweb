@@ -154,6 +154,15 @@ select * from (
 			@endforeach 
 			
 
+		</table>
+			
+		</div>
+	</div>	
+	
+	</div>
+	</h6>				
+	</form>
+
 
 
 
@@ -210,20 +219,7 @@ select * from (
 	
 	
 	
-			</table>
-			
-		</div>
-	</div>	
 	
-	
-	
-	
-	</div>
-</h6>			
-	
-</form>
-
-
 
 
 
