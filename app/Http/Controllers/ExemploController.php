@@ -10,34 +10,34 @@ class ExemploController extends Controller
 {
     public function index(){
 
+<<<<<<< HEAD
         // $pedidos = PedidoJDE::orderBy('id', 'desc')->paginate(15);
 		// $pedidos = \DB::select(" select * from pedidos_jde where pedido = '1074320'");
 		
+=======
+        $pedidos = PedidoJDE::with('exemplo')->orderBy('id', 'desc')->paginate(15);
+
+>>>>>>> origin/master
         return view('exemplo.index', compact('pedidos'));
 
     }
 
     public function store(Request $request){
-        
-      // $exemplo = Exemplo::create($request->all());
-		
-		$exemplo = new Exemplo();
-		$exemplo->id_pedido = $request->id_pedido;
-		$exemplo->campo1 = $request->campo1;
-		$exemplo->campo2 = $request->campo2;
-		$exemplo->campo3 = $request->campo3;
-		$exemplo->campo4 = $request->campo4;
-		$exemplo->save();
-		
-		
-		// dd($exemplo);
-		
-		// $exemplo = Exemplo::find($id);
-		// $exemplo->campo1 = $request->campo1;
-		// $exemplo->save();
-		
-         // return redirect()->route('exemplo.index');
-		// return redirect()->route('dashboards.importacao.dashboard_importacao');
-		return redirect()->back();
+
+        $exemplo = Exemplo::where('id_pedido', $request->id_pedido)->where('linha', $request->linha)->first();
+
+        if($exemplo){
+
+            $exemplo->update($request->only(['campo1', 'campo2', 'campo3', 'campo4']));
+            
+        }else{
+
+            $exemplo = Exemplo::create($request->all());
+
+        }
+
+        return redirect()->route('exemplo.index');
+
     }
+    
 }
