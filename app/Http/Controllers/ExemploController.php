@@ -21,6 +21,7 @@ class ExemploController extends Controller
         return view('exemplo.index', compact('pedidos'));
 
     }
+	
 
     public function store(Request $request){
 
