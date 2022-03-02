@@ -58,7 +58,7 @@ select * from (
 				left join itens on itens.id = cod_item		
 				where ref_go not in ('LA200501','QGKI17-7B') and 
 				ult_status not in (980) and prox_status not in (999,400)
-and fornecedor like 'kering%'
+
 
 				
 			) as base 
@@ -107,7 +107,7 @@ and fornecedor like 'kering%'
 			
 		 <tr>	
 
-	 		<td colspan="14">Importações em aberto </td>
+	 		<td colspan="12">Importações em aberto </td>
 		
 				</tr>
 		  			
@@ -125,7 +125,7 @@ and fornecedor like 'kering%'
 					<td colspan="1" align="center">Linhas</td>
 					<td colspan="1" align="center">qtde pecas</td>
 					<td colspan="1" align="center">atende BO</td>
-					<td colspan="1" align="center">campo1</td>
+					
 					
 				
 					</tr>
@@ -147,10 +147,9 @@ and fornecedor like 'kering%'
 				<td align="center">{{$query2->linha}}</td>
 				<td align="center">{{number_format($query2->qtde)}}</td>	
 				<td align="center">{{number_format($query2->atende)}}</td>
-				<td align="center">{{$query2->campo1}}</td>
 				
-					<td><button class="btn btn-primary btn-cadastrar" data-toggle="modal" data-target="#modal" data-pedido="{{ $query2->pedido}}" data-item="{{$query2->tipo}}" id="{{ $query2->pedido }}"> Cadastrar</button>
-                    </td>	
+				
+						
 				</tr>
 			@endforeach 
 			
