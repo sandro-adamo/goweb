@@ -96,7 +96,7 @@ from (
 				
 				from go_storage.sintetico_estoque
 				where secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoarmaz not in ('o') 		 
-				and codgrife in ('AH','AI','FE','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM','CH') 
+				and codgrife in ('GO','AH','AI','FE','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM','CH') 
 				and left(agrup,5) = '$agrup' 
                 
 			) as base group by ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao
