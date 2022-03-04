@@ -213,6 +213,10 @@ Route::get('/dsimportdet', function () {
     return view('dashboards.importacao.dashboard_importacaodet');	
 });
 
+
+
+
+
 Route::get('/comercial', function () {
     return view('dashboards.comercial.dashboard_comercial');
 	
@@ -895,6 +899,10 @@ Route::get('/inventario/dashboard', function() {
 	return view('layout.dashboard_inventario');
 	});
 
-	Route::get('/exemplo', 'ExemploController@index')->name('exemplo.index');
 
+	Route::get('/exemplo', 'ExemploController@index')->name('exemplo.index');
 	Route::post('/exemplo/cadastrar', 'ExemploController@store')->name('exemplo.store');
+
+
+
+
