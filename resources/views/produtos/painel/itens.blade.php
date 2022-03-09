@@ -449,7 +449,7 @@ $catalogo->modelo == 'HI1139'
 						 @endif
             @endif
 			
-			
+            @if(isset($catalogo->codfornecedor ))
 				@if ($catalogo->codfornecedor == '47663'  and $catalogo->etq > 30)
 				     <div class="col-md-12" align="left" ><b>Com saldo na Kering</b>: </div>
 				
@@ -458,11 +458,12 @@ $catalogo->modelo == 'HI1139'
 				
 						 
 						 @endif
+             @endif
 			
 			
 				
 				
-				
+             @if(isset($catalogo->codfornecedor ))
 			@if ($catalogo->codfornecedor <> '47663'  and $catalogo->clasmod == 'COLECAO B' and $catalogo->disponivel_venda < 0)
 				     <div class="col-md-12" align="left" ><b>Saldo</b>: 0</div>
 				
@@ -473,7 +474,7 @@ $catalogo->modelo == 'HI1139'
 						 
 						 @endif
 				
-			
+			@endif
 				
 				
             </div>
