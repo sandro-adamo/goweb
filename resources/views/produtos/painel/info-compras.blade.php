@@ -3,7 +3,7 @@
 
 @if (\App\PermissaoUsuario::verificaPermissao(Auth::id(), 'vendas', 1)) 
 
-@if(isset($catalogo->mediavenda))
+@if(isset($modelo->mediavenda))
 
 <div class="row" style="padding-bottom: 2px;">
     <div class="col-md-12">

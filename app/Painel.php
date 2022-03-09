@@ -9,7 +9,8 @@ class Painel extends Model {
   protected $connection = 'brasil';
 
   public static function listaModelos( $agrupamento, $filtros, $ordem = '') {
-    //dd($filtros);
+
+    //dd($ordem);
 
     // 		$item = \DB::connection('go')->select("select base.*, custo_2019, moeda, trocas, recall, 
     // 	  (select sum(vendastt) vendas from vendas_sint where  vendas_sint.modelo = base.modelo  ) as vendas,
@@ -141,15 +142,18 @@ class Painel extends Model {
 
     // 			$ordem");
 
-
+	//dd($filtros);
     $item = \DB::connection( 'go' )->select( "
 				select* from painel_modelo
 			where agrup = '$agrupamento' 
 			-- and custo_2019 <'4.6'
 			$filtros
 
-			$ordem" );
-	  //dd($item);
+			$ordem
+			
+			" );
+		//	dd($item);
+	  
 	  if(count($item)>0){
 		 return $item; 
 	  }
@@ -159,9 +163,12 @@ class Painel extends Model {
 			where agrup = '$agrupamento' 
 			and anomod = year(current_timestamp())
 
-			$ordem" );
+			$ordem
+			
+			" );
 		  //$request = '';
 		  //$request->session()->flash( 'alert-warning', 'O filtro desejado não obteve resultado' );
+		 // dd($item);
 		  return $item ; 
 	  }
 
