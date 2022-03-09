@@ -25,7 +25,7 @@
                     <table class="table table-condensed table-bordered table2" style="text-align: center;">
                         <tr>
                             <td><i class="fa fa-bar-chart text-blue" data-toggle="tooltip" data-placement="top" title="Média de Venda"></i></td>
-                            <td>{{number_format($catalogo->mediavenda)}}</td>
+                            <!-- <td>{{number_format($catalogo->mediavenda)}}</td> -->
                         </tr>
                     </table>
                 </td>
