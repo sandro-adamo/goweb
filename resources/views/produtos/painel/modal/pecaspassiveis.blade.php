@@ -35,7 +35,7 @@
                 @foreach ($itens as $catalogo)
 
                       <td>{{$catalogo->secundario}}</td>
-                      <td>{{$catalogo->fr}}</td>
+                      <td>@if(isset($catalogo->fr){{$catalogo->fr}}@endif</td>
                       <td>{{$catalogo->ponte}}</td>
                       <td>{{$catalogo->hd}}</td>
                       <td>{{$catalogo->he}}</td>
