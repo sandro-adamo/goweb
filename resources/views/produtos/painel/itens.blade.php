@@ -488,7 +488,7 @@ $catalogo->modelo == 'HI1139'
             @if (\Auth::user()->id_perfil == 1 or \Auth::user()->id_perfil == 2 or \auth::user()->id_perfil ==25) <a href="" class="novoPedido pull-right" data-value="{{$catalogo->secundario}}"><i title="Pedido em aberto" class="fa   fa-pencil text-blue"> 
 								@if (isset($catalogo->pedidoaberto))
 								{{$catalogo->pedidoaberto}}
-								@else {{$catalogo->qtde_compra}}
+								@else @if(isset($catalogo->qtde_compra)){{$catalogo->qtde_compra}}@endif
 			  @endif </i> Comprar</a> @endif
           </div>
         </div>
