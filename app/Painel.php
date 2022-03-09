@@ -323,7 +323,7 @@ end as 'mediavenda'
 
 			
 		" );
-    dd($itens);
+   // dd($itens);
 
     return $itens;
 
@@ -548,7 +548,7 @@ end as 'mediavenda'
 			$ordem
 		" );
 	  
-dd($itens);
+//dd($itens);
     return $itens;
 
   }
