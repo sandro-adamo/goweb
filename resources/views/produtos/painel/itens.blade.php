@@ -436,7 +436,7 @@ $catalogo->modelo == 'HI1139'
         </div>
 				
 				@endif
-				
+				@if(isset($catalogo->codfornecedor ))
 				@if ($catalogo->codfornecedor == '47663' and $catalogo->disponivel_venda < 0)
 				     <div class="col-md-12" align="left" ><b>Saldo</b>: 0</div> 
 				
@@ -447,6 +447,7 @@ $catalogo->modelo == 'HI1139'
 						 <div class="col-md-12" align="left" ><b>Saldo</b>:{{number_format($catalogo->disponivel_venda)}}</div>
 						 
 						 @endif
+            @endif
 			
 			
 				@if ($catalogo->codfornecedor == '47663'  and $catalogo->etq > 30)
