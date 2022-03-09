@@ -548,7 +548,7 @@ end as 'mediavenda'
 			$ordem
 		" );
 	  
-
+dd($itens);
     return $itens;
 
   }
