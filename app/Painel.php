@@ -323,7 +323,7 @@ end as 'mediavenda'
 
 			
 		" );
-    //dd($itens);
+    dd($itens);
 
     return $itens;
 
