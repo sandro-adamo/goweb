@@ -42,7 +42,7 @@
 	}
 @endphp							
                             <td><i class="fa fa-heartbeat text-red" data-toggle="tooltip" data-placement="top" title="Duração em Meses"></i></td>
-							@if (isset($catalogo->mediavenda) && ($catalogo->mediavenda)=='0')
+							@if (empty($catalogo->mediavenda) && ($catalogo->mediavenda)=='0')
                             <td>{{number_format(0)}}</td>
 							@else
 							<td>{{number_format((($catalogo->brasil+$catalogo->cet+$catalogo->etq+$catalogo->cep)-$catalogo->orcamentos_valido)/($catalogo->mediavenda))}} 
