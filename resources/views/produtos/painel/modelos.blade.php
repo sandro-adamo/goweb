@@ -149,9 +149,11 @@
 
   @if (isset($modelos) && count($modelos) > 0)
   @foreach ($modelos as $catalogo)
+  
 
   @php
-    $id_usuario = \Auth::id();
+  
+  $id_usuario = \Auth::id();
     $favoritos = \DB::select("select * from favoritos where modelo = '$catalogo->modelo' and id_usuario = '$id_usuario'");
 	$N = '';
 

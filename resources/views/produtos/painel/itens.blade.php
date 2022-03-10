@@ -367,7 +367,7 @@ $catalogo->modelo == 'HI1139'
 
           <span class="pull-right">
             @if ($catalogo->id <> '')
-              <b>R$ {{number_format($catalogo->valor,2,',','.')}}/R$ {{number_format($catalogo->valorsugerido,2,',','.')}}  @if ( \Auth::user()->admin == 1 ) <i href="" class="text-danger">{{$catalogo->moeda}}{{ number_format($catalogo->custo_2019,2,',','.') }}</i> @endif</b>
+              <b>R$ {{number_format($catalogo->valor,2,',','.')}}/@if(isset($catalogo->valorsugerido))R$ {{number_format($catalogo->valorsugerido,2,',','.')}} @endif @if ( \Auth::user()->admin == 1 ) <i href="" class="text-danger">{{$catalogo->moeda}}{{ number_format($catalogo->custo_2019,2,',','.') }}</i> @endif</b>
             @else
               <small><a href="" class="text-red"><i class="fa fa-trash"></i> Excluir</a></small>
             @endif
@@ -436,7 +436,7 @@ $catalogo->modelo == 'HI1139'
         </div>
 				
 				@endif
-				
+				@if(isset($catalogo->codfornecedor ))
 				@if ($catalogo->codfornecedor == '47663' and $catalogo->disponivel_venda < 0)
 				     <div class="col-md-12" align="left" ><b>Saldo</b>: 0</div> 
 				
@@ -447,8 +447,9 @@ $catalogo->modelo == 'HI1139'
 						 <div class="col-md-12" align="left" ><b>Saldo</b>:{{number_format($catalogo->disponivel_venda)}}</div>
 						 
 						 @endif
+            @endif
 			
-			
+            @if(isset($catalogo->codfornecedor ))
 				@if ($catalogo->codfornecedor == '47663'  and $catalogo->etq > 30)
 				     <div class="col-md-12" align="left" ><b>Com saldo na Kering</b>: </div>
 				
@@ -457,11 +458,12 @@ $catalogo->modelo == 'HI1139'
 				
 						 
 						 @endif
+             @endif
 			
 			
 				
 				
-				
+             @if(isset($catalogo->codfornecedor ))
 			@if ($catalogo->codfornecedor <> '47663'  and $catalogo->clasmod == 'COLECAO B' and $catalogo->disponivel_venda < 0)
 				     <div class="col-md-12" align="left" ><b>Saldo</b>: 0</div>
 				
@@ -472,7 +474,7 @@ $catalogo->modelo == 'HI1139'
 						 
 						 @endif
 				
-			
+			@endif
 				
 				
             </div>
@@ -486,7 +488,7 @@ $catalogo->modelo == 'HI1139'
             @if (\Auth::user()->id_perfil == 1 or \Auth::user()->id_perfil == 2 or \auth::user()->id_perfil ==25) <a href="" class="novoPedido pull-right" data-value="{{$catalogo->secundario}}"><i title="Pedido em aberto" class="fa   fa-pencil text-blue"> 
 								@if (isset($catalogo->pedidoaberto))
 								{{$catalogo->pedidoaberto}}
-								@else {{$catalogo->qtde_compra}}
+								@else @if(isset($catalogo->qtde_compra)){{$catalogo->qtde_compra}}@endif
 			  @endif </i> Comprar</a> @endif
           </div>
         </div>
