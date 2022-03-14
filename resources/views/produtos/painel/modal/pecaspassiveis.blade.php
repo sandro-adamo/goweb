@@ -31,6 +31,7 @@
                             
                         </tr>
 
+                        
                          <tr>
                 @foreach ($itens as $catalogo)
 
@@ -49,7 +50,8 @@
             
                      
                         </tr>
-                   @endforeach
+                   @endforeach 
+
               
 </table>
 
