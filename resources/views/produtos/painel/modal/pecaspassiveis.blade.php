@@ -32,7 +32,7 @@
                         </tr>
 
                          <tr>
-                @foreach ($itens as $catalogo)
+                /* @foreach ($itens as $catalogo)
 
                       <td>{{$catalogo->secundario}}</td>
                       <td>{{$catalogo->fr}}</td>
@@ -49,7 +49,7 @@
             
                      
                         </tr>
-                   @endforeach
+                   @endforeach */
               
 </table>
 
