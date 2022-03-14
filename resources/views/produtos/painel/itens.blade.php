@@ -367,7 +367,7 @@ $catalogo->modelo == 'HI1139'
 
           <span class="pull-right">
             @if ($catalogo->id <> '')
-              <b>R$ {{number_format($catalogo->valor,2,',','.')}}/($catalogo->valorsugerido)R$ {{number_format($catalogo->valorsugerido,2,',','.')}} @endif @if ( \Auth::user()->admin == 1 ) <i href="" class="text-danger">{{$catalogo->moeda}}{{ number_format($catalogo->custo_2019,2,',','.') }}</i> @endif</b>
+              <b>R$ {{number_format($catalogo->valor,2,',','.')}}/($catalogo->valorsugerido)R$ {{number_format($catalogo->valorsugerido,2,',','.')}}  @if ( \Auth::user()->admin == 1 ) <i href="" class="text-danger">{{$catalogo->moeda}}{{ number_format($catalogo->custo_2019,2,',','.') }}</i> @endif</b>
             @else
               <small><a href="" class="text-red"><i class="fa fa-trash"></i> Excluir</a></small>
             @endif
