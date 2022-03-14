@@ -25,9 +25,9 @@
                     <table class="table table-condensed table-bordered table2" style="text-align: center;">
                         <tr>
                             <td><i class="fa fa-bar-chart text-blue" data-toggle="tooltip" data-placement="top" title="Média de Venda"></i></td>
-                            @if(isset($catalogo->mediavenda))
+                            
                             <td>{{number_format($catalogo->mediavenda)}}</td>
-                            @endif
+                           
                         </tr>
                     </table>
                 </td>
@@ -42,12 +42,12 @@
 	}
 @endphp							
                             <td><i class="fa fa-heartbeat text-red" data-toggle="tooltip" data-placement="top" title="Duração em Meses"></i></td>
-							@if (isset($catalogo->mediavenda) && ($catalogo->mediavenda)=='0')
+							@if (($catalogo->mediavenda)=='0')
                             <td>{{number_format(0)}}</td>
 							@else
-                            @if (isset($catalogo->mediavenda) )
+                           
 							<td>{{number_format((($catalogo->brasil+$catalogo->cet+$catalogo->etq+$catalogo->cep)-$catalogo->orcamentos_valido)/($catalogo->mediavenda))}} 
-                            @endif
+                           
                                
 							</td>
                             @endif
