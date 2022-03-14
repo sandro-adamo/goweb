@@ -31,25 +31,7 @@
                             
                         </tr>
 
-                         <tr>
-                /* @foreach ($itens as $catalogo)
 
-                      <td>{{$catalogo->secundario}}</td>
-                      <td>{{$catalogo->fr}}</td>
-                      <td>{{$catalogo->ponte}}</td>
-                      <td>{{$catalogo->hd}}</td>
-                      <td>{{$catalogo->he}}</td>
-                      <td>{{$catalogo->ld}}</td>
-                      <td>{{$catalogo->le}}</td>
-                      <td>{{$catalogo->lente}}</td>
-                      <td>{{$catalogo->lente_em_bloco}}</td>
-                      <td>{{$catalogo->saldo_passivel}}</td>
-                      <td>{{$catalogo->pecas_sem_complemento}}</td>
-                      <td>{{$catalogo->total}}</td>
-            
-                     
-                        </tr>
-                   @endforeach */
               
 </table>
 
