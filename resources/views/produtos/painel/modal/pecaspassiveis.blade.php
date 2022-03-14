@@ -33,7 +33,6 @@
 
                         
                          <tr>
-                         @dd($itens)
                 @foreach ($itens as $catalogo)
 
                       <td>{{$catalogo->secundario}}</td>
