@@ -327,7 +327,7 @@ $catalogo->modelo == 'HI1139'
     <span class="lead">Itens</span>
     <div class="row">
       @foreach ($itens as $catalogo)
-
+@dd($itens)
         @php
           switch ($catalogo->codstatusatual) {
             case 'DIS':
