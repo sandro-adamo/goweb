@@ -752,7 +752,6 @@ and  anomod not in ('.','cancelado','em branco') group by anomod order by anomod
 		
 		
 		$itens    = \App\Painel::listaItens($modelo->modelo);
-		dd($itens);
 
 		// ciclo de colecoes
 		// $colecoes = \App\Item::where('agrup', $modelo->agrup)
