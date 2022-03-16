@@ -188,7 +188,7 @@ class ItemController extends Controller
 
 	        		}
 
-	        		$atualizacoes[$item]['filial'] = str_pad('01020000', 12, " ", STR_PAD_LEFT);
+	        		$atualizacoes[$item]['filial'] = str_pad('01010000', 12, " ", STR_PAD_LEFT);
 
 	        	}
 
