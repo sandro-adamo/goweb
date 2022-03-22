@@ -26,14 +26,14 @@
         <table class="table table-bordered table-striped" id="myTable">
         <thead>
           <tr>
-			      <th>Id Movimentação</th>
+			      <th>Id Mov</th>
             <th>Tipo</th>
             <th>Origem</th>
             <th>Destino</th>
             <th>Grife</th>
             <th>Ultima obs</th>
-            <th>Dt solicitação</th>
-            <th>Dt atualização</th>
+            <th>Dt sol</th>
+            <th>Dt atu</th>
             <th>Status</th>
             <th>Responsável</th>
 
@@ -45,8 +45,8 @@
             <td><span class="pull-right"><a href="/usuarios/movimentacoes/historico/{{$movimentacao->id_movimentacao}}" ><i ></i> {{$movimentacao->id_movimentacao}}</a>
 			     </td>
             <td>{{$movimentacao->tipo}}</td>
-            <td>{{$movimentacao->id_origem.' - '.$movimentacao->nome_origem}}</td>
-            <td>{{$movimentacao->id_destino.' - '.$movimentacao->nome_destino}}</td>
+            <td>{{$movimentacao->id_origem.' - '.$movimentacao->nome_origem.' - Inv '.$movimentacao->status_inventario_origem}}</td>
+            <td>{{$movimentacao->id_destino.' - '.$movimentacao->nome_destino.' - Inv '.$movimentacao->status_inventario_destino}}</td>
             <td>{{$movimentacao->codgrife}}</td>
             <td>{{$movimentacao->obs}}</td>
             <td>{{$movimentacao->dt_created}}</td>

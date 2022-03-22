@@ -59,10 +59,14 @@ class RepresentanteController extends Controller
 
 	public function historicoMovimentacao(Request $request) {
  		 
- 		 $movimentacoes = \DB::select("SELECT movimentacoes_most.*, ad1.nome as nome_destino, ad2.nome as nome_origem
+ 		 $movimentacoes = \DB::select("SELECT movimentacoes_most.*, ad1.nome as nome_destino, ad2.nome as nome_origem,
+
+(select status from  inventarios where  id_inventario = id_inventario_origem and status <> 'cancelado' order by status desc limit 1) status_inventario_origem,
+(select status from  inventarios where  id_inventario = id_inventario_destino and status <> 'cancelado' order by status desc limit 1) status_inventario_destino
 			FROM movimentacoes_most
 			left join addressbook ad1 on id_destino = ad1.id
 			left join addressbook ad2 on id_origem = ad2.id
+			
 			where id_movimentacao = $request->id
 			order by movimentacoes_most.id desc");
 
@@ -72,21 +76,28 @@ class RepresentanteController extends Controller
  	}
 	public function listaMovimentacao() {
  		 
- 		 $movimentacoes = \DB::select("SELECT id_movimentacao, mm.tipo,  id_destino, id_origem,   ad1.nome as nome_destino, ad2.nome as nome_origem,
- 		 	(Select obs from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as obs,
- 		 	(Select concat(ifnull(AH,''),' ', ifnull(AT,''),' ', ifnull(BG,''),' ', ifnull(EV,''),' ', ifnull(HI,''),' ', ifnull(JM,''),' ', ifnull(JO,''),' ', ifnull(PU,''),' ',
-            ifnull(SP,''),' ', ifnull(TC,''),' ',
-            ifnull(AM,''),' ', ifnull(BV,''),' ', ifnull(BC,''),' ', ifnull(CT,''),' ', ifnull(GU,''),' ', ifnull(MC,''),' ', ifnull(MM,''),' ', ifnull(ST,'')
-            ,' ', ifnull(SM,''),' ', ifnull(AA,''),' ', ifnull(AZ,''),' ', 
-            ifnull(BR,''),' ',ifnull(CL,'')) from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as codgrife,
- 		 	(Select responsavel from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as responsavel,
- 		 	(Select dt_created from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as dt_created,
- 		 	(Select dt_updated from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as dt_updated,
- 		 	(Select status from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as status
-			FROM movimentacoes_most mm
-			left join addressbook ad1 on id_destino = ad1.id
-			left join addressbook ad2 on id_origem = ad2.id
-			group by id_movimentacao, tipo, codgrife, id_destino, id_origem");
+ 		 $movimentacoes = \DB::select("-- select* from usuarios where email = 'daniel@goeyewear.com.br'
+
+		  SELECT id_movimentacao, mm.tipo,  id_destino, id_origem,   ad1.nome as nome_destino, ad2.nome as nome_origem,
+						(Select obs from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as obs,
+						(Select concat(ifnull(AH,''),' ', ifnull(AT,''),' ', ifnull(BG,''),' ', ifnull(EV,''),' ', ifnull(HI,''),' ', ifnull(JM,''),' ', ifnull(JO,''),' ', ifnull(PU,''),' ',
+					  ifnull(SP,''),' ', ifnull(TC,''),' ',
+					  ifnull(AM,''),' ', ifnull(BV,''),' ', ifnull(BC,''),' ', ifnull(CT,''),' ', ifnull(GU,''),' ', ifnull(MC,''),' ', ifnull(MM,''),' ', ifnull(ST,'')
+					  ,' ', ifnull(SM,''),' ', ifnull(AA,''),' ', ifnull(AZ,''),' ', 
+					  ifnull(BR,''),' ',ifnull(CL,'')) from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as codgrife,
+						(Select responsavel from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as responsavel,
+						(Select dt_created from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as dt_created,
+						(Select dt_updated from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as dt_updated,
+						(Select status from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as status ,
+						 (select concat(id_inventario,'-',status) from  inventarios where tipo = 'enviando' and inventarios.id_movimentacao = mm.id_movimentacao and  inventarios.id_rep = mm.id_origem and (inventarios.id_movimentacao <> '' or inventarios.id_movimentacao is not null) and   inventarios.status <> 'cancelado' order by status desc limit 1) status_inventario_origem  ,
+		   (select concat(id_inventario,'-',status) from  inventarios where tipo = 'recebendo' and  inventarios.id_movimentacao = mm.id_movimentacao and  inventarios.id_rep = mm.id_destino and (inventarios.id_movimentacao <> '' or inventarios.id_movimentacao is not null) and   inventarios.status <> 'cancelado' order by status desc limit 1) status_inventario_destino 
+					  
+					  FROM movimentacoes_most mm
+					  left join addressbook ad1 on id_destino = ad1.id
+					  left join addressbook ad2 on id_origem = ad2.id
+					  group by id_movimentacao, tipo, codgrife, id_destino, id_origem,id_inventario_destino,id_inventario_origem
+					  
+					 -- select* from inventarios where id_inventario = 10081420220322105114 '10081420220322105114-Iniciada'");
 
 
  	 return view('sistema.usuarios.movimentacoes.lista')->with('movimentacoes', $movimentacoes);
