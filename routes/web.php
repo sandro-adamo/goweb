@@ -201,7 +201,7 @@ Route::get('/dsclientes2', function () {
 
 
 Route::get('/dsimport', function () {
-    return view('dashboards.importacao.dashboard_importacao');	
+    return view('dashboards.importacao.aberto');	
 });
 
 Route::get('/dsimportrec', function () {
@@ -256,6 +256,10 @@ Route::get('/cliente_faixa', function () { return view('dashboards.clientes.clie
 Route::post('/clientes_form/grava', 'ClienteController@gravaMotivoNaoVenda' );
 
 
+
+//**grava titulos compras**/
+Route::post('/titulos_form/grava', 'CompraController@gravaTitulosCompras' );
+Route::get('/titulos_form', function () { return view('produtos.compras.titulos_form');	});
 
 
 
