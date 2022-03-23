@@ -623,7 +623,7 @@ FROM
                 ELSE 'China'
             END AS Fornecedor,
             itens.codtipoarmaz AS Liberacao_tablet,
-            ifnull((existente + conf_montado),0) AS Existente,
+            ifnull((existente),0) AS Existente,
             ifnull(res_definitiva,0) AS Em_separacao,
             ifnull(res_temporaria,0) AS Pre_pedido,
             ifnull(saldo_manutencao,0) AS Manutencao,
@@ -631,7 +631,7 @@ FROM
 			ifnull(cet,0) AS Cet,
             IFNULL(cep, 0) AS Cep,
 			IFNULL(etq, 0)+ifnull(nao_passivel,0)+ifnull(cet_li,0) AS ETQ,
-            ifnull(em_beneficiamento,0) AS Beneficiamento,
+            ifnull(em_beneficiamento+conf_montado,0) AS Beneficiamento,
             ifnull(passivel,0) AS Saldo_parte,
             ifnull(saldo_trocas,0) AS Saldo_trocas,
             IFNULL(orcamentos.orcvalido, 0) AS Orcamentos,

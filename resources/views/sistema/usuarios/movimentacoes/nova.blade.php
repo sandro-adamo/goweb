@@ -31,7 +31,7 @@
         <div class="form-group">
           <label class="col-md-2 control-label">Tipo</label>
           <div class="col-md-4">
-            <select name="tipo" class="form-control">
+            <select name="tipo" class="form-control" required>
              
                 <option value="troca">Troca </option>
                 <option value="desligamento">Desligamento</option>
@@ -48,14 +48,36 @@
         <div class="form-group">
           <label class="col-md-2 control-label">Id origem</label>
           <div class="col-md-8">
-            <input type="text" name="id_origem" class="form-control" value="">
+          <select name="id_origem" id="id_origem" required class="form-control">
+                <option value=""> Selecione </option>
+
+                @php                  
+                $reps = \DB::select("select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where tipo = 'RE' and sit_representante = '' order by nome asc ");
+                @endphp                   
+
+                @foreach ($reps as $rep) 
+                <option value="{{$rep->id}}"> {{$rep->nome}} </option>
+                @endforeach
+
+              </select>
           </div>
         </div>
 
         <div class="form-group">
           <label class="col-md-2 control-label">Id destino</label>
           <div class="col-md-8">
-            <input type="text" name="id_destino" class="form-control" value="">
+              <select name="id_destino" id="id_destino" required class="form-control">
+                <option value=""> Selecione </option>
+
+                @php                  
+                $reps = \DB::select("select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where tipo = 'RE' and sit_representante = '' order by nome asc ");
+                @endphp                   
+
+                @foreach ($reps as $rep) 
+                <option value="{{$rep->id}}"> {{$rep->nome}} </option>
+                @endforeach
+
+              </select>
           </div>
         </div>
 
@@ -64,15 +86,18 @@
           <label class="col-md-2 control-label">Grife</label>
           <div class="col-md-8">
   <input type="checkbox" value="AH" name="ah"><label >AH</label>
+  <input type="checkbox" value="AI" name="ai"><label for="AI">AI</label>
   <input type="checkbox" value="AT" name="at"><label>AT</label>
   <input type="checkbox" value="BG" name="bg"><label for="BG">BG</label>
   <input type="checkbox" value="EV" name="ev"><label for="EV">EV</label>
-<input type="checkbox" value="FE" name="ev"><label for="EV">FE</label>
+<input type="checkbox" value="FE" name="fe"><label for="EV">FE</label>
   <input type="checkbox" value="HI" name="hi"><label for="HI">HI</label>
   <input type="checkbox" value="JO" name="jo"><label for="JO">JO</label>
   <input type="checkbox" value="SP" name="sp"><label for="SP">SP</label>
   <input type="checkbox" value="TC" name="tc"><label for="TC">TC</label>
   <input type="checkbox" value="JM" name="jm"><label for="JM">JM</label>
+
+  
   <br>
   <input type="checkbox" value="GU" name="gu"><label for="GU">GU</label>
   <input type="checkbox" value="MM" name="mm"><label for="MM">MM</label>
@@ -97,7 +122,7 @@
          <div class="form-group">
           <label class="col-md-2 control-label">Status</label>
           <div class="col-md-4">
-            <select name="status" class="form-control">
+            <select name="status" class="form-control" required>
              
 
                 <option value="Iniciado">Iniciado </option>
@@ -113,13 +138,13 @@
            <div class="form-group">
           <label class="col-md-2 control-label">Data inicio</label>
           <div class="col-md-8">
-            <input type="date" name="data_inicio" class="form-control" value="">
+            <input type="date" name="data_inicio" class="form-control" value="" required>
           </div>
         </div>
         <div class="form-group">
           <label class="col-md-2 control-label">Data atualização</label>
           <div class="col-md-8">
-            <input type="date" name="data_atualizacao" class="form-control" value="">
+            <input type="date" name="data_atualizacao" class="form-control" value="" required>
           </div>
         </div>
 

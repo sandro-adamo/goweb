@@ -195,7 +195,7 @@ class Painel extends Model {
 			ifnull(saldo.mostruarios,0) mostruarios,
 			custo_2019,
 			moeda,
-			trocas,
+			ifnull(trocas,0) trocas,
 			(select count(id_item)
 					
 			from historicos
@@ -289,9 +289,9 @@ end as 'mediavenda'
 		    ) as pecaspassiveis
 		    on pecaspassiveis.id = base.id
 			left join 
-            (select sum(qtde) trocas, id_item
-			from trocas
-			group by id_item) as trocas on trocas.id_item = base.id
+            (select sum(qtde) trocas, id_produto id_item
+			from goweb.trocas_itens
+			group by id_produto) as trocas on trocas.id_item = base.id
 			
 			left join (
             select id_item, case when recall.id is not null then 'sim' else 'nao' end as recall

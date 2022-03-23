@@ -31,11 +31,12 @@
                             
                         </tr>
 
-                         <tr>
+                         
                 @foreach ($itens as $catalogo)
+                <tr>
 
                       <td>{{$catalogo->secundario}}</td>
-                      <td>@if(isset($catalogo->fr)){{$catalogo->fr}}</td>
+                      <td>{{$catalogo->fr}}</td>
                       <td>{{$catalogo->ponte}}</td>
                       <td>{{$catalogo->hd}}</td>
                       <td>{{$catalogo->he}}</td>
@@ -47,7 +48,7 @@
                       <td>{{$catalogo->pecas_sem_complemento}}</td>
                       <td>{{$catalogo->total}}</td>
             
-                      @endif
+                     
                         </tr>
                    @endforeach
               

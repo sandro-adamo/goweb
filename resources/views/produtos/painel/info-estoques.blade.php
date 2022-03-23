@@ -30,9 +30,9 @@
                             <td> 
                                 
     <a href="" data-toggle="modal" data-target="#modalpecaspassiveis">
-        @if(isset($catalogo->saldo_industria))
+        
         {{$catalogo->saldo_industria}}({{$catalogo->saldo_passivel}}/{{$catalogo->pecas_sem_complemento}})<a/>
-        @endif
+      
                                 
                                     
                                     </td>
@@ -137,7 +137,7 @@
                     <table class="table table-condensed table-bordered table2" style="text-align: center;">
                         <tr >
                             
-							@if (isset($catalogo->trocas) && $catalogo->trocas > 0 && $catalogo->vendas > 0)
+							@if ($catalogo->trocas > 0 && $catalogo->vendas > 0)
                             <td> {{number_format($catalogo->trocas/$catalogo->vendas,2)}}%</td>
 							@else
 							<td> / 0%</td>
