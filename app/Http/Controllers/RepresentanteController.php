@@ -131,6 +131,7 @@ class RepresentanteController extends Controller
  		if(isset($request->sp)){$sp = 'SP';}else{$sp = '';}
  		if(isset($request->tc)){$tc = 'TC';}else{$tc = '';}
 		 if(isset($request->ai)){$ai = 'AI';}else{$ai = '';}
+		 if(isset($request->fe)){$fe = 'FE';}else{$fe = '';}
 
  		if(isset($request->gu)){$gu = 'GU';}else{$gu = '';}
  		if(isset($request->mm)){$mm = 'MM';}else{$mm = '';}

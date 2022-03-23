@@ -48,14 +48,36 @@
         <div class="form-group">
           <label class="col-md-2 control-label">Id origem</label>
           <div class="col-md-8">
-            <input type="text" name="id_origem" class="form-control" value="">
+          <select name="id_rep" id="id_rep" required class="form-control">
+                <option value=""> Selecione </option>
+
+                @php                  
+                $reps = \DB::select("select id, concat(id,' - ',nome,' - ',razao) as nome from go.addressbook where tipo = 'RE' and sit_representante = ''");
+                @endphp                   
+
+                @foreach ($reps as $rep) 
+                <option value="{{$rep->id}}"> {{$rep->nome}} </option>
+                @endforeach
+
+              </select>
           </div>
         </div>
 
         <div class="form-group">
           <label class="col-md-2 control-label">Id destino</label>
           <div class="col-md-8">
-            <input type="text" name="id_destino" class="form-control" value="">
+          <select name="id_rep" id="id_rep" required class="form-control">
+                <option value=""> Selecione </option>
+
+                @php                  
+                $reps = \DB::select("select id, concat(id,' - ',nome,' - ',razao) as nome from go.addressbook where tipo = 'RE' and sit_representante = ''");
+                @endphp                   
+
+                @foreach ($reps as $rep) 
+                <option value="{{$rep->id}}"> {{$rep->nome}} </option>
+                @endforeach
+
+              </select>
           </div>
         </div>
 
