@@ -3,8 +3,12 @@
 @php
 
 $representantes = Session::get('representantes');
-$grifes = Session::get('grifes');
-$cli  = $_GET["cli"];
+$tipo  = $_GET["tipo"];
+$pedido  = $_GET["pedido"];
+
+echo 'pedido'.$pedido;
+echo 'tipo'.$tipo;
+
 
 @endphp
 
@@ -29,12 +33,12 @@ $cli  = $_GET["cli"];
 
 		
 	$query_2 = \DB::select("	
-		select distinct cliente, pesq.created_at data, us.nome from pesquisa_naovenda pesq left join usuarios us on us.id = pesq.usuario where cliente = '$cli'
+		select distinct cliente, pesq.created_at data, us.nome from pesquisa_naovenda pesq left join usuarios us on us.id = pesq.usuario where cliente = 'CTM - FRANQUIA - EDUARDO'
 	");
 	
 	
 	$query_3 = \DB::select("	
-		select distinct cliente, grife, motivo, obs, nome, date(pesq.created_at) data from pesquisa_naovenda pesq left join usuarios us on us.id = pesq.usuario where cliente = '$cli'
+		select distinct cliente, grife, motivo, obs, nome, date(pesq.created_at) data from pesquisa_naovenda pesq left join usuarios us on us.id = pesq.usuario where cliente = 'CTM - FRANQUIA - EDUARDO'
 	");
 	
 	$query_4 = \DB::select("	
