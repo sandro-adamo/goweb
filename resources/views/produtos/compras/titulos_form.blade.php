@@ -70,18 +70,12 @@ $cli  = $_GET["cli"];
 									<td align="left">					
 										<label for="cars"></label>
 										<select name="motivos{{$query1->grife}}">
-											<option value="">motivo:</option>
-											<option value="estoque">Estoque alto</option>
-											<option value="recurso">Sem recurso financeiro</option>
-											<option value="reagenda">reagendamento</option>
-											<option value="naogrife">Não quer trabalhar com a grife</option>
-											<option value="fechou">Loja fechou</option>
-											<option value="gosac">Problemas com SAC</option>
-											<option value="gocob">Problemas com Cobranca</option>
-											<option value="golog">Problemas com Logistica</option>
-											<option value="gomkt">Problemas com Trade/MPDV</option>
-											<option value="outrocod">Compra por outro codigo</option>
-											
+											<option value="">Tipo:</option>
+											<option value="estoque">Adiantamento</option>
+											<option value="recurso">Embarque</option>
+											<option value="reagenda">Parcelas</option>
+											<option value="naogrife">Despesas</option>
+											<option value="fechou">Impostos</option>
 											
 										</select>
 
@@ -96,7 +90,7 @@ $cli  = $_GET["cli"];
 										</select>
 
 									</td>
-					--}}
+								--}}
 									
 								</tr>
 

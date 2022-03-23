@@ -11,6 +11,29 @@ use PHPMailer\ PHPMailer\ Exception;
 
 class CompraController extends Controller {
 
+	
+	
+	
+		public function gravaTitulosCompras(Request $request) {
+
+		if (isset($request->grife)) {
+
+			foreach ($request->grife as $grife) {
+
+				$campo_motivo = 'motivos'.$grife;
+				$motivo = $request->$campo_motivo;
+				$id_usuario = \Auth::id();
+
+				$insert = \DB::select("insert into pesquisa_naovenda (usuario, cliente, grife, motivo, atendimento, obs) 
+				values ($id_usuario, '$request->cliente', '$grife', '$motivo', '$request->atendimento', '$request->obs')");
+
+				}
+			}
+			return redirect()->back();
+		}
+	
+	
+
 
   public function UploadArquivos( Request $request ) {
 
