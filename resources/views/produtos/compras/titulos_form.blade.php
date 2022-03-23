@@ -155,7 +155,7 @@ $cli  = $_GET["cli"];
 
 								<tr>
 									<td><a href=""><i class="fa fa-file"></i></a></td>
-										<td>{{$query4->id_pedido}}</td>	
+										<td>{{$query4->numero}}</td>	
 											
 								
 								</tr>
