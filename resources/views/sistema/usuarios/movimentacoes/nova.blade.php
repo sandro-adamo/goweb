@@ -151,7 +151,7 @@
           <div class="form-group">
             <label class="col-md-2 control-label">Observações</label>
            <div class="col-md-8"> 
-          <textarea class="form-control" name="obs" rows="4" cols="20">
+          <textarea class="form-control" name="obs" rows="4" cols="20" required >
          
           </textarea>
           </div>

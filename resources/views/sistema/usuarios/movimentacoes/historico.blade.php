@@ -136,7 +136,7 @@
         <div class="form-group">
           <label class="col-md-2 control-label">Data atualização</label>
           <div class="col-md-8">
-            <input type="date" name="data_atualizacao" class="form-control" value="" required>
+            <input type="date" disabled="" name="data_atualizacao" class="form-control" value="" >
           </div>
         </div>
 

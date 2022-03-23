@@ -55,9 +55,9 @@ class RepresentanteController extends Controller
 		`CT` = '$ct',`GU` = '$gu', `MC` = '$mc', `MM`  ='$mm', `ST`  ='$st', `SM`  ='$sm',`AA`  ='$aa',`AZ`  = '$az',
 		`BR` = '$br',`CL` ='$cl' ,`FE` = '$fe', `AI` = '$ai' where id_movimentacao = '$request->id_movimentacao'");
 
-		$obs = 'status = '.$request->status.' Obs. '.$request->obs;
-		$historico = \DB::select("INSERT INTO `movimentacoes_most_historico`( id_movimentacao, obs, usuario) 
-		VALUES ('$request->id_movimentacao','$obs','$nome')");
+		$obs = 'Status = '.$request->status.' Obs. '.$request->obs.' - Grife cadastradas '.$ah.' '.$at.' '.$bg.' '.$ev.' '.$hi.' '.$jm.' '.$jo.' '.$pu.' '.$sp.' '.$tc.' '.$am.' '.$bv.' '.$bc.' '.$ct.' '.$gu.' '.$mc.' '.$mm.' '.$st.' '.$sm.' '.$aa.' '.$az.' '.$br.' '.$cl.' '.$fe.' '.$ai;
+		 $historico = \DB::select("INSERT INTO `movimentacoes_most_historico`( id_movimentacao, obs, usuario) 
+		 VALUES ('$id_prox','$obs','$nome')");
 
  		
  		$request->session()->flash('alert-success', 'Movimentação atualizada');
