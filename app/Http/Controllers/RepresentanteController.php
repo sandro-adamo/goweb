@@ -91,8 +91,8 @@ class RepresentanteController extends Controller
 						(Select dt_created from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as dt_created,
 						(Select dt_updated from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as dt_updated,
 						(Select status from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as status ,
-						 (select concat(id_inventario,'-',status) from  inventarios where tipo = 'enviando' and inventarios.id_movimentacao = mm.id_movimentacao and  inventarios.id_rep = mm.id_origem and (inventarios.id_movimentacao <> '' or inventarios.id_movimentacao is not null) and   inventarios.status <> 'cancelado' order by status desc limit 1) status_inventario_origem  ,
-		   (select concat(id_inventario,'-',status) from  inventarios where tipo = 'recebendo' and  inventarios.id_movimentacao = mm.id_movimentacao and  inventarios.id_rep = mm.id_destino and (inventarios.id_movimentacao <> '' or inventarios.id_movimentacao is not null) and   inventarios.status <> 'cancelado' order by status desc limit 1) status_inventario_destino 
+				 		 (select concat(id_inventario,'-',status) from  inventarios where tipo = 'enviando' and inventarios.id_movimentacao = mm.id_movimentacao and  inventarios.id_rep = mm.id_origem and   inventarios.status <> 'cancelado'  limit 1) status_inventario_origem   ,
+		   (select concat(id_inventario,'-',status) from  inventarios where tipo = 'recebendo' and  inventarios.id_movimentacao = mm.id_movimentacao and  inventarios.id_rep = mm.id_destino  and   inventarios.status <> 'cancelado'  limit 1) status_inventario_destino 
 					  
 					  FROM movimentacoes_most mm
 					  left join addressbook ad1 on id_destino = ad1.id
