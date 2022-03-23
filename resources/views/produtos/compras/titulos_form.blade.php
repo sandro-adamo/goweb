@@ -13,7 +13,7 @@ echo 'tipo'.$tipo;
 @endphp
 
 @section('title')
-<i class="fa fa-users">{{$cli}}</i> 
+<i class="fa fa-users">{{$tipo}}</i> 
 @append 
 
 @section('conteudo')
