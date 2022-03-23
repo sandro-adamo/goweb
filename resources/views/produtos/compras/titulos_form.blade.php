@@ -37,6 +37,10 @@ $cli  = $_GET["cli"];
 		select distinct cliente, grife, motivo, obs, nome, date(pesq.created_at) data from pesquisa_naovenda pesq left join usuarios us on us.id = pesq.usuario where cliente = '$cli'
 	");
 	
+	$query_4 = \DB::select("	
+		select * from compras_parcelas 
+	");
+	
 	
 	$i=0;
 	
@@ -143,16 +147,16 @@ $cli  = $_GET["cli"];
 								<tr>	
 									<td>form</td>
 									<td colspan="1" align="center">Usuario</td>
-									<td colspan="1" align="center">data</td>
+									
 								</thead>	
 							</tr>
 
-							@foreach ($query_2 as $query2)
+							@foreach ($query_4 as $query4)
 
 								<tr>
 									<td><a href=""><i class="fa fa-file"></i></a></td>
-										<td>{{$query2->nome}}</td>	
-										<td>{{$query2->data}}</td>	
+										<td>{{$query4->id_pedido}}</td>	
+											
 								
 								</tr>
 
