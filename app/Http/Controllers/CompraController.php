@@ -29,7 +29,7 @@ class CompraController extends Controller {
 				values ($id_usuario, '$request->cliente', '$grife', '$motivo', '$request->atendimento', '$request->obs')");
 				
 				$insert2 = \DB::select("insert into compras_parcelas (id_pedido) 
-				values (202373)");
+				values (99999)");
 				
 
 				
