@@ -31,7 +31,7 @@
         <div class="form-group">
           <label class="col-md-2 control-label">Tipo</label>
           <div class="col-md-4">
-            <select name="tipo" class="form-control">
+            <select name="tipo" class="form-control" required>
              
                 <option value="troca">Troca </option>
                 <option value="desligamento">Desligamento</option>
@@ -52,7 +52,7 @@
                 <option value=""> Selecione </option>
 
                 @php                  
-                $reps = \DB::select("select id, concat(id,' - ',nome,' - ',razao) as nome from go.addressbook where tipo = 'RE' and sit_representante = ''");
+                $reps = \DB::select("select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where tipo = 'RE' and sit_representante = ''");
                 @endphp                   
 
                 @foreach ($reps as $rep) 
@@ -70,7 +70,7 @@
                 <option value=""> Selecione </option>
 
                 @php                  
-                $reps = \DB::select("select id, concat(id,' - ',nome,' - ',razao) as nome from go.addressbook where tipo = 'RE' and sit_representante = ''");
+                $reps = \DB::select("select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where tipo = 'RE' and sit_representante = ''");
                 @endphp                   
 
                 @foreach ($reps as $rep) 
