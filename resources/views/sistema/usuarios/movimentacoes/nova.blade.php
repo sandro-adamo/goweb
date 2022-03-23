@@ -73,6 +73,8 @@
   <input type="checkbox" value="SP" name="sp"><label for="SP">SP</label>
   <input type="checkbox" value="TC" name="tc"><label for="TC">TC</label>
   <input type="checkbox" value="JM" name="jm"><label for="JM">JM</label>
+  <input type="checkbox" value="FE" name="fe"><label for="FE">FE</label>
+  <input type="checkbox" value="AI" name="ai"><label for="AI">AI</label>
   <br>
   <input type="checkbox" value="GU" name="gu"><label for="GU">GU</label>
   <input type="checkbox" value="MM" name="mm"><label for="MM">MM</label>

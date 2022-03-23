@@ -73,6 +73,8 @@
   <input type="checkbox" value="SP" name="sp"@if($movimentacoes[0]->SP=='SP') checked @endif><label for="SP">SP</label>
   <input type="checkbox" value="TC" name="tc"@if($movimentacoes[0]->TC=='TC') checked @endif><label for="TC">TC</label>
   <input type="checkbox" value="JM" name="jm"@if($movimentacoes[0]->JM=='JM') checked @endif><label for="JM">JM</label>
+  <input type="checkbox" value="FE" name="fe"@if($movimentacoes[0]->FE=='FE') checked @endif><label for="FE">FE</label>
+  <input type="checkbox" value="AI" name="ai"@if($movimentacoes[0]->AI=='AI') checked @endif><label for="AI">AI</label>
   <br>
   <input type="checkbox" value="GU" name="gu"@if($movimentacoes[0]->GU=='GU') checked @endif><label for="GU">GU</label>
   <input type="checkbox" value="MM" name="mm"@if($movimentacoes[0]->MM=='MM') checked @endif><label for="MM">MM</label>
