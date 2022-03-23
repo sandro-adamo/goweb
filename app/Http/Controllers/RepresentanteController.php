@@ -48,10 +48,16 @@ class RepresentanteController extends Controller
  	
  		 		
  		
- 		$query = \DB::select("INSERT INTO `movimentacoes_most`( `id_movimentacao`, `tipo`, `codgrife`, `id_destino`, `id_origem`, `status`, `obs`, `responsavel`, `dt_updated`, `dt_created`, `AH`, `AT`, `BG`, `EV`, `HI`, `JM`, `JO`, `PU`, `SP`, `TC`, `AM`, `BV`, `BC`, `CT`, `GU`, `MC`, `MM`, `ST`, `SM`, `AA`, `AZ`, `BR`, `CL` , `FE`, `AI`) VALUES ('$request->id_movimentacao','$request->tipo2','$request->grife2','$request->id_destino2','$request->id_origem2','$request->status','$request->obs','$nome','$request->data_atualizacao','$request->data_inicio2','$ah', '$at', '$bg', '$ev', '$hi', '$jm', '$jo', '$pu', '$sp', '$tc', '$am', '$bv', '$bc', '$ct', '$gu', '$mc', '$mm', '$st', '$sm', '$aa', '$az', '$br', '$cl', '$fe', '$ai')");
+ 		$query = \DB::select("
+		 update movimentacoes_most set 
+		 `status` = '$request->status', `AH` = '$ah', `AT` = '$at', `BG` = '$bg', `EV` = '$ev', `HI` = '$hi', 
+		`JM` = '$jm',`JO` = '$jo', `PU` = '$pu',`SP` = '$sp',`TC` = '$tc', `AM` = '$am', `BV` = '$bv', `BC` = '$bc',
+		`CT` = '$ct',`GU` = '$gu', `MC` = '$mc', `MM`  ='$mm', `ST`  ='$st', `SM`  ='$sm',`AA`  ='$aa',`AZ`  = '$az',
+		`BR` = '$br',`CL` ='$cl' ,`FE` = '$fe', `AI` = '$ai' where id_movimentacao = '$request->id_movimentacao'");
 
-
-
+		$obs = 'status = '.$request->status.' Obs. '.$request->obs;
+		$historico = \DB::select("INSERT INTO `movimentacoes_most_historico`( id_movimentacao, obs, usuario) 
+		VALUES ('$request->id_movimentacao','$obs','$nome')");
 
  		
  		$request->session()->flash('alert-success', 'Movimentação atualizada');
@@ -63,8 +69,8 @@ class RepresentanteController extends Controller
  		 
  		 $movimentacoes = \DB::select("SELECT movimentacoes_most.*, ad1.nome as nome_destino, ad2.nome as nome_origem,
 
-(select status from  inventarios where  id_inventario = id_inventario_origem and status <> 'cancelado' order by status desc limit 1) status_inventario_origem,
-(select status from  inventarios where  id_inventario = id_inventario_destino and status <> 'cancelado' order by status desc limit 1) status_inventario_destino
+(select status from  inventarios where  id_inventario = id_inventario_origem and status <> 'cancelado'  and id_origem = id_rep limit 1) status_inventario_origem,
+(select status from  inventarios where  id_inventario = id_inventario_destino and status <> 'cancelado' and id_destino = id_rep limit 1) status_inventario_destino
 			FROM movimentacoes_most
 			left join addressbook ad1 on id_destino = ad1.id
 			left join addressbook ad2 on id_origem = ad2.id
@@ -72,8 +78,13 @@ class RepresentanteController extends Controller
 			where id_movimentacao = $request->id
 			order by movimentacoes_most.id desc");
 
+$historico = \DB::select("SELECT * FROM `movimentacoes_most_historico` where id_movimentacao = $request->id order by id desc");
 
- 	 return view('sistema.usuarios.movimentacoes.historico')->with('movimentacoes', $movimentacoes);
+
+
+
+
+ 	 return view('sistema.usuarios.movimentacoes.historico')->with('movimentacoes', $movimentacoes)->with('historico', $historico);
 
  	}
 	public function listaMovimentacao() {
@@ -153,9 +164,14 @@ class RepresentanteController extends Controller
  		
  		$query = \DB::select("INSERT INTO `movimentacoes_most`( `id_movimentacao`, `tipo`, `codgrife`, `id_destino`, `id_origem`, `status`, `obs`, `responsavel`, `dt_updated`, `dt_created`, `AH`, `AT`, `BG`, `EV`, `HI`, `JM`, `JO`, `PU`, `SP`, `TC`, `AM`, `BV`, `BC`, `CT`, `GU`, `MC`, `MM`, `ST`, `SM`, `AA`, `AZ`, `BR`, `CL`, `FE` , `AI`) VALUES ('$id_prox','$request->tipo','$request->grife','$request->id_destino','$request->id_origem','$request->status','$request->obs','$nome','$request->data_atualizacao','$request->data_inicio','$ah', '$at', '$bg', '$ev', '$hi', '$jm', '$jo', '$pu', '$sp', '$tc', '$am', '$bv', '$bc', '$ct', '$gu', '$mc', '$mm', '$st', '$sm', '$aa', '$az', '$br', '$cl', '$fe', '$ai')");
  		
+		 $obs = 'Status = '.$request->status.' Obs. '.$request->obs.' - Grife cadastradas '.$ah.' '.$at.' '.$bg.' '.$ev.' '.$hi.' '.$jm.' '.$jo.' '.$pu.' '.$sp.' '.$tc.' '.$am.' '.$bv.' '.$bc.' '.$ct.' '.$gu.' '.$mc.' '.$mm.' '.$st.' '.$sm.' '.$aa.' '.$az.' '.$br.' '.$cl.' '.$fe.' '.$ai;
+		 $historico = \DB::select("INSERT INTO `movimentacoes_most_historico`( id_movimentacao, obs, usuario) 
+		 VALUES ('$id_prox','$obs','$nome')");
+
+
  		$request->session()->flash('alert-success', 'Movimentação cadastrada');
 
- 	 return redirect('/usuarios/movimentacoes/lista');
+ 	 return redirect('/usuarios/movimentacoes/historico/'.$id_prox);
  	 
  	}
 

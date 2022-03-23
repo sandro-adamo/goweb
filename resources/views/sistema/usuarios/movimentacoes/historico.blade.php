@@ -51,6 +51,13 @@
         </div>
 
         <div class="form-group">
+          <label class="col-md-2 control-label">Id inventario origem</label>
+          <div class="col-md-4">
+            <input type="text" id="disabledInput" disabled="" nclass="form-control" value="{{$movimentacoes[0]->id_inventario_origem}}">
+             </div>
+            </div>
+
+        <div class="form-group">
           <label class="col-md-2 control-label">Id destino</label>
           <div class="col-md-4">
             <input type="text" id="disabledInput" disabled="" name="id_destino" class="form-control" value="{{$movimentacoes[0]->id_destino}}">
@@ -59,7 +66,13 @@
           </div>
         </div>
 
-        
+        <div class="form-group">
+          <label class="col-md-2 control-label">Id inventario destino</label>
+          <div class="col-md-4">
+            <input type="text" id="disabledInput" disabled="" nclass="form-control" value="{{$movimentacoes[0]->id_inventario_destino}}">
+             </div>
+            </div>
+
  
         <div class="form-group">
           <label class="col-md-2 control-label">Grife</label>
@@ -156,11 +169,11 @@
 
 
 
-@foreach ($movimentacoes as $movimentacao)
+@foreach ($historico as $historicos)
 
       <li class="time-label">
             <span class="bg-gray">
-              {{date("d/m/Y", strtotime($movimentacao->dt_updated))}}
+              {{date("d/m/Y", strtotime($historicos->updated_at))}}
             </span>
       </li>
 
@@ -173,12 +186,12 @@
         
 
             <div class="timeline-item">
-              <span class="time"><i class="fa fa-clock-o"></i> {{$movimentacao->dt_updated}}</span>
+              <span class="time"><i class="fa fa-clock-o"></i> {{$historicos->updated_at}}</span>
 
-              <h3 class="timeline-header"><a href="#">{{$movimentacao->responsavel}}</a></h3>
+              <h3 class="timeline-header"><a href="#">{{$historicos->usuario}}</a></h3>
 
               <div class="timeline-body">
-                {{$movimentacao->obs.$movimentacao->codgrife}}
+                {{$historicos->obs}}
               </div>
         
 
