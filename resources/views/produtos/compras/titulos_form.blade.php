@@ -136,7 +136,7 @@ echo 'tipo'.$tipo;
 			    A</label>
 			  <br>
 			  <label>
-			    <input type="text" name="embarque" value=$tipo id="RadioGroup1_1">
+			    <input type="text" name="embarque" value={{$tipo}} id="RadioGroup1_1">
 			    B</label>
 			  <br>
   			</p>
