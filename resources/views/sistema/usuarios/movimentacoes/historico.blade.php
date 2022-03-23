@@ -104,6 +104,7 @@
 
                 <option value="Iniciado">Iniciado </option>
                 <option value="Em processo">Em processo</option>
+                <option value="Em processo">Trativas fiscais</option>
                 <option value="Finalizado">Finalizado</option>
                 <option value="Finalizado">Cancelado</option>
               
@@ -122,14 +123,14 @@
         <div class="form-group">
           <label class="col-md-2 control-label">Data atualização</label>
           <div class="col-md-8">
-            <input type="date" name="data_atualizacao" class="form-control" value="" >
+            <input type="date" name="data_atualizacao" class="form-control" value="" required>
           </div>
         </div>
 
           <div class="form-group">
             <label class="col-md-2 control-label">Observações</label>
            <div class="col-md-8"> 
-          <textarea class="form-control" name="obs" rows="4" cols="20">
+          <textarea class="form-control" name="obs" rows="4" cols="20" required>
          
           </textarea>
           </div>
