@@ -24,7 +24,6 @@ echo 'tipo'.$tipo;
 	@php
 
 
-
 	$query_1 = \DB::select("
 
 		select distinct grife  from carteira where grife not in ('EP1','EP2','EP3','EP4','EP5','EP6') and status = 1 and rep in ($representantes)
