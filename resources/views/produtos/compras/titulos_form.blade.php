@@ -19,7 +19,7 @@ echo 'tipo'.$tipo;
 @section('conteudo')
 
 <form action="/titulos_form/grava" method="post"> 
-<input type="hidden" name="cliente" value="{{$cli}}">
+<input type="hidden" name="cliente" value="{{$pedido}}">
 	@csrf
 	@php
 
