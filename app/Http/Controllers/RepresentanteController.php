@@ -57,7 +57,7 @@ class RepresentanteController extends Controller
 
 		$obs = 'Status = '.$request->status.' Obs. '.$request->obs.' - Grife cadastradas '.$ah.' '.$at.' '.$bg.' '.$ev.' '.$hi.' '.$jm.' '.$jo.' '.$pu.' '.$sp.' '.$tc.' '.$am.' '.$bv.' '.$bc.' '.$ct.' '.$gu.' '.$mc.' '.$mm.' '.$st.' '.$sm.' '.$aa.' '.$az.' '.$br.' '.$cl.' '.$fe.' '.$ai;
 		 $historico = \DB::select("INSERT INTO `movimentacoes_most_historico`( id_movimentacao, obs, usuario) 
-		 VALUES ('$id_prox','$obs','$nome')");
+		 VALUES ('$request->id_movimentacao','$obs','$nome')");
 
  		
  		$request->session()->flash('alert-success', 'Movimentação atualizada');
