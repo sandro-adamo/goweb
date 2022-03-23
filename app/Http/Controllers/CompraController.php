@@ -23,10 +23,16 @@ class CompraController extends Controller {
 				$campo_motivo = 'motivos'.$grife;
 				$motivo = $request->$campo_motivo;
 				$id_usuario = \Auth::id();
+				
 
 				$insert = \DB::select("insert into pesquisa_naovenda (usuario, cliente, grife, motivo, atendimento, obs) 
 				values ($id_usuario, '$request->cliente', '$grife', '$motivo', '$request->atendimento', '$request->obs')");
+				
+				$insert = \DB::select("insert into compras_parcelas (id_pedido) 
+				values (202373)");
+				
 
+				
 				}
 			}
 			return redirect()->back();
