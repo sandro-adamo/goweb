@@ -115,6 +115,9 @@ echo 'tipo'.$tipo;
 				</div>
 			
 			tipo de contato
+			
+			
+			
 			<p>
 			  <label>
 			    <input type="radio" name="atendimento" value="presencial" id="RadioGroup1_0">
@@ -124,7 +127,22 @@ echo 'tipo'.$tipo;
 			    <input type="radio" name="atendimento" value="virtual" id="RadioGroup1_1">
 			    Atendimento Virtual/Telefone</label>
 			  <br>
-  </p>
+  			</p>
+			
+			
+			<p>
+			  <label>
+			    <input type="radio" name="adiantamento" value="presencial" id="RadioGroup1_0">
+			    A</label>
+			  <br>
+			  <label>
+			    <input type="radio" name="adiantamento" value="virtual" id="RadioGroup1_1">
+			    B</label>
+			  <br>
+  			</p>
+			
+			
+			
   <label for="obs">obs:</label>
 						<input type="text" id="obs" name="obs" size="50">
   <button type="submit" >Salvar</button>
