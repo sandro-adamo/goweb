@@ -28,8 +28,8 @@ class CompraController extends Controller {
 				$insert = \DB::select("insert into pesquisa_naovenda (usuario, cliente, grife, motivo, atendimento, obs) 
 				values ($id_usuario, '$request->cliente', '$grife', '$motivo', '$request->atendimento', '$request->obs')");
 				
-				$insert2 = \DB::select("insert into compras_parcelas (numero) 
-				values (99988)");
+				$insert2 = \DB::select("insert into compras_parcelas (numero,origem) 
+				values (99988, '$request->adiantamento')");
 				
 				}
 			}
