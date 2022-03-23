@@ -132,11 +132,11 @@ echo 'tipo'.$tipo;
 			
 			<p>
 			  <label>
-			    <input type="radio" name="adiantamento" value="presencial" id="RadioGroup1_0">
+			    <input type="text" name="adiantamento" value="presencial" id="RadioGroup1_0">
 			    A</label>
 			  <br>
 			  <label>
-			    <input type="radio" name="adiantamento" value="virtual" id="RadioGroup1_1">
+			    <input type="text" name="embarque" value="virtual" id="RadioGroup1_1">
 			    B</label>
 			  <br>
   			</p>
