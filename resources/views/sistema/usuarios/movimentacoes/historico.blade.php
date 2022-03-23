@@ -133,13 +133,7 @@
             <input type=hidden name=data_inicio2 value="{{$movimentacoes[0]->dt_created}}">
           </div>
         </div>
-        <div class="form-group">
-          <label class="col-md-2 control-label">Data atualização</label>
-          <div class="col-md-8">
-            <input type="date" disabled="" name="data_atualizacao" class="form-control" value="" >
-          </div>
-        </div>
-
+        
           <div class="form-group">
             <label class="col-md-2 control-label">Observações</label>
            <div class="col-md-8"> 
