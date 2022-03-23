@@ -201,7 +201,7 @@ Route::get('/dsclientes2', function () {
 
 
 Route::get('/dsimport', function () {
-    return view('dashboards.importacao.dashboard_importacao');	
+    return view('dashboards.importacao.aberto');	
 });
 
 Route::get('/dsimportrec', function () {
