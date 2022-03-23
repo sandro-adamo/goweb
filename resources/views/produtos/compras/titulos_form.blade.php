@@ -14,7 +14,7 @@ $cli  = $_GET["cli"];
 
 @section('conteudo')
 
-<form action="/clientes_form/grava" method="post"> 
+<form action="/titulos_form/grava" method="post"> 
 <input type="hidden" name="cliente" value="{{$cli}}">
 	@csrf
 	@php
