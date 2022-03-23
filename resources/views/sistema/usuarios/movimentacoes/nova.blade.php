@@ -100,7 +100,7 @@
          <div class="form-group">
           <label class="col-md-2 control-label">Status</label>
           <div class="col-md-4">
-            <select name="status" class="form-control">
+            <select name="status" class="form-control" required>
              
 
                 <option value="Iniciado">Iniciado </option>
@@ -116,13 +116,13 @@
            <div class="form-group">
           <label class="col-md-2 control-label">Data inicio</label>
           <div class="col-md-8">
-            <input type="date" name="data_inicio" class="form-control" value="">
+            <input type="date" name="data_inicio" class="form-control" value="" required>
           </div>
         </div>
         <div class="form-group">
           <label class="col-md-2 control-label">Data atualização</label>
           <div class="col-md-8">
-            <input type="date" name="data_atualizacao" class="form-control" value="">
+            <input type="date" name="data_atualizacao" class="form-control" value="" required>
           </div>
         </div>
 
