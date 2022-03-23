@@ -48,7 +48,7 @@
         <div class="form-group">
           <label class="col-md-2 control-label">Id origem</label>
           <div class="col-md-8">
-          <select name="id_rep" id="id_origem" required class="form-control">
+          <select name="id_origem" id="id_origem" required class="form-control">
                 <option value=""> Selecione </option>
 
                 @php                  
@@ -66,7 +66,7 @@
         <div class="form-group">
           <label class="col-md-2 control-label">Id destino</label>
           <div class="col-md-8">
-              <select name="id_rep" id="id_destino" required class="form-control">
+              <select name="id_destino" id="id_destino" required class="form-control">
                 <option value=""> Selecione </option>
 
                 @php                  
