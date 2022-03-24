@@ -24,7 +24,7 @@ class Autenticacao
 
         $id_usuario = \Auth::id();
 
-        if (Auth::check() && Auth::user()->status == 0) {
+        if (Auth::check() && (Auth::user()->status == 0 or Auth::user()->portal_gestao <> 1)) {
 
             \Auth::logout();
             return redirect('/login');
