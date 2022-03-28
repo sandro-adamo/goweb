@@ -102,8 +102,8 @@ $historico = \DB::select("SELECT * FROM `movimentacoes_most_historico` where id_
 						 dt_created as dt_created,
 						 dt_created  as dt_updated,
 					 status  as status ,
-				 		 (select concat(id_inventario,'-',status) from  inventarios where tipo = 'enviando' and inventarios.id_movimentacao = mm.id_movimentacao and  inventarios.id_rep = mm.id_origem and   inventarios.status <> 'cancelado'  limit 1) status_inventario_origem   ,
-		   (select concat(id_inventario,'-',status) from  inventarios where tipo = 'recebendo' and  inventarios.id_movimentacao = mm.id_movimentacao and  inventarios.id_rep = mm.id_destino  and   inventarios.status <> 'cancelado'  limit 1) status_inventario_destino 
+				 		 (select concat(id_inventario,'-',status) from  inventarios where tipo = 'enviando' and inventarios.id_movimentacao = mm.id_movimentacao and  inventarios.id_rep = mm.id_origem and   inventarios.status <> 'cancelado' and exclui = 0  limit 1) status_inventario_origem   ,
+		   (select concat(id_inventario,'-',status) from  inventarios where tipo = 'recebendo' and  inventarios.id_movimentacao = mm.id_movimentacao and  inventarios.id_rep = mm.id_destino  and   inventarios.status <> 'cancelado' and exclui = 0 limit 1) status_inventario_destino 
 					  
 					  FROM movimentacoes_most mm
 					  left join addressbook ad1 on id_destino = ad1.id
