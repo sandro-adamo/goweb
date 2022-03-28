@@ -91,24 +91,26 @@ $historico = \DB::select("SELECT * FROM `movimentacoes_most_historico` where id_
  		 
  		 $movimentacoes = \DB::select("
 
-		  SELECT id_movimentacao, mm.tipo,  id_destino, id_origem,   ad1.nome as nome_destino, ad2.nome as nome_origem,
-						(Select obs from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as obs,
-						(Select concat(ifnull(AH,''),' ', ifnull(AT,''),' ', ifnull(BG,''),' ', ifnull(EV,''),' ', ifnull(HI,''),' ', ifnull(JM,''),' ', ifnull(JO,''),' ', ifnull(PU,''),' ',
+		  SELECT distinct id_movimentacao, mm.tipo,  id_destino, id_origem,   ad1.nome as nome_destino, ad2.nome as nome_origem,
+						obs,
+						 concat(ifnull(AH,''),' ', ifnull(AT,''),' ', ifnull(BG,''),' ', ifnull(EV,''),' ', ifnull(HI,''),' ', ifnull(JM,''),' ', ifnull(JO,''),' ', ifnull(PU,''),' ',
 					  ifnull(SP,''),' ', ifnull(TC,''),' ',
 					  ifnull(AM,''),' ', ifnull(BV,''),' ', ifnull(BC,''),' ', ifnull(CT,''),' ', ifnull(GU,''),' ', ifnull(MC,''),' ', ifnull(MM,''),' ', ifnull(ST,'')
 					  ,' ', ifnull(SM,''),' ', ifnull(AA,''),' ', ifnull(AZ,''),' ', 
-					  ifnull(BR,''),' ',ifnull(CL,''),' ',ifnull(FE,'')) from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as codgrife,
-						(Select responsavel from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as responsavel,
-						(Select dt_created from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as dt_created,
-						(Select dt_updated from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as dt_updated,
-						(Select status from movimentacoes_most where id_movimentacao = mm.id_movimentacao order by id desc limit 1) as status ,
+					  ifnull(BR,''),' ',ifnull(CL,''),' ',ifnull(FE,'')) as codgrife,
+						 responsavel as responsavel,
+						 dt_created as dt_created,
+						 dt_created  as dt_updated,
+					 status  as status ,
 				 		 (select concat(id_inventario,'-',status) from  inventarios where tipo = 'enviando' and inventarios.id_movimentacao = mm.id_movimentacao and  inventarios.id_rep = mm.id_origem and   inventarios.status <> 'cancelado'  limit 1) status_inventario_origem   ,
 		   (select concat(id_inventario,'-',status) from  inventarios where tipo = 'recebendo' and  inventarios.id_movimentacao = mm.id_movimentacao and  inventarios.id_rep = mm.id_destino  and   inventarios.status <> 'cancelado'  limit 1) status_inventario_destino 
 					  
 					  FROM movimentacoes_most mm
 					  left join addressbook ad1 on id_destino = ad1.id
 					  left join addressbook ad2 on id_origem = ad2.id
-					  group by id_movimentacao, tipo, codgrife, id_destino, id_origem,id_inventario_destino,id_inventario_origem
+                     
+					
+                    
 					  
 	");
 
