@@ -52,7 +52,8 @@
                 <option value=""> Selecione </option>
 
                 @php                  
-                $reps = \DB::select("select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where tipo = 'RE' and sit_representante = '' order by nome asc ");
+                $reps = \DB::select("select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where tipo = 'RE' and sit_representante = ''  union all
+                select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where id = 101815 order by nome asc ");
                 @endphp                   
 
                 @foreach ($reps as $rep) 
@@ -70,7 +71,8 @@
                 <option value=""> Selecione </option>
 
                 @php                  
-                $reps = \DB::select("select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where tipo = 'RE' and sit_representante = '' order by nome asc ");
+                $reps = \DB::select("select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where tipo = 'RE' and sit_representante = ''  union all
+                select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where id = 101815 order by nome asc ");
                 @endphp                   
 
                 @foreach ($reps as $rep) 
