@@ -51,7 +51,7 @@ echo 'tipo'.$tipo;
 
   <h6>
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-8">
   				<div class="box box-widget box-body">
 					<div class="table-responsive">
 
@@ -131,13 +131,16 @@ echo 'tipo'.$tipo;
 			
 			
 			<p>
-			  <label>
+			  <label>Adiantamento : 
 			    <input type="text" name="adiantamento" value={{$pedido}} id="RadioGroup1_0">
-			    A</label>
+			    </label>
 			  <br>
-			  <label>
-			    <input type="text" name="embarque" value={{$tipo}} id="RadioGroup1_1">
-			    B</label>
+				
+			  <label> 
+			   Valor Embarque <input type="text" name="embarque" value={{$tipo}} id="RadioGroup1_1">
+			   Dt Embarque 	  <input type="text" name="dt_embarque" value={{$tipo}} id="RadioGroup1_1">  
+			  </label>
+				
 			  <br>
   			</p>
 			
@@ -177,8 +180,6 @@ echo 'tipo'.$tipo;
 								<tr>
 									<td><a href=""><i class="fa fa-file"></i></a></td>
 										<td>{{$query4->numero}}</td>	
-											
-								
 								</tr>
 
 
@@ -188,8 +189,7 @@ echo 'tipo'.$tipo;
 					</div>
 				</div>
 			</div>
-		
-	</div>	
+		</div>	
 
 
 </h6>

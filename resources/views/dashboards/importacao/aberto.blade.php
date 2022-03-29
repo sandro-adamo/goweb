@@ -112,6 +112,7 @@ select * from (
 				</tr>
 		  			
 					<tr>
+						<td colspan="1" align="center">aaa</td>
 					<td colspan="1" align="center">ult_prox status</td>
 					<td colspan="1" align="center">Pedido</td>	
 					<td colspan="1" align="center">Invoice</td>				
