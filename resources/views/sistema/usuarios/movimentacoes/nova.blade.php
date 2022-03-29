@@ -53,7 +53,7 @@
 
                 @php                  
                 $reps = \DB::select("select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where tipo = 'RE' and sit_representante = ''  union all
-                select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where id = 101815 order by nome asc ");
+                select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where id in (101815,10) order by nome asc ");
                 @endphp                   
 
                 @foreach ($reps as $rep) 
@@ -72,7 +72,7 @@
 
                 @php                  
                 $reps = \DB::select("select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where tipo = 'RE' and sit_representante = ''  union all
-                select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where id = 101815 order by nome asc ");
+                select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where id in (101815,10)  order by nome asc ");
                 @endphp                   
 
                 @foreach ($reps as $rep) 
