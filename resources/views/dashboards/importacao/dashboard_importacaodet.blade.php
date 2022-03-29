@@ -67,7 +67,7 @@ select *, case when orcamentos > qtde then qtde else orcamentos end as atende fr
 			from importacoes_pedidos imp 
 			left join itens on itens.id = cod_item		
 			where ref_go not in ('LA200501','QGKI17-7B') and 
-			ult_status not in (980) and prox_status not in (999,400)
+			-- ult_status not in (980) and prox_status not in (999,400)
 			and pedido = $pedido and tipo = '$tipo'
 			
 		) as base 
