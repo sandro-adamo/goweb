@@ -25,11 +25,12 @@ class CompraController extends Controller {
 				$id_usuario = \Auth::id();
 				
 
-				$insert = \DB::select("insert into pesquisa_naovenda (usuario, cliente, grife, motivo, atendimento, obs) 
+		/**		$insert = \DB::select("insert into pesquisa_naovenda (usuario, cliente, grife, motivo, atendimento, obs) 
 				values ($id_usuario, '$request->cliente', '$grife', '$motivo', '$request->atendimento', '$request->obs')");
+		**/	
 				
-				$insert2 = \DB::select("insert into compras_parcelas (id_pedido,origem,tipo) 
-				values (99987, '$request->adiantamento', '$request->embarque')");
+				$insert2 = \DB::select("insert into compras_infos (documento,tipo_doumento,origem,tipo_origem) 
+				values (1, 2, 3,4)");
 				
 				}
 			}
