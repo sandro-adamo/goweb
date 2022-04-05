@@ -29,7 +29,7 @@ class CompraController extends Controller {
 				values ($id_usuario, '$request->cliente', '$grife', '$motivo', '$request->atendimento', '$request->obs')");
 		**/	
 				
-				$insert2 = \DB::select("insert into compras_infos (documento,tipo_doumento,origem,tipo_origem) 
+				$insert2 = \DB::select("insert into compras_infos (documento,tipo_documento,origem,tipo_origem) 
 				values (1, 2, 3,4)");
 				
 				}
