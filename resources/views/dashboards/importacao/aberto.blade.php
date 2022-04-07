@@ -160,8 +160,9 @@ from (
 			<td align="center">{{number_format($query2->qtde)}}</td>	
 			<td align="center">{{number_format($query2->atende)}}</td>
 			<td align="center">{{number_format($query2->itens_trans)}}</td>
-<td align="center">{{number_format($query2->impostos)}}</td>
-<td align="center">{{number_format($query2->icms)}}</td>
+				
+<td align="center">{{$query2->impostos}}</td>
+<td align="center">{{$query2->icms}}</td>
 <td></td>
 <td></td>
 <td></td>
