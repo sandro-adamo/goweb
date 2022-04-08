@@ -9,9 +9,7 @@
 $query_2 = \DB::select(" 
 select *, 
 (select documento from compras_infos where tipo_documento = 'descricao' and origem = base1.pedido order by created_at desc limit 1) documento,
-(select valor1 from compras_infos where documento = 'nacionalizacao' and tipo_documento = 'impostos' and origem = base1.pedido order by created_at desc limit 1) impostos,
-(select valor1 from compras_infos where documento = 'nacionalizacao' and tipo_documento = 'icms' and origem = base1.pedido order by created_at desc limit 1) icms
-
+(select valor1 from compras_infos where documento = 'nacionalizacao' and tipo_documento = 'impostos' and origem = base1.pedido order by created_at desc limit 1) impostos
 from (
 	select pedido, tipo, ref_go, concat(trim(ref_despachante),' ',trim(ref_nac_01)) ref, ult_prox, desc_status, group_concat(distinct left(fornecedor,20),' ') fornecedor,  
 		group_concat(distinct tipoitem,' ') tipoitem, group_concat(distinct codgrife,' ') codgrife, group_concat(distinct linha,' ') linha,
@@ -82,6 +80,9 @@ from (
 		) as final2
 		group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status
 ) as base1
+
+ left join (select * from compras_registros ) as reg
+ on reg.id_pedido = base1.pedido  and reg.tipo_pedido = base1.tipo
 
 
 ");
@@ -160,12 +161,11 @@ from (
 			<td align="center">{{number_format($query2->qtde)}}</td>	
 			<td align="center">{{number_format($query2->atende)}}</td>
 			<td align="center">{{number_format($query2->itens_trans)}}</td>
-				
-<td align="center">{{$query2->impostos}}</td>
-<td align="center">{{$query2->icms}}</td>
-<td></td>
-<td></td>
-<td></td>
+			<td align="center">{{$query2->impostos}}</td>
+			<td align="center">{{$query2->icms}}</td>
+			<td></td>
+			<td></td>
+			<td></td>
 			</tr>
 			@endforeach 
 			
