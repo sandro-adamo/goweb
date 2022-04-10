@@ -7,9 +7,7 @@
 
 
 $query_2 = \DB::select(" 
-select *, 
-(select documento from compras_infos where tipo_documento = 'descricao' and origem = base1.pedido order by created_at desc limit 1) documento,
-(select valor1 from compras_infos where documento = 'nacionalizacao' and tipo_documento = 'impostos' and origem = base1.pedido order by created_at desc limit 1) impostos
+select *
 from (
 	select pedido, tipo, ref_go, concat(trim(ref_despachante),' ',trim(ref_nac_01)) ref, ult_prox, desc_status, group_concat(distinct left(fornecedor,20),' ') fornecedor,  
 		group_concat(distinct tipoitem,' ') tipoitem, group_concat(distinct codgrife,' ') codgrife, group_concat(distinct linha,' ') linha,
@@ -84,6 +82,8 @@ from (
  left join (select * from compras_registros ) as reg
  on reg.id_pedido = base1.pedido  and reg.tipo_pedido = base1.tipo
 
+left join (select * from compras_infos ) as infos
+ on infos.id_pedido = base1.pedido  and infos.tipo_pedido = base1.tipo
 
 ");
 			  
@@ -152,7 +152,7 @@ from (
 			<td align="left"><a href="/dsimportdet?tipo={{$query2->tipo}}&pedido={{$query2->pedido}}">{{$query2->tipo.' '.$query2->pedido}}</a></td>	
 			<td align="left">{{$query2->ref_go}}</td>
 			<td align="center">{{$query2->ref}}</td>
-			<td align="center">{{$query2->documento}}</td>
+			<td align="center">{{$query2->doc_agrup}}</td>
 			<td align="left">{{$query2->fornecedor}}</td>
 			<td align="center">{{$query2->tipoitem}}</td>
 			<td align="center">{{$query2->codgrife}}</td>
