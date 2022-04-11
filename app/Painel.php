@@ -209,24 +209,26 @@ class Painel extends Model {
 			and status in ('aberto', 'enviado','confirmado')
 			
 			) as pedidoaberto,  ifnull(pecaspassiveis.total,0) as total, ifnull(pecas_sem_complemento,0) pecas_sem_complemento, ifnull(saldo_passivel,0) saldo_passivel, ifnull(fr,0)fr,ifnull(hd,0) hd,ifnull(he,0) he, ifnull(ld,0)ld,ifnull(le,0) le,ifnull(lente,0) lente,ifnull(lente_em_bloco,0) lente_em_bloco, ifnull(ponte,0) ponte,qtde_compra,
-	case
-when fornecedor1 = 'KERING EYEWEAR SPA' and ifnull(vendas.vda30dd,0)> 0 and ifnull(vendas.vda60dd,0)>0 then format((ifnull(vendas.vda30dd,0)+ifnull(vendas.vda60dd,0))/2,0)
-when fornecedor1 = 'KERING EYEWEAR SPA' and ifnull(vendas.vda30dd,0)> 0 and ifnull(vendas.vda60dd,0)>0 and ifnull(vendas.vda90dd,0)>0 then format(ifnull(vendas.vda30dd,0)+ ifnull(vendas.vda60dd,0)+ ifnull(vendas.vda90dd,0)/3,0)
-when fornecedor1 = 'KERING EYEWEAR SPA' and ifnull(vendas.vda30dd,0)> 0 then ifnull(vendas.vda30dd,0)
-when fornecedor1 = 'KERING EYEWEAR SPA' and ifnull(vendas.vda60dd,0)> 0 then ifnull(vendas.vda60dd,0)
-when fornecedor1 = 'KERING EYEWEAR SPA' and ifnull(vendas.vda90dd,0)> 0 then ifnull(vendas.vda90dd,0)
-when ifnull(vendas.vda30dd,0)> 50 and ifnull(vendas.vda60dd,0)>50 then format(((ifnull(vendas.vda30dd,0)+ifnull(vendas.vda60dd,0)))/2,0)
-when ifnull(vendas.vda30dd,0)> 50 and ifnull(vendas.vda90dd,0)>50 then format((ifnull(vendas.vda30dd,0)+ifnull(vendas.vda90dd,0))/2,0)
-when ifnull(vendas.vda60dd,0)> 50 and ifnull(vendas.vda90dd,0)>50 then format((ifnull(vendas.vda60dd,0)+ifnull(vendas.vda90dd,0))/2,0)
-when ifnull(vendas.vda30dd,0)> 50 and ifnull(vendas.vda60dd,0)>50 and ifnull(vendas.vda90dd,0)>50 then format((ifnull(vendas.vda30dd,0)+ ifnull(vendas.vda60dd,0)+ ifnull(vendas.vda90dd,0))/3,0)
-
-when ifnull(vendas.vda30dd,0)>= 50 then ifnull(vendas.vda30dd,0)
-when ifnull(vendas.vda60dd,0)>= 50 then ifnull(vendas.vda60dd,0)
-when ifnull(vendas.vda90dd,0)>= 50 then ifnull(vendas.vda90dd,0)
-when ifnull(vendas.vda30dd,0)> ifnull(vendas.vda90dd,0) and ifnull(vendas.vda30dd,0)> ifnull(vendas.vda60dd,0) then ifnull(vendas.vda30dd,0)
-when ifnull(vendas.vda60dd,0)> ifnull(vendas.vda90dd,0) then ifnull(vendas.vda60dd,0)
-else ifnull(vendas.vda90dd,0)
-end as 'mediavenda'
+			case 
+			when fornecedor = 'KERING EYEWEAR SPA' and ifnull(sum(vendas_sint.ult_30dd),0)> 0 and ifnull(sum(vendas_sint.ult_60dd),0)>0 then round(((ifnull(sum(vendas_sint.ult_30dd),0)+ifnull(sum(vendas_sint.ult_60dd),0))/2),0)
+			when  fornecedor = 'KERING EYEWEAR SPA' and ifnull(sum(vendas_sint.ult_30dd),0)> 0 and ifnull(sum(vendas_sint.ult_60dd),0)>0 and ifnull(sum(vendas_sint.ult_90dd),0)>0 then round(((ifnull(sum(vendas_sint.ult_30dd),0)+ ifnull(sum(vendas_sint.ult_60dd),0)+ ifnull(sum(vendas_sint.ult_90dd),0))/3),0)
+			when fornecedor = 'KERING EYEWEAR SPA' and  ifnull(sum(vendas_sint.ult_30dd),0)> 0 then ifnull(sum(vendas_sint.ult_30dd),0)
+			when fornecedor = 'KERING EYEWEAR SPA' and  ifnull(sum(vendas_sint.ult_60dd),0)> 0 then ifnull(sum(vendas_sint.ult_60dd),0)
+			when  fornecedor = 'KERING EYEWEAR SPA' and ifnull(sum(vendas_sint.ult_90dd),0)> 0 then ifnull(sum(vendas_sint.ult_90dd),0)
+			
+			when  ifnull(sum(vendas_sint.ult_30dd),0)> 50 and ifnull(sum(vendas_sint.ult_60dd),0)>50 and ifnull(sum(vendas_sint.ult_90dd),0)>50 then round(((ifnull(sum(vendas_sint.ult_30dd),0)+ ifnull(sum(vendas_sint.ult_60dd),0)+ ifnull(sum(vendas_sint.ult_90dd),0))/3),0)
+			
+			when ifnull(sum(vendas_sint.ult_30dd),0)> 50 and ifnull(sum(vendas_sint.ult_60dd),0)>50 then round((((ifnull(sum(vendas_sint.ult_30dd),0)+ifnull(sum(vendas_sint.ult_60dd),0)))/2),0)
+			when  ifnull(sum(vendas_sint.ult_30dd),0)> 50  and ifnull(sum(vendas_sint.ult_90dd),0)>50 then round(((ifnull(sum(vendas_sint.ult_30dd),0)+ifnull(sum(vendas_sint.ult_90dd),0))/2),0)
+			when  ifnull(sum(vendas_sint.ult_60dd),0)> 50  and ifnull(sum(vendas_sint.ult_90dd),0)>50 then round(((ifnull(sum(vendas_sint.ult_60dd),0)+ifnull(sum(vendas_sint.ult_90dd),0))/2),0)
+			
+			when  ifnull(sum(vendas_sint.ult_30dd),0)>= 50 then ifnull(sum(vendas_sint.ult_30dd),0)
+			when  ifnull(sum(vendas_sint.ult_60dd),0)>= 50 then ifnull(sum(vendas_sint.ult_60dd),0)
+			when  ifnull(sum(vendas_sint.ult_90dd),0)>= 50 then ifnull(sum(vendas_sint.ult_90dd),0)
+			when  ifnull(sum(vendas_sint.ult_30dd),0)> ifnull(sum(vendas_sint.ult_90dd),0) and ifnull(sum(vendas_sint.ult_30dd),0)> ifnull(sum(vendas_sint.ult_60dd),0) then ifnull(sum(vendas_sint.ult_30dd),0)
+			when  ifnull(sum(vendas_sint.ult_60dd),0)> ifnull(sum(vendas_sint.ult_90dd),0)  then ifnull(sum(vendas_sint.ult_60dd),0)
+			else  ifnull(sum(vendas_sint.ult_90dd),0)
+			 end as Media_venda
 
 			
 			from (
