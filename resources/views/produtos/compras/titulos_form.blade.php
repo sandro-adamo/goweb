@@ -51,7 +51,7 @@ echo 'tipo'.$tipo;
 
   <h6>
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-md-12">
   				<div class="box box-widget box-body">
 					<div class="table-responsive">
 
