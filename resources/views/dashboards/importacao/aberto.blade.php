@@ -19,12 +19,12 @@ from (
 		
 			select pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status, secundario, cod_item, codtipoitem, tipoitem, id_pai,
 			item_pai, tipo_pai, agrupador, codgrife, colmod, fornecedor, linha,
-			ifnull((select sum(orcamento_bloq+orcamento_liber) from go_storage.sintetico_estoque sint where sint.id_item = final.id_pai),0) orcamentos,
+			-- ifnull((select sum(orcamento_bloq+orcamento_liber) from go_storage.sintetico_estoque sint where sint.id_item = final.id_pai),0) orcamentos,
 			ifnull((select sum(itens_trans) from go_storage.sintetico_estoque sint where sint.id_item = final.id_pai),0) itens_trans,
-					/**	ifnull((select sum(qtde) qtde_aberto from go.vendas_jde vds
+					ifnull((select sum(qtde) qtde_aberto from go.vendas_jde vds
 						where ult_status not in ('980') and tipo_item = 006 and prox_status = 515 and vds.id_item = final.id_pai),0) as orcamentos,
 						
-					**/
+					
 			sum(qtde) qtde
 		
 			from (
