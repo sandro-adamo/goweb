@@ -95,7 +95,8 @@ from (
                 atual, ultimo, mes_sem, mes_ano, qtde_total_jde
 				
 				from go_storage.sintetico_estoque
-				where secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoarmaz not in ('o') 		 
+				where secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') 
+				and codtipoarmaz not in ('o') 		 
 				and codgrife in ('GO','AH','AI','FE','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM','CH') 
 				and left(agrup,5) = '$agrup' 
                 
@@ -129,12 +130,13 @@ order by modelo
 				
 				<li><a href="#Tabela" data-toggle="tab">Tabela</a></li>
 				<li><a href="#Grade" data-toggle="tab">Grade</a></li>
+				<li><a href="#Visual" data-toggle="tab">Visual</a></li>
 				
 				<li><a href="#Representantes" data-toggle="tab">Representantes</a></li>
 				<li><a href="#Mediasugest" data-toggle="tab">Mediasugest</a></li>
 				<li><a href="#Timeline_lancamentos" data-toggle="tab">Timeline_lancamentos</a></li>
 				<li><a href="#Estoques" data-toggle="tab">Estoques</a></li>
-				<li><a href="#Clientes" data-toggle="tab">Clientes</a></li>
+				
 				
 
 				
@@ -460,7 +462,133 @@ order by modelo
 
 				  
 				  
-				  
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<div class="tab-pane" id="Visual">
+<!-- The timeline -->
+
+<!-- timeline time label -->
+<div class="col-md-12">
+		
+		@foreach ($modelos as $catalogo)
+		
+      <div class="col-sm-2">
+        <div class="box box-widget">
+         
+			<div  class="box-header with-border" style="font-size:12px; padding: 15px 15px 15px 15px;"> 
+				
+          		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
+          		<span class="pull-center"></span>
+			 	<span class="pull-right">{{$catalogo->clasmod}}</span>
+			</div>
+
+
+
+        @php
+          $foto = app('App\Http\Controllers\ItemController')->consultaFoto($catalogo->modelo);
+        @endphp
+
+          <div id="foto" align="center" style="min-height: 180px; max-height: 180px;">
+            <a href="" class="zoom" data-value="{{$catalogo->modelo}}"><img src="/{{$foto}}" class="img-responsive"></a>   
+          </div>
+			
+			
+		
+					
+							<table width="100%" style="font-size:12px;" style="text-align: center;">
+								<tr>
+
+								 <td>
+										<table class="table table-condensed table-bordered table2"  style="text-align: center;">
+											<tr>
+												<td align="center"><img src="/img/brasil.png" width="15"></i></td>
+												<td>{{number_format($catalogo->disponivel)}}</td>
+											</tr>
+										</table>
+
+									</td>
+									<td>
+										<table class="table table-condensed table-bordered table2" style="text-align: center;">
+											<tr>
+											<td align="center"><img src="/img/to.png" width="15"></i></td>
+												<td>{{number_format($catalogo->beneficiamento)}}</td>
+											</tr>
+										</table>
+									</td>
+									<td>
+										<table class="table table-condensed table-bordered table2" style="text-align: center;">
+											<tr>
+												<td><i class="fa fa-truck text-green"></i></td>
+												<td>0</td>
+											</tr>
+										</table>
+									</td>
+									
+
+								</tr>
+							</table>
+	
+<!-- segunda linha -->
+					
+							<table width="100%" style="font-size:12px;" style="text-align: center;">
+								<tr>
+
+								 <td>
+										<table class="table table-condensed table-bordered table2"  style="text-align: center;">
+											<tr>
+												<td><i class="fa fa-plane text-blue"></i></td>
+												<td>{{number_format($catalogo->cet)}}</td>
+											</tr>
+										</table>
+
+									</td>
+									
+									<td>
+										<table class="table table-condensed table-bordered table2" style="text-align: center;">
+											<tr>
+												<td><i class="fa fa-industry text-purple"></i></td>
+												<td>{{number_format($catalogo->cep)}}</td>
+											</tr>
+										</table>
+									</td>
+									<td>
+										<table class="table table-condensed table-bordered table2" style="text-align: center;">
+											<tr>
+												<td>Tt</td>
+												<td>{{number_format($catalogo->total)}}</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+							
+	</div> 
+  </div>
+     
+	@endforeach
+	
+  </div>
+</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 				  
 				  
 				  
@@ -1332,13 +1460,13 @@ order by modelo
 
 					   </ul>
 				  </div>
-					   </div>
+</div>
 				  
 				  
 				  
 				  
 
-<div class="tab-pane" id="qualidade">
+<div class="tab-pane" id="clientes">
 <div class="col-md-12">
 <ul class="timeline">
 
