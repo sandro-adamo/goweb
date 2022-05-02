@@ -1467,7 +1467,7 @@ order by genero, modelo
 			if ($id_usuario==573 or $id_usuario==314 or $id_usuario==316 or $id_usuario==472 or $id_usuario==474
 				or $id_usuario==475 or $id_usuario==528 or $id_usuario==332 or $id_usuario==337 or $id_usuario==352
 				or $id_usuario==359 or $id_usuario==392 or $id_usuario==417 or $id_usuario==429 or $id_usuario==447
-				or $id_usuario==542 or $id_usuario==607 or $id_usuario==581){
+				or $id_usuario==542 or $id_usuario==607 or $id_usuario==581 or $id_usuario==1522){
 			$html .= '<div class="thumbnail"><a class="thumbnailhover" style="color:black important;" ><img src="https://portal.goeyewear.com.br/teste999.php?referencia='.$modelo->secundario.'"> '.$modelo->secundario.'<br><small> Valor: R$'.number_format($modelo->valortabela,2).'<br> Olho / Ponte / Haste <br>'.$tamolho.'    /    '.$tamponte.'    /    '.$tamhaste.' </a></small></div>';
 			}
 			
