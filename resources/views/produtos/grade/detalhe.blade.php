@@ -95,7 +95,7 @@ from (
                 
 				(select valortabela from itens iclas where left(agrup,5) = '$agrup'  and  iclas.id = id_item and valortabela  not in ('','.') order by valortabela desc limit 1) valortabela,
 
-				(select avg(mediacusto) from itens iclas where left(agrup,5) = '$agrup'  and  iclas.id = id_item and mediacusto  not in ('','.',0) ) mediacusto,
+				0 as  mediacusto,
 
 				itens_imed, itens_trans, itens_prod, 
                 (disponivel) disponivel, (conferencia+montagem) beneficiamento, (cet) cet, (etq+cep) cep, (mostruarios) most,
