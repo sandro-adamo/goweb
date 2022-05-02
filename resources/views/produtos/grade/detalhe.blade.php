@@ -491,13 +491,13 @@ order by modelo
           		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
           		<span class="pull-center"></span>
 			 	<span class="pull-right">{{$catalogo->clasmod}}</span>
-			</div>
+			<<span class="pull-center">Feminino</span>
+			 	<span class="pull-right">Classic</span>/div>
 			
 			<div  class="box-header with-border" style="font-size:12px; padding: 15px 15px 15px 15px;"> 
 				
      
-          		<span class="pull-center">Feminino</span>
-			 	<span class="pull-right">Classic</span>
+          		
 			</div>
 
 
