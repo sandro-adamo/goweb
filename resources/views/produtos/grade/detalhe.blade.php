@@ -130,12 +130,13 @@ order by modelo
 				
 				<li><a href="#Tabela" data-toggle="tab">Tabela</a></li>
 				<li><a href="#Grade" data-toggle="tab">Grade</a></li>
-				<li><a href="#Clientes" data-toggle="tab">Visual</a></li>
+				<li><a href="#Visual" data-toggle="tab">Visual</a></li>
 				
 				<li><a href="#Representantes" data-toggle="tab">Representantes</a></li>
 				<li><a href="#Mediasugest" data-toggle="tab">Mediasugest</a></li>
 				<li><a href="#Timeline_lancamentos" data-toggle="tab">Timeline_lancamentos</a></li>
 				<li><a href="#Estoques" data-toggle="tab">Estoques</a></li>
+				<li><a href="#Estoques" data-toggle="tab">Importacoes</a></li>
 				
 				
 
@@ -483,7 +484,7 @@ order by modelo
 		
 		@foreach ($modelos as $catalogo)
 		
-      <div class="col-sm-2">
+      <div class="col-sm-3">
         <div class="box box-widget">
          
 			<div  class="box-header with-border" style="font-size:12px; padding: 15px 15px 15px 15px;"> 
@@ -491,6 +492,10 @@ order by modelo
           		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
           		<span class="pull-center"></span>
 			 	<span class="pull-right">{{$catalogo->clasmod}}</span>
+				<br>
+				<span class="pull-left">Feminino</span>
+				
+				<span class="pull-right">Elegance</span>
 			</div>
 
 
@@ -596,8 +601,8 @@ order by modelo
 <div class="tab-pane" id="Grade">
                 <!-- The timeline -->
               
-                  <!-- timeline time label -->
-                  <div class="col-md-12">
+<!-- timeline time label -->
+<div class="col-md-12">
 		 
  <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
 
