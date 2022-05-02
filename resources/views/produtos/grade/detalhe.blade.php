@@ -48,7 +48,7 @@ $data = '2021-01-01';
 
 $modelos = \DB::select("
 
-select ciclo, fornecedor, codgrife, codgrife grife, agrup, modelo, colecao, colmod, clasmod,
+select ciclo, fornecedor, codgrife, codgrife grife, agrup, modelo, colecao, colmod, clasmod, genero, estilo,
 sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
 sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total) qtde_total,
 sum(novos) novos, sum(aa) aa, sum(a) a, 
@@ -56,7 +56,7 @@ sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) prod
 sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
 from (
 
-	select ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod,
+	select ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo,
 	case when colecao = 'novo' then 1 else 0 end as novos, case when colecao = 'aa' then 1 else 0 end as aa, case when colecao = 'a' then 1 else 0 end as a, 
 	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor,
     sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
@@ -64,7 +64,7 @@ from (
 
 	from (
     
-		select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, 
+		select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, genero, estilo, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, 
         (disponivel) disponivel, (beneficiamento) beneficiamento, (cet) cet, (cep) cep, (most) most, (total) total,
         atual, ultimo, mes_sem, mes_ano, qtde_total,
 
@@ -78,7 +78,7 @@ from (
 		from(
 
 
-			select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, 
+			select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo,
 			count(secundario) as itens, sum(itens_imed) imediata, sum(itens_trans) futura, sum(itens_prod) producao,
             sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
             sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total_jde) qtde_total
@@ -87,8 +87,10 @@ from (
 				select ciclo, case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
 				codgrife, agrup, modelo, secundario, colmod, case when left(colmod,4) < year(now()) then 'lancado'
 				when (left(colmod,4) = year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao,
-				(select clasmod from itens iclas where left(agrup,5) = '$agrup' and  iclas.id = id_item and clasmod  not in ('','.','colecao europra','cancelado') order by clasmod limit 1) clasmod,
-
+				(select clasmod from itens iclas where left(agrup,5) = '$agrup'  and  iclas.id = id_item and clasmod  not in ('','.','colecao europra','cancelado') order by clasmod limit 1) clasmod,
+                (select genero from itens iclas where left(agrup,5) = '$agrup'  and  iclas.id = id_item and genero  not in ('','.') order by genero limit 1) genero,
+				(select estilo from itens iclas where left(agrup,5) = '$agrup'  and  iclas.id = id_item and estilo  not in ('','.') order by estilo limit 1) estilo,
+                
 				itens_imed, itens_trans, itens_prod, 
                 (disponivel) disponivel, (conferencia+montagem) beneficiamento, (cet) cet, (etq+cep) cep, (mostruarios) most,
 				(disponivel+conferencia+montagem+cet+etq+cep) total, 
@@ -100,12 +102,12 @@ from (
 				and codgrife in ('GO','AH','AI','FE','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM','CH') 
 				and left(agrup,5) = '$agrup' 
                 
-			) as base group by ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao
+			) as base group by ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo
 		) as base1 
-	) as base2 $where1 group by ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod
-) as base3 group by ciclo, fornecedor, codgrife, agrup, modelo, colecao, colmod, clasmod
+	) as base2 $where1
+    group by ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo
+) as base3 group by ciclo, fornecedor, codgrife, agrup, modelo, colecao, colmod, clasmod, genero, estilo
 order by modelo
-
 
 
 ");
@@ -493,9 +495,9 @@ order by modelo
           		<span class="pull-center"></span>
 			 	<span class="pull-right">{{$catalogo->clasmod}}</span>
 				<br>
-				<span class="pull-left">Feminino</span>
+				<span class="pull-left">{{$catalogo->genero}}</span>
 				
-				<span class="pull-right">Elegance</span>
+				<span class="pull-right">{{$catalogo->estilo}}</span>
 			</div>
 
 
