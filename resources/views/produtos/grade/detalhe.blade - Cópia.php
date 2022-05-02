@@ -48,7 +48,7 @@ $data = '2021-01-01';
 
 $modelos = \DB::select("
 
-select ciclo, fornecedor, codgrife, codgrife grife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade,
+select ciclo, fornecedor, codgrife, codgrife grife, agrup, modelo, colecao, colmod, clasmod,
 sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
 sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total) qtde_total,
 sum(novos) novos, sum(aa) aa, sum(a) a, 
@@ -56,7 +56,7 @@ sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) prod
 sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
 from (
 
-	select ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade,
+	select ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod,
 	case when colecao = 'novo' then 1 else 0 end as novos, case when colecao = 'aa' then 1 else 0 end as aa, case when colecao = 'a' then 1 else 0 end as a, 
 	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor,
     sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
@@ -64,7 +64,7 @@ from (
 
 	from (
     
-		select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, genero, estilo, idade, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, 
+		select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, 
         (disponivel) disponivel, (beneficiamento) beneficiamento, (cet) cet, (cep) cep, (most) most, (total) total,
         atual, ultimo, mes_sem, mes_ano, qtde_total,
 
@@ -78,7 +78,7 @@ from (
 		from(
 
 
-			select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade,
+			select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, 
 			count(secundario) as itens, sum(itens_imed) imediata, sum(itens_trans) futura, sum(itens_prod) producao,
             sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
             sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total_jde) qtde_total
@@ -87,12 +87,8 @@ from (
 				select ciclo, case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
 				codgrife, agrup, modelo, secundario, colmod, case when left(colmod,4) < year(now()) then 'lancado'
 				when (left(colmod,4) = year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao,
-				(select clasmod from itens iclas where left(agrup,5) = '$agrup'  and  iclas.id = id_item and clasmod  not in ('','.','colecao europra','cancelado') order by clasmod limit 1) clasmod,
-                (select genero from itens iclas where left(agrup,5) = '$agrup'  and  iclas.id = id_item and genero  not in ('','.') order by genero limit 1) genero,
-				(select estilo from itens iclas where left(agrup,5) = '$agrup'  and  iclas.id = id_item and estilo  not in ('','.') order by estilo limit 1) estilo,
+				(select clasmod from itens iclas where left(agrup,5) = '$agrup' and  iclas.id = id_item and clasmod  not in ('','.','colecao europra','cancelado') order by clasmod limit 1) clasmod,
 
-				(select idade from itens iclas where left(agrup,5) = '$agrup'  and  iclas.id = id_item and idade  not in ('','.') order by idade limit 1) idade,
-                
 				itens_imed, itens_trans, itens_prod, 
                 (disponivel) disponivel, (conferencia+montagem) beneficiamento, (cet) cet, (etq+cep) cep, (mostruarios) most,
 				(disponivel+conferencia+montagem+cet+etq+cep) total, 
@@ -104,12 +100,12 @@ from (
 				and codgrife in ('GO','AH','AI','FE','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM','CH') 
 				and left(agrup,5) = '$agrup' 
                 
-			) as base group by ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade
+			) as base group by ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao
 		) as base1 
-	) as base2 $where1
-    group by ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade
-) as base3 group by ciclo, fornecedor, codgrife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade
+	) as base2 $where1 group by ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod
+) as base3 group by ciclo, fornecedor, codgrife, agrup, modelo, colecao, colmod, clasmod
 order by modelo
+
 
 
 ");
@@ -134,14 +130,12 @@ order by modelo
 				
 				<li><a href="#Tabela" data-toggle="tab">Tabela</a></li>
 				<li><a href="#Grade" data-toggle="tab">Grade</a></li>
-				<li><a href="#Visual" data-toggle="tab">Visual</a></li>
 				
 				<li><a href="#Representantes" data-toggle="tab">Representantes</a></li>
 				<li><a href="#Mediasugest" data-toggle="tab">Mediasugest</a></li>
 				<li><a href="#Timeline_lancamentos" data-toggle="tab">Timeline_lancamentos</a></li>
 				<li><a href="#Estoques" data-toggle="tab">Estoques</a></li>
-				<li><a href="#Estoques" data-toggle="tab">Importacoes</a></li>
-				
+				<li><a href="#Clientes" data-toggle="tab">Clientes</a></li>
 				
 
 				
@@ -467,137 +461,7 @@ order by modelo
 
 				  
 				  
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-<div class="tab-pane" id="Visual">
-<!-- The timeline -->
-
-<!-- timeline time label -->
-<div class="col-md-12">
-		
-		@foreach ($modelos as $catalogo)
-		
-      <div class="col-sm-3">
-        <div class="box box-widget">
-         
-			<div  class="box-header with-border" style="font-size:12px; padding: 15px 15px 15px 15px;"> 
-				
-          		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
-          		<span class="pull-center"></span>
-			 	<span class="pull-right">{{$catalogo->clasmod}}</span>
-				<br>
-				<span class="pull-left">{{$catalogo->genero}}</span>
-				<span class="pull-left">  - {{$catalogo->idade}}</span>
-				<span class="pull-right">{{$catalogo->estilo}}</span>
-			</div>
-
-
-
-        @php
-          $foto = app('App\Http\Controllers\ItemController')->consultaFoto($catalogo->modelo);
-        @endphp
-
-          <div id="foto" align="center" style="min-height: 180px; max-height: 180px;">
-            <a href="" class="zoom" data-value="{{$catalogo->modelo}}"><img src="/{{$foto}}" class="img-responsive"></a>   
-          </div>
-			
-			
-		
-					
-							<table width="100%" style="font-size:12px;" style="text-align: center;">
-								<tr>
-
-								 <td>
-										<table class="table table-condensed table-bordered table2"  style="text-align: center;">
-											<tr>
-												<td align="center"><img src="/img/brasil.png" width="15"></i></td>
-												<td>{{number_format($catalogo->disponivel)}}</td>
-											</tr>
-										</table>
-
-									</td>
-									<td>
-										<table class="table table-condensed table-bordered table2" style="text-align: center;">
-											<tr>
-											<td align="center"><img src="/img/to.png" width="15"></i></td>
-												<td>{{number_format($catalogo->beneficiamento)}}</td>
-											</tr>
-										</table>
-									</td>
-									<td>
-										<table class="table table-condensed table-bordered table2" style="text-align: center;">
-											<tr>
-												<td><i class="fa fa-truck text-green"></i></td>
-												<td>0</td>
-											</tr>
-										</table>
-									</td>
-									
-
-								</tr>
-							</table>
-	
-<!-- segunda linha -->
-					
-							<table width="100%" style="font-size:12px;" style="text-align: center;">
-								<tr>
-
-								 <td>
-										<table class="table table-condensed table-bordered table2"  style="text-align: center;">
-											<tr>
-												<td><i class="fa fa-plane text-blue"></i></td>
-												<td>{{number_format($catalogo->cet)}}</td>
-											</tr>
-										</table>
-
-									</td>
-									
-									<td>
-										<table class="table table-condensed table-bordered table2" style="text-align: center;">
-											<tr>
-												<td><i class="fa fa-industry text-purple"></i></td>
-												<td>{{number_format($catalogo->cep)}}</td>
-											</tr>
-										</table>
-									</td>
-									<td>
-										<table class="table table-condensed table-bordered table2" style="text-align: center;">
-											<tr>
-												<td>Tt</td>
-												<td>{{number_format($catalogo->total)}}</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-							</table>
-							
-	</div> 
-  </div>
-     
-	@endforeach
-	
-  </div>
-</div>
-	
-	
-	
-	
-	
-	
-	
-	
-	
+				  
 				  
 				  
 				  
@@ -605,8 +469,8 @@ order by modelo
 <div class="tab-pane" id="Grade">
                 <!-- The timeline -->
               
-<!-- timeline time label -->
-<div class="col-md-12">
+                  <!-- timeline time label -->
+                  <div class="col-md-12">
 		 
  <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
 
