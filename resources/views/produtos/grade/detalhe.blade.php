@@ -498,7 +498,7 @@ order by modelo
 			 	<span class="pull-right">{{$catalogo->clasmod}}</span>
 				<br>
 				<span class="pull-left">{{$catalogo->genero}}</span>
-				<span class="pull-left">{{$catalogo->idade}}</span>
+				<span class="pull-left">  - {{$catalogo->idade}}</span>
 				<span class="pull-right">{{$catalogo->estilo}}</span>
 			</div>
 
