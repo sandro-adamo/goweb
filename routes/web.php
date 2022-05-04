@@ -259,6 +259,7 @@ Route::post('/clientes_form/grava', 'ClienteController@gravaMotivoNaoVenda' );
 
 //**grava titulos compras**/
 Route::post('/titulos_form/grava', 'CompraController@gravaTitulosCompras' );
+Route::post('/parcelas_form/grava', 'CompraController@gravaParcelasCompras' );
 Route::get('/titulos_form', function () { return view('produtos.compras.titulos_form');	});
 
 
@@ -701,7 +702,7 @@ Route::get('/compras/pedido/{id_pedido}/teste', 'CompraController@insereItem');
 Route::post('/compras/arquivos/upload', 'CompraController@UploadArquivos');
 Route::post('/compras/{id}', 'CompraController@acoes');
 
-
+  
    
 
 Route::post('produto/caracteristica/atualiza', 'CaracteristicaController@alteraCaracteristica');

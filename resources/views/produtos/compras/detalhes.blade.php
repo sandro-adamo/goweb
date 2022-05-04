@@ -1,7 +1,7 @@
 		@extends('layout.principal')
 
 @section('title')
-<i class="fa fa-file-o"></i> @lang('padrao.pedido_compra')
+<h3 style="margin-top: 0;">@lang('padrao.pedido_compra') #{{$capa[0]->id}} - P.O. Date {{$capa[0]->dt_emissao}} </h3>
 @append 
 
 @section('conteudo')
@@ -69,13 +69,10 @@
 				
 				
 </td>
-			<td> <h3 style="margin-top: 0;">@lang('padrao.pedido_compra') #{{$capa[0]->id}}</h3>    
+			<td>   
 				
             <table class="table table-bordered table-condensed">
-            <tr>
-                <td width="50%">P.O. Date</td>
-                <td align="center">{{$capa[0]->dt_emissao}}</td>
-            </tr> 
+          
             <tr>
                 <td>@lang('padrao.tipopagamento') <a href="" class="pull-right" data-toggle="modal" data-target="#modalAlteraFornecedor"><i class="fa fa-edit"></i></a></td>
                 <td align="center">{{$capa[0]->pagamento}}</td>
@@ -92,22 +89,49 @@
 			<table class="table table-bordered table-condensed">
 			
 			<tr>
-                <td>Prazo pagamento <a href="" class="pull-right" data-toggle="modal" 
+                <td><b>Prazo pagamento</b> <a href="" class="pull-right" data-toggle="modal" 
 				data-target="#modalAlteraPagamento"><i class="fa fa-edit"></i></a></td>
                 <td align="center"> @if($adiantamento) {{$adiantamento[0]->tipo}} @endif</td>
             </tr> 
 				
 			<tr>
                 <td>Adiantamento Previsto</td>
-                <td align="center">@if($adiantamento) {{$adiantamento[0]->adiantamento}} @endif</td>
+                <td align="center">@if($adiantamento) {{$adiantamento[0]-> vencimento}} @endif</td>
+            </tr> 
+      <tr>
+                <td>Valor Adiantamento</td>
+                <td align="center">@if($adiantamento) 
+                @if($adiantamento[0]->valor<>$adiantamento[0]->valor_parcelas)
+                <font color="red">{{$adiantamento[0]->moeda.$adiantamento[0]->valor}}</font>
+                @else
+                {{$adiantamento[0]->moeda.$adiantamento[0]->valor}}
+                @endif
+                
+                
+                 @endif</td>
+            </tr> 
+
+        <tr>
+                <td colspan="2"><b>Parcelas Adiantamento</b> <a href="" class="pull-center" data-toggle="modal" 
+				data-target="#modalparcelasadiantamento"><i class="fa fa-edit"></i></a></td>
+                
             </tr> 
 			
 			<tr>
-                <td>Adiantamento Distribuido</td>
-                <td align="center">@if($adiantamento) {{$adiantamento[0]->adiantamento}} @endif</td>
+                <td>Data mínima  parcelas </td>
+                <td align="center">@if($adiantamento) {{$adiantamento[0]->dt_vencimento_parcela}} @endif</td>
             </tr> 
+       <tr>
+                <td>Valor Adiantamento</td>
+                <td align="center">@if($adiantamento) {{$adiantamento[0]->moeda.' '.$adiantamento[0]->valor_parcelas}} @endif</td>
+            </tr> 
+
 				
-			<tr>
+		
+      <tr>
+
+      
+      <tr>
                 <td>Status Adiantamento</td>
                 <td align="center">pago/atrasado/nao env</td>
             </tr> 
@@ -147,7 +171,10 @@
 
         @endforeach
 
-
+        	<tr>
+                <td><b>Valor Pedido</b></td>
+                <td align="center"><b>@if($adiantamento) {{$adiantamento[0]->moeda.$capa[0]->valor_total}} @endif</b></td>
+            </tr> 
         </table> 
 
         @if ($capa[0]->status == 'ABERTO')
@@ -464,47 +491,46 @@
 
 <!-- novo modal para pagamento -->
 
-<form action="/compras/{{$capa[0]->id}}/edita" id="frmAlteraPagamento" class="form-horizontal" method="post">
+<form action="/titulos_form/grava" id="frmAlteraPagamento" class="form-horizontal" method="post">
     @csrf 
 <div class="modal fade" id="modalAlteraPagamento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+   <input type="hidden" name="id_compra" id="id_compra" value="{{$capa[0]->id}}">
+
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header bg-primary">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">altera pagamento</h4>
+        <h4 class="modal-title" id="myModalLabel">Detalhes Pagamento</h4>
       </div>
       <div class="modal-body">
 
 
           <div class="form-group">
-            <label class="col-md-3 control-label">@lang('padrao.data')</label>
+            <label class="col-md-3 control-label">Data Emissão</label>
             <div class="col-md-4">
               <small>@lang('padrao.emissao')</small>
-              <input type="date" name="dt_emissao" value="{{$capa[0]->dt_emissao}}" disabled id="dt_emissao" class="form-control">
-            </div>         
+              <input type="date" name="dt_emissao"  id="dt_emissao" class="form-control" >
+            </div>     
+          
             <div class="col-md-4">
-              <small>Vencimento</small>
-              <input type="date" name="dt_entrega" id="dt_entrega"  value="{{$capa[0]->dt_entrega}}" class="form-control">
+              <small>Data Vencimento</small>
+              <input type="date" name="dt_vencimento" id="dt_vencimento"   class="form-control" >
             </div>        
           </div>
 
 
           <div class="form-group">
-            <label class="col-md-3 control-label">Prazo de pagamento</label>
+            <label class="col-md-3 control-label">Condição de pagamento</label>
             <div class="col-md-8">
-              <select name="id_fornecedor" id="id_fornecedor" class="form-control">
-                <option value=""> @lang('padrao.selecione') </option>
-
-                @php                  
-                    $fornecedores = \DB::select("select secundario from itens where modelo = 'ah6254'");
+              <select  name="condicao_pagamento" class="form-control">
+               @php                  
+                    $prazo_pagamento = \DB::select("select id, descricao from compras_condicoes");
                 @endphp                   
 
-                @foreach ($fornecedores as $fornecedor) 
-                    @if ($capa[0]->id_fornecedor == $fornecedor->secundario)
-                        <option value="{{$fornecedor->secundario}}" selected=""> {{$fornecedor->secundario}} </option>
-                    @else
-                        <option value="{{$fornecedor->secundario}}"> {{$fornecedor->secundario}} </option>
-                    @endif
+                @foreach ($prazo_pagamento as $prazo) 
+                   
+                        <option value="{{$prazo->id}}" selected=""> {{$prazo->descricao}} </option>
+                   
                 @endforeach
 
               </select>
@@ -513,30 +539,31 @@
 
 
           <div class="form-group">
-            <label class="col-md-3 control-label">moeda</label>
+            <label class="col-md-3 control-label">Moeda</label>
             <div class="col-md-5">
               <select name="moeda" id="moeda" class="form-control">
                 <option value=""> @lang('padrao.selecione') </option>
-                <option @if ($capa[0]->transporte == 'Plane') selected="" @endif> Dolar </option>
-                <option @if ($capa[0]->transporte == 'Ship') selected="" @endif> Euro </option>
-				<option @if ($capa[0]->transporte == 'CIP') selected="" @endif> Real </option>
-                <option @if ($capa[0]->transporte == 'EXPRESS (FEDEX...)') selected="" @endif> RMB </option>
+                <option value="USD"> USD </option>
+                <option value="EUR"> EUR </option>
+                <option value="BRL"> BRL </option>
               </select>
             </div>        
           </div>
 
           <div class="form-group">
-            <label class="col-md-3 control-label">Valor</label>
+            <label class="col-md-3 control-label">Valor total pedido </label>
             <div class="col-md-5">
-              
+              <input name="valor_total" type="decimal">
             </div>        
           </div>
+
+          
 		  
 		  
 		  <div class="form-group">
-            <label class="col-md-3 control-label">@lang('padrao.obs')</label>
+            <label class="col-md-3 control-label">Observação</label>
             <div class="col-md-8">
-                <textarea name="obs" class="form-control">{{$capa[0]->obs}}</textarea>
+                <textarea name="obs" class="form-control"></textarea>
             </div>        
           </div>
 
@@ -550,6 +577,137 @@
   </div>
 </div>
 </form>
+
+
+<!-- novo modal para parcelas do adiantamento -->
+
+<form action="/parcelas_form/grava" id="frmmodalparcelasadiantamento" class="form-horizontal" method="post">
+    @csrf 
+<div class="modal fade" id="modalparcelasadiantamento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+   <input type="hidden" name="id_titulo"  value="{{$adiantamento[0]->numero}}">
+    <input type="hidden" name="moeda"  value="{{$adiantamento[0]->moeda}}">
+
+  <div class="modal-dialog  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Parcelas adiantamento</h4>
+      </div>
+      <div class="modal-body">
+
+
+          <div class="form-group">
+
+          <div class="col-md-12">
+          <table class="table table-condensed table-bordered">
+          <tr>
+          <td>Tipo</td>
+          <td>Número documento</td>
+          <td>Data vencimento</td>
+          <td>Valor</td>
+          <td>Obs</td>
+
+          </tr>
+
+          <tr>
+          <td> <select  name="tipo1"  class="form-control">
+              <option value=""></option>
+              <option value="FR">FR</option>
+              <option value="AC">AC</option>
+              <option value="MOSTRUARIO">MOSTRUÁRIO</option>
+              <option value="AGREGADO">AGREGADO</option>
+             
+              </select></td>
+          <td><input type="text" name="documento1" class="form-control" ></td>
+          <td><input type="date" name="vencimento1" class="form-control" ></td>
+          <td><input type="decimal" name="valor1" class="form-control" ></td>
+          <td><input type="text" name="obs1" class="form-control" ></td>
+          </tr>
+
+          <tr>
+          <td> <select  name="tipo2"  class="form-control">
+              <option value=""></option>
+              <option value="FR">FR</option>
+              <option value="AC">AC</option>
+              <option value="MOSTRUARIO">MOSTRUÁRIO</option>
+              <option value="AGREGADO">AGREGADO</option>
+             
+               
+
+              </select></td>
+          <td><input type="text" name="documento2" class="form-control" ></td>
+          <td><input type="date" name="vencimento2" class="form-control" ></td>
+          <td><input type="decimal" name="valor2" class="form-control" ></td>
+          <td><input type="text" name="obs2" class="form-control" ></td>
+          </tr>
+
+           <tr>
+          <td> <select  name="tipo3"  class="form-control">
+              <option value=""></option>
+              <option value="FR">FR</option>
+              <option value="AC">AC</option>
+              <option value="MOSTRUARIO">MOSTRUÁRIO</option>
+              <option value="AGREGADO">AGREGADO</option>
+             
+               
+
+              </select></td>
+          <td><input type="text" name="documento3" class="form-control" ></td>
+          <td><input type="date" name="vencimento3" class="form-control" ></td>
+          <td><input type="decimal" name="valor3" class="form-control" ></td>
+          <td><input type="text" name="obs3" class="form-control" ></td>
+          </tr>
+
+           <tr>
+          <td> <select  name="tipo4"  class="form-control">
+              <option value=""></option>
+              <option value="FR">FR</option>
+              <option value="AC">AC</option>
+              <option value="MOSTRUARIO">MOSTRUÁRIO</option>
+              <option value="AGREGADO">AGREGADO</option>
+             
+               
+
+              </select></td>
+          <td><input type="text" name="documento4" class="form-control" ></td>
+          <td><input type="date" name="vencimento4" class="form-control" ></td>
+          <td><input type="decimal" name="valor4" class="form-control" ></td>
+          <td><input type="text" name="obs4" class="form-control" ></td>
+          </tr>
+
+           <tr>
+          <td> <select  name="tipo5"  class="form-control">
+              <option value=""></option>
+              <option value="FR">FR</option>
+              <option value="AC">AC</option>
+              <option value="MOSTRUARIO">MOSTRUÁRIO</option>
+              <option value="AGREGADO">AGREGADO</option>
+             
+               
+
+              </select></td>
+          <td><input type="text" name="documento5" class="form-control" ></td>
+          <td><input type="date" name="vencimento5" class="form-control" ></td>
+          <td><input type="decimal" name="valor5" class="form-control" ></td>
+          <td><input type="text" name="obs5" class="form-control" ></td>
+          </tr>
+
+          
+          </table>
+
+          </div>
+                     
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">@lang('padrao.cancelar')</button>
+        <button type="submit" class="btn btn-flat btn-primary">@lang('padrao.salvar') </button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
 
 
 
