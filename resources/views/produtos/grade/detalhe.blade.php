@@ -48,7 +48,7 @@ $data = '2021-01-01';
 
 $modelos = \DB::select("
 
-select ciclo, fornecedor, codgrife, codgrife grife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade,
+select ciclo, fornecedor, codgrife, codgrife grife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade, valortabela, mediacusto,
 sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
 sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total) qtde_total,
 sum(novos) novos, sum(aa) aa, sum(a) a, 
@@ -56,15 +56,16 @@ sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) prod
 sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
 from (
 
-	select ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade,
-	case when colecao = 'novo' then 1 else 0 end as novos, case when colecao = 'aa' then 1 else 0 end as aa, case when colecao = 'a' then 1 else 0 end as a, 
+	select ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade, valortabela,mediacusto,
+	case when colecao = 'novo' then 1 else 0 end as novos, 
+	case when colecao = 'aa' then 1 else 0 end as aa, case when colecao = 'a' then 1 else 0 end as a, 
 	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor,
     sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
     sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total) qtde_total
 
 	from (
     
-		select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, genero, estilo, idade, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, 
+		select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, genero, estilo, idade, valortabela, mediacusto, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, 
         (disponivel) disponivel, (beneficiamento) beneficiamento, (cet) cet, (cep) cep, (most) most, (total) total,
         atual, ultimo, mes_sem, mes_ano, qtde_total,
 
@@ -78,7 +79,7 @@ from (
 		from(
 
 
-			select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade,
+			select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade, valortabela, mediacusto,
 			count(secundario) as itens, sum(itens_imed) imediata, sum(itens_trans) futura, sum(itens_prod) producao,
             sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
             sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total_jde) qtde_total
@@ -93,6 +94,10 @@ from (
 
 				(select idade from itens iclas where left(agrup,5) = '$agrup'  and  iclas.id = id_item and idade  not in ('','.') order by idade limit 1) idade,
                 
+				(select valortabela from itens iclas where left(agrup,5) = '$agrup'  and  iclas.id = id_item and valortabela  not in ('','.') order by valortabela desc limit 1) valortabela,
+
+				0 as  mediacusto,
+
 				itens_imed, itens_trans, itens_prod, 
                 (disponivel) disponivel, (conferencia+montagem) beneficiamento, (cet) cet, (etq+cep) cep, (mostruarios) most,
 				(disponivel+conferencia+montagem+cet+etq+cep) total, 
@@ -104,15 +109,150 @@ from (
 				and codgrife in ('GO','AH','AI','FE','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM','CH') 
 				and left(agrup,5) = '$agrup' 
                 
-			) as base group by ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade
+			) as base group by ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade, valortabela, mediacusto
 		) as base1 
 	) as base2 $where1
-    group by ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade
-) as base3 group by ciclo, fornecedor, codgrife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade
+    group by ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade, valortabela, mediacusto
+) as base3 group by ciclo, fornecedor, codgrife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade, valortabela, mediacusto
 order by modelo
 
+");
+
+
+
+
+
+
+
+
+		
+
+
+/** query importacao **/
+
+$importacoes = \DB::select(" 
+select * from (	
+    select pedido, tipo, sum(qtde_sol) qtde_sol from (
+		select pedido, tipo, colecao, sum(qtde_sol) qtde_sol from (
+		
+			select pedido, tipo, qtde_sol, colmod, clasmod,
+			case 
+			when (left(colmod,4) = year(now()) and  right(colmod,2) >= month(now())) then 'novo' 
+			
+			when (left(colmod,4) < year(now()) and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO')) then 'aa'
+			when (left(colmod,4) < year(now()) and clasmod in ('LINHA A-')) then 'a'
+			
+			when ((left(colmod,4) = year(now()) and right(colmod,2) < month(now())) and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO')) then 'aa'
+			when ((left(colmod,4) = year(now()) and right(colmod,2) < month(now())) and clasmod in ('LINHA A-')) then 'a'
+			else '' end as colecao		
+            
+			from (
+                
+					select pedido, tipo, qtde_sol, 
+                    ifnull(itenspc.colmod,itenspt.colmod) colmod,
+                    ifnull(itenspc.clasmod,itenspt.clasmod) clasmod
+
+						from importacoes_pedidos ped
+						left join itens_estrutura ie on ie.id_filho = ped.cod_item
+						left join itens itenspc on itenspc.id = ped.cod_item
+						left join itens itenspt on itenspt.id = ie.id_pai
+						
+						where  (left(itenspc.agrup,5) = '$agrup' or left(itenspt.agrup,5) = '$agrup') and 
+						ref_go not in ('LA200501','QGKI17-7B') and 
+						ult_status not in (980) and prox_status not in (999,400)
+and (
+						itenspc.codtipoitem = 006 
+						or ((left(ped.secundario,3) = 'FR ' or left(ped.secundario,6) = 'PONTE ')) )
+			) as base0 
+		) as base1  $where1
+        group by pedido, tipo, colecao
+	) as base2 group by pedido, tipo
+) as base3
+
+
+
+
+	left join (
+	select pedido, tipo, ref_go, concat(trim(ref_despachante),' ',trim(ref_nac_01)) ref, ult_prox, desc_status, group_concat(distinct left(fornecedor,20),' ') fornecedor,  
+	group_concat(distinct tipoitem,' ') tipoitem, group_concat(distinct codgrife,' ') codgrife, group_concat(distinct linha,' ') linha,
+	case when CHAR_LENGTH(group_concat(distinct colmod,' ')) > 26 then concat('...',right(group_concat(distinct colmod,' '),26)) else group_concat(distinct colmod,' ') end as colmod, 
+	sum(qtde) qtde, sum(atende) atende, sum(itens_trans) itens_trans
+	from (
+    
+	select *, case when orcamentos > qtde then qtde else orcamentos end as atende from (
+    
+		select pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status, secundario, cod_item, codtipoitem, tipoitem, id_pai,
+		item_pai, tipo_pai, agrupador, codgrife, colmod, fornecedor, linha,
+		ifnull((select sum(orcamento_bloq+orcamento_liber) from go_storage.sintetico_estoque sint where sint.id_item = final.id_pai),0) orcamentos,
+        ifnull((select sum(itens_trans) from go_storage.sintetico_estoque sint where sint.id_item = final.id_pai),0) itens_trans,
+				/**	ifnull((select sum(qtde) qtde_aberto from go.vendas_jde vds
+					where ult_status not in ('980') and tipo_item = 006 and prox_status = 515 and vds.id_item = final.id_pai),0) as orcamentos,
+					
+				**/
+		sum(qtde) qtde
+    
+		from (
+
+			select base.*, tipo_pai, agrupador,
+			case when item_pai is null then secundario else item_pai end as item_pai,
+			case when id_pai is null then cod_item else id_pai end as id_pai
+			from (
+
+				select pedido, tipo, ref_go, ref_despachante, ref_nac_01,  concat(ult_status, ' / ',prox_status) ult_prox, imp.secundario, cod_item, codtipoitem,
+					
+				case 
+				when prox_status = 230 then 'ped_inserido' 
+				when prox_status = 280 then 'PL_recebido' 
+				when prox_status = 345 then 'confirmado' 
+				when prox_status = 350 then 'li_solicitado'
+				when prox_status = 355 then 'li_deferida'
+				when prox_status = 359 then 'emb_autorizado'
+				when prox_status = 365 then 'booking'
+				when prox_status = 369 then 'chegada_Br'
+				when prox_status = 375 then 'removido'
+				when prox_status = 379 then 'registrado'
+				when prox_status = 385 then 'nf_emitida'
+				when prox_status = 390 then 'carregada'
+				when prox_status = 400 then 'chegou_TO' else '' end as desc_status,
+				
+				case  when codtipoitem = 006 then 'PECA' 
+				when (left(imp.secundario,3) = 'FR ' or left(imp.secundario,6) = 'PONTE ') then 'FRENTE' 
+				when left(imp.secundario,2) IN ('LE','LD','HE','HD','PL','SC','BL') then 'ACESSORIOS'
+				else 'OUTROS' end as tipoitem, qtde_sol qtde
+				 
+				from importacoes_pedidos imp 
+				left join itens on itens.id = cod_item		
+				where ref_go not in ('LA200501','QGKI17-7B') and ult_status not in (980) and prox_status not in (999,400)
+				-- and ref_go = '908211007-m'
+				
+				and (
+                codtipoitem = 006 
+				or ((left(imp.secundario,3) = 'FR ' or left(imp.secundario,6) = 'PONTE ')) )
+				
+			) as base 
+
+			left join (select * from itens_estrutura   ) as estrutura
+			on estrutura.id_filho = cod_item
+		
+        ) as final
+
+		left join (select itens.id, secundario codsec, agrup, codgrife, colmod, forn.desc_fornecedor fornecedor, left(linha,3) linha 
+        from itens left join fornecedores forn on forn.codfornecedor = itens.codfornecedor ) item
+		on item.id = final.id_pai
+		
+        group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status, secundario, cod_item, codtipoitem, tipoitem, id_pai,
+		item_pai, tipo_pai, agrupador, codgrife, colmod, fornecedor, linha
+	
+    ) as final1
+    ) as final2
+	group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status
+ 
+) as final1 
+on final1.pedido = base3.pedido and final1.tipo = base3.tipo 
 
 ");
+
+
 
 
 @endphp
@@ -140,7 +280,8 @@ order by modelo
 				<li><a href="#Mediasugest" data-toggle="tab">Mediasugest</a></li>
 				<li><a href="#Timeline_lancamentos" data-toggle="tab">Timeline_lancamentos</a></li>
 				<li><a href="#Estoques" data-toggle="tab">Estoques</a></li>
-				<li><a href="#Estoques" data-toggle="tab">Importacoes</a></li>
+				<li><a href="#Importacoes" data-toggle="tab">Importacoes</a></li>
+				<li><a href="#Compras" data-toggle="tab">Compras</a></li>
 				
 				
 
@@ -493,13 +634,28 @@ order by modelo
          
 			<div  class="box-header with-border" style="font-size:12px; padding: 15px 15px 15px 15px;"> 
 				
-          		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
-          		<span class="pull-center"></span>
-			 	<span class="pull-right">{{$catalogo->clasmod}}</span>
+          		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}} </a></b>
+				<span class="pull-right">{{($catalogo->colmod)}}</span>
 				<br>
-				<span class="pull-left">{{$catalogo->genero}}</span>
-				<span class="pull-left">  - {{$catalogo->idade}}</span>
-				<span class="pull-right">{{$catalogo->estilo}}</span>
+
+<table class="table table-condensed table-bordered table2" style="text-align: center;">
+	<tr>
+	<td>{{($catalogo->clasmod)}}</td>
+	<td>{{number_format($catalogo->mediacusto,2)}}</td>
+	<td>{{number_format($catalogo->valortabela,2)}}</td>
+	</tr>
+	
+	<tr>
+	<td>{{($catalogo->idade)}}</td>
+	<td>{{($catalogo->estilo)}}</td>
+	<td>{{($catalogo->genero)}}</td>
+	</tr>
+</table>
+				
+
+          		
+			 	
+				
 			</div>
 
 
@@ -1637,7 +1793,7 @@ $fotos = \DB::select("select * from itens where modelo = 'ah6254' ");
 	  
 				  
 				  
-<div class="tab-pane" id="apontamentos">
+<div class="tab-pane" id="Importacoes">
                 <!-- The timeline -->
               
                   <!-- timeline time label -->
@@ -1646,91 +1802,100 @@ $fotos = \DB::select("select * from itens where modelo = 'ah6254' ");
         <!-- The time line -->
         <ul class="timeline">
 
-@php
+<div class="tab-pane" id="Tabela">
+<!-- The timeline -->
 
-  $datas = \DB::select("select date(historicos.created_at) as data
+<!-- timeline time label -->
+<div class="col-md-12">
 
-from historicos 
-left join itens on id_item = itens.id			
-where secundario LIKE  'ah6254 a01%'
-			and categoria = 'apontamentos'
-group by date(historicos.created_at)
-order by date(historicos.created_at) desc
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+
+<div class="row"> 
+	
+<div class="col-md-15">	
+<div class="box box-body">
+
+	<div class="table-responsive">		
+	   <table class="table table-striped table-bordered compact" id="myTable">
+		  <thead>	
+			
+		 <tr>	
+
+	 		<td colspan="15">Importações em aberto </td>
 		
-			");
+				</tr>
+		  			
+					<tr>
+					
+					<td colspan="1" align="center">ult_prox status</td>
+					<td colspan="1" align="center">Pedido</td>	
+					<td colspan="1" align="center">Invoice</td>				
+					<td colspan="1" align="center">ref desp</td>
+					<td colspan="1" align="center">conex</td>
+					<td colspan="1" align="center">fornecedor</td>
+					
+					<td colspan="1" align="center">Tipo_item</td>
+					<td colspan="1" align="center">Grifes </td>
+					<td colspan="1" align="center">Colecoes</td>
+					<td colspan="1" align="center">Linhas</td>
+					
+					<td colspan="1" align="center">qtde filtro</td>
+					<td colspan="1" align="center">qtde pecas</td>
+					<td colspan="1" align="center">atende BO</td>
+					<td colspan="1" align="center">itens CET</td>
+						
+					<td colspan="1" align="center">itens CEP</td>
+					<td colspan="1" align="center">dt perdimento</td>
 
-@endphp
-
-
-@foreach ($datas as $data)
-
-      <li class="time-label">
-            <span class="bg-yellow">
-              {{date("d/m/Y", strtotime($data->data))}}
-            </span>
-      </li>
-
-    @php
-
-      $historicos = \DB::select("select historicos.*, usuarios.nome
-from historicos 
-left join usuarios on id_usuario = usuarios.id
-left join itens on id_item = itens.id			
-where secundario LIKE  'ah6254 a01%' and date(historicos.created_at) = '$data->data'
-			and categoria = 'apontamentos'
-			order by historicos.created_at desc
-			");
-
-    @endphp
-
-      @foreach ($historicos as $historico)
-
-			<li>
-
-            <i class="fa fa-envelope bg-yellow"></i>
-			  
-
-            <div class="timeline-item">
-              <span class="time"><i class="fa fa-clock-o"></i> aaaa</span>
-
-              <h3 class="timeline-header"><a href="#">{{$historico->nome}}</a> alterou uma {{$historico->categoria}}</h3>
-
-              <div class="timeline-body">
-                {!!$historico->historico!!}
-                @if ($historico->arquivo <> '')
-
-                  @php
-                    $arquivo = explode('.', $historico->arquivo);
-                  @endphp
-
-                  @if (isset($arquivo[1]) && (strtolower($arquivo[1]) == 'jpg' or strtolower($arquivo[1]) == 'jpeg' )) 
-
-                    <img src="/storage/{{$historico->arquivo}}" class="img-responsive">
-
-                  @else
-
-                    <br>Arquivo: <a href="/storage/{{$historico->arquivo}}" target="_blank">{{$historico->arquivo}}</a>
-
-                  @endif
-                  
-
-                @endif
-              </div>
+						
+						
+					
+					
+					
 				
+					</tr>
+			    </thead>
+			  
+			@foreach ($importacoes as $query2)
+			  
+			<tr>
+		
+				
+			<td align="center">{{$query2->ult_prox}} - {{$query2->desc_status}}</td>
+			<td align="left"><a href="/dsimportdet?tipo={{$query2->tipo}}&pedido={{$query2->pedido}}">{{$query2->tipo.' '.$query2->pedido}}</a></td>	
+			<td align="left">{{$query2->ref_go}}</td>
+			<td align="center">{{$query2->ref}}</td>
+			<td align="center"></td>
+			<td align="left">{{$query2->fornecedor}}</td>
+			<td align="center">{{$query2->tipoitem}}</td>
+			<td align="center">{{$query2->codgrife}}</td>
+			<td align="center">{{$query2->colmod}}</td>
+			<td align="center">{{$query2->linha}}</td>
+						<td align="center">{{number_format($query2->qtde_sol)}}</td>
+			<td align="center">{{number_format($query2->qtde)}}</td>	
+			<td align="center">{{number_format($query2->atende)}}</td>
+			<td align="center">{{number_format($query2->itens_trans)}}</td>
 
 
-              <div class="timeline-footer">
-                <a href="/historico/{{$historico->id}}/deleta" class="btn btn-danger btn-xs">Delete</a>
-              </div>
-            </div>
+			<td></td>
+			<td></td>
+			</tr>
+			@endforeach 
+			
 
-          </li>
-        @endforeach
-
-@endforeach
-					   </ul>
-				  </div>
-					   </div>
+		</table>
+			
+		</div>
+			</div>
+		</div>	
+	
+		</div>
+	</ul>
+	</div>
+	</div>
+</ul>
+</div>
+</div>
 
 				  
 <div class="tab-pane" id="reprocessos">
