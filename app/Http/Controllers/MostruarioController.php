@@ -27,7 +27,7 @@ class MostruarioController extends Controller
       
       $arquivo2 = "rastreio-".$data.".xlsx";
 
-      $uploaddir = '/var/www/html/portalgo/storage/uploads/';
+      $uploaddir = '/var/www/html/portal-gestao/storage/uploads/';
       $uploadfile = $uploaddir .$arquivo2 ;
       
 
@@ -328,7 +328,7 @@ group by razao, nome, an8
       //$nome_excel = 'Pedido rep.xlsx';
       // salvar na rede
       
-      $salvar = '/var/www/html/portalgo/storage/uploads/pedidos/'.$nome_excel;
+      $salvar = '/var/www/html/portal-gestao/storage/uploads/pedidos/'.$nome_excel;
       $writer = new Xlsx($spreadsheet);
       $writer->save($salvar);
 
@@ -1025,7 +1025,7 @@ order by Agrupamento, Cod_Secundario asc");
       
       $arquivo2 = "num_inventario-".$id_inventario."-id_representante-".$id_rep."-data-".$data.".xlsx";
 
-      $uploaddir = '/var/www/html/portalgo/storage/uploads/inventarios/';
+      $uploaddir = '/var/www/html/portal-gestao/storage/uploads/inventarios/';
       $uploadfile = $uploaddir .$arquivo2 ;
       
 
@@ -1201,7 +1201,7 @@ order by Agrupamento, Cod_Secundario asc");
       
       $arquivo2 = "num_inventario-".$id_inventario."-id_representante-".$id_rep."-data-".$data.".xlsx";
 
-      $uploaddir = '/var/www/html/portalgo/storage/uploads/inventarios/';
+      $uploaddir = '/var/www/html/portal-gestao/storage/uploads/inventarios/';
       $uploadfile = $uploaddir .$arquivo2 ;
       
 
@@ -1370,7 +1370,7 @@ order by Agrupamento, Cod_Secundario asc");
       
       $arquivo2 = "num_inventario-".$id_inventario."-id_representante-".$id_rep."-data-".$data.".xlsx";
 
-      $uploaddir = '/var/www/html/portalgo/storage/uploads/inventarios/';
+      $uploaddir = '/var/www/html/portal-gestao/storage/uploads/inventarios/';
       $uploadfile = $uploaddir .$arquivo2 ;
       
 
@@ -2101,7 +2101,7 @@ order by Agrupamento, Cod_Secundario asc");
       //$writer->save('php://output');
 
       
-      $nome_excel = '/var/www/html/portalgo/storage/app/devolucao_'.$usuario->nome.'_'.date('d-m-Y').'.xlsx';
+      $nome_excel = '/var/www/html/portal-gestao/storage/app/devolucao_'.$usuario->nome.'_'.date('d-m-Y').'.xlsx';
       // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
       // header('Content-Disposition: attachment;filename="'.$nome.'"');
       // header('Cache-Control: max-age=0');
