@@ -37,7 +37,7 @@ class CompraController extends Controller {
             $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_titulo','$request->documento5','$request->tipo5','$request->valor5','$request->moeda','$request->vencimento5', current_date,'$nome_usuario','$request->obs5') ");
             }
     $detalhes  = \DB::select("select * from compras_parcelas where id_titulo = '$request->id_titulo' ");
-    dd($detalhes);
+    return redirect()->back();
 
   }
 	
