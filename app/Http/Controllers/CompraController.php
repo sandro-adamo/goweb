@@ -3363,6 +3363,8 @@ group by timestamp , id_compra, tipo, nome,obs,status_pedido
 	select *, (select sum(valor) from compras_parcelas where compras_parcelas.id_titulo = cp.numero and cp.tipo = 'adiantamento') as valor_parcelas, (select min(vencimento) from compras_parcelas where compras_parcelas.id_titulo = cp.numero and cp.tipo = 'adiantamento') as dt_vencimento_parcela
 	from compras_titulos cp 
     where cp.id_pedido = $id and cp.tipo = 'adiantamento' and cp.origem = 'compras' 
+    union all 
+    select '' id, '' id_pedido, ''origem, ''numero, ''tipo, ''valor, ''moeda, ''vencimento, ''emissao, ''user, ''obs, ''created_at, ''updated_at, ''valor_parcelas, ''dt_vencimento_parcela
 	 ");
   
 	  
