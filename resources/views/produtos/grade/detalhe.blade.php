@@ -2122,6 +2122,7 @@ $fotos = \DB::select("select * from itens where modelo = 'ah6254' ");
 					<td colspan="1" align="center">obs</td>	
 						
 					<td colspan="1" align="center">condicao_pagamento</td>
+					<td colspan="1" align="center">qtde</td>		
 					<td colspan="1" align="center">valor_total</td>	
 					<td colspan="1" align="center">valor adiantamento</td>	
 					
@@ -2140,6 +2141,7 @@ $fotos = \DB::select("select * from itens where modelo = 'ah6254' ");
 			<td align="left">{{$query2->dt_emissao}}</td>
 			<td align="left">{{$query2->obs}}</td>
 			<td align="left">{{$query2->condicao_pagamento}}</td>
+			<td align="center">{{number_format($query2->qtde)}}</td>
 			<td align="center">{{number_format($query2->valor_total)}}</td>
 			<td align="center">{{number_format($query2->adiantamento)}}</td>
 			<td align="left">{{$query2->venc_adiantamento}}</td>
