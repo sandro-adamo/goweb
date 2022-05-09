@@ -54,7 +54,7 @@ class CompraController extends Controller {
 
       $verifica_adiantamento  = \DB::select("select id, descricao, case when perc_adiantamento is null then 'NULL' ELSE perc_adiantamento END AS 'perc_adiantamento' from compras_condicoes where id = '$request->condicao_pagamento' ");
 
-      if($verifica_adiantamento[0]->perc_adiantamento<>"null"){
+      if($verifica_adiantamento[0]->perc_adiantamento<>"null" or $verifica_adiantamento[0]->perc_adiantamento<>"0"){
 
         $percentual = (float)$verifica_adiantamento[0]->perc_adiantamento;
         $valortt = (float)$request->valor_total;
