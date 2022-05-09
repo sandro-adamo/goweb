@@ -11,29 +11,73 @@ use PHPMailer\ PHPMailer\ Exception;
 
 class CompraController extends Controller {
 
-	
+	public function gravaParcelasCompras(Request $request) {
+    $idusuario = \Auth::id();
+    $usuario  = \DB::select("select nome from usuarios where id = $idusuario limit 1");
+    $nome_usuario = $usuario[0]->nome;
+    
+    
+
+
+    if($request->valor1<>''){
+    $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_titulo','$request->documento1','$request->tipo1','$request->valor1','$request->moeda','$request->vencimento1', current_date,'$nome_usuario','$request->obs1') ");
+    }
+    
+    if($request->valor2<>''){
+      $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_titulo','$request->documento2','$request->tipo2','$request->valor2','$request->moeda','$request->vencimento2', current_date,'$nome_usuario','$request->obs2') ");
+      }
+
+    if($request->valor3<>''){
+        $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_titulo','$request->documento3','$request->tipo3','$request->valor3','$request->moeda','$request->vencimento3', current_date,'$nome_usuario','$request->obs3') ");
+        }
+    if($request->valor4<>''){
+          $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_titulo','$request->documento4','$request->tipo4','$request->valor4','$request->moeda','$request->vencimento4', current_date,'$nome_usuario','$request->obs4') ");
+          }
+    if($request->valor5<>''){
+            $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_titulo','$request->documento5','$request->tipo5','$request->valor5','$request->moeda','$request->vencimento5', current_date,'$nome_usuario','$request->obs5') ");
+            }
+    $detalhes  = \DB::select("select * from compras_parcelas where id_titulo = '$request->id_titulo' ");
+    return redirect()->back();
+
+  }
 	
 	
 		public function gravaTitulosCompras(Request $request) {
-
-		if (isset($request->grife)) {
-
-			foreach ($request->grife as $grife) {
-
-				$campo_motivo = 'motivos'.$grife;
-				$motivo = $request->$campo_motivo;
-				$id_usuario = \Auth::id();
+     
+      $numero_titulo = $request->id_compra."_1";
+      $idusuario = \Auth::id();
+      $usuario  = \DB::select("select nome from usuarios where id = $idusuario limit 1");
+      $nome_usuario = $usuario[0]->nome;
+      
+				
 				
 
-		/**		$insert = \DB::select("insert into pesquisa_naovenda (usuario, cliente, grife, motivo, atendimento, obs) 
-				values ($id_usuario, '$request->cliente', '$grife', '$motivo', '$request->atendimento', '$request->obs')");
-		**/	
+      $verifica_adiantamento  = \DB::select("select id, descricao, case when perc_adiantamento is null then 'NULL' ELSE perc_adiantamento END AS 'perc_adiantamento' from compras_condicoes where id = '$request->condicao_pagamento' ");
+
+      if($verifica_adiantamento[0]->perc_adiantamento<>"null"){
+
+        $percentual = (float)$verifica_adiantamento[0]->perc_adiantamento;
+        $valortt = (float)$request->valor_total;
+        $valor_adiantamento = ($percentual/100)*$valortt;
+        $id_condicao = $verifica_adiantamento[0]->id;
+        $desc_condicao = $verifica_adiantamento[0]->descricao;
+        
+
+        $insert_adiantamento  = \DB::select("INSERT INTO `compras_titulos`(`id_pedido`, `origem`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_compra', 'COMPRAS','$numero_titulo', 'ADIANTAMENTO', '$valor_adiantamento','$request->moeda', '$request->dt_vencimento', '$request->dt_emissao','$nome_usuario','$request->obs') ");
+
+        $update_capa  = \DB::select("update compras set valor_total = '$valortt', id_condicao_pagamento = '$id_condicao', condicao_pagamento = '$desc_condicao' where id = '$request->id_compra' ");
+
+
+        //dd($valor_adiantamento);
+      }
+      else{
+        $update_capa  = \DB::select("update compras set valor_total = '$valortt', id_condicao_pagamento = '$id_condicao', condicao_pagamento = '$desc_condicao' where id = '$request->id_compra' ");
+        //dd($verifica_adiantamento[0]->perc_adiantamento);
+      }
+      
+      //dd($request); 
 				
-				$insert2 = \DB::select("insert into compras_infos (documento,tipo_documento,origem,tipo_origem) 
-				values (1, 2, '$pedido','$tipo')");
-				
-				}
-			}
+			
 			return redirect()->back();
 		}
 	
@@ -3316,10 +3360,13 @@ group by timestamp , id_compra, tipo, nome,obs,status_pedido
   public function detalhesCompra( $id ) {
 	
 	$adiantamento = \DB::select( "
-	select id_pedido, cp.id parcela, tipo, sum(valor) adiantamento 
-	from compras_parcelas cp 
-    where cp.id_pedido = $id and tipo = 'adiantamento' and cp.origem = 'compras' 
-	group by id_pedido, cp.id, tipo ");
+	select *, (select sum(valor) from compras_parcelas where compras_parcelas.id_titulo = cp.numero and cp.tipo = 'adiantamento') as valor_parcelas, (select min(vencimento) from compras_parcelas where compras_parcelas.id_titulo = cp.numero and cp.tipo = 'adiantamento') as dt_vencimento_parcela
+	from compras_titulos cp 
+    where cp.id_pedido = $id and cp.tipo = 'adiantamento' and cp.origem = 'compras' 
+    union all 
+    select '' id, '' id_pedido, ''origem, ''numero, ''tipo, ''valor, ''moeda, ''vencimento, ''emissao, ''user, ''obs, ''created_at, ''updated_at, ''valor_parcelas, ''dt_vencimento_parcela
+	 ");
+  
 	  
 	  
 
