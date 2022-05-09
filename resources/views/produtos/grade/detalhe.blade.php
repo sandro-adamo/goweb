@@ -121,10 +121,6 @@ order by modelo
 
 
 
-
-
-
-
 		
 
 
@@ -255,6 +251,55 @@ on final1.pedido = base3.pedido and final1.tipo = base3.tipo
 
 
 
+
+/** query nacionalizacao **/
+
+
+
+$nacionalizacoes = \DB::select(" 
+    select pedido, tipo, sum(qtde_sol) qtde_sol from (
+		select pedido, tipo, colecao, sum(qtde_sol) qtde_sol from (
+		
+			select pedido, tipo, qtde_sol, colmod, clasmod,
+			case 
+			when (left(colmod,4) = year(now()) and  right(colmod,2) >= month(now())) then 'novo' 
+			
+			when (left(colmod,4) < year(now()) and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO')) then 'aa'
+			when (left(colmod,4) < year(now()) and clasmod in ('LINHA A-')) then 'a'
+			
+			when ((left(colmod,4) = year(now()) and right(colmod,2) < month(now())) and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO')) then 'aa'
+			when ((left(colmod,4) = year(now()) and right(colmod,2) < month(now())) and clasmod in ('LINHA A-')) then 'a'
+			else '' end as colecao		
+            
+			from (
+                
+					select pedido, tipo, qtde_sol, 
+                    ifnull(itenspc.colmod,itenspt.colmod) colmod,
+                    ifnull(itenspc.clasmod,itenspt.clasmod) clasmod
+
+						from importacoes_pedidos ped
+						left join itens_estrutura ie on ie.id_filho = ped.cod_item
+						left join itens itenspc on itenspc.id = ped.cod_item
+						left join itens itenspt on itenspt.id = ie.id_pai
+						
+						where  (left(itenspc.agrup,5) = '$agrup' or left(itenspt.agrup,5) = '$agrup') and 
+						ref_go not in ('LA200501','QGKI17-7B') and 
+						ult_status not in (980) -- and prox_status not in (999,400)
+						and ( itenspc.codtipoitem = 006 
+						or ((left(ped.secundario,3) = 'FR ' or left(ped.secundario,6) = 'PONTE ')) )
+			) as base0 
+		) as base1  $where1
+
+        group by pedido, tipo, colecao
+	) as base2 group by pedido, tipo
+
+");
+
+
+
+
+
+
 @endphp
 
 
@@ -281,6 +326,7 @@ on final1.pedido = base3.pedido and final1.tipo = base3.tipo
 				<li><a href="#Timeline_lancamentos" data-toggle="tab">Timeline_lancamentos</a></li>
 				<li><a href="#Estoques" data-toggle="tab">Estoques</a></li>
 				<li><a href="#Importacoes" data-toggle="tab">Importacoes</a></li>
+				<li><a href="#Nacionalizacoes" data-toggle="tab">Nacionalizacoes</a></li>
 				<li><a href="#Compras" data-toggle="tab">Compras</a></li>
 				
 				
@@ -1896,6 +1942,98 @@ $fotos = \DB::select("select * from itens where modelo = 'ah6254' ");
 </ul>
 </div>
 </div>
+
+
+
+
+
+
+
+
+
+<div class="tab-pane" id="Nacionalizacoes">
+                <!-- The timeline -->
+              
+                  <!-- timeline time label -->
+                  <div class="col-md-12">
+		 
+        <!-- The time line -->
+        <ul class="timeline">
+
+<div class="tab-pane" id="Tabela">
+<!-- The timeline -->
+
+<!-- timeline time label -->
+<div class="col-md-12">
+
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+
+<div class="row"> 
+	
+<div class="col-md-15">	
+<div class="box box-body">
+
+	<div class="table-responsive">		
+	   <table class="table table-striped table-bordered compact" id="myTable">
+		  <thead>	
+			
+		 <tr>	
+
+	 		<td colspan="15">Nacionalizacoes</td>
+		
+				</tr>
+		  			
+					<tr>
+					
+					<td colspan="1" align="center">pedido</td>
+					<td colspan="1" align="center">tipo</td>	
+					<td colspan="1" align="center">qtde</td>	
+						
+					
+						
+						
+					
+					
+					
+				
+					</tr>
+			    </thead>
+			  
+			@foreach ($nacionalizacoes as $query2)
+			  
+			<tr>
+		
+				
+	
+			<td align="left"><a href="/dsimportdet?tipo={{$query2->tipo}}&pedido={{$query2->pedido}}">{{$query2->tipo.' '.$query2->pedido}}</a></td>	
+			<td align="left">{{$query2->tipo}}</td>
+			<td align="center">{{number_format($query2->qtde_sol)}}</td>
+
+
+			</tr>
+			@endforeach 
+			
+
+		</table>
+			
+		</div>
+			</div>
+		</div>	
+	
+		</div>
+	</ul>
+	</div>
+	</div>
+</ul>
+</div>
+</div>
+
+
+
+
+
+
+
 
 				  
 <div class="tab-pane" id="reprocessos">
