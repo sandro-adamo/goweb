@@ -65,7 +65,8 @@ select * from (
 				left join itens on itens.id = cod_item		
 				where ref_go not in ('LA200501','QGKI17-7B') and ult_status not in (980) 
 				and prox_status not in (999) 
-                and concat(ult_status,prox_status) not in ('999400')				
+                and concat(ult_status,prox_status) not in ('999400')
+				and left (gl_clas,2) not in ('CC','CF','DP','EE','ME','MM','OC','PR','UC','SW','VD')
 			
 			) as base 
 
