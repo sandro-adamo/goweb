@@ -300,6 +300,54 @@ $nacionalizacoes = \DB::select("
 
 
 
+/** compras **/
+
+$compras = \DB::select(" 
+
+select pedido, dt_emissao, obs, condicao_pagamento, valor_total,
+adiantamento, venc_adiantamento, moeda , agrup, sum(qtde) qtde
+    
+     from (
+
+	select c.id pedido, c.dt_emissao, c.obs, condicao_pagamento, (valor_total) valor_total,
+    ct.valor adiantamento, ct.vencimento venc_adiantamento, ct.moeda , itens.agrup,
+    
+			case 
+			when (left(colmod,4) = year(now()) and  right(colmod,2) >= month(now())) then 'novo' 
+			
+			when (left(colmod,4) < year(now()) and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO')) then 'aa'
+			when (left(colmod,4) < year(now()) and clasmod in ('LINHA A-')) then 'a'
+			
+			when ((left(colmod,4) = year(now()) and right(colmod,2) < month(now())) and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO')) then 'aa'
+			when ((left(colmod,4) = year(now()) and right(colmod,2) < month(now())) and clasmod in ('LINHA A-')) then 'a'
+			else '' end as colecao	,
+            sum(qtde) qtde
+    
+    
+	from compras c
+	left join compras_itens ci on ci.id_compra = c.id
+	left join compras_titulos ct on ct.id_pedido = c.id
+	left join itens itens on itens.id = ci.id_item
+    
+	where  ci.status not in ('cancelado') and left(agrup,5) = '$agrup'
+    
+    group by c.id, c.dt_emissao, c.obs, condicao_pagamento, valor_total,
+    ct.valor, ct.vencimento , ct.moeda , itens.agrup, colmod, clasmod
+
+) as fim $where1 
+
+group by pedido, dt_emissao, obs, condicao_pagamento, valor_total,
+adiantamento, venc_adiantamento, moeda , agrup
+
+
+
+
+
+
+");
+
+
+
 @endphp
 
 
@@ -2032,6 +2080,90 @@ $fotos = \DB::select("select * from itens where modelo = 'ah6254' ");
 
 
 
+
+
+
+<div class="tab-pane" id="Compras">
+                <!-- The timeline -->
+              
+                  <!-- timeline time label -->
+                  <div class="col-md-12">
+		 
+        <!-- The time line -->
+        <ul class="timeline">
+
+<div class="tab-pane" id="Tabela">
+<!-- The timeline -->
+
+<!-- timeline time label -->
+<div class="col-md-12">
+
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+
+<div class="row"> 
+	
+<div class="col-md-15">	
+<div class="box box-body">
+
+	<div class="table-responsive">		
+	   <table class="table table-striped table-bordered compact" id="myTable">
+		  <thead>	
+			
+		 <tr>	
+
+	 		<td colspan="15">Compras</td>
+		
+				</tr>
+		  			
+					<tr>
+					
+					<td colspan="1" align="center">pedido</td>
+					<td colspan="1" align="center">dt_emissao</td>	
+					<td colspan="1" align="center">obs</td>	
+						
+					<td colspan="1" align="center">condicao_pagamento</td>
+					<td colspan="1" align="center">qtde</td>		
+					<td colspan="1" align="center">valor_total</td>	
+					<td colspan="1" align="center">valor adiantamento</td>	
+					
+					<td colspan="1" align="center">venc adiantamento</td>
+					<td colspan="1" align="center">moeda</td>	
+					</tr>
+			    </thead>
+			  
+			@foreach ($compras as $query2)
+			  
+			<tr>
+		
+				
+	
+			<td align="left"><a href="/compras/{{$query2->pedido}}">{{$query2->pedido}}</a></td>	
+			<td align="left">{{$query2->dt_emissao}}</td>
+			<td align="left">{{$query2->obs}}</td>
+			<td align="left">{{$query2->condicao_pagamento}}</td>
+			<td align="center">{{number_format($query2->qtde)}}</td>
+			<td align="center">{{number_format($query2->valor_total)}}</td>
+			<td align="center">{{number_format($query2->adiantamento)}}</td>
+			<td align="left">{{$query2->venc_adiantamento}}</td>
+			<td align="left">{{$query2->moeda}}</td>
+
+			</tr>
+			@endforeach 
+			
+
+		</table>
+			
+		</div>
+			</div>
+		</div>	
+	
+		</div>
+	</ul>
+	</div>
+	</div>
+</ul>
+</div>
+</div>
 
 
 
