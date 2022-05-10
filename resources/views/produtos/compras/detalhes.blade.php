@@ -509,12 +509,12 @@
             <label class="col-md-3 control-label">Data Emissão</label>
             <div class="col-md-4">
               <small>@lang('padrao.emissao')</small>
-              <input type="date" name="dt_emissao"  id="dt_emissao" class="form-control" >
+              <input type="date" name="dt_emissao"  id="dt_emissao" class="form-control" required >
             </div>     
           
             <div class="col-md-4">
               <small>Data Vencimento</small>
-              <input type="date" name="dt_vencimento" id="dt_vencimento"   class="form-control" >
+              <input type="date" name="dt_vencimento" id="dt_vencimento"   class="form-control" required>
             </div>        
           </div>
 
@@ -522,7 +522,7 @@
           <div class="form-group">
             <label class="col-md-3 control-label">Condição de pagamento</label>
             <div class="col-md-8">
-              <select  name="condicao_pagamento" class="form-control">
+              <select  name="condicao_pagamento" class="form-control" required>
                @php                  
                     $prazo_pagamento = \DB::select("select id, descricao from compras_condicoes");
                 @endphp                   
@@ -541,7 +541,7 @@
           <div class="form-group">
             <label class="col-md-3 control-label">Moeda</label>
             <div class="col-md-5">
-              <select name="moeda" id="moeda" class="form-control">
+              <select name="moeda" id="moeda" class="form-control" required>
                 <option value=""> @lang('padrao.selecione') </option>
                 <option value="USD"> USD </option>
                 <option value="EUR"> EUR </option>
@@ -553,7 +553,7 @@
           <div class="form-group">
             <label class="col-md-3 control-label">Valor total pedido </label>
             <div class="col-md-5">
-              <input name="valor_total" type="decimal">
+              <input name="valor_total" type="decimal" required>
             </div>        
           </div>
 
