@@ -10,6 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/dsimportdet1/{$tipo}/{$pedido}','ImportacaoController@detalhesDSimport');
+
 Route::post('/getProtocoloAtendimento', 'AtendimentoController@getProtocolo');
 Route::get('/addHistorico', 'AtendimentoController@addHistorico');
 Route::get('/estimativa', 'EstimativaComercialController@geraEstimativa');
