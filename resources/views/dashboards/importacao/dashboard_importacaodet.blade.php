@@ -1,180 +1,38 @@
 @extends('layout.principal')
 @section('conteudo')
 
-@php
-
-
-
-
-
-
-
-
-
-$tipo  = $_GET["tipo"];
-$pedido  = $_GET["pedido"];
-echo $tipo; 
-echo $pedido; 
-
-$query_2 = \DB::select(" 
-
-select pedido, tipo, ref_go, item , secundario, concat(trim(ref_despachante),' ',trim(ref_nac_01)) ref, ult_prox, desc_status, group_concat(distinct left(fornecedor,20),' ') fornecedor,  
-group_concat(distinct tipoitem,' ') tipoitem, group_concat(distinct codgrife,' ') codgrife, group_concat(distinct linha,' ') linha,
-case when CHAR_LENGTH(group_concat(distinct colmod,' ')) > 26 then concat('...',right(group_concat(distinct colmod,' '),26)) else group_concat(distinct colmod,' ') end as colmod, 
-sum(qtde) qtde, sum(atende) atende,
-(select modelo from itens where item = secundario) as modelo,
-(select agrup from itens where item = secundario) as agrup from (
-
-select *, case when orcamentos > qtde then qtde else orcamentos end as atende from (
-	select pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status, secundario, cod_item, codtipoitem, tipoitem, id_pai,
-	item_pai, tipo_pai, id_filho, tipo_filho, agrupador, codgrife, colmod, fornecedor,  item, linha,
-	
-		ifnull((select sum(qtde) qtde_aberto
-		from go.vendas_jde vds
-		left join go.itens on itens.id = vds.id_item
-		where ult_status not in ('980') and codtipoitem = 006 and prox_status = 515 
-		and vds.item = final.item
-		),0) as orcamentos,
-	sum(qtde) qtde
-	
-	from (
-		select *, case when item_pai is null then secundario else item_pai end as item 
-		from (
-
-			select pedido, tipo, ref_go, ref_despachante, ref_nac_01, 
-			concat(ult_status, ' / ',prox_status) ult_prox, imp.secundario, cod_item, codtipoitem,
-            
-		case 
-		when prox_status = 230 then 'ped_inserido' 
-		when prox_status = 280 then 'PL_recebido' 
-		when prox_status = 345 then 'confirmado' 
-        when prox_status = 350 then 'aguardando_pagamento'
-        when prox_status = 355 then 'li_deferida'
-        when prox_status = 359 then 'emb_autorizado'
-        when prox_status = 365 then 'booking'
-        when prox_status = 369 then 'chegada_Br'
-        when prox_status = 375 then 'removido'
-        when prox_status = 379 then 'registrado'
-        when prox_status = 385 then 'nf_emitida'
-        when prox_status = 390 then 'carregada'
-        when prox_status = 400 then 'chegou_TO' else '' end as desc_status,
-			
-			case  when codtipoitem = 006 then 'PECA' 
-				 when (left(imp.secundario,3) = 'FR ' or left(imp.secundario,6) = 'PONTE ') then 'FRENTE' 
-				 when left(imp.secundario,2) IN ('LE','LD','HE','HD','PL','SC','BL') then 'ACESSORIOS'
-				 else 'OUTROS' end as tipoitem, qtde_sol qtde
-			 
-			from importacoes_pedidos imp 
-			left join itens on itens.id = cod_item		
-			where ref_go not in ('LA200501','QGKI17-7B') and 
-			-- ult_status not in (980) and prox_status not in (999,400) and
-			 pedido = $pedido and tipo = '$tipo'
-			
-		) as base 
-
-			left join (select * from itens_estrutura   ) as estrutura
-			on estrutura.id_filho = cod_item
-	) as final
-
-	left join (select secundario codsec, agrup, codgrife, colmod, fornecedor, left(linha,3) linha from itens ) item
-	on item.codsec = final.item        
-	
-	where  tipoitem in ('FRENTE','PECA', 'ACESSORIOS', 'MPDV','AGREGADOS')
-
-
-group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status, secundario, cod_item, codtipoitem, tipoitem, id_pai,
-item_pai, tipo_pai, id_filho, tipo_filho, agrupador, codgrife, colmod, fornecedor, linha
-
-) as final1
-
-) as final2
-group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status, item, secundario
-
-");
-			  
-			
-@endphp
-
-
-
-<h6>
-
-	
+	@php
+  if(isset($query_2[0]->tipo)){
+		
+$tipo = $query_2[0]->tipo;
+$pedido = $query_2[0]->pedido;
+}
+else {
+$tipo = 0;
+$pedido = 0;
+}
+  @endphp
 							
 <div class="row"> 
 	
-	
-	
-	
-	
-	
-	
-	
+		
 
-<!--
-	<div class="col-md-12">	O QUE ESTA SENDO PROCESSADO NO MES - PRE-VENDAS ACUMULADAS </div>
-	
-				<div class="col-lg-3 col-xs-6 col-md-3" style="width: 20%">
-
-				   small box 
-			 <div class="small-box bg-aqua">
-
-					<div title="Pedidos Gerados no mes vigente" class="inner">
-					  <p>Pedidos gerados no mês</p>
-					</div>
-					<div class="icon">
-					 <small> <i class="fa fa-television"></i></small>
-					</div>
-
-					<a title="Vendas do mês atual" href="/vendas?ano={{date('Y')}}&mes={{date('m')}}" class="small-box-footer">Mais informações <i class="fa fa-arrow-circle-right"></i></a>
-				  </div>
-				</div>
--->
-	
-	
-	
-	
-<!--
-			<div class="col-lg-3 col-xs-6 col-md-3" style="width: 20%">
-
-				 
-			  <div class="small-box bg-green">
-
-					<div title="Faturamentos no mes vigente" class="inner">
-	
-					  <p>Faturados no mês</p>
-					</div>
-					<div class="icon">
-					<small><i class="fa fa-money"></i></small>  
-					</div>
-
-					<a title="Vendas do mês atual" href="/vendas?ano={{date('Y')}}&mes={{date('m')}}" class="small-box-footer">Mais informações <i class="fa fa-arrow-circle-right"></i></a>
-				  </div>
-			</div>
--->
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 		<div class="col-md-12">	
+		<div class="box box-title">
+		{{$tipo}} - {{$pedido}}
+		</div>
+
 		<div class="box box-body">
+		
+		<a  class="btn btn-default btn-flat pull-right"href="" class="pull-center" data-toggle="modal" 
+				data-target="#modalcadastratitulo">Cadastrar parcela</a>
 			
 		<table class="table table-bordered">
 			
 			
 		 <tr>	
 
-	 		<td colspan="10">Importações em aberto </td>
+	 		<td colspan="12"></td>
 		
 				</tr>
 		  			
@@ -231,6 +89,94 @@ group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_statu
 </div>
 </h6>			
 	
+</form>
+
+<form action="/dsimportdet/cadastrapagamento" id="frmcadastratitulo" class="form-horizontal" method="post">
+    @csrf 
+<div class="modal fade" id="modalcadastratitulo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+   <input type="hidden" name="id_pedido" id="id_pedido" value="{{$pedido}}">
+   <input type="hidden" name="tipo_pedido" id="tipo_pedido" value="{{$tipo}}">
+
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Cadastro Pagamento</h4>
+      </div>
+      <div class="modal-body">
+
+	  <div class="form-group">
+	  
+       <label class="col-md-3 control-label">Tipo de pagamento</label>   
+	      <div class="col-md-8">
+        <select  name="tipo_pagamento" class="form-control" required>
+		
+         <option value="EMBARQUE" > EMBARQUE </option>
+		 <option value="PARCELA" > PARCELA </option>
+		 
+      	 </select>
+          </div>        
+          </div>
+        
+          <div class="form-group">
+            <label class="col-md-3 control-label">Data Emissão</label>
+            <div class="col-md-4">
+              <small>Data Emissão</small>
+              <input type="date" name="dt_emissao"  id="dt_emissao" class="form-control" required >
+            </div>     
+          
+            <div class="col-md-4">
+              <small>Data Vencimento</small>
+              <input type="date" name="dt_vencimento" id="dt_vencimento"   class="form-control" required>
+            </div>        
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-3 control-label">Moeda</label>
+            <div class="col-md-5">
+              <select name="moeda" id="moeda" class="form-control" required>
+                <option value=""> @lang('padrao.selecione') </option>
+                <option value="USD"> USD </option>
+                <option value="EUR"> EUR </option>
+                <option value="BRL"> BRL </option>
+              </select>
+            </div>        
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-3 control-label">Valor</label>
+            <div class="col-md-5">
+              <input name="valor" type="decimal"  required>
+            </div>        
+          </div>
+      <div class="form-group">
+            <label class="col-md-3 control-label">Criar parcelas</label>
+            <div class="col-md-5">
+              <select name="criar_parcela" id="criar_parcela" class="form-control" required>
+                <option value="">Selecione </option>
+                <option value="parcela_unica"> Parcela única </option>
+                <option value="multiplas"> Multiplas parcelas </option>
+                
+              </select>
+            </div>        
+          </div>
+		  
+		  <div class="form-group">
+            <label class="col-md-3 control-label">Observação</label>
+            <div class="col-md-8">
+                <textarea name="obs" class="form-control"></textarea>
+            </div>        
+          </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">@lang('padrao.cancelar')</button>
+        <button type="submit" class="btn btn-flat btn-primary">@lang('padrao.salvar') </button>
+      </div>
+    </div>
+  </div>
+</div>
 </form>
 
 @stop

@@ -9,8 +9,125 @@ use App\Importacao;
 
 class ImportacaoController extends Controller
 {
+	
+
+	public function cadastraPagamento(Request $request) {
+		
+			
+			$idusuario = \Auth::id();
+			$usuario  = \DB::select("select nome from usuarios where id = $idusuario limit 1");
+			$nome_usuario = $usuario[0]->nome;
+			
+					  
+			
+		
+			$titulos  = \DB::select("select right(numero,1) ultimo_numero from compras_titulos where id_pedido = '$request->id_pedido' and origem = '$request->tipo_pedido'  order by id desc limit 1");
+
+			if(count($titulos)==1){
+			$numero_parcela = 	$titulos[0]->ultimo_numero+1;
+			$numero = $request->id_pedido.'_'.$numero_parcela;
+			
+			}else{
+			$numero = $request->id_pedido.'_1';
+			}
+			
+
+			//$numero_titulo = $request->id_pedido."_1";
+
+			$insert_adiantamento  = \DB::select("INSERT INTO `compras_titulos`(`id_pedido`, `origem`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_pedido', '$request->tipo_pedido','$numero', '$request->tipo_pagamento', '$request->valor','$request->moeda', '$request->dt_vencimento', '$request->dt_emissao','$nome_usuario','$request->obs') ");
+
+			if($request->criar_parcela=='parcela_unica'){
+				$insert_parcelas  = \DB::select("INSERT INTO `compras_parcelas`(`id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`,  `user`, `obs`) VALUES ('$numero', '$request->id_pedido','$request->tipo_pedido', '$request->valor','$request->moeda', '$request->dt_vencimento', '$request->dt_emissao','$nome_usuario','$request->obs') ");
+			}
+						  
+				  
+				  return redirect()->back();
+			  
+
+	}
+
+	public function detalhesDSimport($tipo, $pedido) {
+		//dd($tipo);
+		$query_2 = \DB::select(" 
+
+select pedido, tipo, ref_go, item , secundario, concat(trim(ref_despachante),' ',trim(ref_nac_01)) ref, ult_prox, desc_status, group_concat(distinct left(fornecedor,20),' ') fornecedor,  
+group_concat(distinct tipoitem,' ') tipoitem, group_concat(distinct codgrife,' ') codgrife, group_concat(distinct linha,' ') linha,
+case when CHAR_LENGTH(group_concat(distinct colmod,' ')) > 26 then concat('...',right(group_concat(distinct colmod,' '),26)) else group_concat(distinct colmod,' ') end as colmod, 
+sum(qtde) qtde, sum(atende) atende,
+(select modelo from itens where item = secundario) as modelo,
+(select agrup from itens where item = secundario) as agrup from (
+
+select *, case when orcamentos > qtde then qtde else orcamentos end as atende from (
+	select pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status, secundario, cod_item, codtipoitem, tipoitem, id_pai,
+	item_pai, tipo_pai, id_filho, tipo_filho, agrupador, codgrife, colmod, fornecedor,  item, linha,
+	
+		ifnull((select sum(qtde) qtde_aberto
+		from go.vendas_jde vds
+		left join go.itens on itens.id = vds.id_item
+		where ult_status not in ('980') and codtipoitem = 006 and prox_status = 515 
+		and vds.item = final.item
+		),0) as orcamentos,
+	sum(qtde) qtde
+	
+	from (
+		select *, case when item_pai is null then secundario else item_pai end as item 
+		from (
+
+			select pedido, tipo, ref_go, ref_despachante, ref_nac_01, 
+			concat(ult_status, ' / ',prox_status) ult_prox, imp.secundario, cod_item, codtipoitem,
+            
+		case 
+		when prox_status = 230 then 'ped_inserido' 
+		when prox_status = 280 then 'PL_recebido' 
+		when prox_status = 345 then 'confirmado' 
+        when prox_status = 350 then 'aguardando_pagamento'
+        when prox_status = 355 then 'li_deferida'
+        when prox_status = 359 then 'emb_autorizado'
+        when prox_status = 365 then 'booking'
+        when prox_status = 369 then 'chegada_Br'
+        when prox_status = 375 then 'removido'
+        when prox_status = 379 then 'registrado'
+        when prox_status = 385 then 'nf_emitida'
+        when prox_status = 390 then 'carregada'
+        when prox_status = 400 then 'chegou_TO' else '' end as desc_status,
+			
+			case  when codtipoitem = 006 then 'PECA' 
+				 when (left(imp.secundario,3) = 'FR ' or left(imp.secundario,6) = 'PONTE ') then 'FRENTE' 
+				 when left(imp.secundario,2) IN ('LE','LD','HE','HD','PL','SC','BL') then 'ACESSORIOS'
+				 else 'OUTROS' end as tipoitem, qtde_sol qtde
+			 
+			from importacoes_pedidos imp 
+			left join itens on itens.id = cod_item		
+			where ref_go not in ('LA200501','QGKI17-7B') and 
+			-- ult_status not in (980) and prox_status not in (999,400) and
+			 pedido = $pedido and tipo = '$tipo'
+			
+		) as base 
+
+			left join (select * from itens_estrutura   ) as estrutura
+			on estrutura.id_filho = cod_item
+	) as final
+
+	left join (select secundario codsec, agrup, codgrife, colmod, fornecedor, left(linha,3) linha from itens ) item
+	on item.codsec = final.item        
+	
+	where  tipoitem in ('FRENTE','PECA', 'ACESSORIOS', 'MPDV','AGREGADOS')
 
 
+group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status, secundario, cod_item, codtipoitem, tipoitem, id_pai,
+item_pai, tipo_pai, id_filho, tipo_filho, agrupador, codgrife, colmod, fornecedor, linha
+
+) as final1
+
+) as final2
+group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status, item, secundario
+
+");
+
+return view('dashboards.importacao.dashboard_importacaodet')->with('query_2', $query_2);
+
+
+	}
 	public function detalhesInvoice($invoice) {
 
 		$total = \DB::select("

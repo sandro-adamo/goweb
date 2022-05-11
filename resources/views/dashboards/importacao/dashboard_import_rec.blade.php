@@ -97,7 +97,7 @@ group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, fornecedor
 			@foreach ($query_2 as $query2)
 			  
 				<tr>
-				<td align="left"><a href="/dsimportdet?tipo={{$query2->tipo}}&pedido={{$query2->pedido}}">{{$query2->tipo.' '.$query2->pedido}}</a></td>	
+				<td align="left"><a href="/dsimportdet/{{$query2->tipo}}/{{$query2->pedido}}">{{$query2->tipo.' '.$query2->pedido}}</a></td>	
 				<td align="left"><a href="/dsimportdet?ref_go={{$query2->ref_go}}">{{$query2->ref_go}}</a></td>
 				<td align="center">{{$query2->ref_despachante}}</td>
 				<td align="center">{{$query2->ref_nac_01}}</td>

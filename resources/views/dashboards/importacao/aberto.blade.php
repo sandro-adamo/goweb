@@ -160,9 +160,9 @@ select * from (
 			  
 			<tr>
 <!--		
-			<td align="left"><a href="/titulos_form?tipo={{$query2->tipo}}&pedido={{$query2->pedido}}">{{$query2->tipo.' '.$query2->pedido}}</a></td>
+			<td align="left"><a href="/titulos_form/{{$query2->tipo}}/{{$query2->pedido}}">{{$query2->tipo.' '.$query2->pedido}}</a></td>
 -->			
-			<td align="left"><a href="/dsimportdet?tipo={{$query2->tipo}}&pedido={{$query2->pedido}}">{{$query2->tipo.' '.$query2->pedido}}</a></td>
+			<td align="left"><a href="/dsimportdet/{{$query2->tipo}}/{{$query2->pedido}}">{{$query2->tipo.' '.$query2->pedido}}</a></td>
 			<td align="center">{{$query2->ult_prox}} - {{$query2->desc_status}}</td>
 	
 			<td align="left">{{$query2->ref_go}}</td>
