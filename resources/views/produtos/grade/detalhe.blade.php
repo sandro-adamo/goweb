@@ -2,7 +2,7 @@
 @php
 
 $agrup = $_GET["agrup"];
-
+$grife = 'ah';
 
 if(isset($_GET["colecao"]))
 
@@ -44,6 +44,12 @@ if(isset($_GET["colecao"]))
 
 $query = \DB::select("select * from itens where modelo = 'ah6254' ");
 $data = '2021-01-01';
+
+
+
+
+$catalogo = \DB::select("select distinct agrup, codgrife as grife from itens where left(agrup,5) = '$agrup'");
+
 
 
 $modelos = \DB::select("
@@ -866,21 +872,23 @@ adiantamento, venc_adiantamento, moeda , agrup
     <span class="lead">Grade Ideal</span>
     <div class="box box-widget">
       <div class="box-header with-border bg-gray"> 
-        <b>{{$catalogo->agrup}}</b>
+        <b>aggrup</b>
         <span class="pull-right"><b></b></span>
       </div>
       <div align="center" style="min-height: 100px;margin-top: 30px;">
 
 
         @php
-          $foto = app('App\Http\Controllers\ItemController')->consultaFoto($catalogo->grife);
+          $foto = app('App\Http\Controllers\ItemController')->consultaFoto('ah');
         @endphp
 		  
 
-        <a href="" class="zoom" data-value="{{$catalogo->grife}}">
+        <a href="" class="zoom" data-value="ah">
            <!-- <img src="/{{$foto}}" class="img-responsive"> -->
-			<img src="/img/marcas/{{$catalogo->grife}}.png" style="max-height: 100px;" class="img-responsive">
+			<img src="/img/marcas/ah.png" style="max-height: 100px;" class="img-responsive">
         </a>
+
+		  
       </div>
 		
 		
@@ -892,7 +900,7 @@ adiantamento, venc_adiantamento, moeda , agrup
              <table class="table table-bordered" style="text-align: left;">
           <tr>
             <td class="text-danger"><i class="fa fa-chain-broken"></i><b> FALTA VINCULOsssss</td>
-            <td class="text-danger">{{$catalogo->grife}} </b>
+    <!--         <td class="text-danger">grife</b> -->
               
             </td>
           </tr> </table>
@@ -915,7 +923,7 @@ adiantamento, venc_adiantamento, moeda , agrup
                       <td><i class="fa fa-heartbeat text-red"></i></td>
                       
                       <td>E</td>
-                      <td>{{$catalogo->grife}}</td>
+            <!--           <td>grife</td> -->
                     </tr>
                 </table>
         </td>
@@ -939,7 +947,7 @@ adiantamento, venc_adiantamento, moeda , agrup
                             
                             <td>
                               
-                                <a href="/vendas_sint?modelo={{$catalogo->grife}}">{{$catalogo->agrup}}</a>
+                   
                             
                                
                             </td>
@@ -952,7 +960,7 @@ adiantamento, venc_adiantamento, moeda , agrup
                     <table class="table table-condensed table-bordered table2" style="text-align: center;">
                         <tr>
                             <td><i class="fa fa-line-chart text-blue"></i></td>
-                            <td>{{$catalogo->codgrife}}</td>
+                            <td>codgrife</td>
                         </tr>
                     </table>
                 </td>
@@ -975,7 +983,7 @@ adiantamento, venc_adiantamento, moeda , agrup
 						
                         <tr>
                             <td><i class="fa fa-hourglass-3 text-purple"></i></td>
-                            <td>{{$catalogo->codgrife}}</td>
+                            <td>grife</td>
                         </tr>
                     </table>
                 </td>
@@ -1063,11 +1071,11 @@ adiantamento, venc_adiantamento, moeda , agrup
 				<tr>
 					<td><i class="fa fa-th"></i> Gender</td>
 					<td>TOTAL</td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
+					<td>x</td>
+					<td>x </td>
+					<td>x</td>
+					<td>x </td>
+					<td>x </td>
 				</tr>  
 
 					<tr>
@@ -1105,11 +1113,11 @@ adiantamento, venc_adiantamento, moeda , agrup
 				<tr>
 					<td><i class="fa fa-th"></i> Age</td>
 					<td>TOTAL</td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
+					<td>y </td>
+					<td>y </td>
+					<td>y </td>
+					<td>y </td>
+					<td>y </td>
 				</tr>  
 
 					<tr>
@@ -1147,11 +1155,11 @@ adiantamento, venc_adiantamento, moeda , agrup
 				<tr>
 					<td><i class="fa fa-th"></i> Material</td>
 					<td>TOTAL</td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
+					<td>z </td>
+					<td>z </td>
+					<td>z </td>
+					<td>z </td>
+					<td>z </td>
 				</tr>  
 
 					<tr>
@@ -1188,11 +1196,11 @@ adiantamento, venc_adiantamento, moeda , agrup
 				<tr>
 					<td><i class="fa fa-th"></i> Fix</td>
 					<td>TOTAL</td>
-					<td>{{$catalogo->imediata}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
+					<td>w </td>
+					<td>w </td>
+					<td>w </td>
+					<td>w </td>
+					<td>w </td>
 				</tr>  
 
 					<tr>
@@ -1229,11 +1237,11 @@ adiantamento, venc_adiantamento, moeda , agrup
 				<tr>
 					<td><i class="fa fa-th"></i> Style</td>
 					<td>TOTAL</td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
+					<td>q </td>
+					<td>q </td>
+					<td>q </td>
+					<td>q </td>
+					<td>q </td>
 				</tr>  
 
 					<tr>
@@ -1281,11 +1289,11 @@ adiantamento, venc_adiantamento, moeda , agrup
 				<tr>
 					<td><i class="fa fa-th"></i> Size</td>
 					<td>TOTAL</td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
-					<td>{{$catalogo->codgrife}} </td>
+					<td>e </td>
+					<td>e </td>
+					<td>e</td>
+					<td>e</td>
+					<td>e </td>
 				</tr>  
 
 					<tr>
