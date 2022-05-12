@@ -48,22 +48,21 @@ $data = '2021-01-01';
 
 
 
-$catalogo = \DB::select("select distinct agrup, codgrife as grife from itens where left(agrup,5) = '$agrup'");
-
-
 
 $modelos = \DB::select("
 
 select ciclo, fornecedor, codgrife, codgrife grife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade, valortabela, mediacusto,
 sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
 sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total) qtde_total,
-sum(novos) novos, sum(aa) aa, sum(a) a, 
+sum(novos_atual) novos_atual, sum(novos_prox) novos_prox, sum(aa) aa, sum(a) a, 
 sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, 
 sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
 from (
 
 	select ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade, valortabela,mediacusto,
-	case when colecao = 'novo' then 1 else 0 end as novos, 
+	case when colecao = 'novo_prox' then 1 else 0 end as novos_prox,
+	case when colecao = 'novo_atual' then 1 else 0 end as novos_atual,
+    
 	case when colecao = 'aa' then 1 else 0 end as aa, case when colecao = 'a' then 1 else 0 end as a, 
 	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor,
     sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
@@ -71,7 +70,8 @@ from (
 
 	from (
     
-		select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, genero, estilo, idade, valortabela, mediacusto, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, 
+		select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, genero, estilo, idade, valortabela, mediacusto, 
+        (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, 
         (disponivel) disponivel, (beneficiamento) beneficiamento, (cet) cet, (cep) cep, (most) most, (total) total,
         atual, ultimo, mes_sem, mes_ano, qtde_total,
 
@@ -79,9 +79,12 @@ from (
 		case when imediata+futura  = 2 then 1 else 0 end as b2cores,
 		case when imediata+futura  = 1 then 1 else 0 end as c1cor,
 		case when imediata+futura  = 0 then 1 else 0 end as d0cor,
-		case when colecao = 'novo' then 'novo'
-		when colecao <> 'novo' and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO') then 'aa'
-		when colecao <> 'novo' and clasmod in ('LINHA A-') then 'a' else '' end as colecao			
+		
+        case when colecao = 'novo_prox' then 'novo_prox' 
+		when colecao = 'novo_atual' then 'novo_atual' 
+		when left(colecao,4) <> 'novo' and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO') then 'aa'
+		when left(colecao,4) <> 'novo' and clasmod in ('LINHA A-') then 'a' else '' end as colecao	
+		
 		from(
 
 
@@ -92,8 +95,13 @@ from (
 			from (
 
 				select ciclo, case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
-				codgrife, agrup, modelo, secundario, colmod, case when left(colmod,4) < year(now()) then 'lancado'
-				when (left(colmod,4) = year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao,
+				codgrife, agrup, modelo, secundario, colmod,
+                
+                case when left(colmod,4) < year(now()) then 'lancado'
+				when (left(colmod,4) = year(now()) and right(colmod,2) <= month(now())) then 'lancado' 
+				when (left(colmod,4) = year(now()) and right(colmod,2) > month(now())) then 'novo_atual'
+				else 'novo_prox' end as colecao,
+                
 				(select clasmod from itens iclas where left(agrup,5) = '$agrup'  and  iclas.id = id_item and clasmod  not in ('','.','colecao europra','cancelado') order by clasmod limit 1) clasmod,
                 (select genero from itens iclas where left(agrup,5) = '$agrup'  and  iclas.id = id_item and genero  not in ('','.') order by genero limit 1) genero,
 				(select estilo from itens iclas where left(agrup,5) = '$agrup'  and  iclas.id = id_item and estilo  not in ('','.') order by estilo limit 1) estilo,
@@ -111,8 +119,7 @@ from (
 				
 				from go_storage.sintetico_estoque
 				where secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') 
-				and codtipoarmaz not in ('o') 		 
-				and codgrife in ('GO','AH','AI','FE','AT','BG','EV','JO','HI','SP','TC','JM','NG','GU','MM','ST','AM','MC','CT','BC','BV','SM','CH') 
+				and codtipoarmaz not in ('o')
 				and left(agrup,5) = '$agrup' 
                 
 			) as base group by ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade, valortabela, mediacusto
@@ -138,8 +145,12 @@ select * from (
 		select pedido, tipo, colecao, sum(qtde_sol) qtde_sol from (
 		
 			select pedido, tipo, qtde_sol, colmod, clasmod,
-			case 
-			when (left(colmod,4) = year(now()) and  right(colmod,2) >= month(now())) then 'novo' 
+			
+			case when left(colmod,4) < year(now()) then 'lancado'
+			when (left(colmod,4) = year(now()) and right(colmod,2) <= month(now())) then 'lancado' 
+            when (left(colmod,4) = year(now()) and right(colmod,2) > month(now())) then 'novo_atual'
+				 
+
 			
 			when (left(colmod,4) < year(now()) and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO')) then 'aa'
 			when (left(colmod,4) < year(now()) and clasmod in ('LINHA A-')) then 'a'
@@ -267,8 +278,11 @@ $nacionalizacoes = \DB::select("
 		select pedido, tipo, colecao, sum(qtde_sol) qtde_sol from (
 		
 			select pedido, tipo, qtde_sol, colmod, clasmod,
-			case 
-			when (left(colmod,4) = year(now()) and  right(colmod,2) >= month(now())) then 'novo' 
+		
+			case when left(colmod,4) < year(now()) then 'lancado'
+			when (left(colmod,4) = year(now()) and right(colmod,2) <= month(now())) then 'lancado' 
+            when (left(colmod,4) = year(now()) and right(colmod,2) > month(now())) then 'novo_atual'
+
 			
 			when (left(colmod,4) < year(now()) and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO')) then 'aa'
 			when (left(colmod,4) < year(now()) and clasmod in ('LINHA A-')) then 'a'
@@ -318,8 +332,11 @@ adiantamento, venc_adiantamento, moeda , agrup, sum(qtde) qtde
 	select c.id pedido, c.dt_emissao, c.obs, condicao_pagamento, (valor_total) valor_total,
     ct.valor adiantamento, ct.vencimento venc_adiantamento, ct.moeda , itens.agrup,
     
-			case 
-			when (left(colmod,4) = year(now()) and  right(colmod,2) >= month(now())) then 'novo' 
+			 
+			case when left(colmod,4) < year(now()) then 'lancado'
+			when (left(colmod,4) = year(now()) and right(colmod,2) <= month(now())) then 'lancado' 
+            when (left(colmod,4) = year(now()) and right(colmod,2) > month(now())) then 'novo_atual'
+ 
 			
 			when (left(colmod,4) < year(now()) and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO')) then 'aa'
 			when (left(colmod,4) < year(now()) and clasmod in ('LINHA A-')) then 'a'
