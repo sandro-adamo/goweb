@@ -652,7 +652,6 @@ adiantamento, venc_adiantamento, moeda , agrup
 	  
 	  
 
-	
 	  
 <div class="tab-pane" id="Tabela">
 <!-- The timeline -->
@@ -661,27 +660,35 @@ adiantamento, venc_adiantamento, moeda , agrup
 <div class="col-md-12">
 
 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
-
+<h6>
 <table class="table table-bordered" id="example3">
 	<thead>
 		<tr>
 			<th width="5%">Status</th>
-			<th width="8%">Modelo</th>
-			<th width="8%">Clasmod</th>
-			<th width="8%">Entrada</th>
-			<th width="8%">Saida</th>
+			<th width="5%">Modelo</th>
+			<th width="5%">Entrada</th>
+			<th width="5%">Saida</th>
+			<th width="5%">Clasmod</th>
+			
+
 			<th width="5%">Genero</th>
-			<th width="8%">Idade</th>
-			<th width="15%">Material</th>
-			<th width="15%">Fixacao</th>
-			<th width="10%">Estilo</th>
-			<th width="10%">Tamanho</th>
+			<th width="5%">Idade</th>
+			
+			<th width="5%">Estilo</th>
+			
+			<th width="5%">Material</th>
+			<th width="5%">Fixacao</th>
+			<th width="5%">Tamanho</th>
+			
+			<th width="5%">Valor</th>
+			
 			<th width="5%">vds 30dd</th>
 			<th width="5%">vds 180dd</th>
 			<th width="5%">vds total</th>
 			
 			<th width="5%">etq disp</th>
 			<th width="5%">etq tt</th>
+			<th width="5%">most</th>
 			
 
 		</tr>
@@ -690,6 +697,7 @@ adiantamento, venc_adiantamento, moeda , agrup
 		@foreach ($modelos as $catalogo)
 
 		@php
+		
 		switch ($catalogo->modelo) {
 			case 'entradas':
 			$formato = 'fa fa-plus-square text-green';
@@ -706,19 +714,28 @@ adiantamento, venc_adiantamento, moeda , agrup
 		@endphp
 		<tr>
 			<td align="left" class="{{$formato}}"> {{$catalogo->imediata}}</td>
-			<td align="left">  <a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}">{{$catalogo->modelo}}</a></td>
-			<td align="left"> {{$catalogo->imediata}}</td>
+			<td align="left">  <a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}">{{$catalogo->modelo}}</a></td>			
+			<td align="left"> {{$catalogo->colmod}}</td>
+			<td></td>
 			<td align="left"> {{$catalogo->clasmod}}</td>
+			<td align="left"> {{$catalogo->genero}}</td>
+			<td align="left"> {{$catalogo->idade}}</td>
+			<td align="left"> {{$catalogo->estilo}}</td>
+			<td></td><td></td><td></td>
+			<td align="left"> {{number_format($catalogo->valortabela,2)}}</td>
+			
+			<td align="left"> {{$catalogo->imediata}}</td>			
 			<td align="left"> {{$catalogo->disponivel}}</td>
 			<td align="left"> {{$catalogo->beneficiamento}}</td>
 			<td align="left"> {{$catalogo->cet}}</td>
 			<td align="left"> {{$catalogo->cep}}</td>
-				<td align="left"> {{$catalogo->atual}}</td>
+			<td align="left"> {{$catalogo->most}}</td>
 			
 		</tr>
 		@endforeach
 	</tbody>
 </table>
+	</h6>
 </ul>
 </div>
 </div>
@@ -727,26 +744,17 @@ adiantamento, venc_adiantamento, moeda , agrup
 				  
 
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 <div class="tab-pane" id="Visual">
 <!-- The timeline -->
-
+<h6>
 <!-- timeline time label -->
 <div class="col-md-12">
 		
 		@foreach ($modelos as $catalogo)
 		
-      <div class="col-sm-3">
+      <div class="col-sm-2">
         <div class="box box-widget">
          
 			<div  class="box-header with-border" style="font-size:12px; padding: 15px 15px 15px 15px;"> 
@@ -784,76 +792,6 @@ adiantamento, venc_adiantamento, moeda , agrup
           <div id="foto" align="center" style="min-height: 180px; max-height: 180px;">
             <a href="" class="zoom" data-value="{{$catalogo->modelo}}"><img src="/{{$foto}}" class="img-responsive"></a>   
           </div>
-			
-			
-		
-					
-							<table width="100%" style="font-size:12px;" style="text-align: center;">
-								<tr>
-
-								 <td>
-										<table class="table table-condensed table-bordered table2"  style="text-align: center;">
-											<tr>
-												<td align="center"><img src="/img/brasil.png" width="15"></i></td>
-												<td>{{number_format($catalogo->disponivel)}}</td>
-											</tr>
-										</table>
-
-									</td>
-									<td>
-										<table class="table table-condensed table-bordered table2" style="text-align: center;">
-											<tr>
-											<td align="center"><img src="/img/to.png" width="15"></i></td>
-												<td>{{number_format($catalogo->beneficiamento)}}</td>
-											</tr>
-										</table>
-									</td>
-									<td>
-										<table class="table table-condensed table-bordered table2" style="text-align: center;">
-											<tr>
-												<td><i class="fa fa-truck text-green"></i></td>
-												<td>0</td>
-											</tr>
-										</table>
-									</td>
-									
-
-								</tr>
-							</table>
-	
-<!-- segunda linha -->
-					
-							<table width="100%" style="font-size:12px;" style="text-align: center;">
-								<tr>
-
-								 <td>
-										<table class="table table-condensed table-bordered table2"  style="text-align: center;">
-											<tr>
-												<td><i class="fa fa-plane text-blue"></i></td>
-												<td>{{number_format($catalogo->cet)}}</td>
-											</tr>
-										</table>
-
-									</td>
-									
-									<td>
-										<table class="table table-condensed table-bordered table2" style="text-align: center;">
-											<tr>
-												<td><i class="fa fa-industry text-purple"></i></td>
-												<td>{{number_format($catalogo->cep)}}</td>
-											</tr>
-										</table>
-									</td>
-									<td>
-										<table class="table table-condensed table-bordered table2" style="text-align: center;">
-											<tr>
-												<td>Tt</td>
-												<td>{{number_format($catalogo->total)}}</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-							</table>
 							
 	</div> 
   </div>
@@ -861,6 +799,7 @@ adiantamento, venc_adiantamento, moeda , agrup
 	@endforeach
 	
   </div>
+	</h6>
 </div>
 	
 	
@@ -889,7 +828,7 @@ adiantamento, venc_adiantamento, moeda , agrup
     <span class="lead">Grade Ideal</span>
     <div class="box box-widget">
       <div class="box-header with-border bg-gray"> 
-        <b>aggrup</b>
+        <b>agrup</b>
         <span class="pull-right"><b></b></span>
       </div>
       <div align="center" style="min-height: 100px;margin-top: 30px;">
