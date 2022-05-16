@@ -604,6 +604,7 @@
           <td>Tipo</td>
           <td>Número documento</td>
           <td>Data vencimento</td>
+          <td>Data pagamento</td>
           <td>Valor</td>
           <td>Obs</td>
 
@@ -620,6 +621,7 @@
               </select></td>
           <td><input type="text" name="documento1" class="form-control" ></td>
           <td><input type="date" name="vencimento1" class="form-control" ></td>
+          <td><input type="date" name="pagamento1" class="form-control" ></td>
           <td><input type="decimal" name="valor1" class="form-control" ></td>
           <td><input type="text" name="obs1" class="form-control" ></td>
           </tr>
@@ -637,6 +639,7 @@
               </select></td>
           <td><input type="text" name="documento2" class="form-control" ></td>
           <td><input type="date" name="vencimento2" class="form-control" ></td>
+          <td><input type="date" name="pagamento2" class="form-control" ></td>
           <td><input type="decimal" name="valor2" class="form-control" ></td>
           <td><input type="text" name="obs2" class="form-control" ></td>
           </tr>
@@ -654,6 +657,7 @@
               </select></td>
           <td><input type="text" name="documento3" class="form-control" ></td>
           <td><input type="date" name="vencimento3" class="form-control" ></td>
+          <td><input type="date" name="pagamento3" class="form-control" ></td>
           <td><input type="decimal" name="valor3" class="form-control" ></td>
           <td><input type="text" name="obs3" class="form-control" ></td>
           </tr>
@@ -671,6 +675,7 @@
               </select></td>
           <td><input type="text" name="documento4" class="form-control" ></td>
           <td><input type="date" name="vencimento4" class="form-control" ></td>
+          <td><input type="date" name="pagamento4" class="form-control" ></td>
           <td><input type="decimal" name="valor4" class="form-control" ></td>
           <td><input type="text" name="obs4" class="form-control" ></td>
           </tr>
@@ -688,6 +693,7 @@
               </select></td>
           <td><input type="text" name="documento5" class="form-control" ></td>
           <td><input type="date" name="vencimento5" class="form-control" ></td>
+          <td><input type="date" name="pagamento5" class="form-control" ></td>
           <td><input type="decimal" name="valor5" class="form-control" ></td>
           <td><input type="text" name="obs5" class="form-control" ></td>
           </tr>

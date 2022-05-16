@@ -25,7 +25,10 @@ $pedido = 0;
 		<div class="box box-body">
 		
 		<a  class="btn btn-default btn-flat pull-right"href="" class="pull-center" data-toggle="modal" 
-				data-target="#modalcadastratitulo">Cadastrar parcela</a>
+				data-target="#modalcadastratitulo">Cadastrar Titulo</a>
+        
+    	<a  class="btn btn-default btn-flat pull-right"href="" class="pull-center" data-toggle="modal" 
+				data-target="#modalcadastraparcela">Cadastrar parcelas</a>
 			
 		<table class="table table-bordered">
 			

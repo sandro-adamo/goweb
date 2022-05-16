@@ -20,21 +20,57 @@ class CompraController extends Controller {
 
 
     if($request->valor1<>''){
-    $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_titulo','$request->documento1','$request->tipo1','$request->valor1','$request->moeda','$request->vencimento1', current_date,'$nome_usuario','$request->obs1') ");
+      if($request->pagamento1<>''){
+        $pagamento1 = ",'".$request->pagamento1."'";
+        $pagamento_insert = ", `pagamento`";
+      }else{
+        $pagamento1 = '';
+        $pagamento_insert = '';
+      }
+     
+    $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento1','$request->tipo1','$request->valor1','$request->moeda','$request->vencimento1', current_date,'$nome_usuario','$request->obs1'$pagamento1 ) ");
     }
     
     if($request->valor2<>''){
-      $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_titulo','$request->documento2','$request->tipo2','$request->valor2','$request->moeda','$request->vencimento2', current_date,'$nome_usuario','$request->obs2') ");
+      if($request->pagamento2<>''){
+        $pagamento2 = ",'".$request->pagamento2."'";
+        $pagamento_insert = ", `pagamento`";
+      }else{
+        $pagamento2 = '';
+        $pagamento_insert = '';
+      }
+      $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento2','$request->tipo2','$request->valor2','$request->moeda','$request->vencimento2', current_date,'$nome_usuario','$request->obs2'$pagamento2) ");
       }
 
     if($request->valor3<>''){
-        $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_titulo','$request->documento3','$request->tipo3','$request->valor3','$request->moeda','$request->vencimento3', current_date,'$nome_usuario','$request->obs3') ");
+      if($request->pagamento3<>''){
+        $pagamento3 = ",'".$request->pagamento3."'";
+        $pagamento_insert = ", `pagamento`";
+      }else{
+        $pagamento3 = '';
+        $pagamento_insert = '';
+      }
+        $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento3','$request->tipo3','$request->valor3','$request->moeda','$request->vencimento3', current_date,'$nome_usuario','$request->obs3'$pagamento3) ");
         }
     if($request->valor4<>''){
-          $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_titulo','$request->documento4','$request->tipo4','$request->valor4','$request->moeda','$request->vencimento4', current_date,'$nome_usuario','$request->obs4') ");
+      if($request->pagamento4<>''){
+        $pagamento4 = ",'".$request->pagamento4."'";
+        $pagamento_insert = ", `pagamento`";
+      }else{
+        $pagamento4 = '';
+        $pagamento_insert = '';
+      }
+          $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento4','$request->tipo4','$request->valor4','$request->moeda','$request->vencimento4', current_date,'$nome_usuario','$request->obs4'$pagamento4) ");
           }
     if($request->valor5<>''){
-            $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_titulo','$request->documento5','$request->tipo5','$request->valor5','$request->moeda','$request->vencimento5', current_date,'$nome_usuario','$request->obs5') ");
+      if($request->pagamento5<>''){
+        $pagamento5 = ",'".$request->pagamento5."'";
+        $pagamento_insert = ", `pagamento`";
+      }else{
+        $pagamento5 = '';
+        $pagamento_insert = '';
+      }
+            $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento5','$request->tipo5','$request->valor5','$request->moeda','$request->vencimento5', current_date,'$nome_usuario','$request->obs5'$pagamento5) ");
             }
     $detalhes  = \DB::select("select * from compras_parcelas where id_titulo = '$request->id_titulo' ");
     return redirect()->back();
