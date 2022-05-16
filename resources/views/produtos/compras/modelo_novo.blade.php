@@ -102,6 +102,7 @@
 			  
 			 <tr  class="card-header bg-info text-center">
               <td><b>Tipo modelo</b></td>
+              
               <td><b>Cod modelo</b></td>
               <td><b>Cod fabrica</b></td>
               <td><b>NCM</b></td>
@@ -118,9 +119,12 @@
                 <option value="{{$linhas->valor}}">{{$linhas->valor}}</option>
                 @endforeach
              </select></td>
-              <td><input type="text" name="modelo"class="form-control"></input></td>
+              @php
+               $ultimocod = \DB::select("select id from compras_modelos order by id desc limit 1");
+               @endphp
+              <td><input type="text" name="modelo"class="form-control" value="{{$ultimocod[0]->id}}"></input></td>
 			
-              <td><input type="text" name="codfabrica"   class="form-control"></input></td>
+              <td><input type="text" name="codfabrica"   class="form-control" value="{{$ultimocod[0]->id}}"></input></td>
               <td><select class="form-control" name="ncm" required >
              <option value=""></option>
                 <option value="90031910">RX - metal</option>
