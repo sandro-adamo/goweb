@@ -155,7 +155,7 @@
 			  
 			  <tr  class="card-header bg-info text-center">
 			<td><b>Ano modelo*</b></td>
-              <td><b>Idade*/b></td>
+              <td><b>Idade*</b></td>
               <td><b>Linha de estilo</b></td>
               <td><b>Categoria</b></td>
 			 <td><b>Tema</b></td>
