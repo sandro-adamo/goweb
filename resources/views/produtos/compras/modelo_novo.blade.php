@@ -120,7 +120,7 @@
                 @endforeach
              </select></td>
               @php
-               $ultimocod = \DB::select("select id from compras_modelos order by id desc limit 1");
+               $ultimocod = \DB::select("select id+1 as id from compras_modelos order by id desc limit 1");
                @endphp
               <td><input type="text" name="modelo"class="form-control" value="{{$ultimocod[0]->id}}"></input></td>
 			

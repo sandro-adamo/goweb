@@ -3366,7 +3366,7 @@ from compras_modelos group by agrupamento, grife ) as base
 				union all
 				
 				select date(timestamp) as dt_emissao, id_compra, tipo, nome, count(id_item) as itens, ifnull(sum(valor),0) as total, obs, ''proforma , status_pedido,
-group_concat(grife separator ', ') as grife, group_concat(anomod separator ', ') as anomod, '0' qtd_entergue
+group_concat(distinct grife separator ', ') as grife, group_concat(distinct anomod separator ', ') as anomod, '0' qtd_entergue
 from(
 Select 'cotacao' as status_pedido, cm.id as id, cm.created_at as 'timestamp', cin.id as iditem_old, cin.id as id_item, cm.id_compra, '' as pedido_nro, date(cin.created_at) as pedido_dt, ''dt_status, ''dt_prevista, ''dt_conf, 'cotação' as status, 'cotacao' origem,
 '' solicitante, concat(cm.id,' - ',modelo_go,' - ',cod_fabrica) as item, cm.id as id_modelo, cin.quantidade qtde  , '0' qtde_conf  , '' note ,
@@ -3382,7 +3382,7 @@ left join addressbook ad on ad.id = cm.id_fornecedor
 ) as compras
 where  status_pedido <> '' 
 and status_pedido <> 'cancelado' $sql
-group by timestamp , id_compra, tipo, nome,obs,status_pedido
+group by date(timestamp)  , id_compra, tipo, nome,obs,status_pedido
 
 
 				order by id desc" );
@@ -3415,13 +3415,13 @@ group by timestamp , id_compra, tipo, nome,obs,status_pedido
 	  
 	  if($capa[0]->tipo=='PRE-PEDIDO'){
 		  
-		  $itens = \DB::select( "Select 'cotacao' as status_pedido, cm.id as id, cm.created_at as 'timestamp', cin.id as iditem_old, cin.id as id_item, cm.id_compra, '' as pedido_nro, date(cin.created_at) as pedido_dt, ''dt_status, ''dt_prevista, ''dt_conf, 'cotação' as status, 'cotacao' origem,
+		  $itens = \DB::select( "Select 'cotacao' as status_pedido, cm.id as id, cm.created_at as 'timestamp', cin.id as iditem_old, cin.id as id_item, cm.id_compra, '' as pedido_nro, date(cin.created_at) as pedido_dt, ''dt_status, ''dt_prevista, ''dt_conf, cm.tipo as status, 'cotacao' origem,
 '' solicitante, concat(cin.id,' - ',cod_cor,' - ',cod_cor_fornecedor) as item, cm.id as id_modelo, cin.quantidade qtde  , '0' qtde_conf  , '' note ,
 ad.nome,  cm.created_at as dt_emissao, cm.agrupamento, concat(cm.id,' - ',modelo_go,' - ',cod_fabrica) as modelo, cm.col_mod colmod, cm.class_mod clasmod, '0'qtd_entregue, '0' qtde_entrega,
 ''dt_alterada,''dt_confirmada
 
 from compras co
-left join compras_modelos cm on cm.id = co.id
+left join compras_modelos cm on cm.id_compra = co.id
 left join compras_itens_novos cin on cin.id_modelo = cm.id 
 left join addressbook ad on ad.id = cm.id_fornecedor
 where co.id = $id
