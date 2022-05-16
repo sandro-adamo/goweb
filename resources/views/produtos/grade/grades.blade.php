@@ -14,30 +14,34 @@ $colecoes = \DB::select("select distinct anomod from itens where anomod > year(n
 
 $gradeslista = \DB::select(" 
 select fornecedor, grife, codgrife, left(agrup,5) agrup, count(modelo) modelos,
-	sum(novos) novos, sum(aa) aa, sum(a) a, 
+	sum(novos_atual) novos_atual, sum(novos_prox) novos_prox,sum(aa) aa, sum(a) a, 
 	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
 	sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
 from (
 
-	select fornecedor, grife, codgrife, agrup, colecao, modelo,
-	case when colecao = 'novo' then 1 else 0 end as novos,
+	select fornecedor, grife, codgrife, agrup, colecao, modelo, 
+    
+	case when colecao = 'novo_prox' then 1 else 0 end as novos_prox,
+	case when colecao = 'novo_atual' then 1 else 0 end as novos_atual,
+    
 	case when colecao = 'aa' then 1 else 0 end as aa, 
 	case when colecao = 'a' then 1 else 0 end as a, 
+    
 	sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado, 
 	sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
+    
 	from (
 
 		select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, (esgotado) esgotado,
 			case when imediata+futura >= 3 then 1 else 0 end as am3cores,
 			case when imediata+futura  = 2 then 1 else 0 end as b2cores,
 			case when imediata+futura  = 1 then 1 else 0 end as c1cor,
-			case when imediata+futura  = 0 then 1 else 0 end as d0cor,
-			
-			 case when colecao = 'novo' then 'novo'
-			 when colecao <> 'novo' and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO') then 'aa'
-			 when colecao <> 'novo' and clasmod in ('LINHA A-') then 'a' else '' end as colecao
-			
-			
+			case when imediata+futura  = 0 then 1 else 0 end as d0cor,			
+			 case when colecao = 'novo_prox' then 'novo_prox' 
+             when colecao = 'novo_atual' then 'novo_atual' 
+  			 when left(colecao,4) <> 'novo' and clasmod in ('LINHA A++','LINHA A+','LINHA A','NOVO') then 'aa'
+			 when left(colecao,4) <> 'novo' and clasmod in ('LINHA A-') then 'a' else '' end as colecao
+	          
 		from(
 
 			select fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao, sum(itens) as itens, sum(imediata) imediata, sum(futura) futura, sum(producao) producao, sum(esgotado) esgotado
@@ -54,18 +58,21 @@ from (
 					select case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
 					grife, codgrife, itens.agrup, itens.modelo, itens.secundario, colmod, clasmod, ultstatus,
 					
-case when left(colmod,4) < year(now()) then 'lancado'
-    when (left(colmod,4) = year(now()) and right(colmod,2) < month(now())) then 'lancado' else 'novo' end as colecao
-from itens 
-					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoitem = 006				 
-					-- and codgrife in ('AH')
-					 and codtipoarmaz not in ('o')
+                    case when left(colmod,4) < year(now()) then 'lancado'
+					when (left(colmod,4) = year(now()) and right(colmod,2) <= month(now())) then 'lancado' 
+                    when (left(colmod,4) = year(now()) and right(colmod,2) > month(now())) then 'novo_atual'
+                    else 'novo_prox' end as colecao
+                    
+					from itens 
+					where itens.secundario not like '%semi%' and (clasmod like 'linha%' or clasmod like 'novo%') and codtipoitem = 006	and codtipoarmaz not in ('o')
+                
 				) as fim2
 			) as fim3 group by fornecedor, grife, codgrife, agrup, modelo, clasmod, colmod, colecao
 		) as fim4 
 	) as fim5 group by fornecedor, grife, codgrife, agrup, colecao, modelo
 ) as fim6 group by fornecedor, grife, codgrife, agrup, left(agrup,5)
 order by fornecedor, agrup
+
 
 ");
 			  
@@ -139,12 +146,23 @@ order by fornecedor, agrup
 
                 </td>
 	  
+	 			 <td>
+                    <table class="table table-condensed table-bordered table2" style="text-align: center;">
+                        <tr>
+                            <td>N</i></td>
+                            <td><a href="/grade/detalhe?agrup={{$catalogo->agrup}}&colecao='novo_prox'">{{number_format($catalogo->novos_prox)}}</a></td>
+                        </tr>
+                    </table>
+                </td>
+	  
+	  
+	  
 	  
                 <td>
                     <table class="table table-condensed table-bordered table2" style="text-align: center;">
                         <tr>
-                            <td>N</i></td>
-                            <td><a href="/grade/detalhe?agrup={{$catalogo->agrup}}&colecao='novo'">{{number_format($catalogo->novos)}}</a></td>
+                            <td>L</i></td>
+                            <td><a href="/grade/detalhe?agrup={{$catalogo->agrup}}&colecao='novo_atual'">{{number_format($catalogo->novos_atual)}}</a></td>
                         </tr>
                     </table>
                 </td>
