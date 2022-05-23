@@ -122,7 +122,8 @@ class CompraController extends Controller {
 
   public function UploadArquivos( Request $request ) {
 
-    $agora = date( '_d_m_Y_H_i' );
+    $agora = date( 'd_m_Y_H_i' );
+    
     $id_compras = $request->id_pedido;
     $id_compras = $request->id_pedido;
     $nome = $request->nome;
@@ -131,12 +132,13 @@ class CompraController extends Controller {
     $arquivo = '/storage/uploads/compras/arquivos/' . $agora . '_' . $request->arquivo->getClientOriginalName();
     $tipo = $request->tipo;
     $usuario = \Auth::id();
-    //dd($arquivo);
+    
 
     $uploaddir = '/var/www/html/portal-gestao/storage/app/uploads/compras/arquivos/' . $agora . '_';
 
     $uploadfile = $uploaddir . basename( $_FILES[ 'arquivo' ][ 'name' ] );
-    //dd( $uploadfile );
+    $arquivo1 = '/storage'.substr($uploadfile, 39);
+   
 
     $erros = array();
 
@@ -145,7 +147,7 @@ class CompraController extends Controller {
     }
 
 
-    $insere_arquivo = \DB::select( "INSERT INTO `compras_arquivos`( `id_compra`, `tipo`, `arquivo`, `nome`, `obs`, `exclui`, `data`, `usuario`) VALUES ('{$id_compras}','{$tipo}','{$arquivo}','{$nome}','{$obs}','0','{$data}','$usuario')" );
+    $insere_arquivo = \DB::select( "INSERT INTO `compras_arquivos`( `id_compra`, `tipo`, `arquivo`, `nome`, `obs`, `exclui`, `data`, `usuario`) VALUES ('{$id_compras}','{$tipo}','{$arquivo1}','{$nome}','{$obs}','0','{$data}','$usuario')" );
 	  
 	  
 
