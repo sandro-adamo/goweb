@@ -19,7 +19,8 @@ class CompraController extends Controller {
     
 
 
-    if($request->valor1<>''){
+    if($request->confirma1=='on'){
+      
       if($request->pagamento1<>''){
         $pagamento1 = ",'".$request->pagamento1."'";
         $pagamento_insert = ", `pagamento`";
@@ -28,10 +29,11 @@ class CompraController extends Controller {
         $pagamento_insert = '';
       }
      
-    $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento1','$request->tipo1','$request->valor1','$request->moeda','$request->vencimento1', current_date,'$nome_usuario','$request->obs1'$pagamento1 ) ");
+    $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`, `proforma`, `id_fornecedor`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento1','$request->tipo1','$request->valor1','$request->moeda','$request->vencimento1', current_date,'$nome_usuario','$request->obs1','$request->proforma1','$request->id_fornecedor1'$pagamento1 ) ");
+
     }
     
-    if($request->valor2<>''){
+    if($request->confirma2=='on'){
       if($request->pagamento2<>''){
         $pagamento2 = ",'".$request->pagamento2."'";
         $pagamento_insert = ", `pagamento`";
@@ -39,10 +41,10 @@ class CompraController extends Controller {
         $pagamento2 = '';
         $pagamento_insert = '';
       }
-      $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento2','$request->tipo2','$request->valor2','$request->moeda','$request->vencimento2', current_date,'$nome_usuario','$request->obs2'$pagamento2) ");
+      $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`, `proforma`, `id_fornecedor`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento2','$request->tipo2','$request->valor2','$request->moeda','$request->vencimento2', current_date,'$nome_usuario','$request->obs2','$request->proforma2','$request->id_fornecedor2'$pagamento2) ");
       }
 
-    if($request->valor3<>''){
+    if($request->confirma3=='on'){
       if($request->pagamento3<>''){
         $pagamento3 = ",'".$request->pagamento3."'";
         $pagamento_insert = ", `pagamento`";
@@ -50,9 +52,9 @@ class CompraController extends Controller {
         $pagamento3 = '';
         $pagamento_insert = '';
       }
-        $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento3','$request->tipo3','$request->valor3','$request->moeda','$request->vencimento3', current_date,'$nome_usuario','$request->obs3'$pagamento3) ");
+        $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`, `proforma`, `id_fornecedor`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento3','$request->tipo3','$request->valor3','$request->moeda','$request->vencimento3', current_date,'$nome_usuario','$request->obs3','$request->proforma3','$request->id_fornecedor3'$pagamento3) ");
         }
-    if($request->valor4<>''){
+    if($request->confirma4=='on'){
       if($request->pagamento4<>''){
         $pagamento4 = ",'".$request->pagamento4."'";
         $pagamento_insert = ", `pagamento`";
@@ -60,9 +62,9 @@ class CompraController extends Controller {
         $pagamento4 = '';
         $pagamento_insert = '';
       }
-          $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento4','$request->tipo4','$request->valor4','$request->moeda','$request->vencimento4', current_date,'$nome_usuario','$request->obs4'$pagamento4) ");
+          $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`, `proforma`, `id_fornecedor`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento4','$request->tipo4','$request->valor4','$request->moeda','$request->vencimento4', current_date,'$nome_usuario','$request->obs4','$request->proforma4','$request->id_fornecedor4'$pagamento4) ");
           }
-    if($request->valor5<>''){
+    if($request->confirma5=='on'){
       if($request->pagamento5<>''){
         $pagamento5 = ",'".$request->pagamento5."'";
         $pagamento_insert = ", `pagamento`";
@@ -70,7 +72,7 @@ class CompraController extends Controller {
         $pagamento5 = '';
         $pagamento_insert = '';
       }
-            $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento5','$request->tipo5','$request->valor5','$request->moeda','$request->vencimento5', current_date,'$nome_usuario','$request->obs5'$pagamento5) ");
+            $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`, `proforma`, `id_fornecedor`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento5','$request->tipo5','$request->valor5','$request->moeda','$request->vencimento5', current_date,'$nome_usuario','$request->obs5','$request->proforma5','$request->id_fornecedor5'$pagamento5) ");
             }
     $detalhes  = \DB::select("select * from compras_parcelas where id_titulo = '$request->id_titulo' ");
     return redirect()->back();
@@ -3396,9 +3398,11 @@ group by date(timestamp)  , id_compra, tipo, nome,obs,status_pedido
 
 
   public function detalhesCompra( $id ) {
+    
+   
 	
 	$adiantamento = \DB::select( "
-	select *, (select sum(valor) from compras_parcelas where compras_parcelas.id_titulo = cp.numero and cp.tipo = 'adiantamento') as valor_parcelas, (select min(vencimento) from compras_parcelas where compras_parcelas.id_titulo = cp.numero and cp.tipo = 'adiantamento') as dt_vencimento_parcela
+	select *, (select sum(valor) from compras_parcelas where compras_parcelas.id_titulo = cp.numero and cp.tipo = 'adiantamento') as valor_parcelas, (select date(min(vencimento)) from compras_parcelas where compras_parcelas.id_titulo = cp.numero and cp.tipo = 'adiantamento') as dt_vencimento_parcela
 	from compras_titulos cp 
     where cp.id_pedido = $id and cp.tipo = 'adiantamento' and cp.origem = 'compras' 
     union all 
@@ -3408,11 +3412,13 @@ group by date(timestamp)  , id_compra, tipo, nome,obs,status_pedido
 	  
 	  
 
-    $capa = \DB::select( "select compras.*, razao as fornecedor, endereco, numero, municipio, uf, pais, email1, ddd1, tel1, date(dt_emissao) as dt_emissao
-				from compras
-				left join addressbook on addressbook.id = id_fornecedor
-				left join compras_itens on id_compra = compras.id
-				left join itens on item = secundario
+    $capa = \DB::select( "select compras.*, razao as fornecedor, endereco, numero, municipio, uf, pais, email1, ddd1, tel1, date(dt_emissao) as dt_emissao, addressbook.nome,
+    perc_adiantamento
+            from compras
+            left join addressbook on addressbook.id = id_fornecedor
+            left join compras_itens on id_compra = compras.id
+            left join itens on item = secundario
+            left join compras_condicoes on compras_condicoes.id = id_condicao_pagamento
 				where compras.id = $id" );
 	  
 	  if($capa[0]->tipo=='PRE-PEDIDO'){
@@ -3488,6 +3494,7 @@ group by agrupamento" );
                 where compras_arquivos.id_compra = $id 
 				and compras_arquivos.exclui = 0
 				" );
+       
 
 
     return view( 'produtos.compras.detalhes' )->with( 'arquivos', $arquivos )->with( 'invoices', $invoices )->with( 'capa', $capa )->with( 'itens', $itens )->with( 'resumo', $resumo )->with( 'adiantamento', $adiantamento );
