@@ -1087,6 +1087,15 @@ where ci.id_item is null
     $invoice = $request->invoice;
     $dt_invoice = $request->data;
     $etq_kering = $request->etq;
+    $tipo_kering = $request->kering;
+    if($tipo_kering==''){
+    $tipo_kering = '';
+    $tipo_tabela = ''
+    }
+    else{
+      $tipo_kering = ",tipo";
+      $tipo_tabela = ",'".$tipo_kering."'";
+    }
 
 
     $verifica_invoices = \DB::select( "select invoice from compras_invoices 
@@ -1145,7 +1154,7 @@ where ci.id_item is null
 					  $custo2 = 0;
 				  }
 				  	
-                $verifica = \DB::select( "insert into compras_invoices (`item`, `qtd`, `invoice`, `dt_invoice`, `custo`, `usado`,etq) values ('$linha[0]','$linha[1]','$invoice','$dt_invoice','$custo2','0','$etq_kering')" );
+                $verifica = \DB::select( "insert into compras_invoices (`item`, `qtd`, `invoice`, `dt_invoice`, `custo`, `usado`,etq $tipo_tabela) values ('$linha[0]','$linha[1]','$invoice','$dt_invoice','$custo2','0','$etq_kering' $tipo_kering)" );
 
 
               } else {
