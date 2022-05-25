@@ -1090,7 +1090,7 @@ where ci.id_item is null
     $tipo_kering = $request->kering;
     if($tipo_kering==''){
     $tipo_kering = '';
-    $tipo_tabela = ''
+    $tipo_tabela = '';
     }
     else{
       $tipo_kering = ",tipo";
