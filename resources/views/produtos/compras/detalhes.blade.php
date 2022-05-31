@@ -464,9 +464,9 @@
               <select name="pagamento" id="pagamento" class="form-control">
                 <option value=""> @lang('padrao.selecione') </option>
                 <option @if ($capa[0]->pagamento == 'carta de crédito') selected="" @endif> Carta de crédito </option>
-                option @if ($capa[0]->pagamento == 'transferência bancária') selected="" @endif> Transferência Bancária </option>
-                option @if ($capa[0]->pagamento == 'boleto') selected="" @endif> Boleto </option>
-                option @if ($capa[0]->pagamento == 'risco sacado') selected="" @endif> Risco sacado </option>
+                <option @if ($capa[0]->pagamento == 'transferência bancária') selected="" @endif> Transferência Bancária </option>
+                <option @if ($capa[0]->pagamento == 'boleto') selected="" @endif> Boleto </option>
+                <option @if ($capa[0]->pagamento == 'risco sacado') selected="" @endif> Risco sacado </option>
               </select>
             </div>        
           </div>
