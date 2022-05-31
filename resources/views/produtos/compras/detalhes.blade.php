@@ -449,10 +449,11 @@
             <div class="col-md-5">
               <select name="transporte" id="transporte" class="form-control">
                 <option value=""> @lang('padrao.selecione') </option>
-                <option @if ($capa[0]->transporte == 'Plane') selected="" @endif> Plane </option>
-                <option @if ($capa[0]->transporte == 'Ship') selected="" @endif> Ship </option>
-				  <option @if ($capa[0]->transporte == 'CIP') selected="" @endif> CIP </option>
-                <option @if ($capa[0]->transporte == 'EXPRESS (FEDEX...)') selected="" @endif> EXPRESS (FEDEX...) </option>
+                <option @if ($capa[0]->transporte == 'aéreo') selected="" @endif> Aéreo </option>
+                <option @if ($capa[0]->transporte == 'marítimo') selected="" @endif> Marítimo </option>
+				        <option @if ($capa[0]->transporte == 'cif') selected="" @endif> CIF </option>
+                <option @if ($capa[0]->transporte == 'express') selected="" @endif> EXPRESS (FEDEX...) </option>
+                <option @if ($capa[0]->transporte == 'terrestre') selected="" @endif> Terrestre </option>
               </select>
             </div>        
           </div>
@@ -462,8 +463,10 @@
             <div class="col-md-5">
               <select name="pagamento" id="pagamento" class="form-control">
                 <option value=""> @lang('padrao.selecione') </option>
-                <option @if ($capa[0]->pagamento == 'Letter credit') selected="" @endif> @lang('padrao.cartacredito') </option>
-                <option @if ($capa[0]->pagamento == 'Bank Transfer') selected="" @endif> @lang('padrao.banktransfer')' </option>
+                <option @if ($capa[0]->pagamento == 'carta de crédito') selected="" @endif> Carta de crédito </option>
+                option @if ($capa[0]->pagamento == 'transferência bancária') selected="" @endif> Transferência Bancária </option>
+                option @if ($capa[0]->pagamento == 'boleto') selected="" @endif> Boleto </option>
+                option @if ($capa[0]->pagamento == 'risco sacado') selected="" @endif> Risco sacado </option>
               </select>
             </div>        
           </div>

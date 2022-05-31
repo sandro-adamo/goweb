@@ -193,6 +193,7 @@
                 <option value="aéreo"> Aéreo </option>
                 <option value="marítimo"> Marítimo </option>
                 <option value="express"> Express (FEDEX...) </option>
+                <option value=="cif"> CIF </option>
                 <option value="terrestre"> Terrestre </option>
               </select>
             </div>        
@@ -206,6 +207,7 @@
                 <option value="carta de crédito"> Carta de Crédito </option>
                 <option value="transferência bancária"> Transferência bancária </option>
                 <option value="boleto"> Boleto </option>
+                <option value="risco sacado"> Risco sacado </option>
               </select>
             </div>        
           </div>
