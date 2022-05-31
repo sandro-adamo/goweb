@@ -68,7 +68,7 @@
 @endphp
 
 
-@section('title', 'Dashboard')
+@section('title', 'Dashboard1')
 
 @section('conteudo')
 

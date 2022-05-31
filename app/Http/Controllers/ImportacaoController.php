@@ -124,6 +124,8 @@ group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_statu
 
 ");
 
+$cadastrar_parcelas = \DB::select("select* ");
+
 return view('dashboards.importacao.dashboard_importacaodet')->with('query_2', $query_2);
 
 

@@ -639,7 +639,7 @@ class CompraController extends Controller {
                     limit 1" );
         $idcomprasitem = $update_status_id_item[ 0 ]->id_compra_item;
 
-        $update_status = \DB::select( "update compras_itens set status = 'distribuido' where id = '$idcomprasitem'" );
+        $update_status = \DB::select( "update compras_itens set status = 'distribuido' where status <> 'finalizado sistema' and id = '$idcomprasitem'" );
 
       } else {
         $delete = \DB::select( " update compras_entregas_invoices set  exclui = 1  where id = '$entregas_invoices->id'" );
