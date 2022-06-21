@@ -1583,7 +1583,7 @@ order by Agrupamento, Cod_Secundario asc");
               left join itens on item = secundario 
               where exclui = 0 and inventarios.id_inventario = '$id'
               and tipo = '$acao'
-              order by inventarios.id desc limit 300 ");
+              order by inventarios.id desc  ");
     }
 
       $resumo = array();
