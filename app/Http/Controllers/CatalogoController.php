@@ -235,8 +235,8 @@ class CatalogoController extends Controller
 				
 				
 				 
-				//$produto = \App\Item::where('secundario', $item)->first();
-              //if ($produto) {
+				$produto = \App\Item::where('secundario', $item)->first();
+              if ($produto) {
 				  //dd($produto);
 
 						$item = new Catalogo();
@@ -250,12 +250,12 @@ class CatalogoController extends Controller
 						$item->item = $produto->secundario;
 						$item->save();
 
-					//}
-				//else {
+					}
+				else {
 					//dd($item);
-				//	$erros[] = 'Item '.$item.' não existe.';
-                //  $request->session()->flash('alert-danger', $erros);
-			//	}
+					$erros[] = 'Item '.$item.' não existe.';
+                  $request->session()->flash('alert-danger', $erros);
+				}
   
             }
             $i++;
