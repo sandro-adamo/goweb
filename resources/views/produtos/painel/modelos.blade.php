@@ -404,7 +404,7 @@ $catalogo->modelo == 'HI1139'
        <table>
         <tr><b>Cores Mod:</b> {{ $catalogo->itens }} </tr>
         <tr>X<b>Cores Disp:</b>  <font color="green">{{$catalogo->sec_disp}}</font></tr>
-		   	    @if ( \Auth::user()->admin == 1 or \Auth::user()->id == 525) 
+		   	    @if ( \Auth::user()->admin == 1 or \Auth::user()->id == 525 \Auth::user()->id == 103820) 
 		    <tr>
             <td><i class="fa fa-user-secret"></i> Estilo</td>
             <td>{{$catalogo->estilo}} 
