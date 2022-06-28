@@ -855,7 +855,7 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
 			qtde* vlr_unit as tt_valor
 
 			from importacoes_pedidos ip
-	left join tmp_entrada_agrupada  ea on ea.id_item_invoice = ip.cod_item and ref_go = invoice and ip.pedido = ea.pedido
+	left join entrada_agrupada  ea on ea.id_item_invoice = ip.cod_item and ref_go = invoice and ip.pedido = ea.pedido
 	left join itens i on i.id = ea.id_item_destino
 
 			where 
@@ -1085,7 +1085,7 @@ item_destino as item, format(qtde,0) as qtde_sol, format(vlr_unit,2) vlr_unit,lt
 qtde* vlr_unit as tt_valor
 
 from importacoes_pedidos ip
-	left join tmp_entrada_agrupada  ea on ea.id_item_invoice = ip.cod_item and ref_go = invoice and ip.pedido = ea.pedido
+	left join entrada_agrupada  ea on ea.id_item_invoice = ip.cod_item and ref_go = invoice and ip.pedido = ea.pedido
 	left join itens i on i.id = ea.id_item_destino
 
 where  
