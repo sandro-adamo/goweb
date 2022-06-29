@@ -399,6 +399,8 @@ adiantamento, venc_adiantamento, moeda , agrup
 				<li><a href="#Importacoes" data-toggle="tab">Importacoes</a></li>
 				<li><a href="#Nacionalizacoes" data-toggle="tab">Nacionalizacoes</a></li>
 				<li><a href="#Compras" data-toggle="tab">Compras</a></li>
+				<li><a href="#Piramide" data-toggle="tab">Piramide</a></li>
+				<li><a href="#Best" data-toggle="tab">Best Selers</a></li>
 				
 				
 
@@ -682,12 +684,12 @@ adiantamento, venc_adiantamento, moeda , agrup
 			
 			<th width="5%">Valor</th>
 			
-			<th width="5%">vds 30dd</th>
-			<th width="5%">vds 180dd</th>
-			<th width="5%">vds total</th>
+			<th width="5%">imediata</th>
+			<th width="5%">cet</th>
+			<th width="5%">cep</th>
 			
-			<th width="5%">etq disp</th>
-			<th width="5%">etq tt</th>
+			<th width="5%">cet</th>
+			<th width="5%">cep tt</th>
 			<th width="5%">most</th>
 			
 
@@ -725,11 +727,12 @@ adiantamento, venc_adiantamento, moeda , agrup
 			<td align="left"> {{number_format($catalogo->valortabela,2)}}</td>
 			
 			<td align="left"> {{$catalogo->imediata}}</td>			
-			<td align="left"> {{$catalogo->disponivel}}</td>
-			<td align="left"> {{$catalogo->beneficiamento}}</td>
 			<td align="left"> {{$catalogo->cet}}</td>
 			<td align="left"> {{$catalogo->cep}}</td>
+			<td align="left"> {{$catalogo->cep}}</td>
+			<td align="left"> {{$catalogo->cep}}</td>
 			<td align="left"> {{$catalogo->most}}</td>
+			
 			
 		</tr>
 		@endforeach
@@ -2128,6 +2131,89 @@ $fotos = \DB::select("select * from itens where modelo = 'ah6254' ");
 </ul>
 </div>
 </div>
+
+
+
+
+
+<div class="tab-pane" id="Piramide">
+                <!-- The timeline -->
+              
+                  <!-- timeline time label -->
+                  <div class="col-md-12">
+		 
+        <!-- The time line -->
+        <ul class="timeline">
+
+<div class="tab-pane" id="Tabela">
+<!-- The timeline -->
+
+<!-- timeline time label -->
+<div class="col-md-12">
+
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+
+<div class="row"> 
+	
+<div class="col-md-15">	
+<div class="box box-body">
+
+			<div class="padd-80">
+				<div class="row">
+				<div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-12">
+				<td colspan="1" align="center">linha1</td>
+				</div>
+				</div>
+			</div>
+	
+	
+	
+			<div class="padd-80">
+				<div class="row">
+				<div class="col-lg-4 col-lg-offset-2 col-md-4 col-md-offset-2 col-sm-6 col-sm-offset-3 col-xs-12">	
+				<td colspan="1" align="center">linha2</td>		
+				</div>
+				<div class="col-lg-4 col-lg-offset-0 col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-3 col-xs-12">
+				<td colspan="1" align="center">linha2</td>
+				</div>
+				</div>
+			</div>
+	
+			
+
+			<div class="padd-80">
+				<div class="row">
+				<div class="col-lg-4 col-lg-offset-0 col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-3 col-xs-12">
+					<td colspan="1" align="center">linha3</td>
+				</div>
+				<div class="col-lg-4 col-lg-offset-0 col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-3 col-xs-12">
+					<td colspan="1" align="center">linha3</td>
+				</div>
+				<div class="col-lg-4 col-lg-offset-0 col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-3 col-xs-12">
+					<td colspan="1" align="center">linha3</td>
+				</div>
+				</div>
+			</div>
+
+
+	
+	
+	
+	
+	
+	
+	
+			</div>
+		</div>	
+	
+		</div>
+	</ul>
+	</div>
+	</div>
+</ul>
+</div>
+</div>
+
 
 
 
