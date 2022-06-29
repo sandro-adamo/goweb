@@ -69,24 +69,24 @@
 				
 				
 </td>
-			<td>   
+			<td>  
+       <h3 class="box-title">Pagamento</h3>
+
+       <div class="box"><b>Condição:</b>{{$capa[0]->condicao_pagamento}} </div>
 				
-            <table class="table table-bordered table-condensed">
-          
-            <tr>
-                <td>@lang('padrao.tipopagamento') <a href="" class="pull-right" data-toggle="modal" data-target="#modalAlteraFornecedor"><i class="fa fa-edit"></i></a></td>
-                <td align="center">{{$capa[0]->pagamento}}</td>
-            </tr>         
-            <tr>
-                <td>@lang('padrao.tipodeenvio') <a href="" class="pull-right" data-toggle="modal" data-target="#modalAlteraFornecedor"><i class="fa fa-edit"></i></a></td>
-                <td align="center">{{$capa[0]->transporte}}</td>
-            </tr> 
-	           
-            </table>
-				
+           	
 				
 				
 			<table class="table table-bordered table-condensed">
+       <tr>
+                <td>@lang('padrao.tipopagamento')</td>
+                <td align="center">{{$capa[0]->pagamento}}</td>
+            </tr>    
+
+      <tr>
+                <td>@lang('padrao.tipodeenvio')</td>
+                <td align="center">{{$capa[0]->transporte}}</td>
+            </tr> 
 			
 			<tr>
                 <td><b>Prazo pagamento</b> <a href="" class="pull-right" data-toggle="modal" 
@@ -449,10 +449,11 @@
             <div class="col-md-5">
               <select name="transporte" id="transporte" class="form-control">
                 <option value=""> @lang('padrao.selecione') </option>
-                <option @if ($capa[0]->transporte == 'Plane') selected="" @endif> Plane </option>
-                <option @if ($capa[0]->transporte == 'Ship') selected="" @endif> Ship </option>
-				  <option @if ($capa[0]->transporte == 'CIP') selected="" @endif> CIP </option>
-                <option @if ($capa[0]->transporte == 'EXPRESS (FEDEX...)') selected="" @endif> EXPRESS (FEDEX...) </option>
+                <option @if ($capa[0]->transporte == 'aéreo') selected="" @endif> Aéreo </option>
+                <option @if ($capa[0]->transporte == 'marítimo') selected="" @endif> Marítimo </option>
+				        <option @if ($capa[0]->transporte == 'cif') selected="" @endif> CIF </option>
+                <option @if ($capa[0]->transporte == 'express') selected="" @endif> EXPRESS (FEDEX...) </option>
+                <option @if ($capa[0]->transporte == 'terrestre') selected="" @endif> Terrestre </option>
               </select>
             </div>        
           </div>
@@ -462,8 +463,10 @@
             <div class="col-md-5">
               <select name="pagamento" id="pagamento" class="form-control">
                 <option value=""> @lang('padrao.selecione') </option>
-                <option @if ($capa[0]->pagamento == 'Letter credit') selected="" @endif> @lang('padrao.cartacredito') </option>
-                <option @if ($capa[0]->pagamento == 'Bank Transfer') selected="" @endif> @lang('padrao.banktransfer')' </option>
+                <option @if ($capa[0]->pagamento == 'carta de crédito') selected="" @endif> Carta de crédito </option>
+                <option @if ($capa[0]->pagamento == 'transferência bancária') selected="" @endif> Transferência Bancária </option>
+                <option @if ($capa[0]->pagamento == 'boleto') selected="" @endif> Boleto </option>
+                <option @if ($capa[0]->pagamento == 'risco sacado') selected="" @endif> Risco sacado </option>
               </select>
             </div>        
           </div>
@@ -587,11 +590,14 @@
    <input type="hidden" name="id_titulo"  value="{{$adiantamento[0]->numero}}">
     <input type="hidden" name="moeda"  value="{{$adiantamento[0]->moeda}}">
 
-  <div class="modal-dialog  modal-lg" role="document">
+  <div class="modal-dialog  modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header bg-primary">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Parcelas adiantamento</h4>
+        <h4 class="modal-title" id="myModalLabel">Parcelas adiantamento 
+        <br> Condição de pagamento: {{$capa[0]->condicao_pagamento}}
+        <br> Valor total pedido {{$adiantamento[0]->moeda.$capa[0]->valor_total}}
+        <br>Adiantamento total {{ $capa[0]->perc_adiantamento.'%'}} - {{$adiantamento[0]->moeda.$adiantamento[0]->valor}}</h4>
       </div>
       <div class="modal-body">
 
@@ -599,49 +605,112 @@
           <div class="form-group">
 
           <div class="col-md-12">
-          <table class="table table-condensed table-bordered">
+        <div class="table-responsive">
+          <table class="table table-condensed table-bordered" id="myTable">
           <tr>
-          <td>Tipo</td>
+          <td>Sel</td>
+          <td >Tipo</td>
           <td>Número documento</td>
-          <td>Data vencimento</td>
-          <td>Valor</td>
-          <td>Obs</td>
+          <td >Data vencimento </td>
+          <td >Data pagamento</td>
+          <td >Valor</td>
+          <td >Obs</td>
+          <td >Proforma</td>
+          <td >Fornecedor</td>
+          
 
           </tr>
 
           <tr>
+          <td><input name="confirma1" type="checkbox"></td>
           <td> <select  name="tipo1"  class="form-control">
-              <option value=""></option>
-              <option value="FR">FR</option>
+              
+              <option value="FR" selected>FR</option>
               <option value="AC">AC</option>
               <option value="MOSTRUARIO">MOSTRUÁRIO</option>
               <option value="AGREGADO">AGREGADO</option>
+              
              
               </select></td>
-          <td><input type="text" name="documento1" class="form-control" ></td>
-          <td><input type="date" name="vencimento1" class="form-control" ></td>
-          <td><input type="decimal" name="valor1" class="form-control" ></td>
+          <td><input type="text" name="documento1" value="{{$capa[0]->id}}" class="form-control" ></td>
+          <td><input type="date" name="vencimento1" value="{{$adiantamento[0]-> vencimento}}" class="form-control" ></td>
+          <td><input type="date" name="pagamento1" class="form-control" ></td>
+          <td><input type="decimal" name="valor1" value="{{($capa[0]->valor_total*($capa[0]->perc_adiantamento/100))*0.4}}" class="form-control" ></td>
           <td><input type="text" name="obs1" class="form-control" ></td>
+          @php                  
+                    $fornecedores1 = \DB::select("select concat(nome,' - ',valor) as valor, caracteristicas.codigo , addressbook.nome nome from caracteristicas left join addressbook on caracteristicas.codigo = addressbook.id where addressbook.nome like '%{{$capa[0]->nome}}%' and campo = 'Fornecedor' 
+                    union all
+                    select concat(nome,' - ',valor) as valor, caracteristicas.codigo , addressbook.nome nome from caracteristicas left join addressbook on caracteristicas.codigo = addressbook.id where campo = 'Fornecedor'
+                    ");
+                    $agora = date( 'Hi' );
+                    
+                @endphp  
+          <td><input type="text" name="proforma1" class="form-control" value="{{$capa[0]->nome.$fornecedores1[0]->codigo.date( 'Hi' )}}"></td>
+          
+          <td><select name="id_fornecedor1" id="id_fornecedor" class="form-control">
+                <option value=""> Selecione </option>
+                
+
+                @foreach ($fornecedores1 as $fornecedor1) 
+                    @if ($capa[0]->id_fornecedor == $fornecedor1->codigo)
+                        <option value="{{$fornecedor1->codigo}}" selected=""> {{$fornecedor1->valor}} </option>
+                    @else
+                        <option value="{{$fornecedor1->codigo}}"> {{$fornecedor1->valor}} </option>
+                    @endif
+                @endforeach
+
+              </select></td>
+
+              
+
           </tr>
 
           <tr>
+           <td><input name="confirma2" type="checkbox"></td>
           <td> <select  name="tipo2"  class="form-control">
-              <option value=""></option>
-              <option value="FR">FR</option>
-              <option value="AC">AC</option>
+              
+              <option value="AC" selected>AC</option>
+              <option value="FR" >FR</option>
               <option value="MOSTRUARIO">MOSTRUÁRIO</option>
               <option value="AGREGADO">AGREGADO</option>
+              
              
                
 
               </select></td>
-          <td><input type="text" name="documento2" class="form-control" ></td>
-          <td><input type="date" name="vencimento2" class="form-control" ></td>
-          <td><input type="decimal" name="valor2" class="form-control" ></td>
+          <td><input type="text" name="documento2" value="{{$capa[0]->id}}" class="form-control" ></td>
+          <td><input type="date" name="vencimento2" value="{{$adiantamento[0]-> vencimento}}"  class="form-control" ></td>
+          <td><input type="date" name="pagamento2" class="form-control" ></td>
+          <td><input type="decimal" name="valor2" value="{{($capa[0]->valor_total*($capa[0]->perc_adiantamento/100))*0.6}}"class="form-control" ></td>
           <td><input type="text" name="obs2" class="form-control" ></td>
+            @php                  
+                    $fornecedores2 = \DB::select("select concat(nome,' - ',valor) as valor, caracteristicas.codigo , addressbook.nome nome from caracteristicas left join addressbook on caracteristicas.codigo = addressbook.id where addressbook.nome like '%{{$capa[0]->nome}}%' and campo = 'Fornecedor' 
+                    union all
+                    select concat(nome,' - ',valor) as valor, caracteristicas.codigo , addressbook.nome nome from caracteristicas left join addressbook on caracteristicas.codigo = addressbook.id where campo = 'Fornecedor'
+                    ");
+                 
+                    
+                @endphp  
+      
+           <td><input type="text" name="proforma2" class="form-control" value="{{$capa[0]->nome.$fornecedores2[0]->codigo.date( 'dmi' )}}"></td>
+          <td><select name="id_fornecedor2" id="id_fornecedor" class="form-control">
+                <option value=""> Selecione </option>
+                
+
+                @foreach ($fornecedores2 as $fornecedor2) 
+                    @if ($capa[0]->id_fornecedor == $fornecedor2->codigo)
+                        <option value="{{$fornecedor2->codigo}}" selected=""> {{$fornecedor2->valor}} </option>
+                    @else
+                        <option value="{{$fornecedor2->codigo}}"> {{$fornecedor2->valor}} </option>
+                    @endif
+                @endforeach
+
+              </select></td>
+
           </tr>
 
            <tr>
+            <td><input name="confirma3" type="checkbox"></td>
           <td> <select  name="tipo3"  class="form-control">
               <option value=""></option>
               <option value="FR">FR</option>
@@ -652,13 +721,37 @@
                
 
               </select></td>
-          <td><input type="text" name="documento3" class="form-control" ></td>
+          <td><input type="text" name="documento3" value="{{$capa[0]->id}}" class="form-control" ></td>
           <td><input type="date" name="vencimento3" class="form-control" ></td>
+          <td><input type="date" name="pagamento3" class="form-control" ></td>
           <td><input type="decimal" name="valor3" class="form-control" ></td>
           <td><input type="text" name="obs3" class="form-control" ></td>
+
+           @php                  
+                    $fornecedores = \DB::select("select concat(nome,' - ',valor) as valor, caracteristicas.codigo , addressbook.nome nome from caracteristicas left join addressbook on caracteristicas.codigo = addressbook.id where addressbook.id = 102603 and campo = 'Fornecedor' order by concat(nome,' - ',valor)");
+                   
+                @endphp  
+          <td><input type="text" name="proforma3" class="form-control"></td>
+          <td><select name="id_fornecedor3" id="id_fornecedor" class="form-control">
+                <option value=""> Selecione </option>
+
+                                
+
+                @foreach ($fornecedores as $fornecedor) 
+                    @if ($capa[0]->id_fornecedor == $fornecedor->codigo)
+                        <option value="{{$fornecedor->codigo}}" selected=""> {{$fornecedor->valor}} </option>
+                    @else
+                        <option value="{{$fornecedor->codigo}}"> {{$fornecedor->valor}} </option>
+                    @endif
+                @endforeach
+
+              </select></td>
+
+
           </tr>
 
            <tr>
+            <td><input name="confirma4" type="checkbox"></td>
           <td> <select  name="tipo4"  class="form-control">
               <option value=""></option>
               <option value="FR">FR</option>
@@ -669,13 +762,34 @@
                
 
               </select></td>
-          <td><input type="text" name="documento4" class="form-control" ></td>
+          <td><input type="text" name="documento4" value="{{$capa[0]->id}}" class="form-control" ></td>
           <td><input type="date" name="vencimento4" class="form-control" ></td>
+          <td><input type="date" name="pagamento4" class="form-control" ></td>
           <td><input type="decimal" name="valor4" class="form-control" ></td>
           <td><input type="text" name="obs4" class="form-control" ></td>
+           <td><input type="text" name="proforma4" class="form-control"></td>
+          <td><select name="id_fornecedor4" id="id_fornecedor" class="form-control">
+                <option value=""> Selecione </option>
+
+                @php                  
+                    $fornecedores = \DB::select("select concat(nome,' - ',valor) as valor, caracteristicas.codigo from caracteristicas left join addressbook on caracteristicas.codigo = addressbook.id where campo = 'Fornecedor' order by concat(nome,' - ',valor)");
+                @endphp                   
+
+                @foreach ($fornecedores as $fornecedor) 
+                    @if ($capa[0]->id_fornecedor == $fornecedor->codigo)
+                        <option value="{{$fornecedor->codigo}}" selected=""> {{$fornecedor->valor}} </option>
+                    @else
+                        <option value="{{$fornecedor->codigo}}"> {{$fornecedor->valor}} </option>
+                    @endif
+                @endforeach
+
+              </select></td>
+
+
           </tr>
 
            <tr>
+            <td><input name="confirma5" type="checkbox"></td>
           <td> <select  name="tipo5"  class="form-control">
               <option value=""></option>
               <option value="FR">FR</option>
@@ -686,15 +800,33 @@
                
 
               </select></td>
-          <td><input type="text" name="documento5" class="form-control" ></td>
+          <td><input type="text" name="documento5" value="{{$capa[0]->id}}" class="form-control" ></td>
           <td><input type="date" name="vencimento5" class="form-control" ></td>
+          <td><input type="date" name="pagamento5" class="form-control" ></td>
           <td><input type="decimal" name="valor5" class="form-control" ></td>
           <td><input type="text" name="obs5" class="form-control" ></td>
+          <td><input type="text" name="proforma5" class="form-control"></td>
+          <td><select name="id_fornecedor5" id="id_fornecedor" class="form-control">
+                <option value=""> Selecione </option>
+
+                @php                  
+                    $fornecedores = \DB::select("select concat(nome,' - ',valor) as valor, caracteristicas.codigo from caracteristicas left join addressbook on caracteristicas.codigo = addressbook.id where campo = 'Fornecedor' order by concat(nome,' - ',valor)");
+                @endphp                   
+
+                @foreach ($fornecedores as $fornecedor) 
+                    @if ($capa[0]->id_fornecedor == $fornecedor->codigo)
+                        <option value="{{$fornecedor->codigo}}" selected=""> {{$fornecedor->valor}} </option>
+                    @else
+                        <option value="{{$fornecedor->codigo}}"> {{$fornecedor->valor}} </option>
+                    @endif
+                @endforeach
+
+              </select></td>
           </tr>
 
           
           </table>
-
+          
           </div>
                      
 
@@ -707,6 +839,8 @@
   </div>
 </div>
 </div>
+</div>
+
 </form>
 
 

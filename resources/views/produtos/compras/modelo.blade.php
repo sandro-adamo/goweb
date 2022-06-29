@@ -42,7 +42,7 @@
           <td><b>Fornecedor</b></td>
         </tr>
         <tr class="text-center">
-          <td>{{Strtoupper($modelo[0]->id_compra)}}</td>
+          <td><a href="/compras/{{$modelo[0]->id_compra}}">{{Strtoupper($modelo[0]->id_compra)}}</a></td>
           <td>{{Strtoupper($modelo[0]->grife)}}</td>
           <td>{{Strtoupper($modelo[0]->agrupamento)}}</td>
           <td>@if ($modelo[0]->pais<>'br')

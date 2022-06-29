@@ -190,9 +190,11 @@
             <div class="col-md-10">
               <select name="transporte" id="transporte" class="form-control">
                 <option value=""> Selecione </option>
-                <option> Plane </option>
-                <option> Ship </option>
-                <option> EXPRESS (FEDEX...) </option>
+                <option value="aéreo"> Aéreo </option>
+                <option value="marítimo"> Marítimo </option>
+                <option value="express"> Express (FEDEX...) </option>
+                <option value=="cif"> CIF </option>
+                <option value="terrestre"> Terrestre </option>
               </select>
             </div>        
           </div>
@@ -202,8 +204,10 @@
             <div class="col-md-10">
               <select name="pagamento" id="pagamento" class="form-control">
                 <option value=""> Selecione </option>
-                <option> Carta de Crédito </option>
-                <option> Bank </option>
+                <option value="carta de crédito"> Carta de Crédito </option>
+                <option value="transferência bancária"> Transferência bancária </option>
+                <option value="boleto"> Boleto </option>
+                <option value="risco sacado"> Risco sacado </option>
               </select>
             </div>        
           </div>

@@ -19,22 +19,60 @@ class CompraController extends Controller {
     
 
 
-    if($request->valor1<>''){
-    $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_titulo','$request->documento1','$request->tipo1','$request->valor1','$request->moeda','$request->vencimento1', current_date,'$nome_usuario','$request->obs1') ");
+    if($request->confirma1=='on'){
+      
+      if($request->pagamento1<>''){
+        $pagamento1 = ",'".$request->pagamento1."'";
+        $pagamento_insert = ", `pagamento`";
+      }else{
+        $pagamento1 = '';
+        $pagamento_insert = '';
+      }
+     
+    $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`, `proforma`, `id_fornecedor`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento1','$request->tipo1','$request->valor1','$request->moeda','$request->vencimento1', current_date,'$nome_usuario','$request->obs1','$request->proforma1','$request->id_fornecedor1'$pagamento1 ) ");
+
     }
     
-    if($request->valor2<>''){
-      $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_titulo','$request->documento2','$request->tipo2','$request->valor2','$request->moeda','$request->vencimento2', current_date,'$nome_usuario','$request->obs2') ");
+    if($request->confirma2=='on'){
+      if($request->pagamento2<>''){
+        $pagamento2 = ",'".$request->pagamento2."'";
+        $pagamento_insert = ", `pagamento`";
+      }else{
+        $pagamento2 = '';
+        $pagamento_insert = '';
+      }
+      $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`, `proforma`, `id_fornecedor`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento2','$request->tipo2','$request->valor2','$request->moeda','$request->vencimento2', current_date,'$nome_usuario','$request->obs2','$request->proforma2','$request->id_fornecedor2'$pagamento2) ");
       }
 
-    if($request->valor3<>''){
-        $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_titulo','$request->documento3','$request->tipo3','$request->valor3','$request->moeda','$request->vencimento3', current_date,'$nome_usuario','$request->obs3') ");
+    if($request->confirma3=='on'){
+      if($request->pagamento3<>''){
+        $pagamento3 = ",'".$request->pagamento3."'";
+        $pagamento_insert = ", `pagamento`";
+      }else{
+        $pagamento3 = '';
+        $pagamento_insert = '';
+      }
+        $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`, `proforma`, `id_fornecedor`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento3','$request->tipo3','$request->valor3','$request->moeda','$request->vencimento3', current_date,'$nome_usuario','$request->obs3','$request->proforma3','$request->id_fornecedor3'$pagamento3) ");
         }
-    if($request->valor4<>''){
-          $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_titulo','$request->documento4','$request->tipo4','$request->valor4','$request->moeda','$request->vencimento4', current_date,'$nome_usuario','$request->obs4') ");
+    if($request->confirma4=='on'){
+      if($request->pagamento4<>''){
+        $pagamento4 = ",'".$request->pagamento4."'";
+        $pagamento_insert = ", `pagamento`";
+      }else{
+        $pagamento4 = '';
+        $pagamento_insert = '';
+      }
+          $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`, `proforma`, `id_fornecedor`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento4','$request->tipo4','$request->valor4','$request->moeda','$request->vencimento4', current_date,'$nome_usuario','$request->obs4','$request->proforma4','$request->id_fornecedor4'$pagamento4) ");
           }
-    if($request->valor5<>''){
-            $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`) VALUES ('$request->id_titulo','$request->documento5','$request->tipo5','$request->valor5','$request->moeda','$request->vencimento5', current_date,'$nome_usuario','$request->obs5') ");
+    if($request->confirma5=='on'){
+      if($request->pagamento5<>''){
+        $pagamento5 = ",'".$request->pagamento5."'";
+        $pagamento_insert = ", `pagamento`";
+      }else{
+        $pagamento5 = '';
+        $pagamento_insert = '';
+      }
+            $insert_parcela  = \DB::select("INSERT INTO `compras_parcelas`( `id_titulo`, `numero`, `tipo`, `valor`, `moeda`, `vencimento`, `emissao`, `user`, `obs`, `proforma`, `id_fornecedor`$pagamento_insert) VALUES ('$request->id_titulo','$request->documento5','$request->tipo5','$request->valor5','$request->moeda','$request->vencimento5', current_date,'$nome_usuario','$request->obs5','$request->proforma5','$request->id_fornecedor5'$pagamento5) ");
             }
     $detalhes  = \DB::select("select * from compras_parcelas where id_titulo = '$request->id_titulo' ");
     return redirect()->back();
@@ -86,7 +124,8 @@ class CompraController extends Controller {
 
   public function UploadArquivos( Request $request ) {
 
-    $agora = date( '_d_m_Y_H_i' );
+    $agora = date( 'd_m_Y_H_i' );
+    
     $id_compras = $request->id_pedido;
     $id_compras = $request->id_pedido;
     $nome = $request->nome;
@@ -95,12 +134,13 @@ class CompraController extends Controller {
     $arquivo = '/storage/uploads/compras/arquivos/' . $agora . '_' . $request->arquivo->getClientOriginalName();
     $tipo = $request->tipo;
     $usuario = \Auth::id();
-    //dd($arquivo);
+    
 
     $uploaddir = '/var/www/html/portal-gestao/storage/app/uploads/compras/arquivos/' . $agora . '_';
 
     $uploadfile = $uploaddir . basename( $_FILES[ 'arquivo' ][ 'name' ] );
-    //dd( $uploadfile );
+    $arquivo1 = '/storage'.substr($uploadfile, 39);
+   
 
     $erros = array();
 
@@ -109,7 +149,7 @@ class CompraController extends Controller {
     }
 
 
-    $insere_arquivo = \DB::select( "INSERT INTO `compras_arquivos`( `id_compra`, `tipo`, `arquivo`, `nome`, `obs`, `exclui`, `data`, `usuario`) VALUES ('{$id_compras}','{$tipo}','{$arquivo}','{$nome}','{$obs}','0','{$data}','$usuario')" );
+    $insere_arquivo = \DB::select( "INSERT INTO `compras_arquivos`( `id_compra`, `tipo`, `arquivo`, `nome`, `obs`, `exclui`, `data`, `usuario`) VALUES ('{$id_compras}','{$tipo}','{$arquivo1}','{$nome}','{$obs}','0','{$data}','$usuario')" );
 	  
 	  
 
@@ -599,7 +639,7 @@ class CompraController extends Controller {
                     limit 1" );
         $idcomprasitem = $update_status_id_item[ 0 ]->id_compra_item;
 
-        $update_status = \DB::select( "update compras_itens set status = 'distribuido' where id = '$idcomprasitem'" );
+        $update_status = \DB::select( "update compras_itens set status = 'distribuido' where status <> 'finalizado sistema' and id = '$idcomprasitem'" );
 
       } else {
         $delete = \DB::select( " update compras_entregas_invoices set  exclui = 1  where id = '$entregas_invoices->id'" );
@@ -788,9 +828,47 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
 			 and ip.tipo = '$request->tipo'
 			 and (tipo = 'oi' or (tipo = 'op' and tipo_linha = 'bs'))
 			 and IFNULL(ie.clasitemfilho,'') <> 'PARTE CLIPON'
+       and ip.secundario not like '%semi%'
 			 group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
 			item_filho, id_pai,
 			  ip.secundario , qtde_sol , vlr_unit ,i.id, item_pai
+			
+			 ) as base
+			  left join compras_invoices ci on ci.pedido = base.pedido and ci.item = base.item and ci.linha = base.linha and ci.qtd = base.qtde_sol and ci.dt_invoice = base.dt_pedido and ci.exclui <> 1
+			 left join itens on base.item = itens.secundario
+			 left join addressbook ad on ad.id = itens.codfornecedor 
+			 where ci.id_item is null
+
+       union all
+
+       select base.*,itens.agrup as grife,
+			ifnull((select sum(compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0)) from compras_itens left join compras_entregas on compras_entregas.id_compra_item = compras_itens.id
+			where (compras_entregas.exclui is null or compras_entregas.exclui = 0) and compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0) 
+			and compras_itens.item = base.item and status in ('distribuido', 'producao', 'aguardando documentacao') 
+			 -- and pedido_dt <= $dtpedido1  
+			),0) as qtd_aberto, vlr_unit,
+			concat(nome, ' - ', fornecedor) as fornecedor, qtde_sol*vlr_unit as valor_tt
+			from(
+			select  ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ltrim(rtrim(ip.ref_go)) as invoice,
+			id_item_destino as id_item,
+			item_destino as item, qtde as qtde_sol, vlr_unit vlr_unit,
+			qtde* vlr_unit as tt_valor
+
+			from importacoes_pedidos ip
+	left join entrada_agrupada  ea on ea.id_item_invoice = ip.cod_item and ref_go = invoice and ip.pedido = ea.pedido
+	left join itens i on i.id = ea.id_item_destino
+
+			where 
+
+			 ult_status <> 980
+			 and ip.pedido = '$request->pedido'
+			 and ip.tipo = '$request->tipo'
+			 and (tipo = 'oi' or (tipo = 'op' and tipo_linha = 'bs'))
+       and ip.secundario like '%semi%'
+			 
+			 group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
+			item_destino, id_item_destino,
+			  ip.secundario , qtde, vlr_unit ,i.id
 			
 			 ) as base
 			  left join compras_invoices ci on ci.pedido = base.pedido and ci.item = base.item and ci.linha = base.linha and ci.qtd = base.qtde_sol and ci.dt_invoice = base.dt_pedido and ci.exclui <> 1
@@ -972,6 +1050,7 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
  and ult_status <> 980
  and ip.pedido = '$request->pedido'
  and ip.tipo = '$request->tipo'
+ and ip.secundario not like '%semi%'
  and IFNULL(ie.clasitemfilho,'') <> 'PARTE CLIPON'
  group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
 			item_filho, id_pai,
@@ -983,7 +1062,55 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
  left join itens on base.id_item = itens.id
  left join addressbook ad on ad.id = itens.codfornecedor
  where ci.id_item is null
+
+ union all
+
+ select base.*,itens.agrup as grife,
+ifnull((select sum(compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0)) from compras_itens left join compras_entregas on compras_entregas.id_compra_item = compras_itens.id
+where (compras_entregas.exclui is null or compras_entregas.exclui = 0) and compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0) 
+and compras_itens.item = base.item and status in ('distribuido', 'producao', 'aguardando documentacao') 
+--  and  pedido_dt <= '$dtpedido1'   
+),0) as qtd_aberto,
+ifnull((select group_concat(distinct compras_itens.id_compra)from compras_itens left join compras_entregas on compras_entregas.id_compra_item = compras_itens.id
+where (compras_entregas.exclui is null or compras_entregas.exclui = 0) and compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0) 
+and compras_itens.item = base.item and status in ('distribuido', 'producao', 'aguardando documentacao') 
+--  and  pedido_dt <= '$dtpedido1'   
+),0) as id_compra1,
+format(vlr_unit,2),
+concat(nome, ' - ', fornecedor) as fornecedor, format(qtde_sol*vlr_unit,2) as valor_tt, modelo
+from(
+select  ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,
+id_item_destino as id_item,
+item_destino as item, format(qtde,0) as qtde_sol, format(vlr_unit,2) vlr_unit,ltrim(rtrim(ip.ref_go)) as invoice,
+qtde* vlr_unit as tt_valor
+
+from importacoes_pedidos ip
+	left join entrada_agrupada  ea on ea.id_item_invoice = ip.cod_item and ref_go = invoice and ip.pedido = ea.pedido
+	left join itens i on i.id = ea.id_item_destino
+
+where  
+ (tipo = 'oi' or (tipo = 'op' and tipo_linha = 'bs'))
+
+ and ult_status <> 980
+ and ip.pedido = '$request->pedido'
+ and ip.tipo = '$request->tipo'
+ and ip.secundario like '%semi%'
+
+ group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
+			item_destino, id_item_destino,
+			  ip.secundario , qtde , vlr_unit ,i.id
+			
+ ) as base
+ left join compras_invoices ci on ci.pedido = base.pedido and ci.id_item = base.id_item and ci.linha = base.linha and ci.qtd = base.qtde_sol and ci.dt_invoice = base.dt_pedido and ci.exclui <> 1	
+
+ left join itens on base.id_item = itens.id
+ left join addressbook ad on ad.id = itens.codfornecedor
+ where ci.id_item is null
+ 
+
+
 " );
+
     //dd($oi);
     return view( 'produtos.compras.detalhes_oi' )->with( 'oi', $oi );
 
@@ -1047,6 +1174,15 @@ where ci.id_item is null
     $invoice = $request->invoice;
     $dt_invoice = $request->data;
     $etq_kering = $request->etq;
+    $tipo_kering = $request->kering;
+    if($tipo_kering==''){
+    $tipo_kering = '';
+    $tipo_tabela = '';
+    }
+    else{
+      $tipo_kering = ",'".$tipo_kering."'";
+      $tipo_tabela = ",tipo";
+    }
 
 
     $verifica_invoices = \DB::select( "select invoice from compras_invoices 
@@ -1105,7 +1241,7 @@ where ci.id_item is null
 					  $custo2 = 0;
 				  }
 				  	
-                $verifica = \DB::select( "insert into compras_invoices (`item`, `qtd`, `invoice`, `dt_invoice`, `custo`, `usado`,etq) values ('$linha[0]','$linha[1]','$invoice','$dt_invoice','$custo2','0','$etq_kering')" );
+                $verifica = \DB::select( "insert into compras_invoices (`item`, `qtd`, `invoice`, `dt_invoice`, `custo`, `usado`,etq $tipo_tabela) values ('$linha[0]','$linha[1]','$invoice','$dt_invoice','$custo2','0','$etq_kering' $tipo_kering)" );
 
 
               } else {
@@ -3330,7 +3466,7 @@ from compras_modelos group by agrupamento, grife ) as base
 				union all
 				
 				select date(timestamp) as dt_emissao, id_compra, tipo, nome, count(id_item) as itens, ifnull(sum(valor),0) as total, obs, ''proforma , status_pedido,
-group_concat(grife separator ', ') as grife, group_concat(anomod separator ', ') as anomod, '0' qtd_entergue
+group_concat(distinct grife separator ', ') as grife, group_concat(distinct anomod separator ', ') as anomod, '0' qtd_entergue
 from(
 Select 'cotacao' as status_pedido, cm.id as id, cm.created_at as 'timestamp', cin.id as iditem_old, cin.id as id_item, cm.id_compra, '' as pedido_nro, date(cin.created_at) as pedido_dt, ''dt_status, ''dt_prevista, ''dt_conf, 'cotação' as status, 'cotacao' origem,
 '' solicitante, concat(cm.id,' - ',modelo_go,' - ',cod_fabrica) as item, cm.id as id_modelo, cin.quantidade qtde  , '0' qtde_conf  , '' note ,
@@ -3346,7 +3482,7 @@ left join addressbook ad on ad.id = cm.id_fornecedor
 ) as compras
 where  status_pedido <> '' 
 and status_pedido <> 'cancelado' $sql
-group by timestamp , id_compra, tipo, nome,obs,status_pedido
+group by date(timestamp)  , id_compra, tipo, nome,obs,status_pedido
 
 
 				order by id desc" );
@@ -3358,9 +3494,11 @@ group by timestamp , id_compra, tipo, nome,obs,status_pedido
 
 
   public function detalhesCompra( $id ) {
+    
+   
 	
 	$adiantamento = \DB::select( "
-	select *, (select sum(valor) from compras_parcelas where compras_parcelas.id_titulo = cp.numero and cp.tipo = 'adiantamento') as valor_parcelas, (select min(vencimento) from compras_parcelas where compras_parcelas.id_titulo = cp.numero and cp.tipo = 'adiantamento') as dt_vencimento_parcela
+	select *, (select sum(valor) from compras_parcelas where compras_parcelas.id_titulo = cp.numero and cp.tipo = 'adiantamento') as valor_parcelas, (select date(min(vencimento)) from compras_parcelas where compras_parcelas.id_titulo = cp.numero and cp.tipo = 'adiantamento') as dt_vencimento_parcela
 	from compras_titulos cp 
     where cp.id_pedido = $id and cp.tipo = 'adiantamento' and cp.origem = 'compras' 
     union all 
@@ -3370,22 +3508,24 @@ group by timestamp , id_compra, tipo, nome,obs,status_pedido
 	  
 	  
 
-    $capa = \DB::select( "select compras.*, razao as fornecedor, endereco, numero, municipio, uf, pais, email1, ddd1, tel1, date(dt_emissao) as dt_emissao
-				from compras
-				left join addressbook on addressbook.id = id_fornecedor
-				left join compras_itens on id_compra = compras.id
-				left join itens on item = secundario
+    $capa = \DB::select( "select compras.*, razao as fornecedor, endereco, numero, municipio, uf, pais, email1, ddd1, tel1, date(dt_emissao) as dt_emissao, addressbook.nome,
+    perc_adiantamento
+            from compras
+            left join addressbook on addressbook.id = id_fornecedor
+            left join compras_itens on id_compra = compras.id
+            left join itens on item = secundario
+            left join compras_condicoes on compras_condicoes.id = id_condicao_pagamento
 				where compras.id = $id" );
 	  
 	  if($capa[0]->tipo=='PRE-PEDIDO'){
 		  
-		  $itens = \DB::select( "Select 'cotacao' as status_pedido, cm.id as id, cm.created_at as 'timestamp', cin.id as iditem_old, cin.id as id_item, cm.id_compra, '' as pedido_nro, date(cin.created_at) as pedido_dt, ''dt_status, ''dt_prevista, ''dt_conf, 'cotação' as status, 'cotacao' origem,
+		  $itens = \DB::select( "Select 'cotacao' as status_pedido, cm.id as id, cm.created_at as 'timestamp', cin.id as iditem_old, cin.id as id_item, cm.id_compra, '' as pedido_nro, date(cin.created_at) as pedido_dt, ''dt_status, ''dt_prevista, ''dt_conf, cm.tipo as status, 'cotacao' origem,
 '' solicitante, concat(cin.id,' - ',cod_cor,' - ',cod_cor_fornecedor) as item, cm.id as id_modelo, cin.quantidade qtde  , '0' qtde_conf  , '' note ,
 ad.nome,  cm.created_at as dt_emissao, cm.agrupamento, concat(cm.id,' - ',modelo_go,' - ',cod_fabrica) as modelo, cm.col_mod colmod, cm.class_mod clasmod, '0'qtd_entregue, '0' qtde_entrega,
 ''dt_alterada,''dt_confirmada
 
 from compras co
-left join compras_modelos cm on cm.id = co.id
+left join compras_modelos cm on cm.id_compra = co.id
 left join compras_itens_novos cin on cin.id_modelo = cm.id 
 left join addressbook ad on ad.id = cm.id_fornecedor
 where co.id = $id
@@ -3450,6 +3590,7 @@ group by agrupamento" );
                 where compras_arquivos.id_compra = $id 
 				and compras_arquivos.exclui = 0
 				" );
+       
 
 
     return view( 'produtos.compras.detalhes' )->with( 'arquivos', $arquivos )->with( 'invoices', $invoices )->with( 'capa', $capa )->with( 'itens', $itens )->with( 'resumo', $resumo )->with( 'adiantamento', $adiantamento );

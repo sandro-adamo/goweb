@@ -89,6 +89,15 @@ if(Session::has('alert-warning2')){
                 <option value="1">Estoque Kering</option>
              </select></th>
              
+      
+
+       <label>Kering</label>
+        <select class="form-control" name="kering"  >
+                <option value=""></option>
+                <option value="alocado">Alocado</option>
+                <option value="embarque">Embarque</option>
+             </select></th>
+             
       </div>
 		 <div class="col-md-4">
 		<h6>O arquivo deverá estar em Xlsx, Coluna 1 Item<br>, Coluna 2 quantidade<br>, Coluna 3 custo unitario(campo formatado em texto e se for decimal deverá estar com ponto e não virgula.</h6>

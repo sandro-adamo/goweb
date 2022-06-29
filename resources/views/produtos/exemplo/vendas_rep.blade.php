@@ -266,7 +266,7 @@ order by sum(a330360+b300330+c270300+d240270+e210240+f180210+g150180+h120150+i90
 
               <td id="foto" align="center" style="min-height:20px;">
                
-                <a href="" class="zoom" data-value="{{$dados->an8}}"><img src="https://painel.goeyewear.com.br/fotos/REPRESENTANTES/{{$dados->an8}}.JPG" style="max-height: 60px;" class="img-responsive"></a>
+                <a href="" class="zoom" data-value="{{$dados->an8}}"><img src="https://gestao.goeyewear.com.br/fotos/REPRESENTANTES/{{$dados->an8}}.JPG" style="max-height: 60px;" class="img-responsive"></a>
                 
               </td>
 

@@ -108,7 +108,7 @@ class CatalogoController extends Controller
 	                            $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
 	                            $drawing->setName('Paid');
 	                            $drawing->setDescription('Paid');
-	                            $drawing->setPath('/var/www/html/gestao/public/'.$foto); // put your path and image here
+	                            $drawing->setPath('/var/www/html/portal-gestao/public/'.$foto); // put your path and image here
 	                            $drawing->setCoordinates('A'.$linha);
 	                            //$drawing->setOffsetX(110);
 	                            $drawing->setHeight(80);
@@ -205,7 +205,7 @@ class CatalogoController extends Controller
       
       $arquivo2 = $codigo."catalogo.xlsx";
 
-      $uploaddir = '/var/www/html/gestao/storage/uploads/';
+      $uploaddir = '/var/www/html/portal-gestao/storage/uploads/';
       $uploadfile = $uploaddir .$arquivo2 ;
 		
 	

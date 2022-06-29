@@ -541,6 +541,9 @@ Route::get('/produtos/gradescolecoes/{modelo}', 'GradesController@listaGradesCol
 Route::get('/produtos/gradesmodelos/{modelo}', 'GradesController@listaGradesModelos');
 Route::get('/produtos/gradescoldet/{modelo}', 'GradesController@listaGradesColdet');
 
+/** painel controller **/
+Route::get('/metas/atualizavalor/{mes}', 'PainelController@subir_metas');
+
 
 
 /** nova pasta grade **/

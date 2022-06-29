@@ -22,7 +22,7 @@
 			<td class="text-middle" ><i class="fa fa-tripadvisor"></i> <b>Modelo </b>Novo <br></td>
        
 	 <th class="text-right">
-		 <b>Tipo</b>
+		 <b>Tipo*</b>
 		 </th>
 		 <th class="text-left">
 	 
@@ -48,8 +48,8 @@
           <table class="table table-bordered table-condensed">
             <tr  class="card-header bg-info text-center">
               <td><b>Id compra</b></td>
-              <td><b>Grife</b></td>
-              <td><b>Agrupamento</b></td>
+              <td><b>Grife*</b></td>
+              <td><b>Agrupamento*</b></td>
 			  <td><b>Origem</b></td>
               <td><b>Pais</b></td>
               <td><b>Fornecedor</b></td>
@@ -101,12 +101,13 @@
 			 
 			  
 			 <tr  class="card-header bg-info text-center">
-              <td><b>Tipo modelo</b></td>
+              <td><b>Tipo modelo*</b></td>
+              
               <td><b>Cod modelo</b></td>
               <td><b>Cod fabrica</b></td>
               <td><b>NCM</b></td>
-              <td><b>Clasmod</b></td>
-              <td><b>Col modelo</b></td>
+              <td><b>Clasmod*</b></td>
+              <td><b>Col modelo*</b></td>
             </tr>
             <tr class="text-center">
               <td>@php 
@@ -118,10 +119,13 @@
                 <option value="{{$linhas->valor}}">{{$linhas->valor}}</option>
                 @endforeach
              </select></td>
-              <td><input type="text" name="modelo"class="form-control"></input></td>
+              @php
+               $ultimocod = \DB::select("select id+1 as id from compras_modelos order by id desc limit 1");
+               @endphp
+              <td><input type="text" name="modelo"class="form-control" value="{{$ultimocod[0]->id}}"></input></td>
 			
-              <td><input type="text" name="codfabrica"   class="form-control"></input></td>
-              <td><select class="form-control" name="ncm" required >
+              <td><input type="text" name="codfabrica"   class="form-control" value="{{$ultimocod[0]->id}}"></input></td>
+              <td><select class="form-control" name="ncm" >
              <option value=""></option>
                 <option value="90031910">RX - metal</option>
                 <option value="90031100">RX - Plastico/Acetato</option>
@@ -150,12 +154,12 @@
 			   <tr > <td colspan="6"></td></tr>
 			  
 			  <tr  class="card-header bg-info text-center">
-			<td><b>Ano modelo</b></td>
-              <td><b>Idade</b></td>
+			<td><b>Ano modelo*</b></td>
+              <td><b>Idade*</b></td>
               <td><b>Linha de estilo</b></td>
               <td><b>Categoria</b></td>
 			 <td><b>Tema</b></td>
-              <td><b>Genero</b></td>
+              <td><b>Genero*</b></td>
             </tr>
             <tr class="text-center">
               <td>@php 
@@ -214,9 +218,9 @@
           <h3 class="box-title">Aprovações</h3>
 		 <table class="table table-bordered table-condensed">
 			  <tr  class="card-header bg-info text-center">
-              <td><b>Conceito</b></td>
-              <td><b>Protótipo design</b></td>
-              <td><b>Protótipo cores</b></td>
+              <td><b>Conceito*</b></td>
+              <td><b>Protótipo design*</b></td>
+              <td><b>Protótipo cores*</b></td>
 
 
             </tr>
@@ -259,9 +263,9 @@
 		 <table class="table table-bordered table-condensed">
 			  <tr  class="card-header bg-info text-center">
               <td><b>Cod molde Frente</b></td>
-              <td><b>Material frente</b></td>
+              <td><b>Material frente*</b></td>
               <td><b>Material lente</b></td>
-              <td><b>Fixação</b></td>
+              <td><b>Fixação*</b></td>
               <td><b>Formato</b></td>
               <td><b>Curvatura lente</b></td>
             </tr>
@@ -385,7 +389,7 @@
 
             </tr>
             <tr class="text-center">
-              <td><select class="form-control" name="graduacao" required >
+              <td><select class="form-control" name="graduacao"  >
              <option value=""></option>
                 <option value="Sim">Sim</option>
                 <option value="Não">Não</option>
@@ -401,7 +405,7 @@
 		 <table class="table table-bordered table-condensed">
 			  <tr  class="card-header bg-info text-center">
               <td><b>Cod Molde haste</b></td>
-              <td><b>Material haste</b></td>
+              <td><b>Material haste*</b></td>
               <td><b>Tamanho haste</b></td>
               <td><b>Material ponteira</b></td>
               <td><b>Material logo</b></td>

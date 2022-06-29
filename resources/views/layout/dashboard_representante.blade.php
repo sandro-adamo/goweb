@@ -120,7 +120,7 @@ $id_perfil1 = \Auth::user()->id;
 
 
 
- if($representantes=='95276666' or \Auth::user()->id=='3') { 
+ if($representantes=='95276666' or \Auth::user()->id=='3' or \Auth::user()->id=='488') { 
 }
 else{
 @endphp
