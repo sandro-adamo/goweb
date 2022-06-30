@@ -722,7 +722,7 @@ adiantamento, venc_adiantamento, moeda , agrup
 			<td align="left"> {{$catalogo->clasmod}}</td>
 			<td align="left"> {{$catalogo->genero}}</td>
 			<td align="left"> {{$catalogo->idade}}</td>
-			<td align="left"> {{$catalogo->estilo}}</td>
+			<td align="left"> {{$catalogo->fornecedor}}</td>
 			<td></td><td></td><td></td>
 			<td align="left"> {{number_format($catalogo->valortabela,2)}}</td>
 			
