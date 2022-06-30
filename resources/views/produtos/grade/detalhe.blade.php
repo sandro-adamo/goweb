@@ -51,7 +51,7 @@ $data = '2021-01-01';
 
 $modelos = \DB::select("
 
-select ciclo, fornecedor, codgrife, codgrife grife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade, valortabela, mediacusto,
+select ciclo, fornecedor, forn, codgrife, codgrife grife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade, valortabela, mediacusto,
 sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
 sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total) qtde_total,
 sum(novos_atual) novos_atual, sum(novos_prox) novos_prox, sum(aa) aa, sum(a) a, 
@@ -59,7 +59,7 @@ sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) prod
 sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
 from (
 
-	select ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade, valortabela,mediacusto,
+	select ciclo, fornecedor, forn, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade, valortabela,mediacusto,
 	case when colecao = 'novo_prox' then 1 else 0 end as novos_prox,
 	case when colecao = 'novo_atual' then 1 else 0 end as novos_atual,
     
@@ -70,7 +70,7 @@ from (
 
 	from (
     
-		select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, genero, estilo, idade, valortabela, mediacusto, 
+		select ciclo, fornecedor, forn, codgrife, agrup, modelo, clasmod, colmod, genero, estilo, idade, valortabela, mediacusto, 
         (itens) as itens, (imediata) imediata, (futura) futura, (producao) producao, 
         (disponivel) disponivel, (beneficiamento) beneficiamento, (cet) cet, (cep) cep, (most) most, (total) total,
         atual, ultimo, mes_sem, mes_ano, qtde_total,
@@ -88,13 +88,13 @@ from (
 		from(
 
 
-			select ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade, valortabela, mediacusto,
+			select ciclo, fornecedor, forn, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade, valortabela, mediacusto,
 			count(secundario) as itens, sum(itens_imed) imediata, sum(itens_trans) futura, sum(itens_prod) producao,
             sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
             sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total_jde) qtde_total
 			from (
 
-				select ciclo, case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
+				select ciclo, left(fornecedor,10) forn, case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
 				codgrife, agrup, modelo, secundario, colmod,
                 
                 case when left(colmod,4) < year(now()) then 'lancado'
@@ -122,11 +122,11 @@ from (
 				and codtipoarmaz not in ('o')
 				and left(agrup,5) = '$agrup' 
                 
-			) as base group by ciclo, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade, valortabela, mediacusto
+			) as base group by ciclo, left(fornecedor,10), fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade, valortabela, mediacusto
 		) as base1 
 	) as base2 $where1
-    group by ciclo, fornecedor, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade, valortabela, mediacusto
-) as base3 group by ciclo, fornecedor, codgrife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade, valortabela, mediacusto
+    group by ciclo, fornecedor, forn, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade, valortabela, mediacusto
+) as base3 group by ciclo, fornecedor, forn, codgrife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade, valortabela, mediacusto
 order by modelo
 
 ");
@@ -722,7 +722,7 @@ adiantamento, venc_adiantamento, moeda , agrup
 			<td align="left"> {{$catalogo->clasmod}}</td>
 			<td align="left"> {{$catalogo->genero}}</td>
 			<td align="left"> {{$catalogo->idade}}</td>
-			<td align="left"> {{$catalogo->fornecedor}}</td>
+			<td align="left"> {{$catalogo->forn}}</td>
 			<td></td><td></td><td></td>
 			<td align="left"> {{number_format($catalogo->valortabela,2)}}</td>
 			
