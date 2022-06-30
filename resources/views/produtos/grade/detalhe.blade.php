@@ -122,7 +122,7 @@ from (
 				and codtipoarmaz not in ('o')
 				and left(agrup,5) = '$agrup' 
                 
-			) as base group by ciclo, left(fornecedor,10), fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade, valortabela, mediacusto
+			) as base group by ciclo, forn, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade, valortabela, mediacusto
 		) as base1 
 	) as base2 $where1
     group by ciclo, fornecedor, forn, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade, valortabela, mediacusto
