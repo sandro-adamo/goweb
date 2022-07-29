@@ -110,10 +110,12 @@ select * from (
 	
 	
 	<ul class="nav nav-tabs">
-		<li  class="active"><a href="#Aberto" data-toggle="tab">Aberto</a></li>
-	
+		
+			<li  class="active"><a href="#Aberto" data-toggle="tab">Aberto</a></li>
 			<li><a href="#Removido" data-toggle="tab">Removido</a></li>
-			<li><a href="#Li_solicitado" data-toggle="tab">Li_solicitado</a></li>
+			<li><a href="#Transito" data-toggle="tab">Transito</a></li>
+			<li><a href="#Embarque" data-toggle="tab">Embarque</a></li>
+			<li><a href="#Kering" data-toggle="tab">Kering</a></li>
 
 
 		
@@ -262,12 +264,12 @@ select * from (
 	
 	
 	
-<div class="tab-pane" id="Li_solicitado">
+<div class="tab-pane" id="Transito">
 <div class="col-md-12">
 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">	
 	<table class="table table-striped table-bordered compact" id="myTable">
 		  <thead>				
-			 <tr><td colspan="15">Aguardando pgto Embarque</td></tr>
+			 <tr><td colspan="15">Transito</td></tr>
 		  			
 					<tr>
 					<td>det</td>
@@ -297,7 +299,7 @@ select * from (
 			  
 			@foreach ($query_2 as $query4)
 				
-				@php if ($query4->desc_status=="li_solicitado" or $query4->desc_status=="li_deferida" or $query4->desc_status=="booking")
+				@php if ($query4->desc_status=="li_deferida" or $query4->desc_status=="booking")
 				
 			{ @endphp
 		
@@ -334,6 +336,157 @@ select * from (
 		</ul>
 		</div>	
 		</div>
+	
+
+	
+<div class="tab-pane" id="Embarque">
+<div class="col-md-12">
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">	
+	<table class="table table-striped table-bordered compact" id="myTable">
+		  <thead>				
+			 <tr><td colspan="15">Embarque</td></tr>
+		  			
+					<tr>
+					<td>det</td>
+					<td colspan="1" align="center">Pedido</td>
+					<td colspan="1" align="center">ult_prox status</td>						
+					<td colspan="1" align="center">Invoice</td>				
+					<td colspan="1" align="center">ref desp</td>
+					<td colspan="1" align="center">conex</td>
+					<td colspan="1" align="center">fornecedor</td>
+					
+					<td colspan="1" align="center">Tipo_item</td>
+					<td colspan="1" align="center">Grifes </td>
+					<td colspan="1" align="center">Colecoes</td>
+					<td colspan="1" align="center">Linhas</td>
+					<td colspan="1" align="center">qtde pecas</td>
+					<td colspan="1" align="center">atende BO</td>
+					<td colspan="1" align="center">itens CET</td>
+						
+					<td colspan="1" align="center">impostos</td>
+					<td colspan="1" align="center">icms</td>
+						
+				
+					
+				
+					</tr>
+			    </thead>
+			  
+			@foreach ($query_2 as $query5)
+				
+				@php if ($query5->desc_status=="li_solicitado")
+				
+			{ @endphp
+		
+			<tr>
+			<td align="left"><a href="/import_form/?tipo={{$query5->tipo}}&pedido={{$query5->pedido}}" target="_blank">
+				<i class="fa fa-file-text-o"></i></a></td>
+			<td align="left"><a href="/dsimportdet/{{$query5->tipo}}/{{$query5->pedido}}">{{$query5->tipo.' '.$query5->pedido}}</a></td>
+			<td align="center">{{$query5->ult_prox}} - {{$query5->desc_status}}</td>
+	
+			<td align="left">{{$query5->ref_go}}</td>
+			<td align="center">{{$query5->ref}}</td>
+			<td align="center">{{$query5->doc_agrup}}</td>
+			<td align="left">{{$query5->fornecedor}}</td>
+			<td align="center">{{$query5->tipoitem}}</td>
+			<td align="center">{{$query5->codgrife}}</td>
+			<td align="center">{{$query5->colmod}}</td>
+			<td align="center">{{$query5->linha}}</td>
+			<td align="center">{{number_format($query5->qtde)}}</td>	
+			<td align="center">{{number_format($query5->atende)}}</td>
+			<td align="center">{{number_format($query5->itens_trans)}}</td>
+			<td align="center">{{$query5->impostos}}</td>
+			<td align="center">{{$query5->icms}}</td>
+	
+			</tr>
+			@php ;} else  { @endphp
+		<tr></tr>
+			@php  ;} @endphp
+			
+			@endforeach 
+			
+
+		</table>
+	
+		</ul>
+		</div>	
+		</div>	
+	
+	
+	
+	
+	<div class="tab-pane" id="Kering">
+<div class="col-md-12">
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">	
+	<table class="table table-striped table-bordered compact" id="myTable">
+		  <thead>				
+			 <tr><td colspan="15">Kering</td></tr>
+		  			
+					<tr>
+					<td>det</td>
+					<td colspan="1" align="center">Pedido</td>
+					<td colspan="1" align="center">ult_prox status</td>						
+					<td colspan="1" align="center">Invoice</td>				
+					<td colspan="1" align="center">ref desp</td>
+					<td colspan="1" align="center">conex</td>
+					<td colspan="1" align="center">fornecedor</td>
+					
+					<td colspan="1" align="center">Tipo_item</td>
+					<td colspan="1" align="center">Grifes </td>
+					<td colspan="1" align="center">Colecoes</td>
+					<td colspan="1" align="center">Linhas</td>
+					<td colspan="1" align="center">qtde pecas</td>
+					<td colspan="1" align="center">atende BO</td>
+					<td colspan="1" align="center">itens CET</td>
+						
+					<td colspan="1" align="center">impostos</td>
+					<td colspan="1" align="center">icms</td>
+						
+				
+					
+				
+					</tr>
+			    </thead>
+			  
+			@foreach ($query_2 as $query6)
+				
+				@php if ($query6->fornecedor="KERING")
+				
+			{ @endphp
+		
+			<tr>
+			<td align="left"><a href="/import_form/?tipo={{$query6->tipo}}&pedido={{$query6->pedido}}" target="_blank">
+				<i class="fa fa-file-text-o"></i></a></td>
+			<td align="left"><a href="/dsimportdet/{{$query6->tipo}}/{{$query6->pedido}}">{{$query6->tipo.' '.$query6->pedido}}</a></td>
+			<td align="center">{{$query6->ult_prox}} - {{$query6->desc_status}}</td>
+	
+			<td align="left">{{$query6->ref_go}}</td>
+			<td align="center">{{$query6->ref}}</td>
+			<td align="center">{{$query6->doc_agrup}}</td>
+			<td align="left">{{$query6->fornecedor}}</td>
+			<td align="center">{{$query6->tipoitem}}</td>
+			<td align="center">{{$query6->codgrife}}</td>
+			<td align="center">{{$query6->colmod}}</td>
+			<td align="center">{{$query6->linha}}</td>
+			<td align="center">{{number_format($query6->qtde)}}</td>	
+			<td align="center">{{number_format($query6->atende)}}</td>
+			<td align="center">{{number_format($query6->itens_trans)}}</td>
+			<td align="center">{{$query6->impostos}}</td>
+			<td align="center">{{$query6->icms}}</td>
+	
+			</tr>
+			@php ;} else  { @endphp
+		<tr></tr>
+			@php  ;} @endphp
+			
+			@endforeach 
+			
+
+		</table>
+	
+		</ul>
+		</div>	
+		</div>	
 	
 	
 	
