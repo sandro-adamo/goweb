@@ -270,5 +270,41 @@ from(
 
 
     }
+	
+	
+	
+	
+		public function gravaDadosImport(Request $request) {
+			
+		if (isset($request->id_info)) {
+							
+				$teste = $request->obs;
+				$id = $request->id_info;
+				
+				$id_usuario = \Auth::id();
+				
+				$insert = \DB::select("insert into compras_comex (num_invoice, ref_comex) 
+				values ('$request->doc_agrup',  '$request->id_info')");
+			
+				
+		} else {
+			
+			
+			
+				$insert = \DB::select("insert into compras_comex (num_invoice, ref_comex) 
+				values ('$request->doc_agrup',  '$request->acao')");
+				
+			
+				
+		
+			}
+		return redirect()->back();
+		}
+	
+	
+	
+	
+	
+	
 
 }

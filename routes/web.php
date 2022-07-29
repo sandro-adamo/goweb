@@ -553,10 +553,10 @@ Route::get('/produtos/grades', function () {    return view('produtos/grade/grad
 
 Route::get('/grade/detalhe', function () {    return view('produtos/grade/detalhe'); });
 
+Route::get('/produtos/grades1', function () {    return view('produtos/grade/grades1'); });
 
-
-
-
+Route::get('/import_form', function () { return view('dashboards.importacao.insere_form');	});
+Route::post('/import_form/grava', 'ImportacaoController@gravaDadosImport' );
 
 
 
