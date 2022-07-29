@@ -6,13 +6,13 @@
 $cli  = 100205;
 
 $numero = 5883;
-$tipo = 'id_pedido';
+$tipo = 'OI';
 
 
 @endphp
 
 @section('title')
-<i class="fa fa-ship">{{$numero}}</i> 
+<i class="fa fa-file-text-o"></i> Detalhe do pedido</i> 
 @append 
 
 @section('conteudo')
@@ -20,7 +20,7 @@ $tipo = 'id_pedido';
 	@php
 
 	
-	$result = \DB::select("select id from compras_infos where $tipo = $numero");
+	$result = \DB::select("select id from compras_infos where id_pedido = $numero");
 		
 			if(count($result)==1){
 			$id_info = 	$result[0]->id;
@@ -38,24 +38,31 @@ $tipo = 'id_pedido';
 	$query_1 = \DB::select("
 	
 
-	select * from (
+	
+
+select * from (
 	select ped.pedido num_pedido, ped.tipo tipo_pedido, ped.dt_pedido, ped.ref_go invoice, concat(ped.ult_status,' ', ped.prox_status) ult_prox_ped,
     ped.moeda moeda_pedido, sum(ped.qtde_sol) qtde_ped, sum(ped.vlr_total) vlr_pedido,
+    Ref_Nac_01 num_di, ref_nac_02 data_di,
 	nf.prenota, nf.dt_emissao dt_nf, concat(nf.ult_status, ' ', nf.prox_status) status_nf, sum(nf.qtde) qtde_nf, sum(nf.total) vlr_nf, sum(nf.icms) icms_nf, sum(nf.ipi) ipi_nf,
 	'pecas - groupconcat' tipo_carga, 'group concat' grifes
     
-	from importacoes_pedidos ped 
+	 from importacoes_pedidos ped 
 	left join importacoes_notas nf on nf.ped_original = ped.pedido and nf.tipo_original = ped.tipo and nf.linha_original = ped.linha
 	
-	where ped.pedido = 5883 and ped.tipo = 'oi'
+	where ped.pedido = 5883
 
 	group by ped.pedido, ped.tipo , ped.dt_pedido, ped.ref_go ,  concat(ped.ult_status,' ', ped.prox_status),
+    Ref_Nac_01, ref_nac_02,
 	nf.prenota, nf.dt_emissao ,  concat(nf.ult_status, ' ', nf.prox_status) , ped.moeda 
-	) as final
+) as final
 
 
 	left join (select * from compras_infos ) as ci
     on ci.id_pedido = final.num_pedido and ci.tipo_pedido = final.tipo_pedido
+
+
+
 
 		
 	");
@@ -69,28 +76,29 @@ $tipo = 'id_pedido';
 
     <div class="box box-widget">
       <div class="box-header with-border">
-		 <h3 class="box-title">Pedido JDE</h3>
+		 <h3 class="box-title"><i class="fa fa-file-text-o"></i> {{$tipo}} - {{$numero}} </i> </h3>
 		  <h6>
-        <table class="table borderless">
+         <table class="table table-bordered table-condensed">
 				
 					
 			
 			<tr class="card-header bg-info text-center">
-              <td><b>Num pedido</b></td>
-              <td><b>Tipo pedido</b></td>
+          
               <td><b>Dt Emissao</b></td>
 			  <td><b>Tipo produto</b></td>
 			  <td><b>Ult/Prox Status</b></td>
 			  <td><b>Desc Status</b></td>
+			 <td><b>Obs pedido</b></td>
+            
             </tr>
 				
             <tr class="text-center">
-				<td>{{$query_1[0]->num_pedido}}</td>
-				<td>{{$query_1[0]->tipo_pedido}}</td>
+				
 				<td>{{$query_1[0]->dt_pedido}}</td>
 				<td>{{$query_1[0]->num_pedido}}</td>
+				<td>{{$query_1[0]->ult_prox_ped}}</td>
 				<td>{{$query_1[0]->num_pedido}}</td>
-				<td>{{$query_1[0]->num_pedido}}</td>
+				<td></td>
             </tr>	
 
 				
@@ -110,9 +118,8 @@ $tipo = 'id_pedido';
 
  
 	 
-	 <div class="box-body"> 
-		
-        <div class="box box-warning">
+	 <div class="box-body"> 	
+        <div class="box box-danger">
           <h3 class="box-title">Documentacao embarque</h3>
 		  <h6>
           <table class="table table-bordered table-condensed">
@@ -152,7 +159,7 @@ $tipo = 'id_pedido';
             <tr class="text-center">
               <td><input type="text" id="doc_agrup" name="doc_agrup" size="20" value={{$query_1[0]->doc_agrup}} ></td>
 			  <td><input type="text" id="id_nome" name="id_nome" size="20" value={{$query_1[0]->tipo_carga}} ></td>
-              <td size="20">{{$query_1[0]->num_pedido}}</td>
+              <td size="20">{{$query_1[0]->ref_processo}}</td>
 			  <td size="20">{{$query_1[0]->num_pedido}}</td>
 			  <td size="20">{{$query_1[0]->num_pedido}}</td>
             </tr>
@@ -163,7 +170,7 @@ $tipo = 'id_pedido';
           </div>
 		 
 		 
-		<div class="box box-sucess">
+		<div class="box box-warning">
         <h3 class="box-title">Transito</h3>
 		<h6>
 		 <table class="table table-bordered table-condensed">
@@ -181,7 +188,22 @@ $tipo = 'id_pedido';
             <tr class="text-center">
               <td><input type="text" id="id_nome" name="id_nome" size="10" value={{$query_1[0]->dt_sol_li}} ></td>
 			  <td><input type="text" id="id_nome" name="id_nome" size="10" value={{$query_1[0]->dt_def_li}} ></td>
-			  <td><input type="text" id="id_nome" name="id_nome" size="10" value={{$query_1[0]->an8_agente}} ></td>
+			  
+			  <td>@php 
+              $fornecedor = \DB::select("select id, fantasia from addressbook where nome like '%junior%'");
+              @endphp
+              <select class="form-control" name="genero" required >			 
+              <option value="">{{$query_1[0]->an8_agente}}</option>
+                @foreach ($fornecedor as $forn)
+              <option value="{{$forn->id}}">{{$forn->id}} - {{$forn->fantasia}}</option>
+                @endforeach
+              </select>
+			  </td>	
+				
+				
+			<!--	<td><input type="text" id="id_nome" name="id_nome" size="10" value={{$query_1[0]->an8_agente}} ></td>-->
+				
+				
 			  <td></td>
 			  <td><input type="text" id="id_nome" name="id_nome" size="10" value={{$query_1[0]->dt_aut_embarque}} ></td>
 			  <td></td>
@@ -219,25 +241,25 @@ $tipo = 'id_pedido';
 		 
 		 
 		 
-		 <div class="box box-danger">
+		 <div class="box box-info">
           <h3 class="box-title">Nacionalizacao</h3>
 		  <h6>
 		 <table class="table table-bordered table-condensed">
 			  
 			 
 			 <tr  class="card-header bg-info text-center">
-              <td><b>Numero DI</b></td>
-              <td><b>Dt registro DI</b></td>
+              <td><b>Numero DI ->jde</b></td>
+              <td><b>Dt registro DI  ->jde</b></td>
               <td><b>Num protocolo DI</b></td>
-              <td><b>Cambio registro</b></td>
+              <td><b>Cambio registro ex dt_di</b></td>
             </tr>
 							
 								 
             <tr class="text-center">
-				<td></td>
+				<td>{{$query_1[0]->num_di}}</td>
               <td><input type="text" id="id_nome" name="id_nome" size="20" value={{$query_1[0]->dt_registro}} ></td>
 			  <td><input type="text" id="id_nome" name="id_nome" size="20" value={{$query_1[0]->protocolo_di}} ></td>
-				<td></td>
+				<td>{{$query_1[0]->data_di}}</td>
             </tr>
 			 
 			 
@@ -254,7 +276,7 @@ $tipo = 'id_pedido';
              </tr>
 			
             <tr class="text-center">
-             <td></td>
+            <td>{{$query_1[0]->prenota}}</td>
 			 <td></td>
 			 <td></td>
 			 <td></td>
@@ -275,7 +297,17 @@ $tipo = 'id_pedido';
 			 
             <tr class="text-center">
 				<td><input type="text" id="id_nome" name="id_nome" size="20" value={{$query_1[0]->dt_prev_embnac}} ></td>
-				<td></td>
+			  <td>@php 
+              $fornecedor = \DB::select("select id, fantasia from addressbook where nome like '%junior%'");
+              @endphp
+              <select class="form-control" name="genero" required >			 
+              <option value="">{{$query_1[0]->an8_agente}}</option>
+                @foreach ($fornecedor as $forn)
+              <option value="{{$forn->id}}">{{$forn->id}} - {{$forn->fantasia}}</option>
+                @endforeach
+              </select>
+			  </td>	
+				
 				<td><input type="text" id="id_nome" name="id_nome" size="20" value={{$query_1[0]->dt_emb_nac}} ></td>
 				<td><input type="text" id="id_nome" name="id_nome" size="20" value={{$query_1[0]->dt_recebimento}} ></td>
 			</tr>		 
