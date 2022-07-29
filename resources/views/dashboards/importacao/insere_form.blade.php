@@ -69,14 +69,12 @@ $tipo = 'id_pedido';
 
     <div class="box box-widget">
       <div class="box-header with-border">
+		 <h3 class="box-title">Pedido JDE</h3>
+		  <h6>
         <table class="table borderless">
-			<td class="text-middle" ><i class="fa fa-tripadvisor"></i> <b>Pedido </b>Jde <br></td>
-     		<h6>
-	 		<th class="text-right">
-			 <b>Dados origem OI/OP</b>
-			 </th>
-			<th class="text-left">
 				
+					
+			
 			<tr class="card-header bg-info text-center">
               <td><b>Num pedido</b></td>
               <td><b>Tipo pedido</b></td>
@@ -96,7 +94,7 @@ $tipo = 'id_pedido';
             </tr>	
 
 				
-			</h6>	
+				
 	 
 		<form action="/import_form/grava" method="post" class="form-horizontal">
 			
@@ -106,7 +104,7 @@ $tipo = 'id_pedido';
 			
 	 	@csrf
 	 
-		</table>
+		</table></h6>
       </div>
       
 
@@ -372,7 +370,7 @@ $tipo = 'id_pedido';
 		 <table class="table table-bordered table-condensed">
 			  <tr  class="card-header bg-info text-center">
               
-              <td><b></b></td>tabelas
+              <td><b>tabea</b></td>
               
             </tr>
             <tr class="text-center">
