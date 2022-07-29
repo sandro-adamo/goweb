@@ -2,11 +2,13 @@
 
 @php
 
+$pedido = $_GET["pedido"];
+$tipo = $_GET["tipo"];
+
 
 $cli  = 100205;
-
 $numero = 5883;
-$tipo = 'OI';
+
 
 
 @endphp
@@ -47,10 +49,10 @@ select * from (
 	nf.prenota, nf.dt_emissao dt_nf, concat(nf.ult_status, ' ', nf.prox_status) status_nf, sum(nf.qtde) qtde_nf, sum(nf.total) vlr_nf, sum(nf.icms) icms_nf, sum(nf.ipi) ipi_nf,
 	'pecas - groupconcat' tipo_carga, 'group concat' grifes
     
-	 from importacoes_pedidos ped 
+	from importacoes_pedidos ped 
 	left join importacoes_notas nf on nf.ped_original = ped.pedido and nf.tipo_original = ped.tipo and nf.linha_original = ped.linha
 	
-	where ped.pedido = 5883
+	where ped.pedido = '$pedido' and ped.tipo = '$tipo'
 
 	group by ped.pedido, ped.tipo , ped.dt_pedido, ped.ref_go ,  concat(ped.ult_status,' ', ped.prox_status),
     Ref_Nac_01, ref_nac_02,
@@ -76,7 +78,7 @@ select * from (
 
     <div class="box box-widget">
       <div class="box-header with-border">
-		 <h3 class="box-title"><i class="fa fa-file-text-o"></i> {{$tipo}} - {{$numero}} </i> </h3>
+		 <h3 class="box-title"><i class="fa fa-file-text-o"></i> {{$tipo}} - {{$pedido}} </i> </h3>
 		  <h6>
          <table class="table table-bordered table-condensed">
 				
@@ -192,7 +194,7 @@ select * from (
 			  <td>@php 
               $fornecedor = \DB::select("select id, fantasia from addressbook where nome like '%junior%'");
               @endphp
-              <select class="form-control" name="genero" required >			 
+              <select class="form-control" name="genero" >			 
               <option value="">{{$query_1[0]->an8_agente}}</option>
                 @foreach ($fornecedor as $forn)
               <option value="{{$forn->id}}">{{$forn->id}} - {{$forn->fantasia}}</option>
@@ -300,7 +302,7 @@ select * from (
 			  <td>@php 
               $fornecedor = \DB::select("select id, fantasia from addressbook where nome like '%junior%'");
               @endphp
-              <select class="form-control" name="genero" required >			 
+              <select class="form-control" name="genero" >			 
               <option value="">{{$query_1[0]->an8_agente}}</option>
                 @foreach ($fornecedor as $forn)
               <option value="{{$forn->id}}">{{$forn->id}} - {{$forn->fantasia}}</option>
