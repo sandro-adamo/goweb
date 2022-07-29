@@ -74,34 +74,6 @@ where acao in ('tirar_venda','retornar_venda','manter_venda','manter_fora')) as 
 if (isset($id_usuario)  ){
 
 
-                $pedidos = \DB::select("select nf,mostruarios.pedido, dt_emissao,
-                case 
-                when  ult_status < 543 then 'Inserido'
-                when ult_status >= 543 and ult_status < 560 then 'Separação'
-                when ult_status >= 560 and ult_status < 605 then 'Embalagem'
-                when ult_status >= 605 and ult_status < 619 then 'Faturamento'
-                when ult_status = 620  then 'Faturado' 
-                when ult_status = 620 and (mostruarios.rastreio <>''or mostruarios_rastreios.rastreio <> '')  then 'Enviado' 
-                else 0 end as  'Status',
-                
-				case when 	mostruarios_rastreios.rastreio is not null then mostruarios_rastreios.rastreio else mostruarios.rastreio end as 'rastreio'
-				, 
-					case when 	mostruarios_rastreios.rastreio is not null then mostruarios_rastreios.transportadora else mostruarios.transportadora end as 'transportadora'
-					,
-                sum(qtde) as qtde
-
-                from mostruarios
-                left join addressbook on addressbook.id = id_cliente
-				left join mostruarios_rastreios on mostruarios.pedido = mostruarios_rastreios.pedido and mostruarios.tipo = mostruarios_rastreios.tipo
-                where 
-                 id_cliente $rep
-                and pc_cliente = '' 
-                and mostruarios.tipo = 'sm'
-                and  ult_status not in ('980','984')
-                
-                group by pedido, dt_emissao, nf,ult_status, mostruarios.rastreio, mostruarios.transportadora, mostruarios_rastreios.rastreio, mostruarios_rastreios.transportadora
-                order by dt_emissao desc
-                limit 10 ");
 
                 $recebermala = \DB::select("
                 Select*
@@ -468,29 +440,7 @@ if (isset($id_usuario)  ){
           <td><b> Qtde</b></td>
         </tr>
        
-         @foreach ($pedidos as $pedido1)
-
-                   @if (isset($pedido1->dt_emissao))
-                  <tr>  
-
-                    <td align="center">
-                      <a href="/listapedidomost/pedido={{$pedido1->pedido}}">
-                      {{$pedido1->pedido}}
-                      </a>
-                    </td>
-                    <td> {{$pedido1->dt_emissao}}</td>
-                    <td> {{$pedido1->nf}}</td>
-                    <td> {{$pedido1->Status}}</td>
-                    <td> {{$pedido1->rastreio}}</td>
-                    <td> {{$pedido1->transportadora}}</td>
-                    <td> {{$pedido1->qtde}}</td>
-  
-                   
-
- @endif
-
-                  </tr>
-                  @endforeach
+        dsdsd
                    
        
         
