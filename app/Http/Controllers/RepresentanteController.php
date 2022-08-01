@@ -67,7 +67,10 @@ class RepresentanteController extends Controller
 
 	public function historicoMovimentacao(Request $request) {
  		 
- 		 $movimentacoes = \DB::select("SELECT movimentacoes_most.*, ad1.nome as nome_destino, ad2.nome as nome_origem,
+ 		 $movimentacoes = \DB::select("SELECT movimentacoes_most.*, 
+		 case when id_destino = 01 then 'EM CONTRATAÇÃO' 
+		  when id_destino = 02 then 'DESLIGAMENTO DA GRIFE'
+		  else ad1.nome end as nome_destino, ad2.nome as nome_origem,
 
 (select status from  inventarios where  id_inventario = id_inventario_origem and status <> 'cancelado'  and id_origem = id_rep limit 1) status_inventario_origem,
 (select status from  inventarios where  id_inventario = id_inventario_destino and status <> 'cancelado' and id_destino = id_rep limit 1) status_inventario_destino
@@ -91,7 +94,11 @@ $historico = \DB::select("SELECT * FROM `movimentacoes_most_historico` where id_
  		 
  		 $movimentacoes = \DB::select("
 
-		  SELECT distinct id_movimentacao, mm.tipo,  id_destino, id_origem,   ad1.nome as nome_destino, ad2.nome as nome_origem,
+		  SELECT distinct id_movimentacao, mm.tipo,  id_destino, id_origem,   
+		  case when id_destino = 01 then 'EM CONTRATAÇÃO' 
+		  when id_destino = 02 then 'DESLIGAMENTO DA GRIFE'
+		  else ad1.nome end as nome_destino, 
+		  ad2.nome as nome_origem,
 						obs,
 						 concat(ifnull(AH,''),' ', ifnull(AT,''),' ', ifnull(BG,''),' ', ifnull(EV,''),' ', ifnull(HI,''),' ', ifnull(JM,''),' ', ifnull(JO,''),' ', ifnull(PU,''),' ',
 					  ifnull(SP,''),' ', ifnull(TC,''),' ',
