@@ -116,9 +116,8 @@ select * from (
 			<li><a href="#Transito" data-toggle="tab">Transito</a></li>
 			<li><a href="#Embarque" data-toggle="tab">Embarque</a></li>
 			<li><a href="#Kering" data-toggle="tab">Kering</a></li>
-
-
-		
+		<li><a href="#Kering" data-toggle="tab">Perdimento</a></li>
+		<li><a href="#Kering" data-toggle="tab">Sem ped_jde</a></li>
 		
 		
 <div class="tab-content">
@@ -450,7 +449,7 @@ select * from (
 			  
 			@foreach ($query_2 as $query6)
 				
-				@php if ($query6->fornecedor="KERING")
+				@php if ($query6->fornecedor=="KERING ")
 				
 			{ @endphp
 		
@@ -476,7 +475,7 @@ select * from (
 	
 			</tr>
 			@php ;} else  { @endphp
-		<tr></tr>
+			<tr></tr>
 			@php  ;} @endphp
 			
 			@endforeach 
@@ -486,13 +485,10 @@ select * from (
 	
 		</ul>
 		</div>	
-		</div>	
+	</div>	
+</ul>
 	
-	
-	
-</ul>		
-		
-</div>
+</div>			  
 </div>	
 </div>
 		

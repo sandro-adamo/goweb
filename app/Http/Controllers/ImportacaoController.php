@@ -275,24 +275,76 @@ from(
 	
 	
 		public function gravaDadosImport(Request $request) {
+						
+$id = $request->id_info;
+$id_usuario = \Auth::id();
 			
-		if (isset($request->id_info)) {
-							
-				$teste = $request->obs;
-				$id = $request->id_info;
+if($request->dt_invoice==''){$dt_invoice = 'null';} else {$dt_invoice = $request->dt_invoice;};
+if($request->dt_sol_li==''){$dt_sol_li = 'null';} else {$dt_sol_li = $request->dt_sol_li;};
+if($request->dt_def_li==''){$dt_def_li = 'null';} else {$dt_def_li = $request->dt_def_li;};
+if($request->dt_aut_embarque==''){$dt_aut_embarque = 'null';} else {$dt_aut_embarque = $request->dt_aut_embarque;};
+if($request->dt_emb_int==''){$dt_emb_int = 'null';} else {$dt_emb_int = $request->dt_emb_int;};
+if($request->dt_prev_chegada==''){$dt_prev_chegada = 'null';} else {$dt_prev_chegada = $request->dt_prev_chegada;};
+if($request->dt_chegada==''){$dt_chegada = 'null';} else {$dt_chegada = $request->dt_chegada;};
+if($request->dt_remocao==''){$dt_remocao = 'null';} else {$dt_remocao = $request->dt_remocao;};
+if($request->dt_registro==''){$dt_registro = 'null';} else {$dt_registro = $request->dt_registro;};
+if($request->dt_prev_embnac==''){$dt_prev_embnac = 'null';} else {$dt_prev_embnac = $request->dt_prev_embnac;};
+if($request->dt_emb_nac==''){$dt_emb_nac = 'null';} else {$dt_emb_nac = $request->dt_emb_nac;};
+if($request->dt_recebimento==''){$dt_recebimento = 'null';} else {$dt_recebimento = $request->dt_recebimento;};			
+			
+
+		if ($request->acao=="update") {
 				
-				$id_usuario = \Auth::id();
+			
+				$update = \DB::select("update compras_infos set 
+				id_pedido = '$request->pedido', 
 				
-				$insert = \DB::select("insert into compras_comex (num_invoice, ref_comex) 
-				values ('$request->doc_agrup',  '$request->id_info')");
+				tipo_pedido = '$request->tipo',
+				cubagem_m3 = '$request->cubagem_m3',
+				dt_invoice = $dt_invoice,
+				volumes = '$request->volumes',
+				peso_bruto = '$request->peso_bruto',
+				obs_invoice = '$request->obs_invoice',
+				
+				doc_agrup = '$request->doc_agrup',
+				tipo_carga =  '$request->tipo_carga',
+				
+				dt_sol_li =  $dt_sol_li,
+				dt_def_li =  $dt_def_li,
+				an8_agente_int =  '$request->an8_agente_int',
+				dt_aut_embarque =  $dt_aut_embarque,
+				obs_transito =  '$request->obs_transito',
+				
+				num_awb =  '$request->num_awb',
+				dt_emb_int =  $dt_emb_int,
+				dt_prev_chegada =  $dt_prev_chegada,
+				dt_chegada =  $dt_chegada,
+				obs_chegada =  '$request->obs_chegada',
+				dt_remocao =  $dt_remocao,
+				
+				dt_registro =  $dt_registro,
+				protocolo_di =  '$request->protocolo_di',
+				
+				dt_prev_embnac =  $dt_prev_embnac,
+				an8_agente_nac =  '$request->an8_agente_nac',
+				dt_emb_nac =  $dt_emb_nac,
+				dt_recebimento =  $dt_recebimento
+				
+				
+				where id = '$id' ");
 			
 				
 		} else {
 			
 			
 			
-				$insert = \DB::select("insert into compras_comex (num_invoice, ref_comex) 
-				values ('$request->doc_agrup',  '$request->acao')");
+				$insert = \DB::select("insert into compras_infos 
+				(id_pedido, tipo_pedido,  doc_agrup, cubagem_m3,dt_invoice,volumes,peso_bruto,obs_invoice) 
+				
+				values ('$request->pedido', '$request->tipo',  '$request->doc_agrup', '$request->cubagem_m3',
+				$dt_invoice,'$request->volumes', '$request->peso_bruto','$request->obs_invoice'
+				
+				)");
 				
 			
 				
