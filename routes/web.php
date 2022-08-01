@@ -10,8 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/dsimportdet/{tipo}/{pedido}','ImportacaoController@detalhesDSimport');
-Route::post('/dsimportdet/cadastrapagamento','ImportacaoController@cadastraPagamento');
+
 
 Route::post('/getProtocoloAtendimento', 'AtendimentoController@getProtocolo');
 Route::get('/addHistorico', 'AtendimentoController@addHistorico');
@@ -200,20 +199,6 @@ Route::get('/dashboard/estoque', function () {
 
 Route::get('/dsclientes2', function () {
     return view('dashboards.clientes.dashboard_clientes2');	
-});
-
-
-Route::get('/dsimport', function () {
-    return view('dashboards.importacao.aberto');	
-});
-
-Route::get('/dsimportrec', function () {
-    return view('dashboards.importacao.dashboard_import_rec');	
-});
-
-
-Route::get('/dsimportdet', function () {
-    return view('dashboards.importacao.dashboard_importacaodet');	
 });
 
 
@@ -553,8 +538,27 @@ Route::get('/produtos/grades', function () {    return view('produtos/grade/grad
 
 Route::get('/grade/detalhe', function () {    return view('produtos/grade/detalhe'); });
 
+Route::get('/produtos/grades1', function () {    return view('produtos/grade/grades1'); });
 
 
+
+
+
+Route::get('/dsimport', function () { return view('dashboards.importacao.aberto');	});
+
+Route::get('/dsimportrec', function () {   return view('dashboards.importacao.dashboard_import_rec');	});
+
+Route::get('/dsimportdet', function () {   return view('dashboards.importacao.dashboard_importacaodet');	});
+
+
+Route::get('/import_form', function () { return view('dashboards.importacao.insere_form');	});
+Route::post('/import_form/grava', 'ImportacaoController@gravaDadosImport' );
+
+
+
+Route::get('/dsimportdet/{tipo}/{pedido}','ImportacaoController@detalhesDSimport');
+
+Route::post('/dsimportdet/cadastrapagamento','ImportacaoController@cadastraPagamento');
 
 
 
