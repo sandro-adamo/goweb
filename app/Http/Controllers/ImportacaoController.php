@@ -265,36 +265,28 @@ from(
 		    }
 
 		}
-		
-		
-
-
     }
-	
-	
-	
+
 	
 		public function gravaDadosImport(Request $request) {
-						
-$id = $request->id_info;
-$id_usuario = \Auth::id();
-			
-if($request->dt_invoice==''){$dt_invoice = 'null';} else {$dt_invoice = $request->dt_invoice;};
-if($request->dt_sol_li==''){$dt_sol_li = 'null';} else {$dt_sol_li = $request->dt_sol_li;};
-if($request->dt_def_li==''){$dt_def_li = 'null';} else {$dt_def_li = $request->dt_def_li;};
-if($request->dt_aut_embarque==''){$dt_aut_embarque = 'null';} else {$dt_aut_embarque = $request->dt_aut_embarque;};
-if($request->dt_emb_int==''){$dt_emb_int = 'null';} else {$dt_emb_int = $request->dt_emb_int;};
-if($request->dt_prev_chegada==''){$dt_prev_chegada = 'null';} else {$dt_prev_chegada = $request->dt_prev_chegada;};
-if($request->dt_chegada==''){$dt_chegada = 'null';} else {$dt_chegada = $request->dt_chegada;};
-if($request->dt_remocao==''){$dt_remocao = 'null';} else {$dt_remocao = $request->dt_remocao;};
-if($request->dt_registro==''){$dt_registro = 'null';} else {$dt_registro = $request->dt_registro;};
-if($request->dt_prev_embnac==''){$dt_prev_embnac = 'null';} else {$dt_prev_embnac = $request->dt_prev_embnac;};
-if($request->dt_emb_nac==''){$dt_emb_nac = 'null';} else {$dt_emb_nac = $request->dt_emb_nac;};
-if($request->dt_recebimento==''){$dt_recebimento = 'null';} else {$dt_recebimento = $request->dt_recebimento;};	
-			
-			
+
+		if($request->dt_invoice==''){$dt_invoice = 'null';} else {$dt_invoice = $request->dt_invoice;};
+		if($request->dt_sol_li==''){$dt_sol_li = 'null';} else {$dt_sol_li = $request->dt_sol_li;};
+		if($request->dt_def_li==''){$dt_def_li = 'null';} else {$dt_def_li = $request->dt_def_li;};
+		if($request->dt_aut_embarque==''){$dt_aut_embarque = 'null';} else {$dt_aut_embarque = $request->dt_aut_embarque;};
+		if($request->dt_emb_int==''){$dt_emb_int = 'null';} else {$dt_emb_int = $request->dt_emb_int;};
+		if($request->dt_prev_chegada==''){$dt_prev_chegada = 'null';} else {$dt_prev_chegada = $request->dt_prev_chegada;};
+		if($request->dt_chegada==''){$dt_chegada = 'null';} else {$dt_chegada = $request->dt_chegada;};
+		if($request->dt_remocao==''){$dt_remocao = 'null';} else {$dt_remocao = $request->dt_remocao;};
+		if($request->dt_registro==''){$dt_registro = 'null';} else {$dt_registro = $request->dt_registro;};
+		if($request->dt_prev_embnac==''){$dt_prev_embnac = 'null';} else {$dt_prev_embnac = $request->dt_prev_embnac;};
+		if($request->dt_emb_nac==''){$dt_emb_nac = 'null';} else {$dt_emb_nac = $request->dt_emb_nac;};
+		if($request->dt_recebimento==''){$dt_recebimento = 'null';} else {$dt_recebimento = $request->dt_recebimento;};	
+					
 		if ($request->acao=="update") {
-				
+			
+				$id = $request->id_info;
+				$id_usuario = \Auth::id();
 			
 				$update = \DB::select("update compras_infos set 
 				id_pedido = '$request->pedido', 
@@ -335,29 +327,15 @@ if($request->dt_recebimento==''){$dt_recebimento = 'null';} else {$dt_recebiment
 				where id = '$id' ");
 			
 				
-		} else {
-			
-			
-			
+				} else {
+				
 				$insert = \DB::select("insert into compras_infos 
 				(id_pedido, tipo_pedido,  doc_agrup, cubagem_m3,dt_invoice,volumes,peso_bruto,obs_invoice) 
 				
 				values ('$request->pedido', '$request->tipo',  '$request->doc_agrup', '$request->cubagem_m3',
-				$dt_invoice,'$request->volumes', '$request->peso_bruto','$request->obs_invoice'
-				
-				)");
-				
-			
-				
-		
+				$dt_invoice,'$request->volumes', '$request->peso_bruto','$request->obs_invoice')");	
 			}
 		return redirect()->back();
 		}
-	
-	
-	
-	
-	
-	
-
 }
+
