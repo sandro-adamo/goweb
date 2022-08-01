@@ -290,9 +290,9 @@ if($request->dt_remocao==''){$dt_remocao = 'null';} else {$dt_remocao = $request
 if($request->dt_registro==''){$dt_registro = 'null';} else {$dt_registro = $request->dt_registro;};
 if($request->dt_prev_embnac==''){$dt_prev_embnac = 'null';} else {$dt_prev_embnac = $request->dt_prev_embnac;};
 if($request->dt_emb_nac==''){$dt_emb_nac = 'null';} else {$dt_emb_nac = $request->dt_emb_nac;};
-if($request->dt_recebimento==''){$dt_recebimento = 'null';} else {$dt_recebimento = $request->dt_recebimento;};			
+if($request->dt_recebimento==''){$dt_recebimento = 'null';} else {$dt_recebimento = $request->dt_recebimento;};	
 			
-
+			
 		if ($request->acao=="update") {
 				
 			
@@ -301,7 +301,7 @@ if($request->dt_recebimento==''){$dt_recebimento = 'null';} else {$dt_recebiment
 				
 				tipo_pedido = '$request->tipo',
 				cubagem_m3 = '$request->cubagem_m3',
-				dt_invoice = $dt_invoice,
+				dt_invoice = '$dt_invoice',
 				volumes = '$request->volumes',
 				peso_bruto = '$request->peso_bruto',
 				obs_invoice = '$request->obs_invoice',
@@ -320,7 +320,8 @@ if($request->dt_recebimento==''){$dt_recebimento = 'null';} else {$dt_recebiment
 				dt_prev_chegada =  $dt_prev_chegada,
 				dt_chegada =  $dt_chegada,
 				obs_chegada =  '$request->obs_chegada',
-				dt_remocao =  $dt_remocao,
+				dt_remocao =  '$dt_remocao',
+				dt_perdimento =  '$dt_perdimento',
 				
 				dt_registro =  $dt_registro,
 				protocolo_di =  '$request->protocolo_di',
