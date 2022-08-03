@@ -73,7 +73,7 @@
                 @php                  
                 $reps = \DB::select("select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where tipo = 'RE' and sit_representante = ''  
                 union all select id, concat(nome,' - ',id,' - ',razao) as nome from go.addressbook where id in (101815,10)  
-                union all select '01 id, ' EM CONTRATAÇÃO' as nome  
+                union all select '01' id, ' EM CONTRATAÇÃO' as nome  
                 union all select '02' id, ' DESLIGAMENTO DA GRIFE' as nome  order by nome asc ");
                 @endphp                   
 
