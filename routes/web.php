@@ -545,14 +545,11 @@ Route::get('/produtos/grades1', function () {    return view('produtos/grade/gra
 
 
 Route::get('/dsimport', function () { return view('dashboards.importacao.aberto');	});
-
 Route::get('/dsimportrec', function () {   return view('dashboards.importacao.dashboard_import_rec');	});
-
 Route::get('/dsimportdet', function () {   return view('dashboards.importacao.dashboard_importacaodet');	});
 
 
 Route::get('/import_form', function () { return view('dashboards.importacao.insere_form');	});
-
 Route::post('/import_form/grava','ImportacaoController@gravaDadosImport');
 
 Route::get('/dsimportdet/{tipo}/{pedido}','ImportacaoController@detalhesDSimport');

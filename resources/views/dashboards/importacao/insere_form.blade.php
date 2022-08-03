@@ -5,21 +5,17 @@
 $pedido = $_GET["pedido"];
 $tipo = $_GET["tipo"];
 
-
-
-
-
 @endphp
 
 @section('title')
-<i class="fa fa-file-text-o"></i> Detalhe do pedido</i> 
+<i class="fa fa-file-text-o"></i> {{$tipo}} - {{$pedido}}</i> 
 @append 
 
 @section('conteudo')
 	@csrf
-	@php
 
-	
+
+@php
 	$result = \DB::select("select id from compras_infos where id_pedido = $pedido");
 		
 			if(count($result)==1){
@@ -33,11 +29,8 @@ $tipo = $_GET["tipo"];
 	
 			}
 	
-	
 
-	$query_1 = \DB::select("
-	
-
+$query_1 = \DB::select("
 	
 
 select *, ifnull(volumes,0) volumes1, ifnull(peso_bruto,0) peso_bruto1
@@ -89,8 +82,8 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
            
 			<ul class="nav nav-tabs">
               <li class="active"><a href="#dados" data-toggle="tab">Dados</a></li>
-			   <li><a href="#timeline" data-toggle="tab">Dados</a></li>
-              <li><a href="#settings" data-toggle="tab">financeiro</a></li>
+			   <li><a href="#detalhe" data-toggle="tab">Detalhes</a></li>
+              <li><a href="#financeiro" data-toggle="tab">financeiro</a></li>
               <li><a href="#timeline" data-toggle="tab">Timeline</a></li>
               <li><a href="#settings" data-toggle="tab">Settings</a></li>
             </ul>
@@ -98,22 +91,45 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
 			  
 			  
             <div class="tab-content">
-				
-				
-				
+						
 				
               <div class="active tab-pane" id="dados">
+				  		   
+				  
+					<div class="box-header with-border">	  
+					 <h3 class="box-title"><i class="fa fa-file-text-o">{{$tipo}} - {{$pedido}} </i> </h3>
+					  <h6>
+					 <table class="table table-bordered table-condensed">			
+
+						<tr class="card-header bg-info text-center">         
+						  <td><b>Dt Emissao</b></td>
+						  <td><b>Tipo produto</b></td>
+						  <td><b>Ult/Prox Status</b></td>
+						  <td><b>Obs pedido</b></td>
+						</tr>
+
+						<tr class="text-center">
+							<td>{{$query_1[0]->dt_pedido}}</td>
+							<td>{{$query_1[0]->num_pedido}}</td>
+							<td>{{$query_1[0]->ult_prox_ped}} - {{$query_1[0]->desc_status}}</td>
+							<td>{{$query_1[0]->num_pedido}}</td>
+						</tr>	
+						</table></h6>
+					</div>
+				
+			  
+				  
 				
                 <!-- Post -->
-                <div>
-				
+                <div class="post clearfix">
+			
 				<form action="/import_form/grava" method="post" class="form-horizontal">
-				<input type="hidden" id="id_info" name="id_info" size="50" value={{$id_info}}>
-				<input type="hidden" id="acao" name="acao" size="50" value={{$acao}} >
-				<input type="hidden" id="pedido" name="pedido" size="50" value={{$pedido}} >
-				<input type="hidden" id="tipo" name="tipo" size="50" value={{$tipo}} >	
+					<input type="hidden" id="id_info" name="id_info" size="50" value={{$id_info}}>
+					<input type="hidden" id="acao" name="acao" size="50" value={{$acao}} >
+					<input type="hidden" id="pedido" name="pedido" size="50" value={{$pedido}} >
+					<input type="hidden" id="tipo" name="tipo" size="50" value={{$tipo}} >	
 
-
+				@csrf
 
 
 					<div class="box box-danger">
@@ -178,6 +194,7 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
 					  <td><b>Transp Internacional</b></td>
 					  <td><b>Dt aut Embarque</b></td>
 					 <td><b>Obs Transito</b></td>
+						<td></td>
 					</tr>
 
 
@@ -199,7 +216,7 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
 
 					  <td><input type="date" id="dt_aut_embarque" name="dt_aut_embarque" size="10" value={{$query_1[0]->dt_aut_embarque}} ></td>
 					  <td><input type="text" id="obs_transito" name="obs_transito" size="10" value={{$query_1[0]->obs_transito}} ></td>
-
+<td><input type="date" id="dt_perdimento" name="dt_perdimento" size="20" value={{$query_1[0]->dt_perdimento}} ></td>
 					</tr>
 
 
@@ -316,7 +333,7 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
 					
 
 					
-					
+				
 					<div class="box box-success">
 					  <h3 class="box-title">Trading OP</h3>
 						   <h6>
@@ -332,42 +349,20 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
 						</tr>	 
 
 						<tr class="text-center">
-						<div></div>	
-						<div></div>	
-						<div></div>	
-						<div></div>	
-						<div></div>	
-						<div></div>	  
+						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >
+						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >
+						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >	
+						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >	
+						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >	
+						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >	  
 						</tr>
 
 					<tr> <td colspan="6"></td></tr> 
 
 
-						<tr  class="card-header bg-info text-center">
-						  <td><b>desc_dupl_1</b></td>
-						  <td><b>valor_dupl_1</b></td>
-						  <td><b>venc_dupl_1</b></td>
-						  <td><b>desc_dupl_2</b></td>
-						  <td><b>valor_dupl_2</b></td>
-						  <td><b>venc_dupl_2</b></td>
-						  <td><b>desc_dupl_3</b></td>
-						  <td><b>valor_dupl_3</b></td>
-						  <td><b>venc_dupl_3</b></td>
+						
 
-						</tr>	 		 
-						<tr class="text-center">
-						<div></div>	
-						<div></div>	
-						<div></div>	
-						<div></div>	
-						<div></div>	
-						<div></div>	  
-						<div></div>	
-						<div></div>	
-						<div></div>	
-						</tr>
-
-					<tr> <td colspan="6"></td></tr> 
+					
 
 						 <tr  class="card-header bg-info text-center">
 						  <td><b>taxa_cambio_fat</b></td>
@@ -379,12 +374,12 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
 						</tr>	 
 
 						<tr class="text-center">
-						<div></div>	
-						<div></div>	
-						<div></div>	
-						<div></div>	
-						<div></div>	
-						<div></div>	  
+						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >
+						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >
+						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >	
+						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >
+						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >
+						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >	  
 						</tr>
 
 						 </h6>
@@ -394,8 +389,8 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
 					
 				<button type="submit" class="btn btn-primary"><i class="fa fa-refresh"></i> Enviar</button>	
 				</form>
-					
-                </div>
+				</div>	
+               
                 <!-- /.post -->
               </div>
 				
@@ -508,7 +503,360 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
               </div>
               <!-- /.tab-pane -->
 
-              <div class="tab-pane" id="settings">
+			  
+			  
+			  
+			  
+			  
+			 
+			 
+			  
+              <div class="tab-pane" id="financeiro">
+                
+				  <form class="form-horizontal">
+                 
+                  
+					  <section class="content">
+					<div class="row">
+										  
+							<div class="col-md-5">
+										<div class="box-header with-border">
+											  <h3 class="box-title">Pedido OI</h3>
+											</div>
+ 									<table class="table table-condensed table-bordered">
+											<tr class="bg-primary">
+												<td colspan="3" align="center"><small><b>Embarque</b></small></td>
+											</tr>    
+												<tr>
+												<td align="center">Descricao</td>
+												<td align="center">Valor</td>
+												<td align="center">Vencimento</td>
+											</tr>  											
+
+											<tr>
+												<td align="center">Duplicata 1</td>
+												<td align="center">valor 1</td>
+												<td align="center">venc 1</td>
+												
+											</tr>                
+
+											<tr>
+												<td align="center">Duplicata2</td>
+												<td align="center">valor 2</td>
+												<td align="center">venc 2</td>
+											</tr>  
+											
+											<tr>
+												<td align="center">Duplicata 3</td>
+												<td align="center">valor 3</td>												
+												<td align="center">venc 3</td>
+											</tr>  
+										
+									</table> 
+
+										  <!-- About Me Box -->
+										  <div class="box box-primary">																				  
+											<table class="table table-condensed table-bordered">
+											<tr class="bg-primary">
+												<td colspan="3" align="center"><small><b>Parcelas</b></small></td>
+											</tr>    
+												<tr>
+												<td align="center">Descricao</td>
+												<td align="center">Valor</td>
+												<td align="center">Vencimento</td>
+											</tr>  											
+
+											<tr>
+												<td align="center">Duplicata 1</td>
+												<td align="center">valor 1</td>
+												<td align="center">venc 1</td>
+												
+											</tr>                
+
+											<tr>
+												<td align="center">Duplicata2</td>
+												<td align="center">valor 2</td>
+												<td align="center">venc 2</td>
+											</tr>  
+											
+											<tr>
+												<td align="center">Duplicata 3</td>
+												<td align="center">valor 3</td>												
+												<td align="center">venc 3</td>
+											</tr>  
+										
+									</table> 										
+										  </div><!-- /.fecha a segunda caixa -->	
+											
+											
+							</div><!-- /.fecha a col3 -->
+										
+										  
+										  
+										  
+							 <!-- 1o Box -->			  
+							<div class="col-md-5">
+ 									<table class="table table-condensed table-bordered">
+											<tr class="bg-primary">
+												<td colspan="3" align="center"><small><b>Pedido trading</b></small></td>
+											</tr>    
+												<tr>
+												<td align="center">Descricao</td>
+												<td align="center">Valor</td>
+												<td align="center">Vencimento</td>
+											</tr>  											
+
+											<tr>
+												<td align="center">Duplicata 1</td>
+												<td align="center">valor 1</td>
+												<td align="center">venc 1</td>
+												
+											</tr>                
+
+											<tr>
+												<td align="center">Duplicata2</td>
+												<td align="center">valor 2</td>
+												<td align="center">venc 2</td>
+											</tr>  
+											
+											<tr>
+												<td align="center">Duplicata 3</td>
+												<td align="center">valor 3</td>												
+												<td align="center">venc 3</td>
+											</tr>  
+										
+									</table> 
+								
+
+								  <!-- About Me Box -->
+								  <div class="box box-primary">
+									<div class="box-header with-border">
+									  <h3 class="box-title">About Me</h3>
+									</div>
+
+									<!-- /.box-header -->
+									<div class="box-body">									
+									  <p>
+										<span class="label label-danger">UI Design</span>
+										<span class="label label-success">Coding</span>									
+									  </p>
+									</div>											
+								  </div><!-- /.fecha a segunda caixa -->	
+											
+											
+							</div>
+						
+						<div class="col-md-2">
+										  
+										<div class="box box-primary">
+											<div class="box-body box-profile">										
+											texto1
+											</div>	
+											  texto2
+										  </div>
+										 
+
+										  <!-- About Me Box -->
+										  <div class="box box-primary">
+											<div class="box-header with-border">
+											  <h3 class="box-title">About Me</h3>
+											</div>
+											  
+											<!-- /.box-header -->
+											<div class="box-body">									
+											  <p>
+												<span class="label label-danger">UI Design</span>
+												<span class="label label-success">Coding</span>									
+											  </p>
+											</div>											
+										  </div><!-- /.fecha a segunda caixa -->
+								
+								
+										 
+							</div> <!-- /.fecha coljna 5 -->
+								 
+				</div> <!-- /.row -->
+				</section>		
+					<button>Salvar</button>  
+					  
+                </form> 
+              </div>
+              <!-- /.tab-pane -->
+				
+				  
+				
+				
+				<div class="tab-pane" id="settings">
+               
+					
+					<section class="content">
+					<div class="row">
+										  
+							<div class="col-md-5">
+										<div class="box-header with-border">
+											  <h3 class="box-title">Pedido OI</h3>
+											</div>
+ 									<table class="table table-condensed table-bordered">
+											<tr class="bg-primary">
+												<td colspan="3" align="center"><small><b>Embarque</b></small></td>
+											</tr>    
+												<tr>
+												<td align="center">Descricao</td>
+												<td align="center">Valor</td>
+												<td align="center">Vencimento</td>
+											</tr>  											
+
+											<tr>
+												<td align="center">Duplicata 1</td>
+												<td align="center">valor 1</td>
+												<td align="center">venc 1</td>
+												
+											</tr>                
+
+											<tr>
+												<td align="center">Duplicata2</td>
+												<td align="center">valor 2</td>
+												<td align="center">venc 2</td>
+											</tr>  
+											
+											<tr>
+												<td align="center">Duplicata 3</td>
+												<td align="center">valor 3</td>												
+												<td align="center">venc 3</td>
+											</tr>  
+										
+									</table> 
+
+										  <!-- About Me Box -->
+										  <div class="box box-primary">																				  
+											<table class="table table-condensed table-bordered">
+											<tr class="bg-primary">
+												<td colspan="3" align="center"><small><b>Parcelas</b></small></td>
+											</tr>    
+												<tr>
+												<td align="center">Descricao</td>
+												<td align="center">Valor</td>
+												<td align="center">Vencimento</td>
+											</tr>  											
+
+											<tr>
+												<td align="center">Duplicata 1</td>
+												<td align="center">valor 1</td>
+												<td align="center">venc 1</td>
+												
+											</tr>                
+
+											<tr>
+												<td align="center">Duplicata2</td>
+												<td align="center">valor 2</td>
+												<td align="center">venc 2</td>
+											</tr>  
+											
+											<tr>
+												<td align="center">Duplicata 3</td>
+												<td align="center">valor 3</td>												
+												<td align="center">venc 3</td>
+											</tr>  
+										
+									</table> 										
+										  </div><!-- /.fecha a segunda caixa -->	
+											
+											
+							</div><!-- /.fecha a col3 -->
+										
+										  
+										  
+										  
+							 <!-- 1o Box -->			  
+							<div class="col-md-5">
+ 									<table class="table table-condensed table-bordered">
+											<tr class="bg-primary">
+												<td colspan="3" align="center"><small><b>Pedido trading</b></small></td>
+											</tr>    
+												<tr>
+												<td align="center">Descricao</td>
+												<td align="center">Valor</td>
+												<td align="center">Vencimento</td>
+											</tr>  											
+
+											<tr>
+												<td align="center">Duplicata 1</td>
+												<td align="center">valor 1</td>
+												<td align="center">venc 1</td>
+												
+											</tr>                
+
+											<tr>
+												<td align="center">Duplicata2</td>
+												<td align="center">valor 2</td>
+												<td align="center">venc 2</td>
+											</tr>  
+											
+											<tr>
+												<td align="center">Duplicata 3</td>
+												<td align="center">valor 3</td>												
+												<td align="center">venc 3</td>
+											</tr>  
+										
+									</table> 
+								
+
+								  <!-- About Me Box -->
+								  <div class="box box-primary">
+									<div class="box-header with-border">
+									  <h3 class="box-title">About Me</h3>
+									</div>
+
+									<!-- /.box-header -->
+									<div class="box-body">									
+									  <p>
+										<span class="label label-danger">UI Design</span>
+										<span class="label label-success">Coding</span>									
+									  </p>
+									</div>											
+								  </div><!-- /.fecha a segunda caixa -->	
+											
+											
+							</div>
+						
+						<div class="col-md-2">
+										  
+										<div class="box box-primary">
+											<div class="box-body box-profile">										
+											texto1
+											</div>	
+											  texto2
+										  </div>
+										 
+
+										  <!-- About Me Box -->
+										  <div class="box box-primary">
+											<div class="box-header with-border">
+											  <h3 class="box-title">About Me</h3>
+											</div>
+											  
+											<!-- /.box-header -->
+											<div class="box-body">									
+											  <p>
+												<span class="label label-danger">UI Design</span>
+												<span class="label label-success">Coding</span>									
+											  </p>
+											</div>											
+										  </div><!-- /.fecha a segunda caixa -->
+								
+								
+										 
+							</div> <!-- /.fecha coljna 5 -->
+								 
+				</div> <!-- /.row -->
+				</section>									 
+ 	 
+              </div><!-- /.fecha aba settings -->
+              
+				
+				
+				
+				<div class="tab-pane" id="timeline">
                 <form class="form-horizontal">
                   <div class="form-group">
                     <label for="inputName" class="col-sm-2 control-label">Name</label>
@@ -559,126 +907,11 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
                       <button type="submit" class="btn btn-danger">Submit</button>
                     </div>
                   </div>
-                </form>
+                
               </div>
               <!-- /.tab-pane -->
 				
-				
-				
-				
-				<div class="tab-pane" id="financeiro">
-                <form class="form-horizontal">
-                  <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Name</label>
-
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputName" placeholder="Name">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Name</label>
-
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName" placeholder="Name">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
-
-                    <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
-
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" class="btn btn-danger">Submit</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <!-- /.tab-pane -->
-				
-				
-				
-				<div class="tab-pane" id="dados">
-                <form class="form-horizontal">
-                  <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Name</label>
-
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputName" placeholder="Name">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Name</label>
-
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName" placeholder="Name">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
-
-                    <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
-
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" class="btn btn-danger">Submit</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <!-- /.tab-pane -->
-				
-				
+			
 				
 				
 				
@@ -695,6 +928,5 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
         <!-- /.col -->
 
 </div>
-
 
 @stop
