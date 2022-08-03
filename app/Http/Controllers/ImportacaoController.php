@@ -297,6 +297,8 @@ if ($request->dt_emb_nac <> '') { $compra->dt_emb_nac = $request->dt_emb_nac;} e
 if ($request->dt_recebimento <> '') { $compra->dt_recebimento = $request->dt_recebimento;} else {$compra->dt_recebimento = null;}
 if ($request->dt_recebimento <> '') { $compra->dt_recebimento = $request->dt_recebimento;} else {$compra->dt_recebimento = null;}
 
+if ($request->venc_dupl_1 <> '') { $compra->venc_dupl_1 = $request->venc_dupl_1;} else {$compra->venc_dupl_1 = null;}
+
 
 		$compra->id_pedido = $request->pedido;
 		$compra->tipo_pedido = $request->tipo;
