@@ -33,7 +33,7 @@ $tipo = $_GET["tipo"];
 $query_1 = \DB::select("
 	
 
-select *, ifnull(volumes,0) volumes1, ifnull(peso_bruto,0) peso_bruto1
+select *, ifnull(volumes,0) volumes1, ifnull(peso_bruto,0) peso_bruto1, ifnull(cubagem_m3,0) cubagem_m31, 0 as cubagem_m39
 
 from (
 	select ped.pedido num_pedido, ped.tipo tipo_pedido, ped.dt_pedido, ped.ref_go invoice, concat(ped.ult_status,' ', ped.prox_status) ult_prox_ped,
@@ -97,7 +97,7 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
 				  		   
 				  
 					<div class="box-header with-border">	  
-					 <h3 class="box-title"><i class="fa fa-file-text-o">{{$tipo}} - {{$pedido}} </i> </h3>
+					 <h3 class="box-title">Pedido JDE </h3>
 					  <h6>
 					 <table class="table table-bordered table-condensed">			
 
@@ -150,11 +150,10 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
 						<tr class="text-center">
 						  <td><input type="text" id="invoice" name="invoice" size="30" value={{$query_1[0]->invoice}} ></td>
 						  <td><input type="date" id="dt_invoice" name="dt_invoice" size="10" value={{$query_1[0]->dt_invoice}} ></td>
-						  <td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} ></td>
-						  <td><input type="text" id="volumes" name="volumes" size="5" value={{$query_1[0]->volumes1}}></td>
-						  <td><input type="text" id="peso_bruto" name="peso_bruto" size="10" value={{$query_1[0]->peso_bruto1}} ></td>
-						  <td><input type="text" id="obs_invoice" name="obs_invoice" size="35" value={{$query_1[0]->obs_invoice}} ></td>
-
+						  <td><input type="number" step="any" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m31}} ></td>
+						  <td><input type="number" step="any" id="volumes" name="volumes" size="5" value={{$query_1[0]->volumes1}}></td>
+						  <td><input type="number" step="any" id="peso_bruto" name="peso_bruto" size="10" value={{$query_1[0]->peso_bruto1}} ></td>
+						  <td><input type="text" id="obs_invoice" name="obs_invoice" size="35" value='{{$query_1[0]->obs_invoice}}' ></td>
 						</tr>
 					</table>
 						  
@@ -207,7 +206,7 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
 						  $fornecedor1 = \DB::select("select id, fantasia from addressbook where nome like '%junior%'");
 						  @endphp
 						  <select class="form-control" name="an8_agente_int" >			 
-						  <option value="">{{$query_1[0]->an8_agente_int}}</option>
+						  <option value="{{$query_1[0]->an8_agente_int}}">{{$query_1[0]->an8_agente_int}}</option>
 							@foreach ($fornecedor1 as $forn1)
 						  <option value="{{$forn1->id}} - {{$forn1->fantasia}}">{{$forn1->id}} - {{$forn1->fantasia}}</option>
 							@endforeach
@@ -315,7 +314,7 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
 						  $fornecedor2 = \DB::select("select id, fantasia from addressbook where nome like '%junior%'");
 						  @endphp
 						  <select class="form-control" name="an8_agente_nac" >			 
-						  <option value="">{{$query_1[0]->an8_agente_nac}}</option>
+						  <option value="{{$query_1[0]->an8_agente_nac}}">{{$query_1[0]->an8_agente_nac}}</option>
 							@foreach ($fornecedor2 as $forn2)
 						  <option value="{{$forn2->id}} - {{$forn2->fantasia}}">{{$forn2->id}} - {{$forn2->fantasia}}</option>
 							@endforeach
@@ -341,7 +340,7 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
 
 						<tr  class="card-header bg-info text-center">
 						  <td><b>num_invoice</b></td>
-						  <td><b>dt_invoice</b></td>
+						  <td><b>dt_invoice_Trade</b></td>
 						  <td><b>num_nf</b></td>
 						  <td><b>dt_nf</b></td>
 						  <td><b>ref_comex</b></td>
@@ -349,12 +348,12 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
 						</tr>	 
 
 						<tr class="text-center">
-						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >
-						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >
-						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >	
-						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >	
-						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >	
-						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >	  
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >	
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >	
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >	
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >	  
 						</tr>
 
 					<tr> <td colspan="6"></td></tr> 
@@ -374,12 +373,12 @@ when ped.prox_status = 400 then 'chegou_TO' else '' end as desc_status
 						</tr>	 
 
 						<tr class="text-center">
-						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >
-						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >
-						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >	
-						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >
-						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >
-						<td><input type="text" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m3}} >	  
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >	
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >	  
 						</tr>
 
 						 </h6>
