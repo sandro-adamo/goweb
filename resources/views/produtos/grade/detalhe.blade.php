@@ -127,7 +127,7 @@ from (
 	) as base2 $where1
     group by ciclo, fornecedor, forn, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade, valortabela
 ) as base3 group by ciclo, fornecedor, forn, codgrife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade, valortabela
-order by modelo
+order by modelo asc
 
 ");
 
