@@ -94,7 +94,9 @@ from (
             sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total_jde) qtde_total
 			from (
 
-				select ciclo, left(fornecedor,10) forn, case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
+				select ciclo, 
+-- left(fornecedor,10) forn, case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
+'' as forn, '' as fornecedor, 
 				codgrife, agrup, modelo, secundario, colmod,
                 
                 case when left(colmod,4) < year(now()) then 'lancado'
@@ -122,11 +124,11 @@ from (
 				and codtipoarmaz not in ('o')
 				and left(agrup,5) = '$agrup' 
                 
-			) as base group by ciclo, forn, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade, valortabela
+			) as base group by ciclo, forn, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade
 		) as base1 
 	) as base2 $where1
-    group by ciclo, fornecedor, forn, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade, valortabela
-) as base3 group by ciclo, fornecedor, forn, codgrife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade, valortabela
+    group by ciclo, fornecedor, forn, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade
+) as base3 group by ciclo, fornecedor, forn, codgrife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade
 order by modelo asc
 
 ");
