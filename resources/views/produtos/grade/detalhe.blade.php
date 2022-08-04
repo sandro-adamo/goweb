@@ -419,15 +419,22 @@ adiantamento, venc_adiantamento, moeda , agrup
 		@foreach ($modelos as $catalogo)
 		
       <div class="col-sm-2">
-        <div class="box box-widget">
-         
-			<div  class="box-header with-border" style="font-size:12px; padding: 15px 15px 15px 15px;"> 
+	
+        <div class="box box-widget"><h6>
+         <table>
+			
+				<tr>
 				
-          		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
-          		<span class="pull-center">{{$catalogo->mediacusto}}</span>
-			 	<span class="pull-right">{{$catalogo->valortabela}}</span>
-			</div>
-
+				<td width='60%'>
+          		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b></td>
+					<td width='1%'> </td>
+					
+          		<td width='18%'><span class="pull-center">{{number_format($catalogo->mediacusto,2)}}</span></td>
+						<td width='1%'> </td>
+			 	<td width='18p%'><span class="pull-right">{{$catalogo->valortabela}}</span></td>
+				</tr>
+				
+			</table></h6>
 
 
         @php
