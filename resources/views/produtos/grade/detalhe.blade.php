@@ -424,8 +424,8 @@ adiantamento, venc_adiantamento, moeda , agrup
 			<div  class="box-header with-border" style="font-size:12px; padding: 15px 15px 15px 15px;"> 
 				
           		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
-          		<span class="pull-center"></span>
-			 	<span class="pull-right">{{$catalogo->clasmod}}</span>
+          		<span class="pull-center">{{$catalogo->valortabela}}</span>
+			 	<span class="pull-right">{{$catalogo->mediacusto}}</span>
 			</div>
 
 
@@ -793,8 +793,8 @@ adiantamento, venc_adiantamento, moeda , agrup
         @endphp
 
           <div id="foto" align="center" style="min-height: 180px; max-height: 180px;">
-            <a href="" class="zoom" data-value="{{$catalogo->modelo}}"><img src="/{{$foto}}" class="img-responsive"></a>   
-          </div>
+            <a href="" class="zoom" data-value="{{$catalogo->modelo}}"><img src="/{{$foto}}" class="img-responsive"></a>   			
+			</div>
 							
 	</div> 
   </div>

@@ -98,7 +98,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 			   <li><a href="#detalhes" data-toggle="tab">Detalhes</a></li>
               <li><a href="#financeiro" data-toggle="tab">financeiro</a></li>
               <li><a href="#timeline" data-toggle="tab">Timeline</a></li>
-              <li><a href="#settings" data-toggle="tab">Settings</a></li>
+              <li><a href="#settings" data-toggle="tab" class='text-red'>Validacoes</a></li>
             </ul>
 			  
 			  
@@ -363,21 +363,21 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 						</tr>	 
 
 						<tr class="text-center">
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >	
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >	
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >	
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >	  
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>	
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>	
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>	
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>	  
 						</tr>
 
-					<tr> <td colspan="6"></td></tr> 
+					</table>
 
 
 						
 
 					
-
+						<table class="table table-bordered table-condensed">
 						 <tr  class="card-header bg-info text-center">
 						  <td><b>taxa_cambio_fat</b></td>
 						  <td><b>taxa_cambio_lc</b></td>
@@ -388,16 +388,61 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 						</tr>	 
 
 						<tr class="text-center">
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >	
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} >	  
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>	
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>	  
 						</tr>
 
-						 </h6>
-					  </table>		 
+						
+					  </table>	
+						
+						
+							   
+							   
+							 
+						<table class="table table-bordered table-condensed">
+						 <tr  class="card-header bg-info text-center">
+						  <td><b>duplicata 1</b></td>
+							<td><b>duplicata 1</b></td>
+						  <td><b>valor</b></td>
+						  <td><b>vencimento</b></td>
+					
+						</tr>	 
+
+						<tr class="text-center">
+						<td>Duplicata1</td>
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
+						<td><input type="date" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
+						 
+						</tr>
+							
+							<tr class="text-center">
+						<td>Duplicata2</td>
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
+						<td><input type="date" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
+						 
+						</tr>
+							
+							<tr class="text-center">
+						<td>Duplicata3</td>
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
+						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
+						<td><input type="date" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
+						 
+						</tr>
+
+						
+					  </table>	  
+							   
+							   
+							   
+							   
+							   
 						</div>	
 					
 					
