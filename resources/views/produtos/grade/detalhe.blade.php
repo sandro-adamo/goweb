@@ -432,6 +432,8 @@ adiantamento, venc_adiantamento, moeda , agrup
           		<td width='18%'><span class="pull-center">{{number_format($catalogo->mediacusto,2)}}</span></td>
 						<td width='1%'> </td>
 			 	<td width='18p%'><span class="pull-right">{{$catalogo->valortabela}}</span></td>
+							<td width='1%'> </td>
+			 	<td width='18p%'><span class="pull-right">{{number_format(($catalogo->valortabela)*2.8,0)}}</span></td>
 				</tr>
 				
 			</table></h6>
