@@ -51,7 +51,7 @@ $data = '2021-01-01';
 
 $modelos = \DB::select("
 
-select ciclo, fornecedor, forn, codgrife, codgrife grife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade, valortabela, mediacusto,
+select ciclo, fornecedor, forn, codgrife, codgrife grife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade,  avg(valortabela) valortabela, avg(mediacusto) mediacusto,
 sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
 sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total) qtde_total,
 sum(novos_atual) novos_atual, sum(novos_prox) novos_prox, sum(aa) aa, sum(a) a, 
@@ -59,7 +59,7 @@ sum(itens) itens, sum(imediata) imediata, sum(futura) futura, sum(producao) prod
 sum(am3cores) am3cores, sum(b2cores) b2cores, sum(c1cor) c1cor, sum(d0cor) d0cor 
 from (
 
-	select ciclo, fornecedor, forn, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade, valortabela,mediacusto,
+	select ciclo, fornecedor, forn, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade, avg(valortabela) valortabela,avg(mediacusto) mediacusto,
 	case when colecao = 'novo_prox' then 1 else 0 end as novos_prox,
 	case when colecao = 'novo_atual' then 1 else 0 end as novos_atual,
     
@@ -88,13 +88,15 @@ from (
 		from(
 
 
-			select ciclo, fornecedor, forn, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade, valortabela, mediacusto,
+			select ciclo, fornecedor, forn, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade, avg(valortabela) valortabela, avg(mediacusto) mediacusto,
 			count(secundario) as itens, sum(itens_imed) imediata, sum(itens_trans) futura, sum(itens_prod) producao,
             sum(disponivel) disponivel, sum(beneficiamento) beneficiamento, sum(cet) cet, sum(cep) cep, sum(most) most, sum(total) total,
             sum(atual)atual, sum(ultimo)ultimo, sum(mes_sem)mes_sem, sum(mes_ano)mes_ano, sum(qtde_total_jde) qtde_total
 			from (
 
-				select ciclo, left(fornecedor,10) forn, case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
+				select ciclo, 
+-- left(fornecedor,10) forn, case when fornecedor like 'kering%' then 'kering' else 'go' end as fornecedor,
+'' as forn, '' as fornecedor, 
 				codgrife, agrup, modelo, secundario, colmod,
                 
                 case when left(colmod,4) < year(now()) then 'lancado'
@@ -110,7 +112,7 @@ from (
                 
 				(select valortabela from itens iclas where left(agrup,5) = '$agrup'  and  iclas.id = id_item and valortabela  not in ('','.') order by valortabela desc limit 1) valortabela,
 
-				0 as  mediacusto,
+				(select avg(custo) from custos_2019 c where c.id_item = go_storage.sintetico_estoque.id_item) as  mediacusto,
 
 				itens_imed, itens_trans, itens_prod, 
                 (disponivel) disponivel, (conferencia+montagem) beneficiamento, (cet) cet, (etq+cep) cep, (mostruarios) most,
@@ -122,12 +124,12 @@ from (
 				and codtipoarmaz not in ('o')
 				and left(agrup,5) = '$agrup' 
                 
-			) as base group by ciclo, forn, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade, valortabela, mediacusto
+			) as base group by ciclo, forn, fornecedor, codgrife, agrup, modelo, clasmod, colmod, colecao, genero, estilo, idade
 		) as base1 
 	) as base2 $where1
-    group by ciclo, fornecedor, forn, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade, valortabela, mediacusto
-) as base3 group by ciclo, fornecedor, forn, codgrife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade, valortabela, mediacusto
-order by modelo
+    group by ciclo, fornecedor, forn, codgrife, agrup, colecao, modelo, colmod, clasmod, genero, estilo, idade
+) as base3 group by ciclo, fornecedor, forn, codgrife, agrup, modelo, colecao, colmod, clasmod, genero, estilo, idade
+order by modelo asc
 
 ");
 
@@ -419,15 +421,24 @@ adiantamento, venc_adiantamento, moeda , agrup
 		@foreach ($modelos as $catalogo)
 		
       <div class="col-sm-2">
-        <div class="box box-widget">
-         
-			<div  class="box-header with-border" style="font-size:12px; padding: 15px 15px 15px 15px;"> 
+	
+        <div class="box box-widget"><h6>
+         <table>
+			
+				<tr>
 				
-          		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b>
-          		<span class="pull-center"></span>
-			 	<span class="pull-right">{{$catalogo->clasmod}}</span>
-			</div>
-
+				<td width='60%'>
+          		<b><a href="/painel/{{$catalogo->agrup}}/{{$catalogo->modelo}}/{{$catalogo->modelo}}" class="text-black">{{$catalogo->modelo}}</a></b></td>
+					<td width='1%'> </td>
+					
+          		<td width='18%'><span class="pull-center">{{number_format($catalogo->mediacusto,2)}}</span></td>
+						<td width='1%'> </td>
+			 	<td width='18p%'><span class="pull-right">{{$catalogo->valortabela}}</span></td>
+							<td width='1%'> </td>
+			 	<td width='18p%'><span class="pull-right">{{number_format(($catalogo->valortabela)*2.8,0)}}</span></td>
+				</tr>
+				
+			</table></h6>
 
 
         @php
@@ -793,8 +804,8 @@ adiantamento, venc_adiantamento, moeda , agrup
         @endphp
 
           <div id="foto" align="center" style="min-height: 180px; max-height: 180px;">
-            <a href="" class="zoom" data-value="{{$catalogo->modelo}}"><img src="/{{$foto}}" class="img-responsive"></a>   
-          </div>
+            <a href="" class="zoom" data-value="{{$catalogo->modelo}}"><img src="/{{$foto}}" class="img-responsive"></a>   			
+			</div>
 							
 	</div> 
   </div>

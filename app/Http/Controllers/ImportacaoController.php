@@ -268,73 +268,65 @@ from(
     }
 
 	
-		public function gravaDadosImport(Request $request) {
+	public function gravaDadosImport(Request $request) {
+		
+	$id = $request->id_info;
+	$id_usuario = \Auth::id();
 
-		if($request->dt_invoice==''){$dt_invoice = 'null';} else {$dt_invoice = $request->dt_invoice;};
-		if($request->dt_sol_li==''){$dt_sol_li = 'null';} else {$dt_sol_li = $request->dt_sol_li;};
-		if($request->dt_def_li==''){$dt_def_li = 'null';} else {$dt_def_li = $request->dt_def_li;};
-		if($request->dt_aut_embarque==''){$dt_aut_embarque = 'null';} else {$dt_aut_embarque = $request->dt_aut_embarque;};
-		if($request->dt_emb_int==''){$dt_emb_int = 'null';} else {$dt_emb_int = $request->dt_emb_int;};
-		if($request->dt_prev_chegada==''){$dt_prev_chegada = 'null';} else {$dt_prev_chegada = $request->dt_prev_chegada;};
-		if($request->dt_chegada==''){$dt_chegada = 'null';} else {$dt_chegada = $request->dt_chegada;};
-		if($request->dt_remocao==''){$dt_remocao = 'null';} else {$dt_remocao = $request->dt_remocao;};
-		if($request->dt_registro==''){$dt_registro = 'null';} else {$dt_registro = $request->dt_registro;};
-		if($request->dt_prev_embnac==''){$dt_prev_embnac = 'null';} else {$dt_prev_embnac = $request->dt_prev_embnac;};
-		if($request->dt_emb_nac==''){$dt_emb_nac = 'null';} else {$dt_emb_nac = $request->dt_emb_nac;};
-		if($request->dt_recebimento==''){$dt_recebimento = 'null';} else {$dt_recebimento = $request->dt_recebimento;};	
-					
-		if ($request->acao=="update") {
+	if ($request->acao=="update") {
+
+		$compra = \App\CompraInfo::find($id);
+
+	} else {
+		
+		$compra = new \App\CompraInfo();
+		
+	}
+
+if ($request->dt_invoice <> '') { $compra->dt_invoice = $request->dt_invoice;} else {$compra->dt_invoice = null;}
+if ($request->dt_sol_li <> '') 	{ $compra->dt_sol_li = $request->dt_sol_li;} else {$compra->dt_sol_li = null;}
+if ($request->dt_def_li <> '') 	{ $compra->dt_def_li = $request->dt_def_li;} else {$compra->dt_def_li = null;}
+if ($request->dt_aut_embarque <> '') { $compra->dt_aut_embarque = $request->dt_aut_embarque;} else {$compra->dt_aut_embarque = null;}
+if ($request->dt_emb_int <> '') { $compra->dt_emb_int = $request->dt_emb_int;} else {$compra->dt_emb_int = null;}
+if ($request->dt_prev_chegada <> '') { $compra->dt_prev_chegada = $request->dt_prev_chegada;} else {$compra->dt_prev_chegada = null;}
+if ($request->dt_chegada <> '') { $compra->dt_chegada = $request->dt_chegada;} else {$compra->dt_chegada = null;}
+if ($request->dt_remocao <> '') { $compra->dt_remocao = $request->dt_remocao;} else {$compra->dt_remocao = null;}
+if ($request->dt_registro <> '') { $compra->dt_registro = $request->dt_registro;} else {$compra->dt_registro = null;}
+if ($request->dt_prev_embnac <> '') { $compra->dt_prev_embnac = $request->dt_prev_embnac;} else {$compra->dt_prev_embnac = null;}
+if ($request->dt_emb_nac <> '') { $compra->dt_emb_nac = $request->dt_emb_nac;} else {$compra->dt_emb_nac = null;}
+if ($request->dt_recebimento <> '') { $compra->dt_recebimento = $request->dt_recebimento;} else {$compra->dt_recebimento = null;}
+if ($request->dt_recebimento <> '') { $compra->dt_recebimento = $request->dt_recebimento;} else {$compra->dt_recebimento = null;}
+
+if ($request->venc_dupl_1 <> '') { $compra->venc_dupl_1 = $request->venc_dupl_1;} else {$compra->venc_dupl_1 = null;}
+
+
+		$compra->id_pedido = $request->pedido;
+		$compra->tipo_pedido = $request->tipo;
+		$compra->doc_agrup = $request->doc_agrup;
+		$compra->cubagem_m3 = $request->cubagem_m3;
+		
+		
+
 			
-				$id = $request->id_info;
-				$id_usuario = \Auth::id();
+			$compra->volumes = $request->volumes;
+			$compra->peso_bruto = $request->peso_bruto;
+			$compra->obs_invoice = $request->obs_invoice;
+			$compra->tipo_carga =  $request->tipo_carga;	
+			$compra->an8_agente_int =  $request->an8_agente_int;
+			$compra->obs_transito =  $request->obs_transito;
+			$compra->num_awb =  $request->num_awb;
+			$compra->obs_chegada =  $request->obs_chegada;
+			$compra->protocolo_di =  $request->protocolo_di;
+			$compra->an8_agente_nac =  $request->an8_agente_nac;
 			
-				$update = \DB::select("update compras_infos set 
-				id_pedido = '$request->pedido', 
-				
-				tipo_pedido = '$request->tipo',
-				cubagem_m3 = '$request->cubagem_m3',
-				dt_invoice = '$dt_invoice',
-				volumes = '$request->volumes',
-				peso_bruto = '$request->peso_bruto',
-				obs_invoice = '$request->obs_invoice',
-				
-				doc_agrup = '$request->doc_agrup',
-				tipo_carga =  '$request->tipo_carga',
-				
-				dt_sol_li =  $dt_sol_li,
-				dt_def_li =  $dt_def_li,
-				an8_agente_int =  '$request->an8_agente_int',
-				dt_aut_embarque =  $dt_aut_embarque,
-				obs_transito =  '$request->obs_transito',
-				
-				num_awb =  '$request->num_awb',
-				dt_emb_int =  $dt_emb_int,
-				dt_prev_chegada =  $dt_prev_chegada,
-				dt_chegada =  $dt_chegada,
-				obs_chegada =  '$request->obs_chegada',
-				dt_remocao =  '$dt_remocao',
-				dt_perdimento =  '$dt_perdimento',
-				
-				dt_registro =  $dt_registro,
-				protocolo_di =  '$request->protocolo_di',
-				
-				dt_prev_embnac =  $dt_prev_embnac,
-				an8_agente_nac =  '$request->an8_agente_nac',
-				dt_emb_nac =  $dt_emb_nac,
-				dt_recebimento =  $dt_recebimento
-				
-				
-				where id = '$id' ");
-			
-				
-				} else {
-				
-				$insert = \DB::select("insert into compras_infos 
-				(id_pedido, tipo_pedido,  doc_agrup, cubagem_m3,dt_invoice,volumes,peso_bruto,obs_invoice) 
-				
-				values ('$request->pedido', '$request->tipo',  '$request->doc_agrup', '$request->cubagem_m3',
-				$dt_invoice,'$request->volumes', '$request->peso_bruto','$request->obs_invoice')");	
-			}
+		
+		
+		
+		
+		
+		
+		$compra->save();
+
 		return redirect()->back();
 		}
 }
