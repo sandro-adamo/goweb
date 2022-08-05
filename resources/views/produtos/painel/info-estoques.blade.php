@@ -33,7 +33,7 @@
         
         {{$catalogo->saldo_industria}}({{$catalogo->saldo_passivel}}/{{$catalogo->pecas_sem_complemento}})<a/>
       
-                                
+                                 
                                     
                                     </td>
                         </tr>
@@ -115,7 +115,16 @@
                         <tr>
                              
                             <td><i class="fa  fa-suitcase text-navy blue"  data-toggle="tooltip" data-placement="top" title="Mostruário"></i></td>
-                            <td>{{number_format($catalogo->mostruarios,0)}}</td>
+                            
+                            @if (isset($catalogo->secundario)) 
+                        <td><a href="/mostruario/mala/{{$catalogo->secundario}}">{{number_format($catalogo->mostruarios,0)}}</a></td>
+
+                                
+                                    @elseif (empty($catalogo->secundario))
+                        <td><a href="/mostruario/mala/{{$catalogo->modelo}}">{{number_format($catalogo->mostruarios,0)}}</a></td>
+
+                            @endif
+                            
                         </tr>
 
                     </table>
