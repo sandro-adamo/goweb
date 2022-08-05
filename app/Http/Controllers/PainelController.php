@@ -14,23 +14,30 @@ class PainelController extends Controller
 
 	public function mostruario_mala(Request $request) {
 		$item = $request->item;
+		$tipo = $request->tipo;
+		if($tipo=='modelo'){
+		$trazeritem = 'item,';}
+		else{
+		$trazeritem = '';}
+		
 
 		$mala = \DB::select("
-		select id_rep, filial, nome, sum(mala) mala, sum(solicitado) solicitado, sum(em_analise) 'em_analise'
+		select $trazeritem id_rep, filial, nome, sum(mala) mala, sum(solicitado) solicitado, sum(em_analise) 'em_analise'
 		from(
-		select  id_rep, filial, (select nome from addressbook where id = id_rep) nome,
+		select  $trazeritem id_rep, filial, (select nome from addressbook where id = id_rep) nome,
 		case when local = 'mala' then qtde else 0 end as 'Mala',
 		case when local = 'solicitado' then qtde else 0 end as 'Solicitado',
 		case when local = 'em_analise' then qtde else 0 end as 'Em_analise'
 		from malas
 		where item like '$item%'
+		and 
 		) as base
-		group by id_rep, filial, nome
+		group by $trazeritem id_rep, filial, nome
 		order by nome asc
 		");
 		//dd($mala);
 		
-		return view('produtos.painel.mostruario')->with('mala', $mala)->with('item', $item);
+		return view('produtos.painel.mostruario')->with('mala', $mala)->with('item', $item)->with('tipo', $tipo);
 
 
 	}

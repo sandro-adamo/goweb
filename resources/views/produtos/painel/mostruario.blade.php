@@ -18,6 +18,9 @@
        <table class="table table-bordered table-striped" id="myTable">
         <thead>
           <tr>
+          @if($tipo=='modelo')
+            <th>Item</th>
+          @endif
 			  <th>Id rep</th>
 			  <th>Filial</th>
             <th>Nome</th>
@@ -29,7 +32,9 @@
         <tbody>
           @foreach ($mala as $malas)
           <tr>
-			  
+			  @if($tipo=='modelo')
+            <td> {{$malas->item}}</td>
+          @endif
 			  <td> {{$malas->id_rep}}</td>
             <td> {{$malas->filial}}</td>
             <td>{{$malas->nome}}</td>

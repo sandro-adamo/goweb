@@ -117,11 +117,11 @@
                             <td><i class="fa  fa-suitcase text-navy blue"  data-toggle="tooltip" data-placement="top" title="Mostruário"></i></td>
                             
                             @if (isset($catalogo->secundario)) 
-                        <td><a href="/mostruario/mala/{{$catalogo->secundario}}">{{number_format($catalogo->mostruarios,0)}}</a></td>
+                        <td><a href="/mostruario/mala/item/{{$catalogo->secundario}}">{{number_format($catalogo->mostruarios,0)}}</a></td>
 
                                 
                                     @elseif (empty($catalogo->secundario))
-                        <td><a href="/mostruario/mala/{{$catalogo->modelo}}">{{number_format($catalogo->mostruarios,0)}}</a></td>
+                        <td><a href="/mostruario/mala/modelo/{{$catalogo->modelo}}">{{number_format($catalogo->mostruarios,0)}}</a></td>
 
                             @endif
                             
