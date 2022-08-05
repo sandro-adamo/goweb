@@ -569,6 +569,7 @@ Route::get('/catalogo_novo', function () {
 Route::get('/painel', 'PainelController@agrupamentos');
 Route::get('/painel/favoritos', 'PainelController@favoritos');
 Route::get('/painel/cet/{item}', 'PainelController@cet_aberto');
+Route::get('/mostruario/mala/{item}', 'PainelController@mostruario_mala');
 Route::get('/painel/favoritos/add', 'PainelController@addFavoritos');
 Route::get('/painel/favoritos/del', 'PainelController@delFavoritos');
 Route::get('/painel/favoritos/checa', 'PainelController@checaFavoritos');
