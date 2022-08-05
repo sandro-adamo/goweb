@@ -30,7 +30,7 @@ class PainelController extends Controller
 		case when local = 'em_analise' then qtde else 0 end as 'Em_analise'
 		from malas
 		where item like '$item%'
-		and 
+		 
 		) as base
 		group by $trazeritem id_rep, filial, nome
 		order by nome asc
