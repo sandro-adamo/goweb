@@ -101,45 +101,40 @@ select * from (
 			
 @endphp
 
-<div class="row">
-   <div class="col-md-18">
-     <div class="nav-tabs-custom">
-           
-			<ul class="nav nav-tabs">
-			<li  class="active"><a href="#aberto" data-toggle="tab">Aberto</a></li>
-			<li><a href="#removido" data-toggle="tab">Removido</a></li>
+<form action="" method="get"> 
+
+<h6>
+							
+    <div class="row">
+		<div class="col-md-12">
+          <div class="nav-tabs-custom">
+            	
+	
+	
+	<ul class="nav nav-tabs">
+		
+			<li  class="active"><a href="#Aberto" data-toggle="tab">Aberto</a></li>
+			<li><a href="#Removido" data-toggle="tab">Removido</a></li>
 			<li><a href="#Transito" data-toggle="tab">Transito</a></li>
 			<li><a href="#Embarque" data-toggle="tab">Embarque</a></li>
 			<li><a href="#Kering" data-toggle="tab">Kering</a></li>
 			<li><a href="#Kering" data-toggle="tab">Perdimento</a></li>
 			<li><a href="#Kering" data-toggle="tab">Sem ped_jde</a></li>
-            </ul>
-			  
-<form action="/import_form/grava" method="post" class="form-horizontal">
-					
-
-				@csrf
 		
 		
-		
-					  
-			  
 <div class="tab-content">
+	
 
 	
-	
-		
-		
-	
-<div class="active tab-pane" id="aberto">	
-<div class="box-header with-border">
-	 <tr><td>Cargas em aberto</td></tr>
-	<h6> 
+<div class="active tab-pane" id="Aberto">	
+<div class="col-md-12">
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
 	<table class="table table-striped table-bordered compact" id="myTable">
-		<thead>	
+		  <thead>	
+			  <tr><td colspan="15">Importações em aberto </td></tr>
+		  			
 					<tr>
 					<td>det</td>
-						<td>det</td>
 					<td colspan="1" align="center">Pedido</td>
 					<td colspan="1" align="center">ult_prox status</td>						
 					<td colspan="1" align="center">Invoice</td>				
@@ -156,16 +151,13 @@ select * from (
 					<td colspan="1" align="center">itens CET</td>
 					<td colspan="1" align="center">impostos</td>
 					<td colspan="1" align="center">icms</td>
-   		
+
 					</tr>
-			 </thead>
+			    </thead>
 			  
 			@foreach ($query_2 as $query2)
-	
-		
-		
+			 
 			<tr>
-			<td>	<button type="submit"><i class="fa fa-refresh"></i></button>	</td>
 			<td align="left"><a href="/import_form/?tipo={{$query2->tipo}}&pedido={{$query2->pedido}}" target="_blank">
 				<i class="fa fa-file-text-o"></i></a></td>
 			<td align="left"><a href="/dsimportdet/{{$query2->tipo}}/{{$query2->pedido}}">{{$query2->tipo.' '.$query2->pedido}}</a></td>
@@ -173,9 +165,7 @@ select * from (
 	
 			<td align="left">{{$query2->ref_go}}</td>
 			<td align="center">{{$query2->ref}}</td>
-				
-			<td><input type="text" id="doc_agrup" name="doc_agrup" size="20" value='{{$query2->doc_agrup}}' ></td>
-				
+			<td align="center">{{$query2->doc_agrup}}</td>
 			<td align="left">{{$query2->fornecedor}}</td>
 			<td align="center">{{$query2->tipoitem}}</td>
 			<td align="center">{{$query2->codgrife}}</td>
@@ -186,26 +176,25 @@ select * from (
 			<td align="center">{{number_format($query2->itens_trans)}}</td>
 			<td align="center">{{$query2->impostos}}</td>
 			<td align="center">{{$query2->icms}}</td>
-				
 	
 			</tr>
-				
 			@endforeach 
 		</table>
-		</h6>	
+		</ul>
 	</div>
 </div>	
 
-	</form>	
-	
 
-<div class="tab-pane" id="removido">	
-<div class="box-header with-border">
-	 <tr><td>Cargas removidas</td></tr>
-	<h6>
+
+		
+
+
+<div class="active tab-pane" id="Removido">	
+<div class="col-md-12">
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
 	<table class="table table-striped table-bordered compact" id="myTable">
 		  <thead>	
-			 
+			  <tr><td colspan="15">Cargas removidas</td></tr>
 		  			
 					<tr>
 					<td>det</td>
@@ -227,6 +216,9 @@ select * from (
 					<td colspan="1" align="center">impostos</td>
 					<td colspan="1" align="center">icms</td>
 						
+				
+					
+				
 					</tr>
 			    </thead>
 			  
@@ -235,7 +227,7 @@ select * from (
 				@php if ($query3->desc_status=="removido") 
 				
 			{ @endphp
-	
+		
 			<tr>
 			<td align="left"><a href="/import_form/?tipo={{$query3->tipo}}&pedido={{$query3->pedido}}" target="_blank">
 				<i class="fa fa-file-text-o"></i></a></td>
@@ -257,16 +249,16 @@ select * from (
 			<td align="center">{{$query3->icms}}</td>
 	
 			</tr>
-	
 			@php ;} else  { @endphp
-	
+		<tr></tr>
 			@php  ;} @endphp
 			
 			@endforeach 
 			
 
 		</table>
-		</h6>
+	
+		</ul>
 		</div>	
 	</div>
 
@@ -274,13 +266,12 @@ select * from (
 	
 	
 <div class="tab-pane" id="Transito">
-<div class="box-header with-border">
-	 <tr><td colspan="15">Transito</td></tr>
-	<h6>
-	<table class="table table-striped table-bordered compact" id="myTable1">
+<div class="col-md-12">
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">	
+	<table class="table table-striped table-bordered compact" id="myTable">
 		  <thead>				
-			
-		  		
+			 <tr><td colspan="15">Transito</td></tr>
+		  			
 					<tr>
 					<td>det</td>
 					<td colspan="1" align="center">Pedido</td>
@@ -312,7 +303,7 @@ select * from (
 				@php if ($query4->desc_status=="li_deferida" or $query4->desc_status=="booking")
 				
 			{ @endphp
-
+		
 			<tr>
 			<td align="left"><a href="/import_form/?tipo={{$query4->tipo}}&pedido={{$query4->pedido}}" target="_blank">
 				<i class="fa fa-file-text-o"></i></a></td>
@@ -334,23 +325,24 @@ select * from (
 			<td align="center">{{$query4->icms}}</td>
 	
 			</tr>
-		
 			@php ;} else  { @endphp
-	
+		<tr></tr>
 			@php  ;} @endphp
 			
-			@endforeach 	
+			@endforeach 
+			
 
 		</table>
-		</h6>
+	
+		</ul>
 		</div>	
 		</div>
 	
 
 	
 <div class="tab-pane" id="Embarque">
-<div class="box-header with-border">
-
+<div class="col-md-12">
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">	
 	<table class="table table-striped table-bordered compact" id="myTable">
 		  <thead>				
 			 <tr><td colspan="15">Embarque</td></tr>
@@ -409,13 +401,15 @@ select * from (
 	
 			</tr>
 			@php ;} else  { @endphp
-		
+		<tr></tr>
 			@php  ;} @endphp
 			
 			@endforeach 
 			
 
 		</table>
+	
+		</ul>
 		</div>	
 		</div>	
 	
@@ -423,7 +417,8 @@ select * from (
 	
 	
 <div class="tab-pane" id="Kering">
-<div class="box-header with-border">
+<div class="col-md-12">
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">	
 	<table class="table table-striped table-bordered compact" id="myTable">
 		  <thead>				
 			 <tr><td colspan="15">Kering</td></tr>
@@ -490,16 +485,18 @@ select * from (
 
 		</table>
 	
-
+		</ul>
 		</div>	
 	</div>	
-
+</ul>
 	
-</div>	
-			  
+</div>			  
 </div>	
 </div>
-</div>
+		
+		
+	</h6>				
+	</form>
 
 
 	

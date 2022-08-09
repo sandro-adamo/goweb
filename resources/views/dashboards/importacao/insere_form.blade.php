@@ -99,12 +99,17 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
               <li><a href="#financeiro" data-toggle="tab">financeiro</a></li>
               <li><a href="#timeline" data-toggle="tab">Timeline</a></li>
               <li><a href="#settings" data-toggle="tab" class='text-red'>Validacoes</a></li>
+			  <li><a href="#documentos" data-toggle="tab" class='text-green'>documentos</a></li>
             </ul>
 			  
 			  
 			  
             <div class="tab-content">
 						
+			
+				
+				
+				
 				
               <div class="active tab-pane" id="dados">
 				  		   
@@ -175,8 +180,9 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 						  
 					 <table class="table table-bordered table-condensed">
 						 <tr  class="card-header bg-info text-center">      
-
-						  <td><b>Doc Agrup	</b></td>
+						  
+						  <td><b>Tipo Agrup	</b></td>
+						  <td><b>Num Agrup	</b></td>
 						  <td><b>Tipo Carga</b></td>
 						  <td><b>Ref processo</b></td>
 						  <td><b>Numero OK</b></td>
@@ -184,6 +190,15 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 						</tr>		  
 
 						<tr class="text-center">
+						  <td>
+							  <select class="form-control" name="tipo_agrup" >	
+							  <option value="{{$query_1[0]->tipo_agrup}}">{{$query_1[0]->tipo_agrup}}</option> 
+							  <option value="FR">FR</option>
+							  <option value="AC">AC</option>
+						      </select>
+							  
+						  </td>
+							
 						  <td><input type="text" id="doc_agrup" name="doc_agrup" size="20" value='{{$query_1[0]->doc_agrup}}' ></td>
 						  <td><input type="text" id="tipo_carga" name="tipo_carga" size="20" value='{{$query_1[0]->tipo_carga}}'></td>
 						  <td size="20">{{$query_1[0]->ref_processo}}</td>
@@ -208,7 +223,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 					  <td><b>Transp Internacional</b></td>
 					  <td><b>Dt aut Embarque</b></td>
 					 <td><b>Obs Transito</b></td>
-						<td></td>
+					 <td class="text-red"><b>Perdimento</b></td>
 					</tr>
 
 
@@ -229,8 +244,20 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 						  </td>
 
 					  <td><input type="date" id="dt_aut_embarque" name="dt_aut_embarque" size="10" value={{$query_1[0]->dt_aut_embarque}} ></td>
-					  <td><input type="text" id="obs_transito" name="obs_transito" size="10" value='{{$query_1[0]->obs_transito}}'></td>
-<td><input type="date" id="dt_perdimento" name="dt_perdimento" size="20" value={{$query_1[0]->dt_perdimento}} ></td>
+					  <td>
+					
+					<input type="text" id="obs_transito" name="obs_transito" size="10" value='{{$query_1[0]->obs_transito}}'></td>
+						
+						
+						
+						<input type="hidden" id="dt_aut_embarque" name="dt_aut_embarque" size="10" 
+							   
+							   value='{{$query_1[0]->dt_aut_embarque}}'></td>
+					
+					
+						
+					<td>{{$query_1[0]->dt_perdimento}}</td>
+						
 					</tr>
 
 
@@ -290,6 +317,58 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 						</tr>
 
 						  </table>
+						  
+						  <table class="table table-bordered table-condensed">
+
+
+							 <tr  class="card-header bg-info text-center">
+							  <td><b>Moeda Cambio</b></td>
+							  <td><b>Taxa Cambial</b></td>
+							  <td><b>Imposto Moeda Estr</b></td>
+							  <td><b>ICMS Moeda Estr</b></td>
+							  <td><b>Taxa Cambio Efet R$</b></td> 
+							  <td><b>Imposto Efet R$</b></td>
+							  <td><b>ICMS Efet R$</b></td>
+							</tr>
+
+
+							<tr class="text-center">
+
+								 <td><input type="text" id="moeda_calculo" name="moeda_calculo" size="20" value='{{$query_1[0]->moeda_calculo}}' ></td>
+
+								 <td><input type="text" id="taxa_calculo" name="taxa_calculo" size="20" value='{{$query_1[0]->taxa_calculo}}' ></td>
+
+							  <td><input type="text" id="impostos_nac" name="impostos_nac" size="20" value='{{$query_1[0]->impostos_nac}}' ></td>
+								 <td><input type="text" id="icms_nac" name="icms_nac" size="20" value='{{$query_1[0]->icms_nac}}' ></td>
+								<td>jde {{$query_1[0]->data_di}}</td>
+								<td>jde {{$query_1[0]->data_di}}</td>
+								<td>jde {{$query_1[0]->num_di}}</td>
+							</tr>
+
+						  </table>
+						  
+						  <table class="table table-bordered table-condensed">
+
+
+								 <tr  class="card-header bg-info text-center">
+								  <td><b>Sim 1 = trang</b></td>
+							      <td><b>sim 2</b></td>
+								  <td><b>sim3</b></td>
+								 
+								</tr>
+
+
+								<tr class="text-center">
+								
+									 
+									<td>{{$query_1[0]->data_di}}</td>
+									<td>{{$query_1[0]->data_di}}</td>
+									<td>{{$query_1[0]->num_di}}</td>
+								</tr>
+
+								  </table>
+						  
+						  
 						<table class="table table-bordered table-condensed">
 
 						 <tr  class="card-header bg-info text-center">
@@ -299,7 +378,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 						  <td><b>Dt emissao NF</b></td>
 						  <td><b>Qtde NF</b></td>
 						  <td><b>Valor NF</b></td>
-
+						  
 						 </tr>
 
 						<tr class="text-center">
@@ -308,6 +387,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 						 <td></td>
 						 <td></td>
 						 <td></td> 
+					
 						</tr>
 
 						  </table>
@@ -318,6 +398,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 
 						  <td><b>Dt prev Transp Nac</b></td>
 						  <td><b>Transporte Nac</b></td>
+							 <td><b>Periodo registro</b></td>
 						  <td><b>Dt Carregamento</b></td>
 						  <td><b>Dt entrega Fabrica</b></td>
 
@@ -335,7 +416,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 							@endforeach
 						  </select>
 						  </td>	
-
+							<td><b>Periodo</b></td>
 							<td><input type="date" id="dt_emb_nac" name="dt_emb_nac" size="20" value={{$query_1[0]->dt_emb_nac}} ></td>
 							<td><input type="date" id="dt_recebimento" name="dt_recebimento" size="20" value={{$query_1[0]->dt_recebimento}} ></td>
 						</tr>		 

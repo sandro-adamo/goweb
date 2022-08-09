@@ -298,10 +298,12 @@ if ($request->dt_recebimento <> '') { $compra->dt_recebimento = $request->dt_rec
 if ($request->dt_recebimento <> '') { $compra->dt_recebimento = $request->dt_recebimento;} else {$compra->dt_recebimento = null;}
 
 if ($request->venc_dupl_1 <> '') { $compra->venc_dupl_1 = $request->venc_dupl_1;} else {$compra->venc_dupl_1 = null;}
+if ($request->dt_perdimento <> '') { $compra->dt_perdimento = $request->dt_perdimento;} else {$compra->dt_perdimento = null;}
 
 
 		$compra->id_pedido = $request->pedido;
 		$compra->tipo_pedido = $request->tipo;
+		$compra->tipo_agrup = $request->tipo_agrup;
 		$compra->doc_agrup = $request->doc_agrup;
 		$compra->cubagem_m3 = $request->cubagem_m3;
 		
@@ -318,6 +320,12 @@ if ($request->venc_dupl_1 <> '') { $compra->venc_dupl_1 = $request->venc_dupl_1;
 			$compra->obs_chegada =  $request->obs_chegada;
 			$compra->protocolo_di =  $request->protocolo_di;
 			$compra->an8_agente_nac =  $request->an8_agente_nac;
+		
+		
+			$compra->moeda_calculo =  $request->moeda_calculo;
+			$compra->taxa_calculo =  $request->taxa_calculo;
+			$compra->impostos_nac =  $request->impostos_nac;
+			$compra->icms_nac =  $request->icms_nac;
 			
 		
 		
