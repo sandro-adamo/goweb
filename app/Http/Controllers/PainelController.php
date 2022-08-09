@@ -11,6 +11,36 @@ use App\Favorito;
 class PainelController extends Controller
 {
 
+
+	public function mostruario_mala(Request $request) {
+		$item = $request->item;
+		$tipo = $request->tipo;
+		if($tipo=='modelo'){
+		$trazeritem = 'item,';}
+		else{
+		$trazeritem = '';}
+		
+
+		$mala = \DB::select("
+		select $trazeritem id_rep, filial, nome, sum(mala) mala, sum(solicitado) solicitado, sum(em_analise) 'em_analise'
+		from(
+		select  $trazeritem id_rep, filial, (select nome from addressbook where id = id_rep) nome,
+		case when local = 'mala' then qtde else 0 end as 'Mala',
+		case when local = 'solicitado' then qtde else 0 end as 'Solicitado',
+		case when local = 'em_analise' then qtde else 0 end as 'Em_analise'
+		from malas
+		where item like '$item%'
+		 
+		) as base
+		group by $trazeritem id_rep, filial, nome
+		order by nome asc
+		");
+		//dd($mala);
+		
+		return view('produtos.painel.mostruario')->with('mala', $mala)->with('item', $item)->with('tipo', $tipo);
+
+
+	}
 	public function cet_aberto(Request $request) {
 		$item = $request->item;
 
@@ -30,8 +60,6 @@ when ult_status = '390' and prox_status = '400' then 'Em trânsito para TO'
 when ult_status = '400' and prox_status = '999' then 'Recebimento'
 else '' end as 'descricao_status'
 
-
-
 from importacoes_pedidos 
 left join itens_estrutura on itens_estrutura.item_filho = ltrim(rtrim(importacoes_pedidos.secundario))
 where (ltrim(rtrim(item_pai)) = '$item' or ltrim(rtrim(secundario)) = '$item')
@@ -41,7 +69,7 @@ where (ltrim(rtrim(item_pai)) = '$item' or ltrim(rtrim(secundario)) = '$item')
 		");
 		//dd($cet);
 		
-		return view('produtos.painel.cet')->with('cet', $cet);
+		return view('produtos.painel.cet')->with('cet', $cet)->with('request', $request);
 
 
 	}
