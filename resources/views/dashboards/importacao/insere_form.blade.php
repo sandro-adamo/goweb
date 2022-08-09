@@ -91,8 +91,11 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 <div class="row">
 
    <div class="col-md-12">
+	  
           <div class="nav-tabs-custom">
            
+			  
+			  
 			<ul class="nav nav-tabs">
               <li class="active"><a href="#dados" data-toggle="tab">Dados</a></li>
 			   <li><a href="#detalhes" data-toggle="tab">Detalhes</a></li>
@@ -112,10 +115,10 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 				
 				
               <div class="active tab-pane" id="dados">
-				  		   
+				  		    
 				  
 					<div class="box-header with-border">	  
-					 <h3 class="box-title">Pedido JDE </h3>
+					 <h3 class="box-title">Pedido JDE </h3> <h3>recalcular</h3>
 					  <h6>
 					 <table class="table table-bordered table-condensed">			
 
@@ -306,6 +309,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 						  <td><b>Dt registro DI  ->jde</b></td>
 						  <td><b>Num protocolo DI</b></td>
 						  <td><b>Cambio registro ex dt_di</b></td>
+							 <td><b>Taxa Cambio Efet R$</b></td> 
 						</tr>
 
 
@@ -314,6 +318,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 						  <td><input type="date" id="dt_registro" name="dt_registro" size="20" value={{$query_1[0]->dt_registro}} ></td>
 						  <td><input type="text" id="protocolo_di" name="protocolo_di" size="20" value='{{$query_1[0]->protocolo_di}}' ></td>
 							<td>{{$query_1[0]->data_di}}</td>
+							<td></td>
 						</tr>
 
 						  </table>
@@ -323,26 +328,28 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 
 							 <tr  class="card-header bg-info text-center">
 							  <td><b>Moeda Cambio</b></td>
-							  <td><b>Taxa Cambial</b></td>
-							  <td><b>Imposto Moeda Estr</b></td>
-							  <td><b>ICMS Moeda Estr</b></td>
-							  <td><b>Taxa Cambio Efet R$</b></td> 
-							  <td><b>Imposto Efet R$</b></td>
-							  <td><b>ICMS Efet R$</b></td>
+							  <td><b>Taxa Calculo</b></td>
+							  <td><b>Imposto calculo R$</b></td>
+							  <td><b>ICMS calculo R$</b></td>
+							  
+							  <td><b>Base Imposto Est</b></td>
+							  <td><b>Base ICMS Est</b></td>
 							</tr>
 
 
 							<tr class="text-center">
 
-								 <td><input type="text" id="moeda_calculo" name="moeda_calculo" size="20" value='{{$query_1[0]->moeda_calculo}}' ></td>
+							<td><input type="text" id="moeda_calculo" name="moeda_calculo" size="20" value='{{$query_1[0]->moeda_calculo}}' ></td>
 
-								 <td><input type="text" id="taxa_calculo" name="taxa_calculo" size="20" value='{{$query_1[0]->taxa_calculo}}' ></td>
+							<td><input type="text" id="taxa_calculo" name="taxa_calculo" size="20" value={{$query_1[0]->taxa_calculo}} ></td>
 
-							  <td><input type="text" id="impostos_nac" name="impostos_nac" size="20" value='{{$query_1[0]->impostos_nac}}' ></td>
-								 <td><input type="text" id="icms_nac" name="icms_nac" size="20" value='{{$query_1[0]->icms_nac}}' ></td>
-								<td>jde {{$query_1[0]->data_di}}</td>
-								<td>jde {{$query_1[0]->data_di}}</td>
-								<td>jde {{$query_1[0]->num_di}}</td>
+							<td><input type="text" id="impostos_nac" name="impostos_nac" size="20" value={{$query_1[0]->impostos_nac}}></td>
+								
+							<td><input type="text" id="icms_nac" name="icms_nac" size="20" value={{$query_1[0]->icms_nac}} >	</td>
+								
+								
+								<td>{{$query_1[0]->base_imposto}}</td>
+								<td>{{$query_1[0]->base_icms}}</td>
 							</tr>
 
 						  </table>

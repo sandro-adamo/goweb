@@ -551,6 +551,8 @@ Route::get('/dsimportdet', function () {   return view('dashboards.importacao.da
 
 Route::get('/import_form', function () { return view('dashboards.importacao.insere_form');	});
 Route::post('/import_form/grava','ImportacaoController@gravaDadosImport');
+Route::post('/import_form/gravareg','ImportacaoController@gravaRegistroImport');
+
 
 Route::get('/dsimportdet/{tipo}/{pedido}','ImportacaoController@detalhesDSimport');
 Route::post('/dsimportdet/cadastrapagamento','ImportacaoController@cadastraPagamento');

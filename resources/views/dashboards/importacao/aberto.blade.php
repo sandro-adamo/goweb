@@ -8,7 +8,10 @@
 
 $query_2 = \DB::select("
 
-select * from (
+select *,
+	case when infos.id is null then 'insert' else 'update' end as acao , infos.id id_info
+    
+    from (
 	select pedido, tipo, ref_go, concat(trim(ref_despachante),' ',trim(ref_nac_01)) ref, ult_prox, desc_status, group_concat(distinct left(fornecedor,20),' ') fornecedor,  
 	group_concat(distinct tipoitem,' ') tipoitem, group_concat(distinct codgrife,' ') codgrife, group_concat(distinct linha,' ') linha,
 	case when CHAR_LENGTH(group_concat(distinct colmod,' ')) > 26 then concat('...',right(group_concat(distinct colmod,' '),26)) else group_concat(distinct colmod,' ') end as colmod, 
@@ -88,21 +91,43 @@ select * from (
 	group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status
  ) as base1
 
- left join (select * from compras_registros ) as reg
- on reg.id_pedido = base1.pedido  and reg.tipo_pedido = base1.tipo
 
  left join (select * from compras_infos ) as infos
  on infos.id_pedido = base1.pedido  and infos.tipo_pedido = base1.tipo
-
-
 
 ");
 			  
 			
 @endphp
 
-<div class="row">
-   <div class="col-md-18">
+<div class="row"> 
+<div class="col-md-6">
+	<!-- if taxa_calculo -->
+	<!-- novo controler insere tabela compras_registros e salva na linha compras_infos -->
+	
+	<h3>recalcular</h3>
+	<form action="/import_form/gravareg" method="post" class="form-horizontal"> @csrf
+				<input type="hidden" id="id_info" name="id_info" size="50" value={{$query_2[0]->id_info}}>
+				<input type="hidden" id="acao" name="acao" size="50" value='update'>
+		
+		<td>Dolar</td>
+		<td><input type="text" id="dolar1" name="dolar1" size="8" value='' ></td>
+		<td><input type="text" id="dolar2" name="dolar2" size="8" value='' ></td>
+		<td><input type="text" id="dolar3" name="dolar3" size="8" value='' ></td>
+	
+		<td>Euro</td>
+		<td><input type="text" id="euro1" name="euro1" size="8" value='' ></td>
+		<td><input type="text" id="euro2" name="euro2" size="8" value='' ></td>
+		<td><input type="text" id="euro3" name="euro3" size="8" value='' ></td>
+	<button type="submit" class="btn btn-primary"><i class="fa fa-refresh"></i> Gravar</button>	
+	</form>
+	</div>
+</div>
+
+</br>
+
+<div class="row"> 
+	<div class="col-md-18">
      <div class="nav-tabs-custom">
            
 			<ul class="nav nav-tabs">
@@ -114,15 +139,7 @@ select * from (
 			<li><a href="#Kering" data-toggle="tab">Perdimento</a></li>
 			<li><a href="#Kering" data-toggle="tab">Sem ped_jde</a></li>
             </ul>
-			  
-<form action="/import_form/grava" method="post" class="form-horizontal">
-					
-
-				@csrf
-		
-		
-		
-					  
+			    
 			  
 <div class="tab-content">
 
@@ -144,7 +161,8 @@ select * from (
 					<td colspan="1" align="center">ult_prox status</td>						
 					<td colspan="1" align="center">Invoice</td>				
 					<td colspan="1" align="center">ref desp</td>
-					<td colspan="1" align="center">conex</td>
+					<td colspan="1" align="center">tipo</td>
+						<td colspan="1" align="center">conex</td>
 					<td colspan="1" align="center">fornecedor</td>
 					
 					<td colspan="1" align="center">Tipo_item</td>
@@ -163,18 +181,43 @@ select * from (
 			@foreach ($query_2 as $query2)
 	
 		
-		
+			
 			<tr>
+				
+				
+				<form action="/import_form/grava" method="post" class="form-horizontal"> @csrf
+				<input type="hidden" id="id_info" name="id_info" size="50" value={{$query2->id_info}}>		
+				<input type="hidden" id="acao" name="acao" size="50" value={{$query2->acao}} >
+				<input type="hidden" id="pedido" name="pedido" size="50" value={{$query2->pedido}} >
+				<input type="hidden" id="tipo" name="tipo" size="50" value={{$query2->tipo}} >
+				
+				
+				
 			<td>	<button type="submit"><i class="fa fa-refresh"></i></button>	</td>
-			<td align="left"><a href="/import_form/?tipo={{$query2->tipo}}&pedido={{$query2->pedido}}" target="_blank">
-				<i class="fa fa-file-text-o"></i></a></td>
+
+				<td align="left">
+					<a href="/import_form/?tipo={{$query2->tipo}}&pedido={{$query2->pedido}}" target="_blank">
+					<i class="fa fa-file-text-o"></i></a>
+				</td>
+					
+					
 			<td align="left"><a href="/dsimportdet/{{$query2->tipo}}/{{$query2->pedido}}">{{$query2->tipo.' '.$query2->pedido}}</a></td>
 			<td align="center">{{$query2->ult_prox}} - {{$query2->desc_status}}</td>
 	
 			<td align="left">{{$query2->ref_go}}</td>
 			<td align="center">{{$query2->ref}}</td>
 				
-			<td><input type="text" id="doc_agrup" name="doc_agrup" size="20" value='{{$query2->doc_agrup}}' ></td>
+					<td>
+							  <select class="form-control" name="tipo_agrup" >	
+							  <option value="{{$query2->tipo_agrup}}">{{$query2->tipo_agrup}}</option> 
+							  <option value="FR">FR</option>
+							  <option value="AC">AC</option>
+						      </select>
+							  
+						  </td>
+					
+					
+			<td><input type="text" id="doc_agrup" name="doc_agrup" size="8" value='{{$query2->doc_agrup}}' ></td>
 				
 			<td align="left">{{$query2->fornecedor}}</td>
 			<td align="center">{{$query2->tipoitem}}</td>
@@ -184,19 +227,19 @@ select * from (
 			<td align="center">{{number_format($query2->qtde)}}</td>	
 			<td align="center">{{number_format($query2->atende)}}</td>
 			<td align="center">{{number_format($query2->itens_trans)}}</td>
-			<td align="center">{{$query2->impostos}}</td>
-			<td align="center">{{$query2->icms}}</td>
+			<td align="center">{{$query2->impostos_nac}}</td>
+			<td align="center">{{$query2->icms_nac}}</td>
 				
 	
 			</tr>
-				
+				</form>	
 			@endforeach 
 		</table>
 		</h6>	
 	</div>
 </div>	
 
-	</form>	
+	
 	
 
 <div class="tab-pane" id="removido">	
@@ -253,8 +296,8 @@ select * from (
 			<td align="center">{{number_format($query3->qtde)}}</td>	
 			<td align="center">{{number_format($query3->atende)}}</td>
 			<td align="center">{{number_format($query3->itens_trans)}}</td>
-			<td align="center">{{$query3->impostos}}</td>
-			<td align="center">{{$query3->icms}}</td>
+			<td align="center">{{$query3->impostos_nac}}</td>
+			<td align="center">{{$query3->icms_nac}}</td>
 	
 			</tr>
 	
@@ -330,8 +373,8 @@ select * from (
 			<td align="center">{{number_format($query4->qtde)}}</td>	
 			<td align="center">{{number_format($query4->atende)}}</td>
 			<td align="center">{{number_format($query4->itens_trans)}}</td>
-			<td align="center">{{$query4->impostos}}</td>
-			<td align="center">{{$query4->icms}}</td>
+			<td align="center">{{$query4->impostos_nac}}</td>
+			<td align="center">{{$query4->icms_nac}}</td>
 	
 			</tr>
 		
@@ -404,8 +447,8 @@ select * from (
 			<td align="center">{{number_format($query5->qtde)}}</td>	
 			<td align="center">{{number_format($query5->atende)}}</td>
 			<td align="center">{{number_format($query5->itens_trans)}}</td>
-			<td align="center">{{$query5->impostos}}</td>
-			<td align="center">{{$query5->icms}}</td>
+			<td align="center">{{$query5->impostos_nac}}</td>
+			<td align="center">{{$query5->icms_nac}}</td>
 	
 			</tr>
 			@php ;} else  { @endphp
@@ -477,8 +520,8 @@ select * from (
 			<td align="center">{{number_format($query6->qtde)}}</td>	
 			<td align="center">{{number_format($query6->atende)}}</td>
 			<td align="center">{{number_format($query6->itens_trans)}}</td>
-			<td align="center">{{$query6->impostos}}</td>
-			<td align="center">{{$query6->icms}}</td>
+			<td align="center">{{$query6->impostos_nac}}</td>
+			<td align="center">{{$query6->icms_nac}}</td>
 	
 			</tr>
 			@php ;} else  { @endphp

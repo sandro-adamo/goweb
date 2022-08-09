@@ -295,10 +295,9 @@ if ($request->dt_registro <> '') { $compra->dt_registro = $request->dt_registro;
 if ($request->dt_prev_embnac <> '') { $compra->dt_prev_embnac = $request->dt_prev_embnac;} else {$compra->dt_prev_embnac = null;}
 if ($request->dt_emb_nac <> '') { $compra->dt_emb_nac = $request->dt_emb_nac;} else {$compra->dt_emb_nac = null;}
 if ($request->dt_recebimento <> '') { $compra->dt_recebimento = $request->dt_recebimento;} else {$compra->dt_recebimento = null;}
-if ($request->dt_recebimento <> '') { $compra->dt_recebimento = $request->dt_recebimento;} else {$compra->dt_recebimento = null;}
 
 if ($request->venc_dupl_1 <> '') { $compra->venc_dupl_1 = $request->venc_dupl_1;} else {$compra->venc_dupl_1 = null;}
-if ($request->dt_perdimento <> '') { $compra->dt_perdimento = $request->dt_perdimento;} else {$compra->dt_perdimento = null;}
+if ($request->dt_aut_embarque <> '') { $compra->dt_perdimento = $request->dt_aut_embarque;} else {$compra->dt_perdimento = null;}
 
 
 		$compra->id_pedido = $request->pedido;
@@ -322,10 +321,16 @@ if ($request->dt_perdimento <> '') { $compra->dt_perdimento = $request->dt_perdi
 			$compra->an8_agente_nac =  $request->an8_agente_nac;
 		
 		
+		
 			$compra->moeda_calculo =  $request->moeda_calculo;
-			$compra->taxa_calculo =  $request->taxa_calculo;
+			$compra->taxa_calculo =  $request->taxa_calculo;		
 			$compra->impostos_nac =  $request->impostos_nac;
 			$compra->icms_nac =  $request->icms_nac;
+			
+		if ($request->impostos_nac > 0) { $compra->base_imposto =  $request->impostos_nac/$request->taxa_calculo; }
+		if ($request->icms_nac > 0 ) {	$compra->base_icms =  $request->icms_nac/$request->taxa_calculo; }
+				
+			
 			
 		
 		
@@ -337,5 +342,95 @@ if ($request->dt_perdimento <> '') { $compra->dt_perdimento = $request->dt_perdi
 
 		return redirect()->back();
 		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public function gravaRegistroImport(Request $request) {
+		
+	$id = $request->id_info;
+	$id_usuario = \Auth::id();
+
+	if ($request->acao=="update") {
+
+		$compra = \App\CompraInfo::find($id);
+
+	} else {
+		
+		$compra = new \App\CompraInfo();
+		
+	}
+
+if ($request->dt_invoice <> '') { $compra->dt_invoice = $request->dt_invoice;} else {$compra->dt_invoice = null;}
+if ($request->dt_sol_li <> '') 	{ $compra->dt_sol_li = $request->dt_sol_li;} else {$compra->dt_sol_li = null;}
+if ($request->dt_def_li <> '') 	{ $compra->dt_def_li = $request->dt_def_li;} else {$compra->dt_def_li = null;}
+if ($request->dt_aut_embarque <> '') { $compra->dt_aut_embarque = $request->dt_aut_embarque;} else {$compra->dt_aut_embarque = null;}
+if ($request->dt_emb_int <> '') { $compra->dt_emb_int = $request->dt_emb_int;} else {$compra->dt_emb_int = null;}
+if ($request->dt_prev_chegada <> '') { $compra->dt_prev_chegada = $request->dt_prev_chegada;} else {$compra->dt_prev_chegada = null;}
+if ($request->dt_chegada <> '') { $compra->dt_chegada = $request->dt_chegada;} else {$compra->dt_chegada = null;}
+if ($request->dt_remocao <> '') { $compra->dt_remocao = $request->dt_remocao;} else {$compra->dt_remocao = null;}
+if ($request->dt_registro <> '') { $compra->dt_registro = $request->dt_registro;} else {$compra->dt_registro = null;}
+if ($request->dt_prev_embnac <> '') { $compra->dt_prev_embnac = $request->dt_prev_embnac;} else {$compra->dt_prev_embnac = null;}
+if ($request->dt_emb_nac <> '') { $compra->dt_emb_nac = $request->dt_emb_nac;} else {$compra->dt_emb_nac = null;}
+if ($request->dt_recebimento <> '') { $compra->dt_recebimento = $request->dt_recebimento;} else {$compra->dt_recebimento = null;}
+
+if ($request->venc_dupl_1 <> '') { $compra->venc_dupl_1 = $request->venc_dupl_1;} else {$compra->venc_dupl_1 = null;}
+if ($request->dt_aut_embarque <> '') { $compra->dt_perdimento = $request->dt_aut_embarque;} else {$compra->dt_perdimento = null;}
+
+
+		$compra->id_pedido = $request->pedido;
+		$compra->tipo_pedido = $request->tipo;
+		$compra->tipo_agrup = $request->tipo_agrup;
+		$compra->doc_agrup = $request->doc_agrup;
+		$compra->cubagem_m3 = $request->cubagem_m3;
+		
+		
+
+			
+			$compra->volumes = $request->volumes;
+			$compra->peso_bruto = $request->peso_bruto;
+			$compra->obs_invoice = $request->obs_invoice;
+			$compra->tipo_carga =  $request->tipo_carga;	
+			$compra->an8_agente_int =  $request->an8_agente_int;
+			$compra->obs_transito =  $request->obs_transito;
+			$compra->num_awb =  $request->num_awb;
+			$compra->obs_chegada =  $request->obs_chegada;
+			$compra->protocolo_di =  $request->protocolo_di;
+			$compra->an8_agente_nac =  $request->an8_agente_nac;
+		
+		
+		
+			$compra->moeda_calculo =  $request->moeda_calculo;
+			$compra->taxa_calculo =  $request->taxa_calculo;		
+			$compra->impostos_nac =  $request->impostos_nac;
+			$compra->icms_nac =  $request->icms_nac;
+			
+		if ($request->impostos_nac > 0) { $compra->base_imposto =  $request->impostos_nac/$request->taxa_calculo; }
+		if ($request->icms_nac > 0 ) {	$compra->base_icms =  $request->icms_nac/$request->taxa_calculo; }
+				
+			
+			
+		
+		
+		
+		
+		
+		
+		$compra->save();
+
+		return redirect()->back();
+		}
+	
+	
 }
 
