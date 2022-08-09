@@ -118,7 +118,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 				  		    
 				  
 					<div class="box-header with-border">	  
-					 <h3 class="box-title">Pedido JDE </h3> <h3>recalcular</h3>
+					 <h3 class="box-title">Pedido JDE </h3>
 					  <h6>
 					 <table class="table table-bordered table-condensed">			
 
@@ -158,7 +158,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 					<div class="box box-danger">
 					  <h3 class="box-title">Documentacao embarque</h3>
 						<th>{{$acao}} - {{$id_info}}  </th>
-	
+						<h6>
 					  <table class="table table-bordered table-condensed">
 						<tr  class="card-header bg-info text-center">
 						  <td><b>Num Invoice</b></td>
@@ -208,10 +208,8 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 						  <td size="20">{{$query_1[0]->num_pedido}}</td>
 						  <td size="20">{{$query_1[0]->num_pedido}}</td>
 						</tr>
-
-
 					  </table> 
-			
+			</h6>
 					  </div> 
 					
 					
@@ -339,9 +337,9 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 
 							<tr class="text-center">
 
-							<td><input type="text" id="moeda_calculo" name="moeda_calculo" size="20" value='{{$query_1[0]->moeda_calculo}}' ></td>
+							<td><input type="text" id="moeda_nac" name="moeda_nac" size="20" value='{{$query_1[0]->moeda_nac}}' ></td>
 
-							<td><input type="text" id="taxa_calculo" name="taxa_calculo" size="20" value={{$query_1[0]->taxa_calculo}} ></td>
+							<td><input type="text" id="taxa_nac" name="taxa_nac" size="20" value={{$query_1[0]->taxa_nac}} ></td>
 
 							<td><input type="text" id="impostos_nac" name="impostos_nac" size="20" value={{$query_1[0]->impostos_nac}}></td>
 								

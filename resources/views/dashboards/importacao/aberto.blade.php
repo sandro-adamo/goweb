@@ -9,6 +9,12 @@
 $query_2 = \DB::select("
 
 select *,
+(impostos_nac/taxa_nac)*taxa1 prev_imposto,
+(icms_nac/taxa_nac)*taxa1 prev_icms,
+((impostos_nac/taxa_nac)*taxa1)+((icms_nac/taxa_nac)*taxa1) prev_total
+
+from (
+select *,
 	case when infos.id is null then 'insert' else 'update' end as acao , infos.id id_info
     
     from (
@@ -66,7 +72,8 @@ select *,
 				 
 				from importacoes_pedidos imp 
 				left join itens on itens.id = cod_item		
-				where ref_go not in ('LA200501','QGKI17-7B') and ult_status not in (980) 
+				where dt_pedido >= '20220101' and ref_go not in ('LA200501','QGKI17-7B') 
+				and ult_status not in (980) 
 				and prox_status not in (999) 
 				and ((imp.tipo = 'op' and gl_clas  in ('AG01','rv01','pa01','mp01' )) or imp.tipo = 'oi')
 
@@ -94,10 +101,19 @@ select *,
 
  left join (select * from compras_infos ) as infos
  on infos.id_pedido = base1.pedido  and infos.tipo_pedido = base1.tipo
+) as base2
+
+left join (select moeda, taxa1 from compras_registros  order by created_at desc limit 1 ) as moeda
+on moeda.moeda = base2.moeda_nac
 
 ");
 			  
-			
+
+$query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order by created_at desc limit 1");
+
+
+
+
 @endphp
 
 <div class="row"> 
@@ -105,26 +121,40 @@ select *,
 	<!-- if taxa_calculo -->
 	<!-- novo controler insere tabela compras_registros e salva na linha compras_infos -->
 	
+	
 	<h3>recalcular</h3>
 	<form action="/import_form/gravareg" method="post" class="form-horizontal"> @csrf
-				<input type="hidden" id="id_info" name="id_info" size="50" value={{$query_2[0]->id_info}}>
-				<input type="hidden" id="acao" name="acao" size="50" value='update'>
+		
+		<input type="hidden" id="id_pedido" name="id_pedido" size="50" value=100201>
+		<input type="hidden" id="tipo_pedido" name="tipo_pedido" size="50" value='OI'>
+		<input type="hidden" id="moeda" name="moeda" size="50" value='dolar'>
 		
 		<td>Dolar</td>
-		<td><input type="text" id="dolar1" name="dolar1" size="8" value='' ></td>
-		<td><input type="text" id="dolar2" name="dolar2" size="8" value='' ></td>
-		<td><input type="text" id="dolar3" name="dolar3" size="8" value='' ></td>
+		<td><input type="text" id="taxa1" name="taxa1" size="8" value='{{$query_r[0]->taxa1}}' ></td>
+		<td><input type="text" id="taxa2" name="taxa2" size="8" value='{{$query_r[0]->taxa2}}' ></td>
+		<td><input type="text" id="taxa3" name="taxa3" size="8" value='{{$query_r[0]->taxa3}}' ></td>
 	
 		<td>Euro</td>
 		<td><input type="text" id="euro1" name="euro1" size="8" value='' ></td>
 		<td><input type="text" id="euro2" name="euro2" size="8" value='' ></td>
 		<td><input type="text" id="euro3" name="euro3" size="8" value='' ></td>
+		
+		
 	<button type="submit" class="btn btn-primary"><i class="fa fa-refresh"></i> Gravar</button>	
 	</form>
 	</div>
 </div>
 
+
+
+
 </br>
+
+
+
+
+
+
 
 <div class="row"> 
 	<div class="col-md-18">
@@ -138,6 +168,7 @@ select *,
 			<li><a href="#Kering" data-toggle="tab">Kering</a></li>
 			<li><a href="#Kering" data-toggle="tab">Perdimento</a></li>
 			<li><a href="#Kering" data-toggle="tab">Sem ped_jde</a></li>
+			<li><a href="#leadtime" data-toggle="tab">leadtime</a></li>
             </ul>
 			    
 			  
@@ -155,16 +186,15 @@ select *,
 	<table class="table table-striped table-bordered compact" id="myTable">
 		<thead>	
 					<tr>
-					<td>det</td>
-						<td>det</td>
+					
+		
 					<td colspan="1" align="center">Pedido</td>
 					<td colspan="1" align="center">ult_prox status</td>						
 					<td colspan="1" align="center">Invoice</td>				
 					<td colspan="1" align="center">ref desp</td>
-					<td colspan="1" align="center">tipo</td>
-						<td colspan="1" align="center">conex</td>
-					<td colspan="1" align="center">fornecedor</td>
+					<td colspan="1" align="center">Agrup</td>
 					
+					<td colspan="1" align="center">fornecedor</td>
 					<td colspan="1" align="center">Tipo_item</td>
 					<td colspan="1" align="center">Grifes </td>
 					<td colspan="1" align="center">Colecoes</td>
@@ -193,31 +223,35 @@ select *,
 				
 				
 				
-			<td>	<button type="submit"><i class="fa fa-refresh"></i></button>	</td>
-
-				<td align="left">
-					<a href="/import_form/?tipo={{$query2->tipo}}&pedido={{$query2->pedido}}" target="_blank">
-					<i class="fa fa-file-text-o"></i></a>
-				</td>
+		<!-- 	<td><button type="submit"><i class="fa fa-refresh"></i></button>	</td> -->
 					
 					
-			<td align="left"><a href="/dsimportdet/{{$query2->tipo}}/{{$query2->pedido}}">{{$query2->tipo.' '.$query2->pedido}}</a></td>
+			<td align="left">
+				<a href="/import_form/?tipo={{$query2->tipo}}&pedido={{$query2->pedido}}" target="_blank">
+					<i class="fa fa-file-text-o"></i>
+				</a>
+				<a href="/dsimportdet/{{$query2->tipo}}/{{$query2->pedido}}">{{$query2->tipo.' '.$query2->pedido}}</a>
+			</td>
+					
 			<td align="center">{{$query2->ult_prox}} - {{$query2->desc_status}}</td>
 	
 			<td align="left">{{$query2->ref_go}}</td>
 			<td align="center">{{$query2->ref}}</td>
 				
-					<td>
-							  <select class="form-control" name="tipo_agrup" >	
+					<td>{{$query2->tipo_agrup}} - {{$query2->doc_agrup}}
+							 <!--  <select class="form-control" name="tipo_agrup" >	
 							  <option value="{{$query2->tipo_agrup}}">{{$query2->tipo_agrup}}</option> 
 							  <option value="FR">FR</option>
 							  <option value="AC">AC</option>
 						      </select>
+							-->
 							  
 						  </td>
 					
 					
-			<td><input type="text" id="doc_agrup" name="doc_agrup" size="8" value='{{$query2->doc_agrup}}' ></td>
+		
+				<!--	<td> <input type="text" id="doc_agrup" name="doc_agrup" size="8" value='{{$query2->doc_agrup}}' ></td> -->
+
 				
 			<td align="left">{{$query2->fornecedor}}</td>
 			<td align="center">{{$query2->tipoitem}}</td>
@@ -227,8 +261,8 @@ select *,
 			<td align="center">{{number_format($query2->qtde)}}</td>	
 			<td align="center">{{number_format($query2->atende)}}</td>
 			<td align="center">{{number_format($query2->itens_trans)}}</td>
-			<td align="center">{{$query2->impostos_nac}}</td>
-			<td align="center">{{$query2->icms_nac}}</td>
+			<td align="center">{{number_format($query2->prev_imposto,2)}}</td>
+			<td align="center">{{number_format($query2->prev_icms,2)}}</td>
 				
 	
 			</tr>
@@ -244,16 +278,16 @@ select *,
 
 <div class="tab-pane" id="removido">	
 <div class="box-header with-border">
-	 <tr><td>Cargas removidas</td></tr>
+	 <tr><td>Cargas removidas (379 / 375 - removido)</td></tr>
 	<h6>
 	<table class="table table-striped table-bordered compact" id="myTable">
 		  <thead>	
 			 
 		  			
 					<tr>
-					<td>det</td>
-					<td colspan="1" align="center">Pedido</td>
-					<td colspan="1" align="center">ult_prox status</td>						
+					
+					<td colspan="1" align="center" widht="30%">Pedido</td>
+										
 					<td colspan="1" align="center">Invoice</td>				
 					<td colspan="1" align="center">ref desp</td>
 					<td colspan="1" align="center">conex</td>
@@ -267,8 +301,9 @@ select *,
 					<td colspan="1" align="center">atende BO</td>
 					<td colspan="1" align="center">itens CET</td>
 						
-					<td colspan="1" align="center">impostos</td>
-					<td colspan="1" align="center">icms</td>
+					<td colspan="1" align="center">Prev impostos</td>
+					<td colspan="1" align="center">Prev icms</td>
+					<td colspan="1" align="center">Prev Total</td>
 						
 					</tr>
 			    </thead>
@@ -281,9 +316,9 @@ select *,
 	
 			<tr>
 			<td align="left"><a href="/import_form/?tipo={{$query3->tipo}}&pedido={{$query3->pedido}}" target="_blank">
-				<i class="fa fa-file-text-o"></i></a></td>
-			<td align="left"><a href="/dsimportdet/{{$query3->tipo}}/{{$query3->pedido}}">{{$query3->tipo.' '.$query3->pedido}}</a></td>
-			<td align="center">{{$query3->ult_prox}} - {{$query3->desc_status}}</td>
+				<i class="fa fa-file-text-o"></i></a>
+			<a href="/dsimportdet/{{$query3->tipo}}/{{$query3->pedido}}">{{$query3->tipo.' '.$query3->pedido}}</a></td>
+			
 	
 			<td align="left">{{$query3->ref_go}}</td>
 			<td align="center">{{$query3->ref}}</td>
@@ -296,8 +331,9 @@ select *,
 			<td align="center">{{number_format($query3->qtde)}}</td>	
 			<td align="center">{{number_format($query3->atende)}}</td>
 			<td align="center">{{number_format($query3->itens_trans)}}</td>
-			<td align="center">{{$query3->impostos_nac}}</td>
-			<td align="center">{{$query3->icms_nac}}</td>
+			<td align="center">{{number_format($query3->impostos_nac,2)}}</td>
+			<td align="center">{{number_format($query3->icms_nac,2)}}</td>
+				<td align="center">{{number_format($query3->prev_total,2)}}</td>
 	
 			</tr>
 	
@@ -318,7 +354,7 @@ select *,
 	
 <div class="tab-pane" id="Transito">
 <div class="box-header with-border">
-	 <tr><td colspan="15">Transito</td></tr>
+	 <tr><td colspan="15">Transito (359 / 355 - li_deferida | 359 / 365 - booking)</td></tr>
 	<h6>
 	<table class="table table-striped table-bordered compact" id="myTable1">
 		  <thead>				
@@ -341,8 +377,8 @@ select *,
 					<td colspan="1" align="center">atende BO</td>
 					<td colspan="1" align="center">itens CET</td>
 						
-					<td colspan="1" align="center">impostos</td>
-					<td colspan="1" align="center">icms</td>
+					<td colspan="1" align="center">Prev Chegada</td>
+					<td colspan="1" align="center">Trans Int</td>
 						
 				
 					
@@ -360,7 +396,7 @@ select *,
 			<td align="left"><a href="/import_form/?tipo={{$query4->tipo}}&pedido={{$query4->pedido}}" target="_blank">
 				<i class="fa fa-file-text-o"></i></a></td>
 			<td align="left"><a href="/dsimportdet/{{$query4->tipo}}/{{$query4->pedido}}">{{$query4->tipo.' '.$query4->pedido}}</a></td>
-			<td align="center">{{$query4->ult_prox}} - {{$query4->desc_status}}</td>
+			<td align="center">{{$query4->ult_prox}}</td>
 	
 			<td align="left">{{$query4->ref_go}}</td>
 			<td align="center">{{$query4->ref}}</td>
@@ -373,8 +409,8 @@ select *,
 			<td align="center">{{number_format($query4->qtde)}}</td>	
 			<td align="center">{{number_format($query4->atende)}}</td>
 			<td align="center">{{number_format($query4->itens_trans)}}</td>
-			<td align="center">{{$query4->impostos_nac}}</td>
-			<td align="center">{{$query4->icms_nac}}</td>
+			<td align="center">{{$query4->dt_prev_chegada}}</td>
+			<td align="center">{{$query4->an8_agente_int}}</td>
 	
 			</tr>
 		
@@ -393,7 +429,7 @@ select *,
 	
 <div class="tab-pane" id="Embarque">
 <div class="box-header with-border">
-
+<h6> 
 	<table class="table table-striped table-bordered compact" id="myTable">
 		  <thead>				
 			 <tr><td colspan="15">Embarque</td></tr>
@@ -459,6 +495,7 @@ select *,
 			
 
 		</table>
+		</h6> 
 		</div>	
 		</div>	
 	
@@ -467,6 +504,7 @@ select *,
 	
 <div class="tab-pane" id="Kering">
 <div class="box-header with-border">
+	<h6> 
 	<table class="table table-striped table-bordered compact" id="myTable">
 		  <thead>				
 			 <tr><td colspan="15">Kering</td></tr>
@@ -532,11 +570,90 @@ select *,
 			
 
 		</table>
-	
+		<h6> 
 
 		</div>	
 	</div>	
 
+	
+	
+	
+<div class="tab-pane" id="leadtime">	
+<div class="box-header with-border">
+	 <tr><td>Cargas removidas (379 / 375 - removido)</td></tr>
+	<h6>
+	<table class="table table-striped table-bordered compact" id="myTable">
+		  <thead>	
+			 
+		  			
+					<tr>
+					
+					<td colspan="1" align="center" widht="30%">Pedido</td>
+										
+					<td colspan="1" align="center">invoice</td>				
+					<td colspan="1" align="center">solic_LI</td>	
+						<td colspan="1" align="center">defer_LI</td>	
+						<td colspan="1" align="center">autor_emb</td>	
+						<td colspan="1" align="center">embarque</td>	
+						<td colspan="1" align="center">prev_chegada</td>	
+						<td colspan="1" align="center">chegada</td>	
+						<td colspan="1" align="center">remocao</td>	
+						<td colspan="1" align="center">registro_DI</td>	
+						<td colspan="1" align="center">prev_tr_nac</td>	
+						<td colspan="1" align="center">carregamento</td>	
+						<td colspan="1" align="center">entrega_fabr</td>
+						<td colspan="1" align="center">perdimento</td>
+					
+						
+					</tr>
+			    </thead>
+			  
+			@foreach ($query_2 as $query3)
+				
+				@php if ($query3->desc_status=="removido") 
+				
+			{ @endphp
+	
+			<tr>
+			<td align="left"><a href="/import_form/?tipo={{$query3->tipo}}&pedido={{$query3->pedido}}" target="_blank">
+				<i class="fa fa-file-text-o"></i></a>
+			<a href="/dsimportdet/{{$query3->tipo}}/{{$query3->pedido}}">{{$query3->tipo.' '.$query3->pedido}}</a></td>
+			
+	
+			<td align="left">{{$query3->dt_invoice}}</td>
+			<td align="center">{{$query3->dt_sol_li}}</td>
+			<td align="center">{{$query3->dt_def_li}}</td>
+			<td align="left">{{$query3->dt_sol_li}}</td>
+			<td align="center">{{$query3->dt_sol_li}}</td>
+			<td align="center">{{$query3->dt_aut_embarque}}</td>
+			<td align="center">{{$query3->dt_emb_int}}</td>
+			<td align="center">{{$query3->dt_prev_chegada}}</td>
+			<td align="left">{{$query3->dt_chegada}}</td>
+			<td align="center">{{$query3->dt_remocao}}</td>
+			<td align="center">{{$query3->dt_registro}}</td>
+			<td align="center">{{$query3->dt_prev_embnac}}</td>
+			<td align="center">{{$query3->dt_emb_nac}}</td>
+				
+				<td align="left">{{$query3->dt_recebimento}}</td>
+			<td align="center">{{$query3->dt_perdimento}}</td>
+	
+			</tr>
+	
+			@php ;} else  { @endphp
+	
+			@php  ;} @endphp
+			
+			@endforeach 
+			
+
+		</table>
+		</h6>
+		</div>	
+	</div>
+	
+	
+	
+	
 	
 </div>	
 			  
