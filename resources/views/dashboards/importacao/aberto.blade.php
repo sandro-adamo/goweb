@@ -11,7 +11,8 @@ $query_2 = \DB::select("
 select *,
 (impostos_nac/taxa_nac)*taxa1 prev_imposto,
 (icms_nac/taxa_nac)*taxa1 prev_icms,
-((impostos_nac/taxa_nac)*taxa1)+((icms_nac/taxa_nac)*taxa1) prev_total
+((impostos_nac/taxa_nac)*taxa1)+((icms_nac/taxa_nac)*taxa1) prev_total,
+'red' as coloremb 
 
 from (
 select *,
@@ -166,9 +167,10 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 			<li><a href="#Transito" data-toggle="tab">Transito</a></li>
 			<li><a href="#Embarque" data-toggle="tab">Embarque</a></li>
 			<li><a href="#Kering" data-toggle="tab">Kering</a></li>
-			<li><a href="#Kering" data-toggle="tab">Perdimento</a></li>
+			<li><a href="#perdimento" data-toggle="tab">Perdimento</a></li>
 			<li><a href="#Kering" data-toggle="tab">Sem ped_jde</a></li>
 			<li><a href="#leadtime" data-toggle="tab">leadtime</a></li>
+			<li><a href="#documentos" data-toggle="tab">documentos</a></li>
             </ul>
 			    
 			  
@@ -187,11 +189,11 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 		<thead>	
 					<tr>
 					
-		
+		<td></td>
 					<td colspan="1" align="center">Pedido</td>
 					<td colspan="1" align="center">ult_prox status</td>						
 					<td colspan="1" align="center">Invoice</td>				
-					<td colspan="1" align="center">ref desp</td>
+				
 					<td colspan="1" align="center">Agrup</td>
 					
 					<td colspan="1" align="center">fornecedor</td>
@@ -204,6 +206,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 					<td colspan="1" align="center">itens CET</td>
 					<td colspan="1" align="center">impostos</td>
 					<td colspan="1" align="center">icms</td>
+					<td colspan="1" align="center">obs</td>
    		
 					</tr>
 			 </thead>
@@ -225,7 +228,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 				
 		<!-- 	<td><button type="submit"><i class="fa fa-refresh"></i></button>	</td> -->
 					
-					
+			<td><i class="fa fa-money text-{{$query2->coloremb}}"></i></td>	
 			<td align="left">
 				<a href="/import_form/?tipo={{$query2->tipo}}&pedido={{$query2->pedido}}" target="_blank">
 					<i class="fa fa-file-text-o"></i>
@@ -236,7 +239,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 			<td align="center">{{$query2->ult_prox}} - {{$query2->desc_status}}</td>
 	
 			<td align="left">{{$query2->ref_go}}</td>
-			<td align="center">{{$query2->ref}}</td>
+			
 				
 					<td>{{$query2->tipo_agrup}} - {{$query2->doc_agrup}}
 							 <!--  <select class="form-control" name="tipo_agrup" >	
@@ -263,7 +266,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 			<td align="center">{{number_format($query2->itens_trans)}}</td>
 			<td align="center">{{number_format($query2->prev_imposto,2)}}</td>
 			<td align="center">{{number_format($query2->prev_icms,2)}}</td>
-				
+			<td align="left">{{$query2->obs_invoice}}</td>
 	
 			</tr>
 				</form>	
@@ -289,7 +292,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 					<td colspan="1" align="center" widht="30%">Pedido</td>
 										
 					<td colspan="1" align="center">Invoice</td>				
-					<td colspan="1" align="center">ref desp</td>
+					<td colspan="1" align="center">Perdimento</td>
 					<td colspan="1" align="center">conex</td>
 					<td colspan="1" align="center">fornecedor</td>
 					
@@ -304,7 +307,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 					<td colspan="1" align="center">Prev impostos</td>
 					<td colspan="1" align="center">Prev icms</td>
 					<td colspan="1" align="center">Prev Total</td>
-						
+						<td colspan="1" align="center">Obs</td>
 					</tr>
 			    </thead>
 			  
@@ -321,7 +324,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 			
 	
 			<td align="left">{{$query3->ref_go}}</td>
-			<td align="center">{{$query3->ref}}</td>
+			<td align="center">{{$query3->dt_perdimento}}</td>
 			<td align="center">{{$query3->doc_agrup}}</td>
 			<td align="left">{{$query3->fornecedor}}</td>
 			<td align="center">{{$query3->tipoitem}}</td>
@@ -333,8 +336,9 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 			<td align="center">{{number_format($query3->itens_trans)}}</td>
 			<td align="center">{{number_format($query3->impostos_nac,2)}}</td>
 			<td align="center">{{number_format($query3->icms_nac,2)}}</td>
-				<td align="center">{{number_format($query3->prev_total,2)}}</td>
-	
+			<td align="center">{{number_format($query3->prev_total,2)}}</td>
+			<td align="left">{{$query3->obs_invoice}}</td>
+
 			</tr>
 	
 			@php ;} else  { @endphp
@@ -435,6 +439,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 			 <tr><td colspan="15">Embarque</td></tr>
 		  			
 					<tr>
+						
 					<td>det</td>
 					<td colspan="1" align="center">Pedido</td>
 					<td colspan="1" align="center">ult_prox status</td>						
@@ -451,8 +456,8 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 					<td colspan="1" align="center">atende BO</td>
 					<td colspan="1" align="center">itens CET</td>
 						
-					<td colspan="1" align="center">impostos</td>
-					<td colspan="1" align="center">icms</td>
+					<td colspan="1" align="center">valor Emarque</td>
+					
 						
 				
 					
@@ -467,9 +472,11 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 			{ @endphp
 		
 			<tr>
+				<td><i class="fa fa-money text-{{$query2->coloremb}}"></i></td>	
 			<td align="left"><a href="/import_form/?tipo={{$query5->tipo}}&pedido={{$query5->pedido}}" target="_blank">
-				<i class="fa fa-file-text-o"></i></a></td>
-			<td align="left"><a href="/dsimportdet/{{$query5->tipo}}/{{$query5->pedido}}">{{$query5->tipo.' '.$query5->pedido}}</a></td>
+				<i class="fa fa-file-text-o"></i></a>
+			<a href="/dsimportdet/{{$query5->tipo}}/{{$query5->pedido}}">{{$query5->tipo.' '.$query5->pedido}}</a></td>
+				
 			<td align="center">{{$query5->ult_prox}} - {{$query5->desc_status}}</td>
 	
 			<td align="left">{{$query5->ref_go}}</td>
@@ -484,7 +491,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 			<td align="center">{{number_format($query5->atende)}}</td>
 			<td align="center">{{number_format($query5->itens_trans)}}</td>
 			<td align="center">{{$query5->impostos_nac}}</td>
-			<td align="center">{{$query5->icms_nac}}</td>
+	
 	
 			</tr>
 			@php ;} else  { @endphp
@@ -575,6 +582,84 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 		</div>	
 	</div>	
 
+
+	
+	
+<div class="tab-pane" id="perdimento">	
+<div class="box-header with-border">
+	 <tr><td>Datas para perdimento</td></tr>
+	<h6>
+	<table class="table table-striped table-bordered compact" id="myTable">
+		  <thead>	
+			 
+		  			
+					<tr>
+					<td colspan="1" align="center" widht="30%">Dt perdimento</td>
+					<td colspan="1" align="center" widht="30%">Pedido</td>										
+					<td colspan="1" align="center">Invoice</td>				
+					<td colspan="1" align="center">ref desp</td>
+					<td colspan="1" align="center">conex</td>
+					<td colspan="1" align="center">fornecedor</td>
+					
+					<td colspan="1" align="center">Tipo_item</td>
+					<td colspan="1" align="center">Grifes </td>
+					<td colspan="1" align="center">Colecoes</td>
+					<td colspan="1" align="center">Linhas</td>
+					<td colspan="1" align="center">qtde pecas</td>
+					<td colspan="1" align="center">atende BO</td>
+					<td colspan="1" align="center">itens CET</td>
+						
+					<td colspan="1" align="center">Prev impostos</td>
+					<td colspan="1" align="center">Prev icms</td>
+					<td colspan="1" align="center">Prev Total</td>
+						<td colspan="1" align="center">Obs</td>
+					</tr>
+			    </thead>
+			  
+			@foreach ($query_2 as $query3)
+				
+				@php if ($query3->dt_perdimento<>"") 
+				
+			{ @endphp
+	
+			<tr>
+				<td align="left">{{$query3->dt_perdimento}}</td>
+			<td align="left"><a href="/import_form/?tipo={{$query3->tipo}}&pedido={{$query3->pedido}}" target="_blank">
+				<i class="fa fa-file-text-o"></i></a>
+			<a href="/dsimportdet/{{$query3->tipo}}/{{$query3->pedido}}">{{$query3->tipo.' '.$query3->pedido}}</a></td>
+			
+	
+			<td align="left">{{$query3->ref_go}}</td>
+			<td align="center">{{$query3->ref}}</td>
+			<td align="center">{{$query3->doc_agrup}}</td>
+			<td align="left">{{$query3->fornecedor}}</td>
+			<td align="center">{{$query3->tipoitem}}</td>
+			<td align="center">{{$query3->codgrife}}</td>
+			<td align="center">{{$query3->colmod}}</td>
+			<td align="center">{{$query3->linha}}</td>
+			<td align="center">{{number_format($query3->qtde)}}</td>	
+			<td align="center">{{number_format($query3->atende)}}</td>
+			<td align="center">{{number_format($query3->itens_trans)}}</td>
+			<td align="center">{{number_format($query3->impostos_nac,2)}}</td>
+			<td align="center">{{number_format($query3->icms_nac,2)}}</td>
+			<td align="center">{{number_format($query3->prev_total,2)}}</td>
+			<td align="left">{{$query3->obs_invoice}}</td>
+
+			</tr>
+	
+			@php ;} else  { @endphp
+	
+			@php  ;} @endphp
+			
+			@endforeach 
+			
+
+		</table>
+		</h6>
+		</div>	
+	</div>
+	
+	
 	
 	
 	
@@ -610,7 +695,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 			  
 			@foreach ($query_2 as $query3)
 				
-				@php if ($query3->desc_status=="removido") 
+				@php if ($query3->desc_status=="li_deferida" or $query3->desc_status=="booking")
 				
 			{ @endphp
 	

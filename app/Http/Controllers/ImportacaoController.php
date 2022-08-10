@@ -297,8 +297,16 @@ if ($request->dt_emb_nac <> '') { $compra->dt_emb_nac = $request->dt_emb_nac;} e
 if ($request->dt_recebimento <> '') { $compra->dt_recebimento = $request->dt_recebimento;} else {$compra->dt_recebimento = null;}
 
 if ($request->venc_dupl_1 <> '') { $compra->venc_dupl_1 = $request->venc_dupl_1;} else {$compra->venc_dupl_1 = null;}
-if ($request->dt_aut_embarque <> '') { $compra->dt_perdimento = $request->dt_aut_embarque;} else {$compra->dt_perdimento = null;}
 
+if ($request->dt_chegada <> '') 
+		{ $compra->dt_perdimento = date('Y/m/d',strtotime('+120 days',strtotime($request->dt_chegada)));} 
+											 else {$compra->dt_perdimento = null;}
+
+		
+		
+	//	echo date('d/m/Y', strtotime('+5 days', strtotime('14-07-2014')));  strtotime('+5 days',strtotime($request->dt_aut_embarque))
+		
+		
 
 		$compra->id_pedido = $request->pedido;
 		$compra->tipo_pedido = $request->tipo;

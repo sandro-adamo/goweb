@@ -158,7 +158,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 					<div class="box box-danger">
 					  <h3 class="box-title">Documentacao embarque</h3>
 						<th>{{$acao}} - {{$id_info}}  </th>
-						<h6>
+	
 					  <table class="table table-bordered table-condensed">
 						<tr  class="card-header bg-info text-center">
 						  <td><b>Num Invoice</b></td>
@@ -209,7 +209,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 						  <td size="20">{{$query_1[0]->num_pedido}}</td>
 						</tr>
 					  </table> 
-			</h6>
+			
 					  </div> 
 					
 					
@@ -247,15 +247,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 					  <td><input type="date" id="dt_aut_embarque" name="dt_aut_embarque" size="10" value={{$query_1[0]->dt_aut_embarque}} ></td>
 					  <td>
 					
-					<input type="text" id="obs_transito" name="obs_transito" size="10" value='{{$query_1[0]->obs_transito}}'></td>
-						
-						
-						
-						<input type="hidden" id="dt_aut_embarque" name="dt_aut_embarque" size="10" 
-							   
-							   value='{{$query_1[0]->dt_aut_embarque}}'></td>
-					
-					
+					<input type="text" id="obs_transito" name="obs_transito" size="10" value='{{$query_1[0]->obs_transito}}'></td>											
 						
 					<td>{{$query_1[0]->dt_perdimento}}</td>
 						
