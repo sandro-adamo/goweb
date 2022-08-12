@@ -12,11 +12,7 @@ select *,
 (impostos_nac/taxa_nac)*taxa1 prev_imposto,
 (icms_nac/taxa_nac)*taxa1 prev_icms,
 ((impostos_nac/taxa_nac)*taxa1)+((icms_nac/taxa_nac)*taxa1) prev_total,
-case when status_pgto = 'pago' then 'green' when status_pgto = 'aberto' then 'red' else '' end as coloremb, 
-case when status_pgto is null then '' else 'money' end as clasmoney,
-
-ifnull(valor_titulo,0)-ifnull(valor_pago,0)  embarque
-
+'red' as coloremb 
 
 from (
 select *,
@@ -111,21 +107,6 @@ select *,
 left join (select moeda, taxa1 from compras_registros  order by created_at desc limit 1 ) as moeda
 on moeda.moeda = base2.moeda_nac
 
-
-	left join ( 
-
-	select id_pedido, origem, moeda, valor_titulo, valor_pago, 
-	case when valor_pago is null then 'em aberto' when valor_pago < valor_titulo then 'parcial' else '' end as status_pgto
-	from (
-
-	select id_pedido, origem, moeda, (valor) valor_titulo,
-	(select sum(pagamento) pago from compras_parcelas cp where cp.id_titulo = ct.numero) valor_pago
-	from compras_titulos ct 
-	where ct.tipo = 'embarque' 
-	) as fim
-    ) as ct
-	on ct.id_pedido = base2.pedido and ct.origem = base2.tipo
-
 ");
 			  
 
@@ -190,7 +171,6 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 			<li><a href="#Kering" data-toggle="tab">Sem ped_jde</a></li>
 			<li><a href="#leadtime" data-toggle="tab">leadtime</a></li>
 			<li><a href="#documentos" data-toggle="tab">documentos</a></li>
-			<li><a href="#periodos" data-toggle="tab">periodos</a></li>
             </ul>
 			    
 			  
@@ -303,7 +283,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 <div class="box-header with-border">
 	 <tr><td>Cargas removidas (379 / 375 - removido)</td></tr>
 	<h6>
-	<table class="tabela2 table-striped table-bordered compact" id="tabela2">
+	<table class="table table-striped table-bordered compact" id="myTable">
 		  <thead>	
 			 
 		  			
@@ -380,7 +360,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 <div class="box-header with-border">
 	 <tr><td colspan="15">Transito (359 / 355 - li_deferida | 359 / 365 - booking)</td></tr>
 	<h6>
-	<table class="tabela2 table-striped table-bordered compact" id="myTable1">
+	<table class="table table-striped table-bordered compact" id="myTable1">
 		  <thead>				
 			
 		  		
@@ -454,7 +434,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 <div class="tab-pane" id="Embarque">
 <div class="box-header with-border">
 <h6> 
-	<table class="tabela2 table-striped table-bordered compact" id="myTable">
+	<table class="table table-striped table-bordered compact" id="myTable">
 		  <thead>				
 			 <tr><td colspan="15">Embarque</td></tr>
 		  			
@@ -492,7 +472,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 			{ @endphp
 		
 			<tr>
-				<td><i class="fa fa-money text-{{$query5->coloremb}}"></i></td>	
+				<td><i class="fa fa-money text-{{$query2->coloremb}}"></i></td>	
 			<td align="left"><a href="/import_form/?tipo={{$query5->tipo}}&pedido={{$query5->pedido}}" target="_blank">
 				<i class="fa fa-file-text-o"></i></a>
 			<a href="/dsimportdet/{{$query5->tipo}}/{{$query5->pedido}}">{{$query5->tipo.' '.$query5->pedido}}</a></td>
@@ -510,7 +490,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 			<td align="center">{{number_format($query5->qtde)}}</td>	
 			<td align="center">{{number_format($query5->atende)}}</td>
 			<td align="center">{{number_format($query5->itens_trans)}}</td>
-			<td align="center">{{$query5->embarque}}</td>
+			<td align="center">{{$query5->impostos_nac}}</td>
 	
 	
 			</tr>

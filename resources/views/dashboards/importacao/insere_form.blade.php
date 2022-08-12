@@ -158,8 +158,9 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 					<div class="box box-danger">
 					  <h3 class="box-title">Documentacao embarque</h3>
 						<th>{{$acao}} - {{$id_info}}  </th>
-	
+					<h6>
 					  <table class="table table-bordered table-condensed">
+						  
 						<tr  class="card-header bg-info text-center">
 						  <td><b>Num Invoice</b></td>
 						  <td><b>Dt emissao</b></td>
@@ -178,10 +179,12 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 						  <td><input type="number" step="any" id="peso_bruto" name="peso_bruto" size="10" value={{$query_1[0]->peso_bruto1}} ></td>
 						  <td><input type="text" id="obs_invoice" name="obs_invoice" size="35" value='{{$query_1[0]->obs_invoice}}' ></td>
 						</tr>
+								</h6>
 					</table>
 						  
-						  
+					  
 					 <table class="table table-bordered table-condensed">
+						 	<h6>
 						 <tr  class="card-header bg-info text-center">      
 						  
 						  <td><b>Tipo Agrup	</b></td>
@@ -209,7 +212,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 						  <td size="20">{{$query_1[0]->num_pedido}}</td>
 						</tr>
 					  </table> 
-			
+			</h6>
 					  </div> 
 					
 					
