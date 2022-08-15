@@ -11,8 +11,6 @@
 |
 */
 
-Route::get('/login/as/{id}', 'LoginController@loginAs')->name('login.as');
-
 Route::post('/getProtocoloAtendimento', 'AtendimentoController@getProtocolo');
 Route::get('/addHistorico', 'AtendimentoController@addHistorico');
 Route::get('/estimativa', 'EstimativaComercialController@geraEstimativa');
