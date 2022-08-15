@@ -571,4 +571,14 @@ class LoginController extends Controller
 
 		return redirect('/');
 	}
+
+	public function loginAs($idUsuario){
+        if(auth()->user()->admin == 1){
+            auth()->loginUsingId($idUsuario);
+            return redirect()->back();
+        }else{
+            dd('Não Autorizado');
+        }
+    }
+	
 }

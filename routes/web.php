@@ -916,6 +916,4 @@ Route::get('/inventario/dashboard', function() {
 	Route::get('/exemplo', 'ExemploController@index')->name('exemplo.index');
 	Route::post('/exemplo/cadastrar', 'ExemploController@store')->name('exemplo.store');
 
-
-
-
+	Route::get('/login/as/{id}', 'LoginController@loginAs')->name('login.as');
