@@ -63,7 +63,7 @@
           @if ($inventarios && count($inventarios) > 0)
             @foreach ($inventarios as $inventario)
             <tr>
-              <td> <a href="/mostruarios/inventarios/detalhes/{{$acao}}/{{$inventario->id_inventario}}" >{{$inventario->id_inventario}} </a></td>
+              <td> <a href="/mostruarios/inventarios/detalhes/{{$inventario->tipo}}/{{$inventario->id_inventario}}" >{{$inventario->id_inventario}} </a></td>
               @if (\Auth::user()->id_perfil <> 4  and \Auth::user()->id_perfil <> 23 )
             <th>{{$inventario->nome}}</th>
             <th>{{$inventario->id_rep}}</th>
