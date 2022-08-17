@@ -319,6 +319,7 @@ if ($request->dt_chegada <> '')
 			
 			$compra->volumes = $request->volumes;
 			$compra->peso_bruto = $request->peso_bruto;
+			$compra->peso_liquido = $request->peso_liquido;
 			$compra->obs_invoice = $request->obs_invoice;
 			$compra->tipo_carga =  $request->tipo_carga;	
 			$compra->an8_agente_int =  $request->an8_agente_int;
@@ -331,6 +332,7 @@ if ($request->dt_chegada <> '')
 			$compra->taxa_nac =  $request->taxa_nac;		
 			$compra->impostos_nac =  $request->impostos_nac;
 			$compra->icms_nac =  $request->icms_nac;
+		$compra->vlr_requisicao =  $request->vlr_requisicao;
 			
 		if ($request->impostos_nac > 0) { $compra->base_imposto =  $request->impostos_nac/$request->taxa_nac; }
 		if ($request->icms_nac > 0 ) {	$compra->base_icms =  $request->icms_nac/$request->taxa_nac; }
