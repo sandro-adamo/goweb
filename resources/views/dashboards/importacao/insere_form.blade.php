@@ -34,7 +34,7 @@ $tipo = $_GET["tipo"];
 $query_1 = \DB::select("
 	
 
-select *, ifnull(volumes,0) volumes1, ifnull(peso_bruto,0) peso_bruto1, ifnull(cubagem_m3,0) cubagem_m31, 0 as cubagem_m39
+select *, ifnull(volumes,0) volumes1, ifnull(peso_bruto,0) peso_bruto1, ifnull(peso_liquido,0) peso_liquido1, ifnull(cubagem_m3,0) cubagem_m31, 0 as cubagem_m39
 
 from (
 	select ped.pedido num_pedido, ped.tipo tipo_pedido, ped.dt_pedido, ped.ref_go invoice, concat(ped.ult_status,' ', ped.prox_status) ult_prox_ped,
@@ -77,7 +77,7 @@ $query_2 = \DB::select("select * from compras_titulos where id_pedido =  '$pedid
 
 $query_3 = \DB::select("select * from compras_parcelas where numero =  '$pedido' and tipo = '$tipo'");
 
-$query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 0 as ref, fornecedor, colmod, 0 ult_prox, 0 as atende , tipoitem, qtde_sol qtde
+$query_4 = \DB::select("select itens.secundario, agrup, codgrife, modelo, 0 as ref, fornecedor, colmod, 0 ult_prox, 0 as atende , tipoitem, qtde_sol qtde
       from importacoes_pedidos ip
       left join itens on ip.cod_item = itens.id
 
@@ -103,6 +103,8 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
               <li><a href="#timeline" data-toggle="tab">Timeline</a></li>
               <li><a href="#settings" data-toggle="tab" class='text-red'>Validacoes</a></li>
 			  <li><a href="#documentos" data-toggle="tab" class='text-green'>documentos</a></li>
+				<li><a href="#documentos" data-toggle="tab" class='text-green'>OL/OG</a></li>
+				
             </ul>
 			  
 			  
@@ -167,6 +169,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 						  <td><b>Cubagem</b></td>
 						  <td><b>Volumes</b></td>
 						  <td><b>Peso Bruto</b></td>
+						  <td><b>Peso Liquido</b></td>
 						 <td><b>Obs Invoice</b></td>
 						</tr>
 
@@ -177,7 +180,9 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 						  <td><input type="number" step="any" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m31}} ></td>
 						  <td><input type="number" step="any" id="volumes" name="volumes" size="5" value={{$query_1[0]->volumes1}}></td>
 						  <td><input type="number" step="any" id="peso_bruto" name="peso_bruto" size="10" value={{$query_1[0]->peso_bruto1}} ></td>
-						  <td><input type="text" id="obs_invoice" name="obs_invoice" size="35" value='{{$query_1[0]->obs_invoice}}' ></td>
+						<td><input type="number" step="any" id="peso_liquido" name="peso_liquido" size="10" value={{$query_1[0]->peso_liquido1}} ></td>	
+						  
+							<td><input type="text" id="obs_invoice" name="obs_invoice" size="35" value='{{$query_1[0]->obs_invoice}}' ></td>
 						</tr>
 								</h6>
 					</table>
@@ -269,6 +274,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 					  <td><b>Dt Chegada</b></td>
 					  <td><b>Obs Chegada</b></td>
 					  <td><b>Dt remocao</b></td>
+					  <td><b>Vlr requisicao</b></td>
 					  
 					</tr>		  
 
@@ -279,6 +285,7 @@ $query_4 = \DB::select("      select itens.secundario, agrup, codgrife, modelo, 
 					<td><input type="date" id="dt_chegada" name="dt_chegada" size="20" value={{$query_1[0]->dt_chegada}} ></td>
 					<td><input type="text" id="obs_chegada" name="obs_chegada" size="20" value='{{$query_1[0]->obs_chegada}}'></td>
 					<td><input type="date" id="dt_remocao" name="dt_remocao" size="20" value={{$query_1[0]->dt_remocao}} ></td>
+					<td><input type="text" id="vlr_requisicao" name="vlr_requisicao" size="20" value={{$query_1[0]->vlr_requisicao}} ></td>
 			
 					</tr>
 
