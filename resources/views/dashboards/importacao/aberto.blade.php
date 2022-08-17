@@ -280,7 +280,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 				
 			<td align="left">{{$query2->fornecedor}}</td>
 			<td align="center">{{$query2->tipoitem}}</td>
-			<td align="center">{{$query2->codgrife}}</td>
+			<td align="left">{{$query2->codgrife}}</td>
 			<td align="center">{{$query2->colmod}}</td>
 			<td align="center">{{$query2->linha}}</td>
 			<td align="center">{{number_format($query2->qtde)}}</td>	
@@ -290,6 +290,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 			<td align="center">{{number_format($query2->prev_icms,2)}}</td>
 			<td align="left">{{$query2->obs_invoice}}</td>
 	
+
 			</tr>
 				</form>	
 			@endforeach 
