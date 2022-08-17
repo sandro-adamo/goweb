@@ -1,7 +1,7 @@
 @extends('layout.principal')
 
 @section('title')
-<i class="fa fa-file-o"></i> @lang('padrao.pedido_compra')
+<i class="fa fa-file-o"></i> @lang('padrao.pedido_compra')22
 @append 
 
 @section('conteudo')
