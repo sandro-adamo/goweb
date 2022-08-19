@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Painel extends Model
+class Painel2 extends Model
 {
 
 	protected $connection = 'brasil';
