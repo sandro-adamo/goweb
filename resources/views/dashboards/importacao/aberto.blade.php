@@ -205,7 +205,9 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 	
 <div class="active tab-pane" id="aberto">	
 <div class="box-header with-border">
-	 <tr><td>Cargas em aberto xxxxx</td></tr>
+	 <tr><td>Cargas em aberto</td>
+				<td><i class="text-right">Botao adiciona invoice</i></td>
+	</tr>
 	<h6> 
 	<table class="tabela2 table-striped table-bordered compact">
 		<thead>	
