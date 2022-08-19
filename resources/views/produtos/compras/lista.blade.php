@@ -1,7 +1,7 @@
 @extends('layout.principal')
 
 @section('title')
-<i class="fa fa-file-o"></i> @lang('padrao.pedido_compra')
+<i class="fa fa-file-o"></i> @lang('padrao.pedido_compra')22
 @append 
 
 @section('conteudo')
@@ -94,7 +94,7 @@
       <table class="table table-striped table-bordered">
         <thead>
           <tr>
-            <th width="8%">@lang('padrao.data')</th>
+            <th width="8%">@lang('padrao.data')aaa</th>
             <th width="8%">@lang('padrao.pedido')</th>
 			  <th width="8%">Status</th>
 			  <th width="8%">Proforma</th>

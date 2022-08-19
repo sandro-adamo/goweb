@@ -3,7 +3,7 @@
 @section('title')
 <i class="fa fa-suitcase"></i> Malas {{$item}}
 @append 
-
+  
 @section('conteudo')
 
 <div class="row">
@@ -12,7 +12,7 @@
       <div class="row">
        
        
-
+.
       </div>      
       <br>
        <table class="table table-bordered table-striped" id="myTable">
