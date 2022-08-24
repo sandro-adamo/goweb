@@ -144,7 +144,7 @@ from (
 union all
 
 
-select num_temp pedido, tipo_pedido tipo,	'' ref_go, '1' ref, ''ult_prox,'' desc_status,	'' fornecedor,	'' tipoitem,''	codgrife,''	linha,	'' colmod,	
+select num_temp pedido, tipo_pedido tipo,	num_temp ref_go, '1' ref, ''ult_prox,'' desc_status,	'' fornecedor,	'' tipoitem,''	codgrife,''	linha,	'' colmod,	
 0 qtde,	0 atende, 0 	itens_trans, 0 id,	0 id_pedido,''	tipo_pedido, ''	tipo_agrup,	'' doc_agrup,null 	dt_chegada,	null dt_emb_int,	null dt_perdimento,	
 null dt_registro,	null dt_aut_embarque,	null dt_remocao,	null dt_emb_nac,	null dt_recebimento,	null created_at,	null dt_prev_embnac,
 null 	dt_prev_chegada,	

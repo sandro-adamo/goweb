@@ -95,9 +95,9 @@ from (
 
 union all
 
-select 0 num_pedido, tipo_pedido tipo_pedido1, null dt_pedido, num_temp invoice, null ult_prox_ped, null moeda_pedido, 
+select id_pedido num_pedido, tipo_pedido tipo_pedido1, null dt_pedido, num_temp invoice, null ult_prox_ped, null moeda_pedido, 
 0 qtde_ped, 0 vlr_pedido, null num_di, null data_di, null prenota, null dt_nf, null status_nf, 0 qtde_nf, 0 vlr_nf, 0 icms_nf, 0 ipi_nf, 
-null tipo_produto, null grifes, null desc_status, 0 id, 0 id_pedido,  null tipo_pedido, tipo_agrup,  doc_agrup, 
+null tipo_produto, null grifes, null desc_status, 0 id, id_pedido,  null tipo_pedido, tipo_agrup,  doc_agrup, 
 dt_chegada, dt_emb_int, dt_perdimento, dt_registro, dt_aut_embarque, dt_remocao, dt_emb_nac, dt_recebimento, 
 null created_at, dt_prev_embnac, dt_prev_chegada, dt_invoice, tipo_carga, 0 cubagem_m3, 0 volumes, 0 peso_bruto, obs_invoice, 
 dt_sol_li, dt_def_li, ref_processo, an8_agente_int, protocolo_di, moeda_nac, taxa_nac, icms_nac, impostos_nac, 
@@ -111,7 +111,7 @@ volumes volumes1, peso_bruto peso_bruto1, peso_liquido peso_liquido1, cubagem_m3
 
 from compras_infos 
 
-where num_temp = '$pedido' 
+where id_pedido = '$pedido' 
 
 
 ");
@@ -196,7 +196,7 @@ $query_4 = \DB::select("select itens.secundario, agrup, codgrife, modelo, 0 as r
 				<form action="/import_form/grava" method="post" class="form-horizontal">
 					<input type="hidden" id="id_info" name="id_info" size="50" value={{$id_info}}>
 					<input type="hidden" id="acao" name="acao" size="50" value={{$acao}} >
-				<!--	<input type="hidden" id="pedido" name="pedido" size="50" value={{$pedido}} > -->
+					<input type="hidden" id="pedido" name="pedido" size="50" value={{$pedido}} > 
 					<input type="hidden" id="tipo" name="tipo" size="50" value={{$tipo}} >	
 
 				@csrf
