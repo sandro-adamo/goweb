@@ -4,16 +4,27 @@
 @php
 
 
-
+$query_1 = \DB::select("select ifnull(max(id_pedido)+1,900000) prox from compras_infos where id_pedido like '900%' ");
 
 $query_2 = \DB::select("
+
+	select pedido,	tipo,	ref_go,  '1' ref, ult_prox,	desc_status,	fornecedor,	tipoitem,	codgrife,	linha,	colmod,	qtde,	
+atende,	itens_trans,	id,	id_pedido,	tipo_pedido,	tipo_agrup,	doc_agrup,	dt_chegada,	dt_emb_int,	dt_perdimento,	
+dt_registro,	dt_aut_embarque,	dt_remocao,	dt_emb_nac,	dt_recebimento,	created_at,	dt_prev_embnac,	dt_prev_chegada,	
+dt_invoice,	tipo_carga,	cubagem_m3,	volumes,	peso_bruto,	obs_invoice,	dt_sol_li,	dt_def_li,	ref_processo,	an8_agente_int,	
+protocolo_di,	moeda_nac,	taxa_nac,	icms_nac,	impostos_nac,	base_imposto,	base_icms,	taxas_op,	num_awb,	
+obs_chegada,	obs_transito,	an8_agente_nac,	num_invoice_tr,	dt_invoice_td,	num_nf_tr,	dt_nf_tr,	ref_comex,	
+valor_total_tr,	desc_dupl_1,	valor_dupl_1,	venc_dupl_1,	desc_dupl_2,	valor_dupl_2,	venc_dupl_2,	
+desc_dupl_3,	valor_dupl_3,	venc_dupl_3,	taxa_cambio_fat,	taxa_cambio_lc,	nf_complementar,	valor_nfc,	venc_nfc,	
+data_pgto_nfc,	vlr_requisicao,	peso_liquido,	acao,	id_info,	moeda,	taxa1,	
+id_ped,	origem,	tipo_tit, valor_titulo,	valor_parcelas,	valor_pago,	status_pgto,	prev_imposto,	prev_icms,	prev_total,	coloremb,	clasmoney,	embarque
+from (
 
 	select *,
 	(impostos_nac/taxa_nac)*taxa1 prev_imposto,
 	(icms_nac/taxa_nac)*taxa1 prev_icms,
 	((impostos_nac/taxa_nac)*taxa1)+((icms_nac/taxa_nac)*taxa1) prev_total,
 	case when status_pgto = 'pago' then 'green' when status_pgto = 'parcial' then 'orange' when status_pgto = 'aberto' then 'red' else '' end as coloremb, 
-
 	case when status_pgto is null then '' else 'money' end as clasmoney,
 
 	ifnull(valor_titulo,0)-ifnull(valor_pago,0)  embarque
@@ -117,7 +128,7 @@ $query_2 = \DB::select("
 
 			select *, case when valor_pago is null then 'aberto' when valor_pago < valor_titulo then 'parcial' else 'pago' end as status_pgto
 			from (
-				select id_pedido, origem, ct.tipo tipo_tit, max(ct.valor) valor_titulo, sum(cp.valor) valor_parcelas, sum(cg.valor_pago) valor_pago
+				select id_pedido id_ped, origem, ct.tipo tipo_tit, max(ct.valor) valor_titulo, sum(cp.valor) valor_parcelas, sum(cg.valor_pago) valor_pago
 				from compras_titulos ct
 					left join compras_parcelas cp on cp.id_titulo = ct.numero
 					left join compras_pagamentos cg on cg.id_parcela = cp.id
@@ -126,9 +137,34 @@ $query_2 = \DB::select("
                 ) as fim
 			) as ct
             
-	on ct.id_pedido = base2.pedido and ct.origem = base2.tipo
+	on ct.id_ped = base2.pedido and ct.origem = base2.tipo
+) as final
 
 
+union all
+
+
+select num_temp pedido, tipo_pedido tipo,	'' ref_go, '1' ref, ''ult_prox,'' desc_status,	'' fornecedor,	'' tipoitem,''	codgrife,''	linha,	'' colmod,	
+0 qtde,	0 atende, 0 	itens_trans, 0 id,	0 id_pedido,''	tipo_pedido, ''	tipo_agrup,	'' doc_agrup,null 	dt_chegada,	null dt_emb_int,	null dt_perdimento,	
+null dt_registro,	null dt_aut_embarque,	null dt_remocao,	null dt_emb_nac,	null dt_recebimento,	null created_at,	null dt_prev_embnac,
+null 	dt_prev_chegada,	
+null dt_invoice,	null tipo_carga,null 	cubagem_m3,	null volumes,	null peso_bruto,	null obs_invoice,	null dt_sol_li,	null dt_def_li,	
+null ref_processo,	null an8_agente_int,	
+null protocolo_di,	null moeda_nac,	null taxa_nac,	null icms_nac,	null impostos_nac,	null base_imposto,	null base_icms,	null taxas_op,	null num_awb,	
+null obs_chegada,	null obs_transito,	null an8_agente_nac,	null num_invoice_tr,	null dt_invoice_td,	null num_nf_tr,	null dt_nf_tr,	null ref_comex,	
+null valor_total_tr,	null desc_dupl_1,	null valor_dupl_1,null 	venc_dupl_1,null 	desc_dupl_2,null 	valor_dupl_2,	null venc_dupl_2,	
+null desc_dupl_3,	null valor_dupl_3,	null venc_dupl_3,	null taxa_cambio_fat,	null taxa_cambio_lc,	null nf_complementar,	null valor_nfc,	null venc_nfc,	
+null data_pgto_nfc,	null vlr_requisicao,	null peso_liquido,null 	acao,	null id_info,	null moeda,	null taxa1,	
+null id_ped,	null origem,	null tipo_tit, 0 valor_titulo,	0 valor_parcelas,	0 valor_pago,	null status_pgto,	0 prev_imposto,	
+0 prev_icms,	0 prev_total,	null coloremb, null 	clasmoney,null 	embarque
+-- select * 
+from compras_infos 
+where tipo_pedido = 'new'
+
+																							   
+																							   
+																							   
+																							   
 ");
 			  
 
@@ -157,7 +193,7 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 		<td><input type="text" id="taxa3" name="taxa3" size="8" value='{{$query_r[0]->taxa3}}' ></td>
 	
 		<td>Euro</td>
-		<td><input type="text" id="euro1" name="euro1" size="8" value='' ></td>
+		<td><input type="text" id="euro1" name="euro1" size="8" value='{{$query_1[0]->prox}}' ></td>
 		<td><input type="text" id="euro2" name="euro2" size="8" value='' ></td>
 		<td><input type="text" id="euro3" name="euro3" size="8" value='' ></td>
 		
@@ -167,14 +203,10 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 	</div>
 </div>
 
-
-
+				
+			
 
 </br>
-
-
-
-
 
 
 
@@ -205,9 +237,28 @@ $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order 
 	
 <div class="active tab-pane" id="aberto">	
 <div class="box-header with-border">
-	 <tr><td>Cargas em aberto</td>
-				<td><i class="text-right">Botao adiciona invoice</i></td>
-	</tr>
+	 <tr><td>Cargas em aberto</td></tr>
+		
+				
+				
+			<form action="/import_form/grava" method="post" class="form-horizontal">
+			@csrf
+				<input type="hidden" id="id_info" name="id_info" size="50" value=99999>
+				<input type="hidden" id="pedido" name="pedido" size="50" value={{$query_1[0]->prox}}>
+				<input type="hidden" id="acao" name="acao" size="50" value=insnew >
+				<input type="hidden" id="tipo" name="tipo" size="50" value='new' >
+				<td><input type="text" id="num_temp" name="num_temp" size="30" ></td>
+						
+				
+				
+			<td align="left"><button type="submit"><i class="fa fa-refresh text-green">Adiciona Invoice</i></button>
+				
+		</form>	
+				
+				
+				
+				
+				
 	<h6> 
 	<table class="tabela2 table-striped table-bordered compact">
 		<thead>	
