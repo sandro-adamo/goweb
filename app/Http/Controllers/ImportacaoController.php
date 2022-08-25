@@ -316,7 +316,7 @@ if ($request->dt_chegada <> '')
 		
 		
 
-			
+			$compra->num_temp = $request->num_temp;
 			$compra->volumes = $request->volumes;
 			$compra->peso_bruto = $request->peso_bruto;
 			$compra->peso_liquido = $request->peso_liquido;

@@ -143,12 +143,12 @@ $query_4 = \DB::select("select itens.secundario, agrup, codgrife, modelo, 0 as r
 			  
 			<ul class="nav nav-tabs">
               <li class="active"><a href="#dados" data-toggle="tab">Dados</a></li>
-			   <li><a href="#detalhes" data-toggle="tab">Detalhes</a></li>
+			  <li><a href="#detalhes" data-toggle="tab">Detalhes</a></li>
               <li><a href="#financeiro" data-toggle="tab">financeiro</a></li>
               <li><a href="#timeline" data-toggle="tab">Timeline</a></li>
               <li><a href="#settings" data-toggle="tab" class='text-red'>Validacoes</a></li>
 			  <li><a href="#documentos" data-toggle="tab" class='text-green'>documentos</a></li>
-				<li><a href="#documentos" data-toggle="tab" class='text-green'>OL/OG</a></li>
+			  <li><a href="#documentos" data-toggle="tab" class='text-green'>OL/OG</a></li>
 				
             </ul>
 			  
@@ -198,6 +198,7 @@ $query_4 = \DB::select("select itens.secundario, agrup, codgrife, modelo, 0 as r
 					<input type="hidden" id="acao" name="acao" size="50" value={{$acao}} >
 					<input type="hidden" id="pedido" name="pedido" size="50" value={{$pedido}} > 
 					<input type="hidden" id="tipo" name="tipo" size="50" value={{$tipo}} >	
+					<input type="hidden" id="num_temp" name="num_temp" size="50" value={{$query_1[0]->num_temp}} >	
 
 				@csrf
 
@@ -220,7 +221,7 @@ $query_4 = \DB::select("select itens.secundario, agrup, codgrife, modelo, 0 as r
 
 
 						<tr class="text-center">
-						  <td><input type="text" id="invoice" name="invoice" size="30" value='{{$query_1[0]->invoice}}' ></td>
+						  <td>{{$query_1[0]->invoice}}</td>
 						  <td><input type="date" id="dt_invoice" name="dt_invoice" size="10" value={{$query_1[0]->dt_invoice}} ></td>
 						  <td><input type="number" step="any" id="cubagem_m3" name="cubagem_m3" size="5" value={{$query_1[0]->cubagem_m31}} ></td>
 						  <td><input type="number" step="any" id="volumes" name="volumes" size="5" value={{$query_1[0]->volumes1}}></td>
