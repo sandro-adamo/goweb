@@ -15,7 +15,7 @@ $item = 'AH6254 A01';
 @append 
 
 @section('conteudo')
-	@csrf
+	
 
 
 @php
@@ -195,13 +195,14 @@ $query_4 = \DB::select("select itens.secundario, agrup, codgrife, modelo, 0 as r
                 <div class="post clearfix">
 			
 				<form action="/import_form/grava" method="post" class="form-horizontal">
+				@csrf
 					<input type="hidden" id="id_info" name="id_info" size="50" value={{$id_info}}>
 					<input type="hidden" id="acao" name="acao" size="50" value={{$acao}} >
 					<input type="hidden" id="pedido" name="pedido" size="50" value={{$pedido}} > 
 					<input type="hidden" id="tipo" name="tipo" size="50" value={{$tipo}} >	
 					<input type="hidden" id="num_temp" name="num_temp" size="50" value={{$query_1[0]->num_temp}} >	
 
-				@csrf
+				
 
 
 					<div class="box box-danger">
@@ -1274,7 +1275,33 @@ $query_4 = \DB::select("select itens.secundario, agrup, codgrife, modelo, 0 as r
               </div><!-- /.fecha aba settings -->
               
 				
-				
+				 <!-- general form elements -->
+          <div class="tab-pane" id="documentos">
+           
+         <form action="/import_form/documento/upload" method="post" class="form-horizontal">
+            
+	 @csrf
+	 <input type="hidden" name="pedido" value="{{$pedido}}">
+              <div class="box-body">
+		<div class="col-md-2">			
+           <input type="text" name="tipo"">
+         </div>
+	
+               <div class="col-md-2">
+                  <label for="exampleInputFile">Upload</label>
+                  <input type="file" id="exampleInputFile">
+
+                </div>
+                
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.box -->
 				
 				<div class="tab-pane" id="timeline">
                 <form class="form-horizontal">
@@ -1329,48 +1356,14 @@ $query_4 = \DB::select("select itens.secundario, agrup, codgrife, modelo, 0 as r
                   </div>
                 
               </div>
+			 
               <!-- /.tab-pane -->
 				
 			
 					
 					
 
-          <!-- general form elements -->
-          <div class="tab-pane" id="documentos">
-           
          
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form role="form">
-              <div class="box-body">
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Email address</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputFile">File input</label>
-                  <input type="file" id="exampleInputFile">
-
-                  <p class="help-block">Example block-level help text here.</p>
-                </div>
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox"> Check me out
-                  </label>
-                </div>
-              </div>
-              <!-- /.box-body -->
-
-              <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-            </form>
-          </div>
-          <!-- /.box -->
 				
 					
 					
