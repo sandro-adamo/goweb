@@ -10,9 +10,13 @@ use App\Importacao;
 class ImportacaoController extends Controller
 {
 	public function uploadDocumentos(Request $request) {
-		//dd($request->pedido);
-		$pedido = $request->pedido;
-		$path = $request->file('arquivo')->storeAs('uploads/compras/'.$pedido);
+		dd($request->file);
+		//$pedido = $request->pedido;
+		
+		$path = $request->file('arquivo')->store('uploads/historico');
+
+		//$path = \Storage::putFile('uploads', $request->file($pedido));
+		//$path = $request->file('arquivo')->storeAs('uploads/compras/'.$pedido);
 		$caminho = '/var/www/html/goweb/storage/app/'.$path;
 		dd($caminho);
 	}

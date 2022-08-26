@@ -1289,7 +1289,7 @@ $query_4 = \DB::select("select itens.secundario, agrup, codgrife, modelo, 0 as r
 	
                <div class="col-md-2">
                   <label for="exampleInputFile">Upload</label>
-                  <input type="file" id="exampleInputFile">
+                 <input type="file" name="arquivo" class="form-control">
 
                 </div>
                 
