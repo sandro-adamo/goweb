@@ -395,29 +395,6 @@ if ($request->dt_chegada <> '')
 	
 	
 	
-	
-	
-		public function uploadImportdoc(Request $request, $pedido) {
-
-		$ped = \DB::select("select id from compras_infos where id = 25491");
-			
-
-		$path = $request->file('arquivo')->store('uploads/compras');
-
-		$inserir = \DB::select("insert into compras_docs (pedido, path) values ($pedido, '$path') ");
-
-		return redirect()->back();
-
-		}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 }
 
