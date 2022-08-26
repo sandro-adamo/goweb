@@ -560,6 +560,8 @@ Route::post('/dsimportdet/cadastrapagamento','ImportacaoController@cadastraPagam
 
 
 
+Route::post('/import_form/pedidos/{pedido}', 			'ImportacaoController@uploadImportdoc');
+
 
 
 
@@ -580,10 +582,13 @@ Route::get('/painel/tabela', 'PainelController@tabela');
 Route::get('/painel/search/', 'PainelController@search');
 Route::get('/painel/grifes/', 'PainelController@marcas');
 Route::get('/painel/campanhas/{item}', 'PainelController@verCampanhas');
+
 Route::post('/painel/campanhas/{item}', 'PainelController@uploadFoto');
+
 Route::get('/painel/midias/{item}/excluir', 'PainelController@exclirMidia');
 Route::get('/painel/midias/{item}', 'PainelController@verMidias');
 Route::post('/painel/midias/{item}', 'PainelController@uploadFotoMidia');
+
 Route::get('/painel/imprimir/{modelo}', 'PainelController@imprimir');
 Route::get('/painel/{agrupamento}', 'PainelController@modelos');
 Route::get('/painel/estilo/{agrupamento}', 'PainelController@modelosEstilo');

@@ -353,8 +353,17 @@ if ($request->dt_chegada <> '')
 	
 	
 	
-	
-	
+	public function uploadFoto(Request $request, $item) {
+
+		$produto = Item::where('secundario', $item)->first();
+
+		$path = $request->file('arquivo')->store('uploads/campanhas');
+
+		$campanha = \DB::select("insert into itens_adv (id_item, modelo, secundario, arquivo, categoria) values ($produto->id, '$produto->modelo', '$item', '$path', 'adv') ");
+
+		return redirect("/painel/campanhas/".$item);
+
+	}
 	
 	
 	
@@ -383,6 +392,31 @@ if ($request->dt_chegada <> '')
 		
 		return redirect()->back();
 		}
+	
+	
+	
+	
+	
+		public function uploadImportdoc(Request $request, $pedido) {
+
+		$ped = \DB::select("select id from compras_infos where id = 25491");
+			
+
+		$path = $request->file('arquivo')->store('uploads/compras');
+
+		$inserir = \DB::select("insert into compras_docs (pedido, path) values ($pedido, '$path') ");
+
+		return redirect()->back();
+
+		}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

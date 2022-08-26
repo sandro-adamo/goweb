@@ -173,34 +173,74 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 
 
 				
-<div class="row">
-   <div class="col-md-12">
-          <div class="nav-tabs-custom">
+<div class="row">	
+
+	<div class="col-md-6">
+	<!-- if taxa_calculo -->
+	<!-- novo controler insere tabela compras_registros e salva na linha compras_infos -->
+	
+	
+	<h3>recalcular</h3>
+	<form action="/import_form/gravareg" method="post" class="form-horizontal"> @csrf
+		
+		<input type="hidden" id="id_pedido" name="id_pedido" size="50" value=100201>
+		<input type="hidden" id="tipo_pedido" name="tipo_pedido" size="50" value='OI'>
+		<input type="hidden" id="moeda" name="moeda" size="50" value='dolar'>
+		
+		<td>Dolar</td>
+		<td><input type="text" id="taxa1" name="taxa1" size="8" value='{{$query_r[0]->taxa1}}' ></td>
+		<td><input type="text" id="taxa2" name="taxa2" size="8" value='{{$query_r[0]->taxa2}}' ></td>
+		<td><input type="text" id="taxa3" name="taxa3" size="8" value='{{$query_r[0]->taxa3}}' ></td>
+	
+		<td>Euro</td>
+		<td><input type="text" id="euro1" name="euro1" size="8" value='' ></td>
+		<td><input type="text" id="euro2" name="euro2" size="8" value='' ></td>
+		<td><input type="text" id="euro3" name="euro3" size="8" value='' ></td>
+		
+		
+	<button type="submit" class="btn btn-primary"><i class="fa fa-refresh"></i> Gravar</button>	
+	</form>
+	</div> <!-- col-md-6 -->
+	</br>
+	
+	
+	
+	
+ <div class="col-md-12">
+  <div class="nav-tabs-custom">
            
-			  
-			<ul class="nav nav-tabs">
-              <li class="active"><a href="#dados" data-toggle="tab">Dados</a></li>
-			  <li><a href="#removido" data-toggle="tab">Removido</a></li>
-              <li><a href="#transito" data-toggle="tab">Transito</a></li>
-              <li><a href="#embarque" data-toggle="tab">Embarque</a></li>
-              <li><a href="#perdimento" data-toggle="tab" class='text-red'>Perdimento</a></li>
-			  <li><a href="#sem_pedido" data-toggle="tab" class='text-yellow'>Sem pedido JDE</a></li>
-			  <li><a href="#documentos" data-toggle="tab">Documentos</a></li>
-			  <li><a href="#leadtime" data-toggle="tab">Leadtime</a></li>
-				
-			  <li><a href="#kering" data-toggle="tab" class='text-blue'>Kering</a></li>
-				
-            </ul>
-			   
-			  
-            <div class="tab-content">
-										
+	  
+		<ul class="nav nav-tabs">
+		  <li class="active"><a href="#geral" data-toggle="tab">Geral</a></li>
+		  <li><a href="#removido" data-toggle="tab">Removido</a></li>
+		  <li><a href="#transito" data-toggle="tab">Transito</a></li>
+		  <li><a href="#embarque" data-toggle="tab">Embarque</a></li>
+		  <li><a href="#perdimento" data-toggle="tab" class='text-red'>Perdimento</a></li>
+		  <li><a href="#sem_pedido" data-toggle="tab" class='text-yellow'>Sem pedido JDE</a></li>
+		  <li><a href="#documentos" data-toggle="tab">Documentos</a></li>
+		  <li><a href="#leadtime" data-toggle="tab">Leadtime</a></li>
+		  <li><a href="#kering" data-toggle="tab" class='text-blue'>Kering</a></li>
+		</ul>
+
+
+		<div class="tab-content">
+
 				
 				
-				
-				
-				<div class="active tab-pane" id="dados">
+				<div class="active tab-pane" id="geral">
 				<h6> 
+					
+							<form action="/import_form/grava" method="post" class="form-horizontal">
+							@csrf
+								<input type="hidden" id="id_info" name="id_info" size="50" value=99999>
+								<input type="hidden" id="pedido" name="pedido" size="50" value={{$query_1[0]->prox}}>
+								<input type="hidden" id="acao" name="acao" size="50" value=insnew >
+								<input type="hidden" id="tipo" name="tipo" size="50" value='new' >
+								<input type="text" id="num_temp" name="num_temp" size="30" >
+								<td align="left"><button type="submit"><i class="fa fa-refresh text-green">Adiciona Invoice</i></button>
+							</form>	
+
+					
 					<table class="tabela2 table-striped table-bordered compact">
 						<thead>	
 							<tr>
@@ -243,7 +283,7 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 								</a>
 								<a href="/dsimportdet/{{$query2->tipo}}/{{$query2->pedido}}">{{$query2->tipo.' '.$query2->pedido}}</a>
 							</td>
-							<td align="center">{{$query2->ult_prox}} - {{$query2->desc_status}}</td>
+							<td align="center">{{$query2->ult_prox}}-{{$query2->desc_status}}</td>
 							<td align="left">{{$query2->ref_go}}</td>
 							<td>{{$query2->tipo_agrup}} - {{$query2->doc_agrup}}</td>
 							<td align="left">{{$query2->fornecedor}}</td>
@@ -338,7 +378,7 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 			  
 			  
 					<div class="tab-pane" id="transito">
-					 <tr><td colspan="15">Transito ( 359 / 365 - booking)</td></tr>
+					 <tr><td colspan="15">Transito ( 359 / 365 - booking | 365 / 369-chegada_Br)</td></tr>
 					<h6>
 					<table class="tabela2 table-striped table-bordered compact" id="myTable3">
 						  <thead>				
@@ -373,7 +413,7 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 
 							@foreach ($query_2 as $query4)
 
-								@php if ($query4->desc_status=="booking")
+								@php if ($query4->desc_status=="booking" or $query4->desc_status=="chegada_Br")
 
 							{ @endphp
 
@@ -565,77 +605,75 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 
 			  
 			  
-		<div class="tab-pane" id="sem_pedido">	
-	 <tr><td>Sem pedido</td></tr>
-	<h6>
-	<table class="tabela2 table-striped table-bordered compact" id="myTable7">
-		  <thead>	
-			 
-		  			
-					<tr>
-					<td colspan="1" align="center" widht="30%">Dt perdimento</td>
-					<td colspan="1" align="center" widht="30%">Pedido</td>										
-					<td colspan="1" align="center">Invoice</td>				
-					<td colspan="1" align="center">ref desp</td>
-					<td colspan="1" align="center">conex</td>
-					<td colspan="1" align="center">fornecedor</td>
-					
-					<td colspan="1" align="center">Tipo_item</td>
-					<td colspan="1" align="center">Grifes </td>
-					<td colspan="1" align="center">Colecoes</td>
-					<td colspan="1" align="center">Linhas</td>
-					<td colspan="1" align="center">qtde pecas</td>
-					<td colspan="1" align="center">atende BO</td>
-					<td colspan="1" align="center">itens CET</td>
-						
-					<td colspan="1" align="center">Prev impostos</td>
-					<td colspan="1" align="center">Prev icms</td>
-					<td colspan="1" align="center">Prev Total</td>
-						<td colspan="1" align="center">Obs</td>
-					</tr>
-			    </thead>
-			  
-			@foreach ($query_2 as $query3)
-				
-				@php if ($query3->tipo=="new") 
-				
-			{ @endphp
-	
-			<tr>
-				<td align="left">{{$query3->dt_perdimento}}</td>
-			<td align="left"><a href="/import_form/?tipo={{$query3->tipo}}&pedido={{$query3->pedido}}" target="_blank">
-				<i class="fa fa-file-text-o"></i></a>
-			<a href="/dsimportdet/{{$query3->tipo}}/{{$query3->pedido}}">{{$query3->tipo.' '.$query3->pedido}}</a></td>
-			
-	
-			<td align="left">{{$query3->ref_go}}</td>
-			<td align="center">{{$query3->ref}}</td>
-			<td align="center">{{$query3->doc_agrup}}</td>
-			<td align="left">{{$query3->fornecedor}}</td>
-			<td align="center">{{$query3->tipoitem}}</td>
-			<td align="center">{{$query3->codgrife}}</td>
-			<td align="center">{{$query3->colmod}}</td>
-			<td align="center">{{$query3->linha}}</td>
-			<td align="center">{{number_format($query3->qtde)}}</td>	
-			<td align="center">{{number_format($query3->atende)}}</td>
-			<td align="center">{{number_format($query3->itens_trans)}}</td>
-			<td align="center">{{number_format($query3->impostos_nac,2)}}</td>
-			<td align="center">{{number_format($query3->icms_nac,2)}}</td>
-			<td align="center">{{number_format($query3->prev_total,2)}}</td>
-			<td align="left">{{$query3->obs_invoice}}</td>
+					<div class="tab-pane" id="sem_pedido">	
+					 <tr><td>Sem pedido</td></tr>
+					<h6>
+					<table class="tabela2 table-striped table-bordered compact" id="myTable7">
+						<thead>	
+							<tr>
+							<td colspan="1" align="center" widht="30%">Dt perdimento</td>
+							<td colspan="1" align="center" widht="30%">Pedido</td>										
+							<td colspan="1" align="center">Invoice</td>				
+							<td colspan="1" align="center">ref desp</td>
+							<td colspan="1" align="center">conex</td>
+							<td colspan="1" align="center">fornecedor</td>
 
-			</tr>
-	
-			@php ;} else  { @endphp
-	
-			@php  ;} @endphp
-			
-			@endforeach 
-			
+							<td colspan="1" align="center">Tipo_item</td>
+							<td colspan="1" align="center">Grifes </td>
+							<td colspan="1" align="center">Colecoes</td>
+							<td colspan="1" align="center">Linhas</td>
+							<td colspan="1" align="center">qtde pecas</td>
+							<td colspan="1" align="center">atende BO</td>
+							<td colspan="1" align="center">itens CET</td>
 
-		</table>
-		</h6>
-	</div> <!-- active tab-pane 	-->			  
+							<td colspan="1" align="center">Prev impostos</td>
+							<td colspan="1" align="center">Prev icms</td>
+							<td colspan="1" align="center">Prev Total</td>
+								<td colspan="1" align="center">Obs</td>
+							</tr>
+						</thead>
+
+							@foreach ($query_2 as $query3)
+
+								@php if ($query3->tipo=="new") 
+
+							{ @endphp
+
+							<tr>
+								<td align="left">{{$query3->dt_perdimento}}</td>
+							<td align="left"><a href="/import_form/?tipo={{$query3->tipo}}&pedido={{$query3->pedido}}" target="_blank">
+								<i class="fa fa-file-text-o"></i></a>
+							<a href="/dsimportdet/{{$query3->tipo}}/{{$query3->pedido}}">{{$query3->tipo.' '.$query3->pedido}}</a></td>
+
+
+							<td align="left">{{$query3->ref_go}}</td>
+							<td align="center">{{$query3->ref}}</td>
+							<td align="center">{{$query3->doc_agrup}}</td>
+							<td align="left">{{$query3->fornecedor}}</td>
+							<td align="center">{{$query3->tipoitem}}</td>
+							<td align="center">{{$query3->codgrife}}</td>
+							<td align="center">{{$query3->colmod}}</td>
+							<td align="center">{{$query3->linha}}</td>
+							<td align="center">{{number_format($query3->qtde)}}</td>	
+							<td align="center">{{number_format($query3->atende)}}</td>
+							<td align="center">{{number_format($query3->itens_trans)}}</td>
+							<td align="center">{{number_format($query3->impostos_nac,2)}}</td>
+							<td align="center">{{number_format($query3->icms_nac,2)}}</td>
+							<td align="center">{{number_format($query3->prev_total,2)}}</td>
+							<td align="left">{{$query3->obs_invoice}}</td>
+
+							</tr>
+
+							@php ;} else  { @endphp
+
+							@php  ;} @endphp
+
+							@endforeach 
+
+
+						</table>
+						</h6>
+					</div> <!-- active tab-pane 	-->			  
 			  
 			  
 			  
@@ -865,18 +903,11 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 					</div>	<!-- active tab-pane 	-->	 
 			  
 			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
-			  
+
 			  
 				</div> 		<!-- tab-content 		-->
 			</div>			<!-- nav-tabs-custom 	-->		
+		</div> <!-- col-md-12 -->
 
-</div>
-</div>				
+</div>		<!-- row -->		
 @stop

@@ -5,6 +5,8 @@
 $pedido = $_GET["pedido"];
 $tipo = $_GET["tipo"];
 
+$secundario = 'AH6254 A01'; 
+$item = 'AH6254 A01'; 
 
 @endphp
 
@@ -112,7 +114,6 @@ volumes volumes1, peso_bruto peso_bruto1, peso_liquido peso_liquido1, cubagem_m3
 from compras_infos 
 
 where id_pedido = '$pedido' 
-
 
 ");
 
@@ -1332,6 +1333,26 @@ $query_4 = \DB::select("select itens.secundario, agrup, codgrife, modelo, 0 as r
 				
 			
 				
+					
+					
+					
+					
+	<div class="tab-pane" id="documentos">	
+		
+		<form action="/itens/adiciona" method="post" enctype="multipart/form-data">
+		  <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+		  <div class="custom-file">
+			<input type="file" class="custom-file-input" name="img_itens" id="input_img_itens">
+			<label class="custom-file-label" for="input_img_itens">Escolha o arquivo</label>
+		  </div>
+		</div>
+		  <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+		</form>
+					
+	</div>		
+					
+					
+					
 				
 				
 				
@@ -1347,5 +1368,5 @@ $query_4 = \DB::select("select itens.secundario, agrup, codgrife, modelo, 0 as r
         <!-- /.col -->
 
 </div>
-
+@include('produtos.painel.modal.uploadFoto')
 @stop
