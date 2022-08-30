@@ -88,7 +88,7 @@ if($acao=="update") {
 		} else {
 		$query_1 = \DB::select("
 		
-		select num_pedido,
+select num_pedido,
 tipo_pedido tipo_pedido1,  dt_pedido, num_temp invoice,  ult_prox_ped,  moeda_pedido, 
  qtde_ped,  vlr_pedido,  num_di,  data_di,  prenota,  dt_nf,  status_nf,  qtde_nf,  vlr_nf,  icms_nf,  ipi_nf, 
  tipo_produto,  grifes,  desc_status,  id,  id_pedido,   tipo_pedido, tipo_agrup,  doc_agrup, 
@@ -96,8 +96,9 @@ dt_chegada, dt_emb_int, dt_perdimento, dt_registro, dt_aut_embarque, dt_remocao,
  created_at, dt_prev_embnac, dt_prev_chegada, dt_invoice, tipo_carga,  cubagem_m3,  volumes,  peso_bruto, obs_invoice, 
 dt_sol_li, dt_def_li, ref_processo, an8_agente_int, protocolo_di, moeda_nac, taxa_nac, icms_nac, impostos_nac, 
 base_imposto, base_icms, taxas_op, num_awb, obs_chegada, obs_transito, 
- an8_agente_nac, num_invoice_tr, dt_invoice_td, 
-num_nf_tr, dt_nf_tr, ref_comex, valor_total_tr, desc_dupl_1, valor_dupl_1, venc_dupl_1, desc_dupl_2, valor_dupl_2, 
+an8_agente_nac, 
+
+num_invoice_tr, dt_invoice_td, num_nf_tr, dt_nf_tr, ref_comex, valor_total_tr, desc_dupl_1, valor_dupl_1, venc_dupl_1, desc_dupl_2, valor_dupl_2, 
 venc_dupl_2, desc_dupl_3, valor_dupl_3, venc_dupl_3, taxa_cambio_fat, taxa_cambio_lc, nf_complementar, valor_nfc, 
 venc_nfc, data_pgto_nfc, vlr_requisicao, peso_liquido, num_temp, 
 volumes volumes1, peso_bruto peso_bruto1, peso_liquido peso_liquido1, cubagem_m3 cubagem_m31, cubagem_m3 cubagem_m39,
@@ -156,15 +157,31 @@ from (
 
 
 
-		$query_2 = \DB::select("select * from compras_titulos where id_pedido =  '$pedido' and origem = '$tipo'");
+		$query_titulos = \DB::select("select * from compras_titulos where id_pedido =  '$pedido' and origem = '$tipo'");
 
-		$query_3 = \DB::select("select * from compras_parcelas where numero =  '$pedido' and tipo = '$tipo'");
+		
+		$query_parcelas = \DB::select("
+		select cp.*, ct.tipo tipo_ct 
+		from compras_titulos ct
+		left join compras_parcelas cp on cp.id_titulo = ct.numero
+		where ct.id_pedido = $pedido and origem = '$tipo'  
+		");
+
+
+		$query_pagamentos = \DB::select("
+		select cg.*, ct.tipo tipo_ct
+		from compras_titulos ct
+		left join compras_parcelas cp on cp.id_titulo = ct.numero
+		left join compras_pagamentos cg on cg.id_parcela = cp.id
+		where ct.id_pedido = $pedido and origem = '$tipo'  		
+		");
+
 
 		$query_4 = \DB::select("select itens.secundario, agrup, codgrife, modelo, 0 as ref, fornecedor, colmod, 0 ult_prox, 0 as atende , tipoitem, qtde_sol qtde
-			  from importacoes_pedidos ip
-			  left join itens on ip.cod_item = itens.id
+		from importacoes_pedidos ip
+		left join itens on ip.cod_item = itens.id
+		where pedido = '$pedido' and tipo = '$tipo'");
 
-		 where pedido = '$pedido' and tipo = '$tipo'");
 
 		$query_5 = \DB::select("select * from compras_docs where pedido = $id_info");
 
@@ -175,7 +192,7 @@ from (
 
 <div class="row">
 
-   <div class="col-md-12">
+   <div class="col-md-11">
 	  
           <div class="nav-tabs-custom">
            
@@ -201,175 +218,13 @@ from (
 				
 				
 				
-				<!-- general form elements -->
-<div class="tab-pane" id="documentos">
-
-	<form action="/import_form/documento/upload" method="post" class="form-horizontal" enctype="multipart/form-data">
-	@csrf
-	<input type="hidden" name="pedido" value="{{$pedido}}">
-	<div class="box-body">
-
-		<div class="col-md-3">	
-		<label for="exampleInputFile">Tipo</label>
-		<input type="text" name="tipo">
-		<input type="hidden" name="id_info" value="{{$id_info}}">
-		</div>
-		
-		<div class="col-md-3">	
-		<label for="exampleInputFile">Origem</label>
-		<input type="text" name="origem">
-		</div>
-
-		<div class="col-md-5">
-		<label for="exampleInputFile">Upload</label>
-		<input type="file" name="arquivo" class="form-control">
-		</div>
-
-	</div>
-
-	<div class="box-footer">
-	<button type="submit" class="btn btn-primary">Submit</button>
-	</div>
-
-	</form>
-
-		
-		
-			<table class="table table-condensed table-bordered">
-			<tr class="bg-primary">
-				<td colspan="8" align="center"><small><b>Arquivos na pasta</b></small></td>
-			</tr>    
-
-				<tr>
-				<td>ID Info</td>
-				<td>Local</td>
-				<td>Tipo Arquivo</td>
-					<td>Origem</td>
-				<td>Data</td>
-				<td>User</td>
 				
-				<td>tamanho</td>
-				<td></td>
-				</tr>
-				@foreach ($query_5 as $docs)
-				<tr>
-
-				<td>{{$docs->pedido}}</td>
-				<td><a href="{{$docs->path}}">{{$docs->path}}</a></td>
-				<td>{{$docs->tipo_arquivo}}</td>
-				<td>{{$docs->origem}}</td>
-				<td>{{$docs->data}}</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				</tr>
-				@endforeach	
-			</table> 											
-
-	
-	</div>
-<!--	
-<form action="/import_form/documento/upload" method="post" class="form-horizontal" enctype="multipart/form-data">
-@csrf
-<input type="hidden" name="pedido" value="{{$pedido}}">
-<div class="box-body">
-
-<div class="col-md-2">			
-<input type="text" name="tipo">
-<input type="hidden" name="id_info" value="{{$id_info}}">
-</div>
-
-<div class="col-md-2">
-<label for="exampleInputFile">Upload</label>
-<input type="file" name="arquivo" class="form-control">
-</div>
-
-</div>
-
-<div class="box-footer">
-<button type="submit" class="btn btn-primary">Submit</button>
-</div>
-
-
-</form>
-
-
-
-<div class="form-group">
-<label for="inputName" class="col-sm-2 control-label">Name</label>
-
-<div class="col-sm-10">
-<tr>
-<td>ID Info</td>
-<td>Local</td>
-<td>Tipo Arquivo</td>
-</tr>
-@foreach ($query_5 as $docs)
-<tr>
-
-<td>{{$docs->pedido}}</td>
-<td>{{$docs->path}}</td>
-<td>{{$docs->tipo_arquivo}}</td>
-</tr>
-@endforeach
-</div>
-</div>
-
-
-<div class="form-group">
-<label for="inputEmail" class="col-sm-2 control-label">Email</label>
-
-<div class="col-sm-10">
-<input type="email" class="form-control" id="inputEmail" placeholder="Email">
-</div>
-</div>
-<div class="form-group">
-<label for="inputName" class="col-sm-2 control-label">Name</label>
-
-<div class="col-sm-10">
-<input type="text" class="form-control" id="inputName" placeholder="Name">
-</div>
-</div>
-<div class="form-group">
-<label for="inputExperience" class="col-sm-2 control-label">Experience</label>
-
-<div class="col-sm-10">
-<textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-</div>
-
-
-</div>
-<div class="form-group">
-<label for="inputSkills" class="col-sm-2 control-label">Skills</label>
-
-<div class="col-sm-10">
-<input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-</div>
-</div>
-
-
-</div>
-
-
-
-				
-	-->			
-						
-				
-				
-	
-				
-				
-				
-				
-				
-				
-              <div class="active tab-pane" id="dados">
+              <div class="tab-pane" id="dados">
 				  		    
 				  
-					<div class="box-header with-border">	  
+				<div class="box-header with-border">	  
 					 <h3 class="box-title">Pedido JDE </h3>
-					  <h6>
+					 <h6>
 					 <table class="table table-bordered table-condensed">			
 
 						<tr class="card-header bg-info text-center">         
@@ -378,6 +233,7 @@ from (
 						  <td><b>Grifes</b></td>
 						  <td><b>Ult/Prox Status</b></td>
 						  <td><b>Obs pedido</b></td>
+					
 						</tr>
 
 						<tr class="text-center">
@@ -386,9 +242,34 @@ from (
 							<td>{{$query_1[0]->grifes}}</td>
 							<td>{{$query_1[0]->ult_prox_ped}} - {{$query_1[0]->desc_status}}</td>
 							<td>{{$query_1[0]->num_pedido}}</td>
+							
 						</tr>	
-						</table></h6>
-					</div>
+					</table>
+						 
+						 
+						 
+						 
+						 
+						 <table class="table table-bordered table-condensed">			
+
+						<tr class="card-header bg-info text-center">         
+						  <td><b>Fornecedor</b></td>
+						  <td><b>Status Geral</b></td>
+						  <td><b>qtde</b></td>
+						  <td><b>valor</b></td>
+						
+						</tr>
+
+						<tr class="text-center">
+						
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						</tr>	
+					</table>
+					</h6>
+				</div>
 				
 			  
 				  
@@ -474,7 +355,7 @@ from (
 					
 				<div class="box box-warning">
 				<h3 class="box-title">Transito</h3>
-
+				<h6>
 				 <table class="table table-bordered table-condensed">
 					<tr  class="card-header bg-info text-center">
 					  <td><b>Dt solicitacao LI</b></td>
@@ -511,7 +392,7 @@ from (
 						
 					</tr>
 
-
+					
 					</table>
 					
 					
@@ -538,7 +419,7 @@ from (
 					<td><input type="text" id="vlr_requisicao" name="vlr_requisicao" size="20" value={{$query_1[0]->vlr_requisicao}} ></td>
 			
 					</tr>
-
+</h6>
 				  </table>
 					
 				 </div>
@@ -683,7 +564,6 @@ from (
 		
 					
 					
-
 					
 				
 					<div class="box box-success">
@@ -692,7 +572,7 @@ from (
 					 <table class="table table-bordered table-condensed">
 
 						<tr  class="card-header bg-info text-center">
-						  <td><b>num_invoice</b></td>
+						  <td><b>num_invoice Trading</b></td>
 						  <td><b>dt_invoice_Trade</b></td>
 						  <td><b>num_nf</b></td>
 						  <td><b>dt_nf</b></td>
@@ -700,13 +580,14 @@ from (
 						  <td><b>valor_total</b></td>
 						</tr>	 
 
+
 						<tr class="text-center">
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>	
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>	
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>	
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>	  
+						<td><input type="text" id="num_invoice_tr" name="num_invoice_tr" size="5" value={{$query_1[0]->num_invoice_tr}} ></td>
+						<td><input type="date" id="dt_invoice_td" name="dt_invoice_td" size="5" value={{$query_1[0]->dt_invoice_td}} ></td>
+						<td><input type="text" id="num_nf_tr" name="num_nf_tr" size="5" value={{$query_1[0]->num_nf_tr}} ></td>	
+						<td><input type="date" id="dt_nf_tr" name="dt_nf_tr" size="5" value={{$query_1[0]->dt_nf_tr}} ></td>	
+						<td><input type="text" id="ref_comex" name="ref_comex" size="5" value={{$query_1[0]->ref_comex}} ></td>	
+						<td><input type="text" id="valor_total_tr" name="valor_total_tr" size="5" value={{$query_1[0]->valor_total_tr}} ></td>	  
 						</tr>
 
 					</table>
@@ -726,12 +607,12 @@ from (
 						</tr>	 
 
 						<tr class="text-center">
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>	
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>	  
+						<td><input type="text" id="taxa_cambio_fat" name="taxa_cambio_fat" size="5" value={{$query_1[0]->taxa_cambio_fat}} ></td>
+						<td><input type="text" id="taxa_cambio_lc" name="taxa_cambio_lc" size="5" value={{$query_1[0]->taxa_cambio_lc}} ></td>
+						<td><input type="text" id="nf_complementar" name="nf_complementar" size="5" value={{$query_1[0]->nf_complementar}} ></td>	
+						<td><input type="text" id="valor_nfc" name="valor_nfc" size="5" value={{$query_1[0]->valor_nfc}} ></td>
+						<td><input type="date" id="venc_nfc" name="venc_nfc" size="5" value={{$query_1[0]->venc_nfc}} ></td>
+						<td><input type="date" id="data_pgto_nfc" name="data_pgto_nfc" size="5" value={{$query_1[0]->data_pgto_nfc}} ></td>	  
 						</tr>
 
 						
@@ -743,35 +624,31 @@ from (
 							 
 						<table class="table table-bordered table-condensed">
 						 <tr  class="card-header bg-info text-center">
-						  <td><b>duplicata 1</b></td>
-							<td><b>duplicata 1</b></td>
+						  <td><b>Documento</b></td>
+						  <td><b>Num documento</b></td>
 						  <td><b>valor</b></td>
 						  <td><b>vencimento</b></td>
-					
 						</tr>	 
 
 						<tr class="text-center">
 						<td>Duplicata1</td>
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
-						<td><input type="date" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
-						 
+						<td><input type="text" id="desc_dupl_1" name="desc_dupl_1" size="5" value={{$query_1[0]->desc_dupl_1}} ></td>
+						<td><input type="text" id="valor_dupl_1" name="valor_dupl_1" size="5" value={{$query_1[0]->valor_dupl_1}} ></td>
+						<td><input type="date" id="venc_dupl_1" name="venc_dupl_1" size="5" value={{$query_1[0]->venc_dupl_1}} ></td>
 						</tr>
-							
-							<tr class="text-center">
+						
+						<tr class="text-center">
 						<td>Duplicata2</td>
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
-						<td><input type="date" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
-						 
+						<td><input type="text" id="desc_dupl_2" name="desc_dupl_2" size="5" value={{$query_1[0]->desc_dupl_2}} ></td>
+						<td><input type="text" id="valor_dupl_2" name="valor_dupl_2" size="5" value={{$query_1[0]->valor_dupl_2}} ></td>
+						<td><input type="date" id="venc_dupl_2" name="venc_dupl_2" size="5" value={{$query_1[0]->venc_dupl_2}} ></td> 
 						</tr>
-							
-							<tr class="text-center">
+						
+						<tr class="text-center">
 						<td>Duplicata3</td>
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
-						<td><input type="text" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
-						<td><input type="date" id="cubagem_m39" name="cubagem_m39" size="5" value={{$query_1[0]->cubagem_m39}} ></td>
-						 
+						<td><input type="text" id="desc_dupl_3" name="desc_dupl_3" size="5" value={{$query_1[0]->desc_dupl_3}} ></td>
+						<td><input type="text" id="valor_dupl_3" name="valor_dupl_3" size="5" value={{$query_1[0]->valor_dupl_3}} ></td>
+						<td><input type="date" id="venc_dupl_3" name="venc_dupl_3" size="5" value={{$query_1[0]->venc_dupl_3}} ></td>
 						</tr>
 
 						
@@ -786,10 +663,9 @@ from (
 					
 				<button type="submit" class="btn btn-primary"><i class="fa fa-refresh"></i> Enviar</button>	
 				</form>
-				</div>	
-               
-                <!-- /.post -->
+				</div>	                               
               </div>
+				<!-- /.fim dados -->
 				
 
 				
@@ -865,28 +741,12 @@ from (
 			
 			</table>
 			
-		</div>
-	</div>	
-</div>
-</h6>	
-				
-	   </div>			
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+			</div>
+		</div>	
+	</div>
+	</h6>	
+</div>			
+<!--fim detalhes -->				
 				
 				
 				
@@ -994,45 +854,61 @@ from (
 			 
 			 
 			  
-              <div class="tab-pane" id="financeiro">
+              <div class="active tab-pane" id="financeiro">
 		
+				  		
+					  
 				<section class="content">
-					
-					<div>
-					  <a  class="btn btn-default btn-flat pull-right"href="" class="pull-center" data-toggle="modal" 
-								data-target="#modalcadastratitulo">Cadastrar Titulo</a>
-
-					  <a  class="btn btn-default btn-flat pull-right"href="" class="pull-center" data-toggle="modal" 
-								data-target="#modalcadastraparcela">Cadastrar parcelas</a>           
-					</div>
+						  
 					
 					<div class="row">
-										  
-							<div class="col-md-5">
+						
+						
+						<div class="col-md-12">
+							<a  class="btn btn-default btn-flat pull-right"href="" class="pull-center" data-toggle="modal" 
+							data-target="#modalcadastratitulo">Cadastrar Titulo</a>
+
+							<a  class="btn btn-default btn-flat pull-right"href="" class="pull-center" data-toggle="modal" 
+							data-target="#modalcadastraparcela">Cadastrar parcelas</a>         
+
+						</div>
+						
+						
+						
+
+				  
+				
+
+
+								<!-- embarque -->				
+							<div class="col-md-6">
 										<div class="box-header with-border">
-											  <h3 class="box-title">Pedido OI</h3>
+											  <h3 class="box-title">FINANCEIRO EMBARQUE colapse?</h3>
 											</div>
  									<table class="table table-condensed table-bordered">
 											<tr class="bg-primary">
-												<td colspan="3" align="center"><small><b>titulo Embarque</b></small></td>
+												<td colspan="3" align="center"><small><b>Titulos Embarque</b></small></td>
 											</tr>    
 												<tr>
 												<td align="center">Descricao</td>
 												<td align="center">Valor</td>
 												<td></td>
 											</tr>  											
-@foreach ($query_2 as $query2)
-											<tr>
-												
-												<td align="left">{{$query2->id_pedido}}</td>
-												<td align="center">{{$query2->valor}}</td>
-												<td align="center">{{$query2->vencimento}}</td>
-												
-											</tr>                
+											@foreach ($query_titulos as $titulos)
+							
+											@php if ($titulos->tipo=="EMBARQUE")  { @endphp
+										
+												<tr>
+													<td align="left">{{$titulos->id}}</td>
+													<td align="center">{{$titulos->valor}}</td>
+													<td align="center">{{$titulos->vencimento}}</td>
+												</tr>                
 
 											
-@endforeach
-									</table> 
+											@php ;} else  { @endphp  @php  ;} @endphp
+										
+											@endforeach
+											</table> 
 
 										  <!-- About Me Box -->
 										  <div class="box box-primary">																				  
@@ -1044,268 +920,240 @@ from (
 												<td align="center">Descricao</td>
 												<td align="center">Valor</td>
 												<td align="center">Vencimento</td>
-											</tr>  											
-@foreach ($query_3 as $query3)
-											<tr>
-												<td align="center">{{$query3->numero}}</td>
-													<td align="center">{{$query3->valor}}</td>
-												<td align="center">{{$query3->vencimento}}</td>
+											</tr>  
 												
-											</tr>                
-
-							@endforeach 
+											@foreach ($query_parcelas as $parcelas)
+											@php if ($parcelas->tipo_ct=="EMBARQUE")  { @endphp
+											<tr>
+												<td align="center">{{$parcelas->id_titulo}}</td>
+												<td align="center">{{$parcelas->valor}}</td>
+												<td align="center">{{$parcelas->vencimento}}</td>
+											</tr>  
+												@php ;} else  { @endphp  @php  ;} @endphp
+											@endforeach 
 										
-									</table> 										
-									</div><!-- /.fecha a segunda caixa -->	
+										</table> 										
+										</div><!-- /.fecha parcelas -->	
 								
 								
 								
-								
-								
-								
-																	  <!-- About Me Box -->
+										<!-- pagamentos -->
 										  <div class="box box-primary">																				  
 											<table class="table table-condensed table-bordered">
 											<tr class="bg-primary">
 												<td colspan="3" align="center"><small><b>Pagamentos Embarque</b></small></td>
 											</tr>    
 												<tr>
-												<td align="center">Descricao</td>
+												<td align="center">id</td>
 												<td align="center">Valor</td>
-												<td align="center">Vencimento</td>
+												<td align="center">cambio</td>
 											</tr>  											
-@foreach ($query_3 as $query3)
+											@foreach ($query_pagamentos as $pagamentos)
+											@php if ($pagamentos->tipo_ct=="EMBARQUE")  { @endphp
+												
 											<tr>
-												<td align="center">{{$query3->numero}}</td>
-													<td align="center">{{$query3->valor}}</td>
-												<td align="center">{{$query3->vencimento}}</td>
+												<td align="center">{{$pagamentos->id}}</td>
+												<td align="center">{{$pagamentos->valor_pago}}</td>
+												<td align="center">{{$pagamentos->cambio}}</td>
 												
 											</tr>                
-
-							@endforeach 
+											@php ;} else  { @endphp  @php  ;} @endphp
+											@endforeach 
 										
 									</table> 										
-									</div><!-- /.fecha a segunda caixa -->	
-				
-											
-							</div><!-- /.fecha a col3 -->
+									</div><!-- /.fecha a segunda caixa -->				
+							</div><!-- /.fecha bloco EMBARQUES -->
 										
-										  
-										  
-										  
-							 <!-- 1o Box -->			  
-							<div class="col-md-5">
-									
+								
+						
+						
+										  			  
+						<!-- 2o Box POS_EMBARQUES-->			  
+							<div class="col-md-6">
+										<div class="box-header with-border">
+											  <h3 class="box-title">FINANCEIRO POS-EMBARQUE</h3>
+											</div>
  									<table class="table table-condensed table-bordered">
 											<tr class="bg-primary">
-												<td colspan="3" align="center"><small><b>titulo Parcelas</b></small></td>
+												<td colspan="3" align="center"><small><b>Titulos Pos-Embarque</b></small></td>
 											</tr>    
 												<tr>
 												<td align="center">Descricao</td>
 												<td align="center">Valor</td>
 												<td></td>
 											</tr>  											
-@foreach ($query_2 as $query2)
-											<tr>
-												
-												<td align="left">{{$query2->id_pedido}}</td>
-												<td align="center">{{$query2->valor}}</td>
-												<td align="center">{{$query2->vencimento}}</td>
-												
-											</tr>                
+											@foreach ($query_titulos as $titulos)
+							
+											@php if ($titulos->tipo=="POS_EMBARQUE")  { @endphp
+										
+												<tr>
+													<td align="left">{{$titulos->id}}</td>
+													<td align="center">{{$titulos->valor}}</td>
+													<td align="center">{{$titulos->vencimento}}</td>
+												</tr>                
 
 											
-@endforeach
-									</table> 
+											@php ;} else  { @endphp  @php  ;} @endphp
+										
+											@endforeach
+											</table> 
 
 										  <!-- About Me Box -->
 										  <div class="box box-primary">																				  
 											<table class="table table-condensed table-bordered">
 											<tr class="bg-primary">
-												<td colspan="3" align="center"><small><b>Parcelas</b></small></td>
+												<td colspan="3" align="center"><small><b>Parcelas Pos-Embarque</b></small></td>
 											</tr>    
 												<tr>
 												<td align="center">Descricao</td>
 												<td align="center">Valor</td>
 												<td align="center">Vencimento</td>
-											</tr>  											
-@foreach ($query_3 as $query3)
-											<tr>
-												<td align="center">{{$query3->numero}}</td>
-													<td align="center">{{$query3->valor}}</td>
-												<td align="center">{{$query3->vencimento}}</td>
+											</tr>  
 												
-											</tr>                
-
-							@endforeach 
+											@foreach ($query_parcelas as $parcelas)
+											@php if ($parcelas->tipo_ct=="POS_EMBARQUE")  { @endphp
+											<tr>
+												<td align="center">{{$parcelas->id_titulo}}</td>
+												<td align="center">{{$parcelas->valor}}</td>
+												<td align="center">{{$parcelas->vencimento}}</td>
+											</tr>  
+												@php ;} else  { @endphp  @php  ;} @endphp
+											@endforeach 
 										
-									</table> 										
-									</div><!-- /.fecha a segunda caixa -->	
+										</table> 										
+										</div><!-- /.fecha parcelas -->	
 								
 								
 								
-								
-								
-								
-																	  <!-- About Me Box -->
+										<!-- pagamentos -->
 										  <div class="box box-primary">																				  
 											<table class="table table-condensed table-bordered">
 											<tr class="bg-primary">
-												<td colspan="3" align="center"><small><b>Pagamentos parcelas</b></small></td>
+												<td colspan="3" align="center"><small><b>Pagamentos Pos-Embarque</b></small></td>
 											</tr>    
 												<tr>
-												<td align="center">Descricao</td>
+												<td align="center">id</td>
 												<td align="center">Valor</td>
-												<td align="center">Vencimento</td>
+												<td align="center">cambio</td>
 											</tr>  											
-@foreach ($query_3 as $query3)
+											@foreach ($query_pagamentos as $pagamentos)
+											@php if ($pagamentos->tipo_ct=="POS_EMBARQUE")  { @endphp
+												
 											<tr>
-												<td align="center">{{$query3->numero}}</td>
-													<td align="center">{{$query3->valor}}</td>
-												<td align="center">{{$query3->vencimento}}</td>
+												<td align="center">{{$pagamentos->id}}</td>
+												<td align="center">{{$pagamentos->valor_pago}}</td>
+												<td align="center">{{$pagamentos->cambio}}</td>
 												
 											</tr>                
-
-							@endforeach 
+											@php ;} else  { @endphp  @php  ;} @endphp
+											@endforeach 
 										
 									</table> 										
-									</div><!-- /.fecha a segunda caixa -->	
-				
-											
-							</div><!-- /.fecha a col3 -->
+									</div><!-- /.fecha a segunda caixa -->				
+							</div><!-- /.fecha bloco POS_EMBARQUES -->
 						
-						
-						
-						<div class="col-md-2">
-										  
-										<div class="box box-primary">
-											<div class="box-body box-profile">										
-											texto1
-											</div>	
-											  texto2
-										  </div>
-										 
-
-										  <!-- About Me Box -->
-										  <div class="box box-primary">
-											<div class="box-header with-border">
-											  <h3 class="box-title">About Me</h3>
-											</div>
-											  
-											<!-- /.box-header -->
-											<div class="box-body">									
-											  <p>
-												<span class="label label-danger">UI Design</span>
-												<span class="label label-success">Coding</span>									
-											  </p>
-											</div>											
-										  </div><!-- /.fecha a segunda caixa -->
-								
-								
-										 
-							</div> <!-- /.fecha coljna 5 -->
 								 
 				</div> <!-- /.row -->
-				</section>		
+				</section>	
 				  
-<!-- /.modal lanca parcelas -->				  
-<form action="/dsimportdet/cadastrapagamento" id="frmcadastratitulo" class="form-horizontal" method="post">
-    @csrf 
-	
-
-	
-<div class="modal fade" id="modalcadastratitulo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-   <input type="hidden" name="id_pedido" id="id_pedido" value="{{$pedido}}">
-   <input type="hidden" name="tipo_pedido" id="tipo_pedido" value="{{$tipo}}">
-
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-primary">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Cadastro Pagamento</h4>
-      </div>
-      <div class="modal-body">
-
-	  <div class="form-group">
-	  
-       <label class="col-md-3 control-label">Tipo de pagamento</label>   
-	      <div class="col-md-8">
-        <select  name="tipo_pagamento" class="form-control" required>
+				  
 		
-         <option value="EMBARQUE" > EMBARQUE </option>
-		 <option value="PARCELA" > PARCELA </option>
-		 
-      	 </select>
-          </div>        
-          </div>
-        
-          <div class="form-group">
-            <label class="col-md-3 control-label">Data Emissão</label>
-            <div class="col-md-4">
-              <small>Data Emissão</small>
-              <input type="date" name="dt_emissao"  id="dt_emissao" class="form-control" required >
-            </div>     
-          
-            <div class="col-md-4">
-              <small>Data Vencimento</small>
-              <input type="date" name="dt_vencimento" id="dt_vencimento"   class="form-control" required>
-            </div>        
-          </div>
-
-          <div class="form-group">
-            <label class="col-md-3 control-label">Moeda</label>
-            <div class="col-md-5">
-              <select name="moeda" id="moeda" class="form-control" required>
-                <option value=""> @lang('padrao.selecione') </option>
-                <option value="USD"> USD </option>
-                <option value="EUR"> EUR </option>
-                <option value="BRL"> BRL </option>
-              </select>
-            </div>        
-          </div>
-
-          <div class="form-group">
-            <label class="col-md-3 control-label">Valor</label>
-            <div class="col-md-5">
-              <input name="valor" type="decimal"  required>
-            </div>        
-          </div>
-      <div class="form-group">
-            <label class="col-md-3 control-label">Criar parcelas</label>
-            <div class="col-md-5">
-              <select name="criar_parcela" id="criar_parcela" class="form-control" required>
-                <option value="">Selecione </option>
-                <option value="parcela_unica"> Parcela única </option>
-                <option value="multiplas"> Multiplas parcelas </option>
-                
-              </select>
-            </div>        
-          </div>
-		  
-		  <div class="form-group">
-            <label class="col-md-3 control-label">Observação</label>
-            <div class="col-md-8">
-                <textarea name="obs" class="form-control"></textarea>
-            </div>        
-          </div>
+		<!-- /.modal lanca parcelas -->				  
+					<form action="/dsimportdet/cadastrapagamento" id="frmcadastratitulo" class="form-horizontal" method="post">
+						@csrf 
 
 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-flat btn-default" data-dismiss="modal">@lang('padrao.cancelar')</button>
-        <button type="submit" class="btn btn-flat btn-primary">@lang('padrao.salvar') </button>
-      </div>
-    </div>
-  </div>
-</div>
-</form> 
-              
+
+					<div class="modal fade" id="modalcadastratitulo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+					   <input type="hidden" name="id_pedido" id="id_pedido" value="{{$pedido}}">
+					   <input type="hidden" name="tipo_pedido" id="tipo_pedido" value="{{$tipo}}">
+
+					  <div class="modal-dialog" role="document">
+						<div class="modal-content">
+						  <div class="modal-header bg-primary">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel">Cadastro Pagamento</h4>
+						  </div>
+						  <div class="modal-body">
+
+						  <div class="form-group">
+
+						   <label class="col-md-3 control-label">Tipo de pagamento</label>   
+							  <div class="col-md-8">
+							<select  name="tipo_pagamento" class="form-control" required>
+
+							 <option value="EMBARQUE" > EMBARQUE </option>
+							 <option value="POS_EMBARQUE" > POS_EMBARQUE </option>
+
+							 </select>
+							  </div>        
+							  </div>
+
+							  <div class="form-group">
+								<label class="col-md-3 control-label">Data Emissão</label>
+								<div class="col-md-4">
+								  <small>Data Emissão</small>
+								  <input type="date" name="dt_emissao"  id="dt_emissao" class="form-control" required >
+								</div>     
+
+								<div class="col-md-4">
+								  <small>Data Vencimento</small>
+								  <input type="date" name="dt_vencimento" id="dt_vencimento"   class="form-control" required>
+								</div>        
+							  </div>
+
+							  <div class="form-group">
+								<label class="col-md-3 control-label">Moeda</label>
+								<div class="col-md-5">
+								  <select name="moeda" id="moeda" class="form-control" required>
+									<option value=""> @lang('padrao.selecione') </option>
+									<option value="USD"> USD </option>
+									<option value="EUR"> EUR </option>
+									<option value="BRL"> BRL </option>
+								  </select>
+								</div>        
+							  </div>
+
+							  <div class="form-group">
+								<label class="col-md-3 control-label">Valor</label>
+								<div class="col-md-5">
+								  <input name="valor" type="decimal"  required>
+								</div>        
+							  </div>
+						  <div class="form-group">
+								<label class="col-md-3 control-label">Criar parcelas</label>
+								<div class="col-md-5">
+								  <select name="criar_parcela" id="criar_parcela" class="form-control" required>
+									<option value="">Selecione </option>
+									<option value="parcela_unica"> Parcela única </option>
+									<option value="multiplas"> Multiplas parcelas </option>
+
+								  </select>
+								</div>        
+							  </div>
+
+							  <div class="form-group">
+								<label class="col-md-3 control-label">Observação</label>
+								<div class="col-md-8">
+									<textarea name="obs" class="form-control"></textarea>
+								</div>        
+							  </div>
+
+
+						  </div>
+						  <div class="modal-footer">
+							<button type="button" class="btn btn-flat btn-default" data-dismiss="modal">@lang('padrao.cancelar')</button>
+							<button type="submit" class="btn btn-flat btn-primary">@lang('padrao.salvar') </button>
+						  </div>
+						</div>
+					  </div>
+					</div>
+					</form> 
+          <!-- /.fim modal -->
 				
-				
-				
-				</div>
-              <!-- /.tab-pane -->
-				
+	</div>
+	<!-- /.tab-pane -->
+
 	
 				
 				
@@ -1495,7 +1343,74 @@ from (
 
 				
 				
-				
+						<!-- general form elements -->
+			<div class="tab-pane" id="documentos">
+
+				<form action="/import_form/documento/upload" method="post" class="form-horizontal" enctype="multipart/form-data">
+				@csrf
+				<input type="hidden" name="pedido" value="{{$pedido}}">
+				<div class="box-body">
+
+					<div class="col-md-3">	
+					<label for="exampleInputFile">Tipo</label>
+					<input type="text" name="tipo">
+					<input type="hidden" name="id_info" value="{{$id_info}}">
+					</div>
+
+					<div class="col-md-3">	
+					<label for="exampleInputFile">Origem</label>
+					<input type="text" name="origem">
+					</div>
+
+					<div class="col-md-5">
+					<label for="exampleInputFile">Upload</label>
+					<input type="file" name="arquivo" class="form-control">
+					</div>
+
+				</div>
+
+				<div class="box-footer">
+				<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+
+				</form>
+
+
+
+				<table class="table table-condensed table-bordered">
+				<tr class="bg-primary">
+					<td colspan="8" align="center"><small><b>Arquivos na pasta</b></small></td>
+				</tr>    
+
+					<tr>
+					<td>ID Info</td>
+					<td>Local</td>
+					<td>Tipo Arquivo</td>
+					<td>Origem</td>
+					<td>Data</td>
+					<td>User</td>
+
+					<td>tamanho</td>
+					<td></td>
+					</tr>
+					@foreach ($query_5 as $docs)
+					<tr>
+
+					<td>{{$docs->pedido}}</td>
+					<td><a href="{{$docs->path}}">{{$docs->path}}</a></td>
+					<td>{{$docs->tipo_arquivo}}</td>
+					<td>{{$docs->origem}}</td>
+					<td>{{$docs->data}}</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					</tr>
+					@endforeach	
+				</table> 											
+
+
+				</div>
+		
 				
 				
 				
