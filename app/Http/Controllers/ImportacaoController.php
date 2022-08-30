@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Importacao;
-
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -12,14 +12,30 @@ use App\Importacao;
 
 class ImportacaoController extends Controller
 {
+
+	
+	
 	public function uploadDocumentos(Request $request) {
 	
+		$id_info = $request->id_info;
+		$tipo = $request->tipo;
 		
-		$path = $request->file('arquivo')->store('uploads/historico');
-
+		$path = $request->file('arquivo')->store("uploads/historico/{$id_info}");
 		
+		$usuario  = \DB::select("
+			insert into compras_docs (pedido, path, tipo_arquivo, origem, data) 
+			values('{$request->id_info}', '{$path}','{$request->tipo}', '{$request->origem}',now()) 
+			
+			");
+		
+		return redirect()->back();
 	}
-
+	
+	
+	
+	
+	
+	
 	public function cadastraPagamento(Request $request) {
 		
 			

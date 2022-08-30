@@ -5,9 +5,6 @@
 $pedido = $_GET["pedido"];
 $tipo = $_GET["tipo"];
 
-$secundario = 'AH6254 A01'; 
-$item = 'AH6254 A01'; 
-
 @endphp
 
 @section('title')
@@ -169,6 +166,8 @@ from (
 
 		 where pedido = '$pedido' and tipo = '$tipo'");
 
+		$query_5 = \DB::select("select * from compras_docs where pedido = $id_info");
+
 
 @endphp
 		
@@ -183,7 +182,7 @@ from (
 			  
 			  
 			<ul class="nav nav-tabs">
-              <li class="active"><a href="#dados" data-toggle="tab">Dados</a></li>
+              <li><a href="#dados" data-toggle="tab">Dados</a></li>
 			  <li><a href="#detalhes" data-toggle="tab">Detalhes</a></li>
               <li><a href="#financeiro" data-toggle="tab">financeiro</a></li>
               <li><a href="#timeline" data-toggle="tab">Timeline</a></li>
@@ -195,9 +194,172 @@ from (
 			  
 			  
 			  
-            <div class="tab-content">
+<div class="tab-content">
 						
 			
+	
+				
+				
+				
+				<!-- general form elements -->
+<div class="tab-pane" id="documentos">
+
+	<form action="/import_form/documento/upload" method="post" class="form-horizontal" enctype="multipart/form-data">
+	@csrf
+	<input type="hidden" name="pedido" value="{{$pedido}}">
+	<div class="box-body">
+
+		<div class="col-md-3">	
+		<label for="exampleInputFile">Tipo</label>
+		<input type="text" name="tipo">
+		<input type="hidden" name="id_info" value="{{$id_info}}">
+		</div>
+		
+		<div class="col-md-3">	
+		<label for="exampleInputFile">Origem</label>
+		<input type="text" name="origem">
+		</div>
+
+		<div class="col-md-5">
+		<label for="exampleInputFile">Upload</label>
+		<input type="file" name="arquivo" class="form-control">
+		</div>
+
+	</div>
+
+	<div class="box-footer">
+	<button type="submit" class="btn btn-primary">Submit</button>
+	</div>
+
+	</form>
+
+		
+		
+			<table class="table table-condensed table-bordered">
+			<tr class="bg-primary">
+				<td colspan="8" align="center"><small><b>Arquivos na pasta</b></small></td>
+			</tr>    
+
+				<tr>
+				<td>ID Info</td>
+				<td>Local</td>
+				<td>Tipo Arquivo</td>
+					<td>Origem</td>
+				<td>Data</td>
+				<td>User</td>
+				
+				<td>tamanho</td>
+				<td></td>
+				</tr>
+				@foreach ($query_5 as $docs)
+				<tr>
+
+				<td>{{$docs->pedido}}</td>
+				<td><a href="{{$docs->path}}">{{$docs->path}}</a></td>
+				<td>{{$docs->tipo_arquivo}}</td>
+				<td>{{$docs->origem}}</td>
+				<td>{{$docs->data}}</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				</tr>
+				@endforeach	
+			</table> 											
+
+	
+	</div>
+<!--	
+<form action="/import_form/documento/upload" method="post" class="form-horizontal" enctype="multipart/form-data">
+@csrf
+<input type="hidden" name="pedido" value="{{$pedido}}">
+<div class="box-body">
+
+<div class="col-md-2">			
+<input type="text" name="tipo">
+<input type="hidden" name="id_info" value="{{$id_info}}">
+</div>
+
+<div class="col-md-2">
+<label for="exampleInputFile">Upload</label>
+<input type="file" name="arquivo" class="form-control">
+</div>
+
+</div>
+
+<div class="box-footer">
+<button type="submit" class="btn btn-primary">Submit</button>
+</div>
+
+
+</form>
+
+
+
+<div class="form-group">
+<label for="inputName" class="col-sm-2 control-label">Name</label>
+
+<div class="col-sm-10">
+<tr>
+<td>ID Info</td>
+<td>Local</td>
+<td>Tipo Arquivo</td>
+</tr>
+@foreach ($query_5 as $docs)
+<tr>
+
+<td>{{$docs->pedido}}</td>
+<td>{{$docs->path}}</td>
+<td>{{$docs->tipo_arquivo}}</td>
+</tr>
+@endforeach
+</div>
+</div>
+
+
+<div class="form-group">
+<label for="inputEmail" class="col-sm-2 control-label">Email</label>
+
+<div class="col-sm-10">
+<input type="email" class="form-control" id="inputEmail" placeholder="Email">
+</div>
+</div>
+<div class="form-group">
+<label for="inputName" class="col-sm-2 control-label">Name</label>
+
+<div class="col-sm-10">
+<input type="text" class="form-control" id="inputName" placeholder="Name">
+</div>
+</div>
+<div class="form-group">
+<label for="inputExperience" class="col-sm-2 control-label">Experience</label>
+
+<div class="col-sm-10">
+<textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+</div>
+
+
+</div>
+<div class="form-group">
+<label for="inputSkills" class="col-sm-2 control-label">Skills</label>
+
+<div class="col-sm-10">
+<input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+</div>
+</div>
+
+
+</div>
+
+
+
+				
+	-->			
+						
+				
+				
+	
+				
+				
 				
 				
 				
@@ -1144,7 +1306,23 @@ from (
 				</div>
               <!-- /.tab-pane -->
 				
-				  
+	
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				
 				
 				<div class="tab-pane" id="settings">
@@ -1314,34 +1492,16 @@ from (
  	 
               </div><!-- /.fecha aba settings -->
               
+
 				
-				 <!-- general form elements -->
-          <div class="tab-pane" id="documentos">
-           
-         <form action="/import_form/documento/upload" method="post" class="form-horizontal">
-            
-	 @csrf
-	 <input type="hidden" name="pedido" value="{{$pedido}}">
-              <div class="box-body">
-		<div class="col-md-2">			
-           <input type="text" name="tipo"">
-         </div>
-	
-               <div class="col-md-2">
-                  <label for="exampleInputFile">Upload</label>
-                 <input type="file" name="arquivo" class="form-control">
-
-                </div>
-                
-              </div>
-              <!-- /.box-body -->
-
-              <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-            </form>
-          </div>
-          <!-- /.box -->
+				
+				
+				
+				
+				
+		
+				
+				
 				
 				<div class="tab-pane" id="timeline">
                 <form class="form-horizontal">
