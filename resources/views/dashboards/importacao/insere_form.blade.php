@@ -705,6 +705,7 @@ from (
 					<td colspan="1" align="center">Qtde pecas</td>
 					<td colspan="1" align="center">Atende</td>
 					<td colspan="1" align="center">Mostruarios</td>
+					<td colspan="1" align="center">disponivel</td>
 				</tr>
 				</thead>
 			  
@@ -723,6 +724,7 @@ from (
 					<td align="center">{{number_format($query4->qtde)}}</td>	
 					<td align="center">{{number_format($query4->orcamento_liber,0)}}</td>
 					<td align="center">{{number_format($query4->mostruarios,0)}}</td>
+					<td align="center">{{number_format($query4->disponivel,0)}}</td>
 				</tr>
 			@endforeach 
 			
@@ -836,19 +838,14 @@ from (
 			 
 			 
 			  
-              <div class="active tab-pane" id="financeiro">
-		
-				  		
+              <div class="active tab-pane" id="financeiro">			  		
 					  
-				<section class="content">
-						  
+				<section class="content">					  
 					
 					<div class="row">
-						
-						
+											
 						<div class="col-md-12">
-							
-						
+												
 							<a  class="btn btn-default btn-flat pull-right"href="" class="pull-center" data-toggle="modal" 
 							data-target="#modalcadastraparcela">Cadastrar Parcelas</a> 
 							
@@ -857,10 +854,6 @@ from (
 
 						</div>
 						
-						
-						
-
-				  
 				
 
 

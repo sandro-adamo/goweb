@@ -245,7 +245,7 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 					<table class="tabela2 table-striped table-bordered compact">
 						<thead>	
 							<tr>
-						
+							<td></td>
 							<td colspan="1" align="center">Pedido</td>
 							<td colspan="1" align="center">ult_prox status</td>						
 							<td colspan="1" align="center">Invoice</td>				
@@ -288,7 +288,7 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 								<a href="/import_form/?tipo={{$query2->tipo}}&pedido={{$query2->pedido}}" target="_blank">
 									{{$query2->tipo.' '.$query2->pedido}}
 								</a>
-							<!-- <a href="/dsimportdet/{{$query2->tipo}}/{{$query2->pedido}}">{{$query2->tipo.' '.$query2->pedido}}</a> --> 
+								
 							</td>
 							<td align="center">{{$query2->ult_prox}}-{{$query2->desc_status}}</td>
 							<td align="left">{{$query2->ref_go}}</td>
