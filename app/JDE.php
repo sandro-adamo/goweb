@@ -53,7 +53,7 @@ class JDE extends Model
 		]);
 						//http://10.30.240.212:9142/PD920
         //$url        = "https://189.125.137.61:7162/PY920/ItemServiceManager?wsdl"; 
-        $url        = "https://10.30.240.212:9143/PD920/ItemServiceManager?wsdl"; 
+        $url        = "https://10.30.240.211:9143/PD920/ItemServiceManager?wsdl"; 
         $client     = new \SoapClient($url, array("trace" => 1, 'encoding'=>'ISO-8859-1', 'stream_context' => $context)); 
         AddWSSUsernameToken($client, 'GOWEB', 'd6SHzwSu');
 		
@@ -110,7 +110,7 @@ class JDE extends Model
 		]);
 
         //$url        = "https://189.125.137.61:7162/PY920/ItemServiceManager?wsdl"; 
-        $url        = "https://10.30.240.212:9143/PD920/AddressBookManager?wsdl"; 
+        $url        = "https://10.30.240.211:9143/PD920/AddressBookManager?wsdl"; 
         $client     = new \SoapClient($url, array("trace" => 1, 'encoding'=>'ISO-8859-1', 'stream_context' => $context)); 
         AddWSSUsernameToken($client, 'GOWEB', 'd6SHzwSu');
 
