@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Importacao;
-
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -12,14 +12,30 @@ use App\Importacao;
 
 class ImportacaoController extends Controller
 {
+
+	
+	
 	public function uploadDocumentos(Request $request) {
 	
+		$id_info = $request->id_info;
+		$tipo = $request->tipo;
 		
-		$path = $request->file('arquivo')->store('uploads/historico');
-
+		$path = $request->file('arquivo')->store("uploads/historico/{$id_info}");
 		
+		$usuario  = \DB::select("
+			insert into compras_docs (pedido, path, tipo_arquivo, origem, data) 
+			values('{$request->id_info}', '{$path}','{$request->tipo}', '{$request->origem}',now()) 
+			
+			");
+		
+		return redirect()->back();
 	}
-
+	
+	
+	
+	
+	
+	
 	public function cadastraPagamento(Request $request) {
 		
 			
@@ -305,12 +321,17 @@ if ($request->dt_prev_embnac <> '') { $compra->dt_prev_embnac = $request->dt_pre
 if ($request->dt_emb_nac <> '') { $compra->dt_emb_nac = $request->dt_emb_nac;} else {$compra->dt_emb_nac = null;}
 if ($request->dt_recebimento <> '') { $compra->dt_recebimento = $request->dt_recebimento;} else {$compra->dt_recebimento = null;}
 
-if ($request->venc_dupl_1 <> '') { $compra->venc_dupl_1 = $request->venc_dupl_1;} else {$compra->venc_dupl_1 = null;}
-
 if ($request->dt_chegada <> '') 
 		{ $compra->dt_perdimento = date('Y/m/d',strtotime('+120 days',strtotime($request->dt_chegada)));} 
 											 else {$compra->dt_perdimento = null;}
 
+if ($request->dt_invoice_td <> '') { $compra->dt_invoice_td = $request->dt_invoice_td;} else {$compra->dt_invoice_td = null;}
+if ($request->dt_nf_tr <> '') { $compra->dt_nf_tr = $request->dt_nf_tr;} else {$compra->dt_nf_tr = null;}
+if ($request->venc_dupl_1 <> '') { $compra->venc_dupl_1 = $request->venc_dupl_1;} else {$compra->venc_dupl_1 = null;}
+if ($request->venc_dupl_2 <> '') { $compra->venc_dupl_2 = $request->venc_dupl_2;} else {$compra->venc_dupl_2 = null;}
+if ($request->venc_dupl_3 <> '') { $compra->venc_dupl_3 = $request->venc_dupl_3;} else {$compra->venc_dupl_3 = null;}
+if ($request->venc_nfc <> '') { $compra->venc_nfc = $request->venc_nfc;} else {$compra->venc_nfc = null;}
+if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgto_nfc;} else {$compra->data_pgto_nfc = null;}
 		
 		
 	//	echo date('d/m/Y', strtotime('+5 days', strtotime('14-07-2014')));  strtotime('+5 days',strtotime($request->dt_aut_embarque))
@@ -343,16 +364,27 @@ if ($request->dt_chegada <> '')
 			$compra->icms_nac =  $request->icms_nac;
 			$compra->vlr_requisicao =  $request->vlr_requisicao;
 		
+		$compra->num_invoice_tr =  $request->num_invoice_tr;
+		$compra->num_nf_tr =  $request->num_nf_tr;
+		$compra->ref_comex =  $request->ref_comex;
+		$compra->valor_total_tr =  $request->valor_total_tr;
+		$compra->desc_dupl_1 =  $request->desc_dupl_1;
+		$compra->valor_dupl_1 =  $request->valor_dupl_1;
+		$compra->desc_dupl_2 =  $request->desc_dupl_2;
+		$compra->valor_dupl_2 =  $request->valor_dupl_2;
+		$compra->desc_dupl_3 =  $request->desc_dupl_3;
+		$compra->valor_dupl_3 =  $request->valor_dupl_3;
+		$compra->taxa_cambio_fat =  $request->taxa_cambio_fat;
+		$compra->taxa_cambio_lc =  $request->taxa_cambio_lc;
+		$compra->nf_complementar =  $request->nf_complementar;
+		$compra->valor_nfc =  $request->valor_nfc;
+		
+		
 			
 		if ($request->impostos_nac > 0) { $compra->base_imposto =  $request->impostos_nac/$request->taxa_nac; }
 		if ($request->icms_nac > 0 ) {	$compra->base_icms =  $request->icms_nac/$request->taxa_nac; }
-				
 			
-			
-		
-		
-		
-		
+	// $idusuario = \Auth::id();	$usuario  = \DB::select("select nome from usuarios where id = $idusuario limit 1");
 		
 		
 		$compra->save();

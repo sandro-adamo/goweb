@@ -265,6 +265,12 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 
 						@foreach ($query_2 as $query2)
 
+							@php if ($query2->fornecedor<>"KERING ") 
+
+							{ @endphp
+						
+						
+						
 							<tr>
 
 								<form action="/import_form/grava" method="post" class="form-horizontal"> 
@@ -299,7 +305,14 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 							<td align="left">{{$query2->obs_invoice}}</td>
 							</tr>
 								</form>	
-							@endforeach 
+							
+					
+					
+						@php ;} else  { @endphp
+
+									@php  ;} @endphp
+
+									@endforeach 
 						</table>
 					
 						</h6>	
