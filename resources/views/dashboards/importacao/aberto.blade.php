@@ -286,7 +286,7 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 
 							<td align="left">
 								<a href="/import_form/?tipo={{$query2->tipo}}&pedido={{$query2->pedido}}" target="_blank">
-									<i class="fa fa-file-text-o"></i>
+									{{$query2->tipo.' '.$query2->pedido}}
 								</a>
 							<!-- <a href="/dsimportdet/{{$query2->tipo}}/{{$query2->pedido}}">{{$query2->tipo.' '.$query2->pedido}}</a> --> 
 							</td>
