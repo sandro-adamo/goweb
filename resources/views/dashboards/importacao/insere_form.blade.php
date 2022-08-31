@@ -838,7 +838,7 @@ from (
 			 
 			 
 			  
-              <div class="active tab-pane" id="financeiro">			  		
+              <div class="tab-pane" id="financeiro">			  		
 					  
 				<section class="content">					  
 					
