@@ -216,7 +216,7 @@ from (
 			  
 			  
 			<ul class="nav nav-tabs">
-              <li><a href="#dados" data-toggle="tab">Dados</a></li>
+              <li class="active"><a href="#dados" data-toggle="tab">Dados</a></li>
 			  <li><a href="#detalhes" data-toggle="tab">Detalhes</a></li>
               <li><a href="#financeiro" data-toggle="tab">financeiro</a></li>
               <li><a href="#timeline" data-toggle="tab">Timeline</a></li>
@@ -236,7 +236,7 @@ from (
 				
 				
 				
-              <div class="tab-pane" id="dados">
+              <div class="active tab-pane" id="dados">
 				  		    
 				  
 				<div class="box-header with-border">	  
