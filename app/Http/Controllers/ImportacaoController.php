@@ -16,17 +16,30 @@ class ImportacaoController extends Controller
 	
 	
 	public function uploadDocumentos(Request $request) {
-	
+		$idusuario = \Auth::id();
+		$usuario  = \DB::select("select nome from usuarios where id = $idusuario limit 1");
+		$nome_usuario = $usuario[0]->nome;
+		
 		$id_info = $request->id_info;
 		$tipo = $request->tipo;
 		
 		$path = $request->file('arquivo')->store("uploads/historico/{$id_info}");
+		$arquivo = $request->arquivo->getClientOriginalName();
+		$arquivo_up = $_FILES['arquivo']['name'];
+		$extensao = pathinfo($arquivo_up);
+		$extensao = $extensao['extension'];
+		
 		
 		$usuario  = \DB::select("
-			insert into compras_docs (pedido, path, tipo_arquivo, origem, data) 
-			values('{$request->id_info}', '{$path}','{$request->tipo}', '{$request->origem}',now()) 
+		insert into compras_docs (pedido, path, tipo_arquivo, origem, data, arquivo, extensao, usuario) 
+		values('{$request->id_info}', '{$path}','{$request->tipo}', '{$request->origem}',now(),'{$arquivo}','{$extensao}','$nome_usuario') 
 			
-			");
+		");
+		
+		
+		
+		
+	
 		
 		return redirect()->back();
 	}
@@ -34,9 +47,8 @@ class ImportacaoController extends Controller
 	
 	
 	
-	
-	
-	public function cadastraPagamento(Request $request) {
+	// modal cadatra titulo
+	public function cadastraTitulo(Request $request) {
 		
 			
 			$idusuario = \Auth::id();
@@ -70,6 +82,48 @@ class ImportacaoController extends Controller
 			  
 
 	}
+	
+	
+	
+	// modal cadatra pagamento
+	public function cadastraPagamento(Request $request) {
+		
+			
+			$idusuario = \Auth::id();
+			$usuario  = \DB::select("select nome from usuarios where id = $idusuario limit 1");
+			$nome_usuario = $usuario[0]->nome;
+			
+		
+			$parcelas = \DB::select("
+			select cp.id, cp.valor valor_parcela, ct.tipo tipo_ct 
+			from compras_titulos ct
+			left join compras_parcelas cp on cp.id_titulo = ct.numero
+			where cp.id = '$request->id_parcela'
+			");
+
+			if(count($parcelas)==1){
+			$numero_parcela = 	$titulos[0]->ultimo_numero+1;
+			$numero = $request->id_pedido.'_'.$numero_parcela;
+			
+			}else{
+			$numero = $request->id_pedido.'_1';
+			}
+			
+
+			//$numero_titulo = $request->id_pedido."_1";
+
+			$insert_adiantamento  = \DB::select("INSERT INTO `compras_pagamentos`(`id_parcela`) VALUES ($request->id_parcela) ");
+
+			
+			
+						  
+				  
+				  return redirect()->back();
+			  
+
+	}
+	
+	
 
 	public function detalhesDSimport($tipo, $pedido) {
 		//dd($tipo);
@@ -384,7 +438,6 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 		if ($request->impostos_nac > 0) { $compra->base_imposto =  $request->impostos_nac/$request->taxa_nac; }
 		if ($request->icms_nac > 0 ) {	$compra->base_icms =  $request->icms_nac/$request->taxa_nac; }
 			
-	// $idusuario = \Auth::id();	$usuario  = \DB::select("select nome from usuarios where id = $idusuario limit 1");
 		
 		
 		$compra->save();
