@@ -176,12 +176,12 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 				
 <div class="row">	
 
-	<div class="col-md-6">
+	<div class="col-md-10">
 	<!-- if taxa_calculo -->
 	<!-- novo controler insere tabela compras_registros e salva na linha compras_infos -->
 	
 	
-	<h3>recalcular</h3>
+	<h3>Simular cambio</h3>
 	<form action="/import_form/gravareg" method="post" class="form-horizontal"> @csrf
 		
 		<input type="hidden" id="id_pedido" name="id_pedido" size="50" value=100201>
@@ -199,7 +199,7 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 		<td><input type="text" id="euro3" name="euro3" size="8" value='' ></td>
 		
 		
-	<button type="submit" class="btn btn-primary"><i class="fa fa-refresh"></i> Gravar</button>	
+	<button type="submit" class="btn btn-primary"><i class="fa fa-refresh"></i> Recalcular</button>	
 	</form>
 	</div> <!-- col-md-6 -->
 	</br>
@@ -237,7 +237,7 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 								<input type="hidden" id="pedido" name="pedido" size="50" value={{$query_1[0]->prox}}>
 								<input type="hidden" id="acao" name="acao" size="50" value=insnew >
 								<input type="hidden" id="tipo" name="tipo" size="50" value='new' >
-								<input type="text" id="num_temp" name="num_temp" size="30" >
+								<input type="text" id="num_temp" name="num_temp" size="30" required>
 								<td align="left"><button type="submit"><i class="fa fa-refresh text-green">Adiciona Invoice</i></button>
 							</form>	
 

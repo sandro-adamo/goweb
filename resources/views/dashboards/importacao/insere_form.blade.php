@@ -237,8 +237,7 @@ from (
 				
 				
               <div class="active tab-pane" id="dados">
-				  		    
-				  
+				  		    	  
 				<div class="box-header with-border">	  
 					 <h3 class="box-title">Pedido JDE </h3>
 					 <h6>
