@@ -625,7 +625,11 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 					<table class="tabela2 table-striped table-bordered compact" id="myTable7">
 						<thead>	
 							<tr>
-							<td colspan="1" align="center" widht="30%">Dt perdimento</td>
+							<td colspan="1" align="center" widht="10%"></td>
+							<td colspan="1" align="center" widht="10%"></td>
+							<td colspan="1" align="center" widht="10%"></td>
+
+								
 							<td colspan="1" align="center" widht="30%">Pedido</td>										
 							<td colspan="1" align="center">Invoice</td>				
 							<td colspan="1" align="center">ref desp</td>
@@ -648,16 +652,39 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 						</thead>
 
 							@foreach ($query_2 as $query3)
-
+						
+								
 								@php if ($query3->tipo=="new") 
 
 							{ @endphp
 
 							<tr>
-								<td align="left">{{$query3->dt_perdimento}}</td>
-							<td align="left"><a href="/import_form/?tipo={{$query3->tipo}}&pedido={{$query3->pedido}}" target="_blank">
-								<i class="fa fa-file-text-o"></i></a>
-							<a href="/dsimportdet/{{$query3->tipo}}/{{$query3->pedido}}">{{$query3->tipo.' '.$query3->pedido}}</a></td>
+								
+							<form action="/import_form/atualizareg" method="post" class="form-horizontal"> @csrf
+							<input type="hidden" id="id_info" name="id_info" size="50" value={{$query2->id_info}}>		
+							<input type="hidden" id="acao" name="acao" size="50" value="update" >
+							<input type="hidden" id="pedido" name="pedido" size="50" value={{$query2->pedido}} >
+							<input type="hidden" id="tipo" name="tipo" size="50" value={{$query2->tipo}} >
+						 	<td> <input type="text" id="doc_agrup" name="doc_agrup" size="8" value='{{$query2->doc_agrup}}' ></td> 
+									
+							<td align="left">
+								
+								
+							<select class="form-control" name="tipo_agrup" >	
+							  <option value="{{$query2->tipo}}">{{$query2->tipo}}</option> 
+							  <option value="OI">OI</option>
+							  <option value="OP">OP</option>
+						      </select>
+									
+							</td>
+							
+								
+							
+								
+									<td><button type="submit"><i class="fa fa-refresh"></i></button>	</td> 
+								
+								
+							<td align="left"><a href="/import_form/?tipo={{$query3->tipo}}&pedido={{$query3->pedido}}" target="_blank">{{$query3->pedido}}</a></td>
 
 
 							<td align="left">{{$query3->ref_go}}</td>
@@ -684,6 +711,7 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 
 							@endforeach 
 
+						</form>
 
 						</table>
 						</h6>

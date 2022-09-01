@@ -35,12 +35,7 @@ class ImportacaoController extends Controller
 		values('{$request->id_info}', '{$path}','{$request->tipo}', '{$request->origem}',now(),'{$arquivo}','{$extensao}','$nome_usuario') 
 			
 		");
-		
-		
-		
-		
-	
-		
+				
 		return redirect()->back();
 	}
 	
@@ -93,35 +88,18 @@ class ImportacaoController extends Controller
 			$usuario  = \DB::select("select nome from usuarios where id = $idusuario limit 1");
 			$nome_usuario = $usuario[0]->nome;
 			
+			$id_titulo = $request->id_parcela;
 		
-			$parcelas = \DB::select("
-			select cp.id, cp.valor valor_parcela, ct.tipo tipo_ct 
-			from compras_titulos ct
-			left join compras_parcelas cp on cp.id_titulo = ct.numero
-			where cp.id = '$request->id_parcela'
-			");
-
-			if(count($parcelas)==1){
-			$numero_parcela = 	$titulos[0]->ultimo_numero+1;
-			$numero = $request->id_pedido.'_'.$numero_parcela;
-			
-			}else{
-			$numero = $request->id_pedido.'_1';
-			}
-			
 
 			//$numero_titulo = $request->id_pedido."_1";
 
-			$insert_adiantamento  = \DB::select("INSERT INTO `compras_pagamentos`(`id_parcela`) VALUES ($request->id_parcela) ");
-
-			
-			
-						  
+			$insert_pagamento  = \DB::select("INSERT INTO `compras_pagamentos`(`id_parcela`) VALUES ('$id_titulo') ");					  
 				  
-				  return redirect()->back();
-			  
+			return redirect()->back();
 
 	}
+	
+	
 	
 	
 
@@ -447,7 +425,24 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 	
 	
 	
+	public function atualizaRegistroImport(Request $request) {
+		
+	$id = $request->id_info;
+	$id_usuario = \Auth::id();
 
+	$registro = new \App\CompraRegistro();
+	
+		$registro->id_pedido =  $request->id_pedido;
+		$registro->moeda =  $request->moeda;
+
+		$registro->taxa1 =  $request->taxa1;
+		$registro->taxa2 =  $request->taxa2;
+		$registro->taxa3 =  $request->taxa3;
+		
+		$registro->save();	
+		
+		return redirect()->back();
+		}	
 	
 	
 	
@@ -471,14 +466,12 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 		$registro->taxa2 =  $request->taxa2;
 		$registro->taxa3 =  $request->taxa3;
 		
-		$registro->save();
-		
+		$registro->save();	
 		
 		return redirect()->back();
-		}
+		}	
 	
-	
-	
-		
+
+
 }
 

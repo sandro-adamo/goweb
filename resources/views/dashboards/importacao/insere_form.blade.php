@@ -845,11 +845,14 @@ from (
 											
 						<div class="col-md-12">
 												
-							<a  class="btn btn-default btn-flat pull-right"href="" class="pull-center" data-toggle="modal" 
+							<a class="btn btn-default btn-flat pull-right" href="" class="pull-center" data-toggle="modal" 
+							data-target="#modalcadastraPagamento">Cadastrar Pagamentos</a>
+							
+							<a  class="btn btn-default btn-flat pull-right" href="" class="pull-center" data-toggle="modal" 
 							data-target="#modalcadastraparcela">Cadastrar Parcelas</a> 
 							
-							<a  class="btn btn-default btn-flat pull-right"href="" class="pull-center" data-toggle="modal" 
-							data-target="#modalcadastratitulo">Cadastrar Titulos</a>
+							<a  class="btn btn-default btn-flat pull-right" href="" class="pull-center" data-toggle="modal" 
+							data-target="#modalcadastraTitulo">Cadastrar Titulos</a>
 
 						</div>
 						
@@ -907,10 +910,7 @@ from (
 												<td align="center">{{$parcelas->id_titulo}}</td>
 												<td align="center">{{$parcelas->valor}}</td>
 												<td align="center">{{$parcelas->vencimento}}</td>
-											<td><a href="" class="pull-center" data-toggle="modal" 
-											data-target="#modalcadastraPagamento">
-												<i class="fa fa-cubes"></i>
-											</a></td>
+											
 												
 											</tr>  
 												@php ;} else  { @endphp  @php  ;} @endphp
@@ -1045,10 +1045,7 @@ from (
 		<!-- /.modal lanca titulos -->				  
 			<form action="/dsimportdet/cadastratitulo" id="frmcadastratitulo" class="form-horizontal" method="post">
 						@csrf 
-
-
-
-				<div class="modal fade" id="modalcadastraTitulo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			 <div class="modal fade" id="modalcadastraTitulo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 					   <input type="hidden" name="id_pedido" id="id_pedido" value="{{$pedido}}">
 					   <input type="hidden" name="tipo_pedido" id="tipo_pedido" value="{{$tipo}}">
 
@@ -1146,7 +1143,6 @@ from (
 						@csrf 
 
 
-
 					<div class="modal fade" id="modalcadastraPagamento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 					   <input type="hidden" name="id_pedido" id="id_pedido" value="{{$pedido}}">
 					   <input type="hidden" name="tipo_pedido" id="tipo_pedido" value="{{$tipo}}">
@@ -1165,12 +1161,13 @@ from (
 
 						   <label class="col-md-3 control-label">Tipo de pagamento</label>   
 							  <div class="col-md-8">
-							<select  name="tipo_pagamento" class="form-control" required>
+					
+									<select  name="id_parcela" class="form-control" required>
+										@foreach ($query_parcelas as $parcelas)	
+									 <option value="{{$parcelas->id}}" >{{$parcelas->id}}.{{$parcelas->id_titulo}}</option>
+										@endforeach
+									</select>
 
-							 <option value="EMBARQUE" > EMBARQUE </option>
-							 <option value="POS_EMBARQUE" > POS_EMBARQUE </option>
-
-							 </select>
 							  </div>        
 							  </div>
 
