@@ -457,8 +457,6 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 	
 		$atualiza->tipo_pedido =  $request->novo_tipo;
 		$atualiza->id_pedido =  $request->novo_pedido;
-
-		
 		
 		$atualiza->save();	
 		

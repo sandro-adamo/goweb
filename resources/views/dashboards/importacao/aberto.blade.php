@@ -8,166 +8,172 @@ $query_1 = \DB::select("select ifnull(max(id_pedido)+1,900000) prox from compras
 
 $query_2 = \DB::select("
 
-	select pedido,	tipo,	ref_go,  '1' ref, ult_prox,	desc_status,	fornecedor,	tipoitem,	codgrife,	linha,	colmod,	qtde,	
-atende,	itens_trans,	id,	id_pedido,	tipo_pedido,	tipo_agrup,	doc_agrup,	dt_chegada,	dt_emb_int,	dt_perdimento,	
-dt_registro,	dt_aut_embarque,	dt_remocao,	dt_emb_nac,	dt_recebimento,	created_at,	dt_prev_embnac,	dt_prev_chegada,	
-dt_invoice,	tipo_carga,	cubagem_m3,	volumes,	peso_bruto,	obs_invoice,	dt_sol_li,	dt_def_li,	ref_processo,	an8_agente_int,	
-protocolo_di,	moeda_nac,	taxa_nac,	icms_nac,	impostos_nac,	base_imposto,	base_icms,	taxas_op,	num_awb,	
-obs_chegada,	obs_transito,	an8_agente_nac,	num_invoice_tr,	dt_invoice_td,	num_nf_tr,	dt_nf_tr,	ref_comex,	
-valor_total_tr,	desc_dupl_1,	valor_dupl_1,	venc_dupl_1,	desc_dupl_2,	valor_dupl_2,	venc_dupl_2,	
-desc_dupl_3,	valor_dupl_3,	venc_dupl_3,	taxa_cambio_fat,	taxa_cambio_lc,	nf_complementar,	valor_nfc,	venc_nfc,	
-data_pgto_nfc,	vlr_requisicao,	peso_liquido,	acao,	id_info,	moeda,	taxa1,	
-id_ped,	origem,	tipo_tit, valor_titulo,	valor_parcelas,	valor_pago,	status_pgto,	prev_imposto,	prev_icms,	prev_total,	coloremb,	clasmoney,	embarque
-from (
-
-	select *,
-	(impostos_nac/taxa_nac)*taxa1 prev_imposto,
-	(icms_nac/taxa_nac)*taxa1 prev_icms,
-	((impostos_nac/taxa_nac)*taxa1)+((icms_nac/taxa_nac)*taxa1) prev_total,
-	case when status_pgto = 'pago' then 'green' when status_pgto = 'parcial' then 'orange' when status_pgto = 'aberto' then 'red' else '' end as coloremb, 
-	case when status_pgto is null then '' else 'money' end as clasmoney,
-
-	ifnull(valor_titulo,0)-ifnull(valor_pago,0)  embarque
-
-
+select * from (	
+    select pedido,	tipo,	ref_go,  '1' ref, ult_prox,	desc_status,	fornecedor,	tipoitem,	codgrife,	linha,	colmod,	qtde,	
+	atende,	itens_trans,	id,	id_pedido,	tipo_pedido,	tipo_agrup,	doc_agrup,	dt_chegada,	dt_emb_int,	dt_perdimento,	
+	dt_registro,	dt_aut_embarque,	dt_remocao,	dt_emb_nac,	dt_recebimento,	created_at,	dt_prev_embnac,	dt_prev_chegada,	
+	dt_invoice,	tipo_carga,	cubagem_m3,	volumes,	peso_bruto,	obs_invoice,	dt_sol_li,	dt_def_li,	ref_processo,	an8_agente_int,	
+	protocolo_di,	moeda_nac,	taxa_nac,	icms_nac,	impostos_nac,	base_imposto,	base_icms,	taxas_op,	num_awb,	
+	obs_chegada,	obs_transito,	an8_agente_nac,	num_invoice_tr,	dt_invoice_td,	num_nf_tr,	dt_nf_tr,	ref_comex,	
+	valor_total_tr,	desc_dupl_1,	valor_dupl_1,	venc_dupl_1,	desc_dupl_2,	valor_dupl_2,	venc_dupl_2,	
+	desc_dupl_3,	valor_dupl_3,	venc_dupl_3,	taxa_cambio_fat,	taxa_cambio_lc,	nf_complementar,	valor_nfc,	venc_nfc,	
+	data_pgto_nfc,	vlr_requisicao,	peso_liquido,	acao,	id_info,	moeda,	taxa1,	
+	id_ped,	origem,	tipo_tit, valor_titulo,	valor_parcelas,	valor_pago,	status_pgto,	prev_imposto,	prev_icms,	prev_total,	coloremb,	
+    clasmoney,	embarque, 
+		'' vinculo
 	from (
-	select *,
-		case when infos.id is null then 'insert' else 'update' end as acao , infos.id id_info
+
+		select *,
+		(impostos_nac/taxa_nac)*taxa1 prev_imposto,
+		(icms_nac/taxa_nac)*taxa1 prev_icms,
+		((impostos_nac/taxa_nac)*taxa1)+((icms_nac/taxa_nac)*taxa1) prev_total,
+		case when status_pgto = 'pago' then 'green' when status_pgto = 'parcial' then 'orange' when status_pgto = 'aberto' then 'red' else '' end as coloremb, 
+		case when status_pgto is null then '' else 'money' end as clasmoney,
+
+		ifnull(valor_titulo,0)-ifnull(valor_pago,0)  embarque
+
 
 		from (
-		select pedido, tipo, ref_go, concat(trim(ref_despachante),' ',trim(ref_nac_01)) ref, ult_prox, desc_status, group_concat(distinct left(fornecedor,20),' ') fornecedor,  
-		group_concat(distinct tipoitem,' ') tipoitem, group_concat(distinct codgrife,' ') codgrife, group_concat(distinct linha,' ') linha,
-		case when CHAR_LENGTH(group_concat(distinct colmod,' ')) > 26 then concat('...',right(group_concat(distinct colmod,' '),26)) else group_concat(distinct colmod,' ') end as colmod, 
-		sum(qtde) qtde, sum(atende) atende, sum(itens_trans) itens_trans
-		from (
-
-		select *, case when orcamentos > qtde then qtde else orcamentos end as atende from (
-
-			select pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status, secundario, cod_item, codtipoitem, tipoitem, id_pai,
-			item_pai, tipo_pai, agrupador, codgrife, colmod, fornecedor, linha,
-
-			ifnull((select sum(orcamento_bloq+orcamento_liber) from go_storage.sintetico_estoque sint where sint.id_item = final.id_pai),0) orcamentos,
-
-			ifnull((select sum(itens_trans) from go_storage.sintetico_estoque sint where sint.id_item = final.id_pai),0) itens_trans,
-
-
-					/**	ifnull((select sum(qtde) qtde_aberto from go.vendas_jde vds
-						where ult_status not in ('980') and tipo_item = 006 and prox_status = 515 and vds.id_item = final.id_pai),0) as orcamentos,
-
-					**/
-
-			sum(qtde) qtde
+		select *,
+			case when infos.id is null then 'insert' else 'update' end as acao , infos.id id_info
 
 			from (
+			select pedido, tipo, ref_go, concat(trim(ref_despachante),' ',trim(ref_nac_01)) ref, ult_prox, desc_status, group_concat(distinct left(fornecedor,20),' ') fornecedor,  
+			group_concat(distinct tipoitem,' ') tipoitem, group_concat(distinct codgrife,' ') codgrife, group_concat(distinct linha,' ') linha,
+			case when CHAR_LENGTH(group_concat(distinct colmod,' ')) > 26 then concat('...',right(group_concat(distinct colmod,' '),26)) else group_concat(distinct colmod,' ') end as colmod, 
+			sum(qtde) qtde, sum(atende) atende, sum(itens_trans) itens_trans
+			from (
 
-				select base.*, tipo_pai, agrupador,
-				case when item_pai is null then secundario else item_pai end as item_pai,
-				case when id_pai is null then cod_item else id_pai end as id_pai
+			select *, case when orcamentos > qtde then qtde else orcamentos end as atende from (
+
+				select pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status, secundario, cod_item, codtipoitem, tipoitem, id_pai,
+				item_pai, tipo_pai, agrupador, codgrife, colmod, fornecedor, linha,
+
+				ifnull((select sum(orcamento_bloq+orcamento_liber) from go_storage.sintetico_estoque sint where sint.id_item = final.id_pai),0) orcamentos,
+
+				ifnull((select sum(itens_trans) from go_storage.sintetico_estoque sint where sint.id_item = final.id_pai),0) itens_trans,
+
+
+						/**	ifnull((select sum(qtde) qtde_aberto from go.vendas_jde vds
+							where ult_status not in ('980') and tipo_item = 006 and prox_status = 515 and vds.id_item = final.id_pai),0) as orcamentos,
+
+						**/
+
+				sum(qtde) qtde
+
 				from (
 
-					select pedido, tipo, ref_go, ref_despachante, ref_nac_01,  concat(ult_status, ' / ',prox_status) ult_prox, imp.secundario, cod_item, codtipoitem,
+					select base.*, tipo_pai, agrupador,
+					case when item_pai is null then secundario else item_pai end as item_pai,
+					case when id_pai is null then cod_item else id_pai end as id_pai
+					from (
 
-					case 
-					when prox_status = 230 then 'ped_inserido' 
-					when prox_status = 280 then 'PL_recebido' 
-					when prox_status = 345 then 'confirmado' 
-					when prox_status = 350 then 'li_solicitado'
-					when prox_status = 355 then 'li_deferida'
-					when prox_status = 359 then 'emb_autorizado'
-					when prox_status = 365 then 'booking'
-					when prox_status = 369 then 'chegada_Br'
-					when prox_status = 375 then 'removido'
-					when prox_status = 379 then 'registrado'
-					when prox_status = 385 then 'nf_emitida'
-					when prox_status = 390 then 'carregada'
-					when prox_status = 400 then 'chegou_TO' else '' end as desc_status,
+						select pedido, tipo, ref_go, ref_despachante, ref_nac_01,  concat(ult_status, ' / ',prox_status) ult_prox, imp.secundario, cod_item, codtipoitem,
 
-					case  when codtipoitem = 006 then 'PECA' 
-					when (left(imp.secundario,3) = 'FR ' or left(imp.secundario,6) = 'PONTE ') then 'FRENTE' 
-					when left(imp.secundario,2) IN ('LE','LD','HE','HD','PL','SC','BL') then 'ACESSORIOS'
-					else 'OUTROS' end as tipoitem, qtde_sol qtde
+						case 
+						when prox_status = 230 then 'ped_inserido' 
+						when prox_status = 280 then 'PL_recebido' 
+						when prox_status = 345 then 'confirmado' 
+						when prox_status = 350 then 'li_solicitado'
+						when prox_status = 355 then 'li_deferida'
+						when prox_status = 359 then 'emb_autorizado'
+						when prox_status = 365 then 'booking'
+						when prox_status = 369 then 'chegada_Br'
+						when prox_status = 375 then 'removido'
+						when prox_status = 379 then 'registrado'
+						when prox_status = 385 then 'nf_emitida'
+						when prox_status = 390 then 'carregada'
+						when prox_status = 400 then 'chegou_TO' else '' end as desc_status,
 
-					from importacoes_pedidos imp 
-					left join itens on itens.id = cod_item
+						case  when codtipoitem = 006 then 'PECA' 
+						when (left(imp.secundario,3) = 'FR ' or left(imp.secundario,6) = 'PONTE ') then 'FRENTE' 
+						when left(imp.secundario,2) IN ('LE','LD','HE','HD','PL','SC','BL') then 'ACESSORIOS'
+						else 'OUTROS' end as tipoitem, qtde_sol qtde
 
-					where dt_pedido >= '20220101' and ref_go not in ('LA200501','QGKI17-7B') 
-					and ult_status not in (980) 
-					and prox_status not in (999) 
-					and ((imp.tipo = 'op' and gl_clas  in ('AG01','rv01','pa01','mp01' )) or imp.tipo = 'oi')
+						from importacoes_pedidos imp 
+						left join itens on itens.id = cod_item
 
-				  -- and concat(ult_status,prox_status) not in ('999400')
-				  -- and left (gl_clas,2) not in ('CC','CF','DP','EE','ME','MM','OC','PR','UC','SW','VD')
+						where dt_pedido >= '20220101' and ref_go not in ('LA200501','QGKI17-7B') 
+						and ult_status not in (980) 
+						and prox_status not in (999) 
+						and ((imp.tipo = 'op' and gl_clas  in ('AG01','rv01','pa01','mp01' )) or imp.tipo = 'oi')
 
-				) as base 
+					  -- and concat(ult_status,prox_status) not in ('999400')
+					  -- and left (gl_clas,2) not in ('CC','CF','DP','EE','ME','MM','OC','PR','UC','SW','VD')
 
-				left join (select * from itens_estrutura   ) as estrutura
-				on estrutura.id_filho = cod_item
+					) as base 
 
-			) as final
+					left join (select * from itens_estrutura   ) as estrutura
+					on estrutura.id_filho = cod_item
 
-				left join (select itens.id, secundario codsec, agrup, codgrife, colmod, desc_fornecedor fornecedor, left(linha,3) linha from itens left join fornecedores forn on forn.codfornecedor = itens.codfornecedor ) item
-				on item.id = final.id_pai
+				) as final
 
-			group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status, secundario, cod_item, codtipoitem, tipoitem, id_pai,
-			item_pai, tipo_pai, agrupador, codgrife, colmod, fornecedor, linha
+					left join (select itens.id, secundario codsec, agrup, codgrife, colmod, desc_fornecedor fornecedor, left(linha,3) linha from itens left join fornecedores forn on forn.codfornecedor = itens.codfornecedor ) item
+					on item.id = final.id_pai
 
-		) as final1
-		) as final2
-		group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status
-	 ) as base1
+				group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status, secundario, cod_item, codtipoitem, tipoitem, id_pai,
+				item_pai, tipo_pai, agrupador, codgrife, colmod, fornecedor, linha
 
-
-	 left join (select * from compras_infos ) as infos
-	 on infos.id_pedido = base1.pedido  and infos.tipo_pedido = base1.tipo
-	) as base2
-
-	left join (select moeda, taxa1 from compras_registros  order by created_at desc limit 1 ) as moeda
-	on moeda.moeda = base2.moeda_nac
+			) as final1
+			) as final2
+			group by pedido, tipo, ref_go, ref_despachante, ref_nac_01, ult_prox, desc_status
+		 ) as base1
 
 
-		left join ( 
+		 left join (select * from compras_infos ) as infos
+		 on infos.id_pedido = base1.pedido  and infos.tipo_pedido = base1.tipo
+		) as base2
 
-			select *, case when valor_pago is null then 'aberto' when valor_pago < valor_titulo then 'parcial' else 'pago' end as status_pgto
-			from (
-				select id_pedido id_ped, origem, ct.tipo tipo_tit, max(ct.valor) valor_titulo, sum(cp.valor) valor_parcelas, sum(cg.valor_pago) valor_pago
-				from compras_titulos ct
-					left join compras_parcelas cp on cp.id_titulo = ct.numero
-					left join compras_pagamentos cg on cg.id_parcela = cp.id
-					where ct.tipo = 'EMBARQUE'
-				group by id_pedido, origem, ct.tipo
-                ) as fim
-			) as ct
-            
-	on ct.id_ped = base2.pedido and ct.origem = base2.tipo
-) as final
+		left join (select moeda, taxa1 from compras_registros  order by created_at desc limit 1 ) as moeda
+		on moeda.moeda = base2.moeda_nac
 
 
-union all
+			left join ( 
+
+				select *, case when valor_pago is null then 'aberto' when valor_pago < valor_titulo then 'parcial' else 'pago' end as status_pgto
+				from (
+					select id_pedido id_ped, origem, ct.tipo tipo_tit, max(ct.valor) valor_titulo, sum(cp.valor) valor_parcelas, sum(cg.valor_pago) valor_pago
+					from compras_titulos ct
+						left join compras_parcelas cp on cp.id_titulo = ct.numero
+						left join compras_pagamentos cg on cg.id_parcela = cp.id
+						where ct.tipo = 'EMBARQUE'
+					group by id_pedido, origem, ct.tipo
+					) as fim
+				) as ct
+				
+		on ct.id_ped = base2.pedido and ct.origem = base2.tipo
+	) as final
 
 
-select id_pedido pedido, tipo_pedido tipo,	num_temp ref_go, '1' ref, ''ult_prox,'' desc_status,	'' fornecedor,	'' tipoitem,''	codgrife,''	linha,	'' colmod,	
-0 qtde,	0 atende, 0 	itens_trans, 0 id,	0 id_pedido,''	tipo_pedido, ''	tipo_agrup,	'' doc_agrup,null 	dt_chegada,	null dt_emb_int,	null dt_perdimento,	
-null dt_registro,	null dt_aut_embarque,	null dt_remocao,	null dt_emb_nac,	null dt_recebimento,	null created_at,	null dt_prev_embnac,
-null 	dt_prev_chegada,	
-null dt_invoice,	null tipo_carga,null 	cubagem_m3,	null volumes,	null peso_bruto,	null obs_invoice,	null dt_sol_li,	null dt_def_li,	
-null ref_processo,	null an8_agente_int,	
-null protocolo_di,	null moeda_nac,	null taxa_nac,	null icms_nac,	null impostos_nac,	null base_imposto,	null base_icms,	null taxas_op,	null num_awb,	
-null obs_chegada,	null obs_transito,	null an8_agente_nac,	null num_invoice_tr,	null dt_invoice_td,	null num_nf_tr,	null dt_nf_tr,	null ref_comex,	
-null valor_total_tr,	null desc_dupl_1,	null valor_dupl_1,null 	venc_dupl_1,null 	desc_dupl_2,null 	valor_dupl_2,	null venc_dupl_2,	
-null desc_dupl_3,	null valor_dupl_3,	null venc_dupl_3,	null taxa_cambio_fat,	null taxa_cambio_lc,	null nf_complementar,	null valor_nfc,	null venc_nfc,	
-null data_pgto_nfc,	null vlr_requisicao,	null peso_liquido,null 	acao,	id id_info,	null moeda,	null taxa1,	
-null id_ped,	null origem,	null tipo_tit, 0 valor_titulo,	0 valor_parcelas,	0 valor_pago,	null status_pgto,	0 prev_imposto,	
-0 prev_icms,	0 prev_total,	null coloremb, null 	clasmoney,null 	embarque
--- select * 
-from compras_infos 
-where tipo_pedido = 'new'
-																							   
+	union all
+
+
+	select id_pedido pedido, tipo_pedido tipo,	num_temp ref_go, '1' ref, ''ult_prox,'' desc_status,	'' fornecedor,	'' tipoitem,''	codgrife,''	linha,	'' colmod,	
+	0 qtde,	0 atende, 0 	itens_trans, 0 id,	0 id_pedido,''	tipo_pedido, ''	tipo_agrup,	'' doc_agrup,null 	dt_chegada,	null dt_emb_int,	null dt_perdimento,	
+	null dt_registro,	null dt_aut_embarque,	null dt_remocao,	null dt_emb_nac,	null dt_recebimento,	null created_at,	null dt_prev_embnac,
+	null 	dt_prev_chegada,	
+	null dt_invoice,	null tipo_carga,null 	cubagem_m3,	null volumes,	null peso_bruto,	null obs_invoice,	null dt_sol_li,	null dt_def_li,	
+	null ref_processo,	null an8_agente_int,	
+	null protocolo_di,	null moeda_nac,	null taxa_nac,	null icms_nac,	null impostos_nac,	null base_imposto,	null base_icms,	null taxas_op,	null num_awb,	
+	null obs_chegada,	null obs_transito,	null an8_agente_nac,	null num_invoice_tr,	null dt_invoice_td,	null num_nf_tr,	null dt_nf_tr,	null ref_comex,	
+	null valor_total_tr,	null desc_dupl_1,	null valor_dupl_1,null 	venc_dupl_1,null 	desc_dupl_2,null 	valor_dupl_2,	null venc_dupl_2,	
+	null desc_dupl_3,	null valor_dupl_3,	null venc_dupl_3,	null taxa_cambio_fat,	null taxa_cambio_lc,	null nf_complementar,	null valor_nfc,	null venc_nfc,	
+	null data_pgto_nfc,	null vlr_requisicao,	null peso_liquido,null 	acao,	id id_info,	null moeda,	null taxa1,	
+	null id_ped,	null origem,	null tipo_tit, 0 valor_titulo,	0 valor_parcelas,	0 valor_pago,	null status_pgto,	0 prev_imposto,	
+	0 prev_icms,	0 prev_total,	null coloremb, null 	clasmoney, null 	embarque,
+    
+		(select (pedido) from importacoes_pedidos imp where imp.ref_go = ci.num_temp limit 1) vinculo
+        
+	from compras_infos ci
+	where tipo_pedido = 'new'
+) as basefim
+
+																						   
 ");
 
 				
 
 $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order by created_at desc limit 1");
-$query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where 1 < 1 order by created_at desc limit 1");
 
 
 @endphp
@@ -647,7 +653,7 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 							<td colspan="1" align="center">Prev impostos</td>
 							<td colspan="1" align="center">Prev icms</td>
 							<td colspan="1" align="center">Prev Total</td>
-								<td colspan="1" align="center">Obs</td>
+							<td colspan="1" align="center">Obs</td>
 							</tr>
 						</thead>
 
@@ -669,28 +675,19 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 						 	<td> <input type="text" id="novo_pedido" name="novo_pedido" size="8" value='' ></td> 
 									
 							<td align="left">
-								
-								
-							<select class="form-control" name="novo_tipo" >	
-							  <option value="{{$query2->tipo}}">{{$query2->tipo}}</option> 
-							  <option value="OI">OI</option>
-							  <option value="OP">OP</option>
-						      </select>
-									
+								<select class="form-control-sm" name="novo_tipo" >	
+								  <option value="{{$query2->tipo}}">{{$query2->tipo}}</option> 
+								  <option value="OI">OI</option>
+								  <option value="OP">OP</option>
+								  </select>								
 							</td>
-							
-								
-							
-								
-									<td><button type="submit"><i class="fa fa-refresh"></i></button>	</td> 
+							<td><button type="submit"><i class="fa fa-refresh"></i></button>	</td> 
 								
 								
 							<td align="left"><a href="/import_form/?tipo={{$query3->tipo}}&pedido={{$query3->pedido}}" target="_blank">{{$query3->pedido}}</a></td>
-
-
 							<td align="left">{{$query3->ref_go}}</td>
 							<td align="center">{{$query3->ref}}</td>
-							<td align="center">{{$query3->doc_agrup}}</td>
+							<td align="center">{{$query3->vinculo}}</td>
 							<td align="left">{{$query3->fornecedor}}</td>
 							<td align="center">{{$query3->tipoitem}}</td>
 							<td align="center">{{$query3->codgrife}}</td>
