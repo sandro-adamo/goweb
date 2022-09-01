@@ -425,32 +425,6 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 	
 	
 	
-	public function atualizaRegistroImport(Request $request) {
-		
-	$id = $request->id_info;
-	$id_usuario = \Auth::id();
-
-	$registro = new \App\CompraRegistro();
-	
-		$registro->id_pedido =  $request->id_pedido;
-		$registro->moeda =  $request->moeda;
-
-		$registro->taxa1 =  $request->taxa1;
-		$registro->taxa2 =  $request->taxa2;
-		$registro->taxa3 =  $request->taxa3;
-		
-		$registro->save();	
-		
-		return redirect()->back();
-		}	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	public function gravaRegistroImport(Request $request) {
 		
@@ -470,6 +444,33 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 		
 		return redirect()->back();
 		}	
+	
+
+	
+	public function atualizaRegistroImport(Request $request) {
+	$id_usuario = \Auth::id();
+	$id = $request->id_info;
+		
+	// dd($request->novo_pedido);
+
+	$atualiza = \App\CompraAtualiza::find($id);
+	
+		$atualiza->tipo_pedido =  $request->novo_tipo;
+		$atualiza->id_pedido =  $request->novo_pedido;
+
+		
+		
+		$atualiza->save();	
+		
+		return redirect()->back();
+		}	
+	
+	
+	
+	
+	
+	
+	
 	
 
 

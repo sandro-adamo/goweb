@@ -155,7 +155,7 @@ null protocolo_di,	null moeda_nac,	null taxa_nac,	null icms_nac,	null impostos_n
 null obs_chegada,	null obs_transito,	null an8_agente_nac,	null num_invoice_tr,	null dt_invoice_td,	null num_nf_tr,	null dt_nf_tr,	null ref_comex,	
 null valor_total_tr,	null desc_dupl_1,	null valor_dupl_1,null 	venc_dupl_1,null 	desc_dupl_2,null 	valor_dupl_2,	null venc_dupl_2,	
 null desc_dupl_3,	null valor_dupl_3,	null venc_dupl_3,	null taxa_cambio_fat,	null taxa_cambio_lc,	null nf_complementar,	null valor_nfc,	null venc_nfc,	
-null data_pgto_nfc,	null vlr_requisicao,	null peso_liquido,null 	acao,	null id_info,	null moeda,	null taxa1,	
+null data_pgto_nfc,	null vlr_requisicao,	null peso_liquido,null 	acao,	id id_info,	null moeda,	null taxa1,	
 null id_ped,	null origem,	null tipo_tit, 0 valor_titulo,	0 valor_parcelas,	0 valor_pago,	null status_pgto,	0 prev_imposto,	
 0 prev_icms,	0 prev_total,	null coloremb, null 	clasmoney,null 	embarque
 -- select * 
@@ -661,16 +661,17 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 							<tr>
 								
 							<form action="/import_form/atualizareg" method="post" class="form-horizontal"> @csrf
-							<input type="hidden" id="id_info" name="id_info" size="50" value={{$query2->id_info}}>		
-							<input type="hidden" id="acao" name="acao" size="50" value="update" >
-							<input type="hidden" id="pedido" name="pedido" size="50" value={{$query2->pedido}} >
-							<input type="hidden" id="tipo" name="tipo" size="50" value={{$query2->tipo}} >
-						 	<td> <input type="text" id="doc_agrup" name="doc_agrup" size="8" value='{{$query2->doc_agrup}}' ></td> 
+								<input type="hidden" id="id_info" name="id_info" size="50" value={{$query3->id_info}}>		
+								<input type="hidden" id="acao" name="acao" size="50" value="update" >
+								<input type="hidden" id="pedido" name="pedido" size="50" value={{$query3->pedido}} >
+								
+								<input type="hidden" id="tipo" name="tipo" size="50" value={{$query3->tipo}} >
+						 	<td> <input type="text" id="novo_pedido" name="novo_pedido" size="8" value='' ></td> 
 									
 							<td align="left">
 								
 								
-							<select class="form-control" name="tipo_agrup" >	
+							<select class="form-control" name="novo_tipo" >	
 							  <option value="{{$query2->tipo}}">{{$query2->tipo}}</option> 
 							  <option value="OI">OI</option>
 							  <option value="OP">OP</option>
@@ -705,13 +706,11 @@ $query_r2 = \DB::select("select taxa1, taxa2, taxa3 from compras_registros where
 
 							</tr>
 
-							@php ;} else  { @endphp
-
-							@php  ;} @endphp
-
+							@php ;} else  { @endphp @php  ;} @endphp
+							</form>
 							@endforeach 
 
-						</form>
+						
 
 						</table>
 						</h6>
