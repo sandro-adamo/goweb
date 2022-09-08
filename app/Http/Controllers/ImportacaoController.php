@@ -339,7 +339,26 @@ from(
 		$compra = new \App\CompraInfo();
 		
 	}
+		
+		
+			$verifica = \DB::select("
+			 select sum(linhas) linhas from (    
+			 select count(num_temp) as linhas from compras_infos where num_temp = '$request->num_temp'     
+			 union all 
+			 select count(distinct pedido) linhas 
+			 from importacoes_pedidos ip left join compras_infos ci on ci.id_pedido = ip.pedido  and ci.tipo_pedido = ip.tipo where ref_go = '$request->num_temp'
+ 			) as final			
+			");
+	
+		
+		
+				if ($verifica[0]->linhas > 0) { 
+					dd($verifica[0]->linhas);
+						return redirect()->back();
+				} else {
 
+		
+		
 if ($request->dt_invoice <> '') { $compra->dt_invoice = $request->dt_invoice;} else {$compra->dt_invoice = null;}
 if ($request->dt_sol_li <> '') 	{ $compra->dt_sol_li = $request->dt_sol_li;} else {$compra->dt_sol_li = null;}
 if ($request->dt_def_li <> '') 	{ $compra->dt_def_li = $request->dt_def_li;} else {$compra->dt_def_li = null;}
@@ -414,18 +433,22 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 		
 			
 		if ($request->impostos_nac > 0) { $compra->base_imposto =  $request->impostos_nac/$request->taxa_nac; }
-		if ($request->icms_nac > 0 ) {	$compra->base_icms =  $request->icms_nac/$request->taxa_nac; }
-			
-		
+		if ($request->icms_nac > 0 ) {	$compra->base_icms =  $request->icms_nac/$request->taxa_nac; }		
 		
 		$compra->save();
-
+			}
+		
 		return redirect()->back();
 		}
 	
 	
 	
 	
+	
+	
+	
+	
+	//adicona simulacao de registro //
 	public function gravaRegistroImport(Request $request) {
 		
 	$id = $request->id_info;
@@ -447,16 +470,17 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 	
 
 	
+	// funcao para vincular detalhe temporario ao pedido jde // 
 	public function atualizaRegistroImport(Request $request) {
 	$id_usuario = \Auth::id();
-	$id = $request->id_info;
-		
-	// dd($request->novo_pedido);
+	$id = $request->id_temp;
+	$request->acao_capa;
 
+		
 	$atualiza = \App\CompraAtualiza::find($id);
-	
-		$atualiza->tipo_pedido =  $request->novo_tipo;
-		$atualiza->id_pedido =  $request->novo_pedido;
+		
+		$atualiza->id_pedido =  $request->pedido;
+		$atualiza->tipo_pedido =  $request->tipo_pedido;
 		
 		$atualiza->save();	
 		
