@@ -352,7 +352,7 @@ from(
 	
 		
 		
-				if ($verifica[0]->linhas > 0) { 
+				if ($verifica[0]->linhas > 1111110) { 
 					dd($verifica[0]->linhas);
 						return redirect()->back();
 				} else {
