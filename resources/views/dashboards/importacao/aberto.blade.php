@@ -163,6 +163,7 @@ select * from (
 		<td colspan="1" align="center">Pedido</td>
 		<td>tipo</td>
 		<td>conex</td>
+			<td>b</td>
 		<td colspan="1" align="center">id_jde</td>						
 		<td colspan="1" align="center">id_temp</td>	
 		<td colspan="1" align="center">id_pedido_temp</td>		
