@@ -109,14 +109,9 @@
             <th align="center">Foto</th>
             <th align="center">Item</th>
             <th align="center">Qtd</th>
-			  <th align="center">Pedido consumido</th>
-			   <th align="center">Custo</th>
-           
-            
-            
-
-
-
+			<th align="center">Pedido consumido</th>
+			<th align="center">Custo</th>
+			<th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -132,9 +127,11 @@
             <td align="center">{{$itens->qtd}}</td>
 			  <td align="center">{{$itens->idcompra}}</td>
 			  <td align="center">{{$itens->custo}}</td>
-           
-            
-
+			<td>
+				<button class="btn btn-sm btn-success"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar</button>
+				<button class="btn btn-sm btn-danger"><i class="fa fa-thumbs-down"></i> &nbsp; Reprovar</button>
+				<button class="btn btn-sm btn-warning"><i class="fa fa-comments"></i> &nbsp; Comentar</button>
+			</td>
           </tr>  
             @endforeach
         </tbody>
