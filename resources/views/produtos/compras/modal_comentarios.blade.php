@@ -1,5 +1,7 @@
 <form method="post" action="{{route('portfolio.comments', ['id' => $item->id])}}" id="form-update-{{$item->id}}">
     <div class="modal fade" id="addCommentsModal-{{$item->id}}" tabindex="-1" aria-labelledby="addCommentsModalLabel"
+        data-portfolio-id="{{$item->id}}"
+        data-last-comment="{{$item->comentarios->sortByDesc('id')->first()->id ?? null}}"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

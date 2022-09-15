@@ -34,4 +34,20 @@ class PortfolioController extends Controller
 
     }
 
+    public function markCommentsAsRead($idCompraInvoice, $idLastSeenComment){
+
+        $portfolioItem = PortfolioItem::where('id_compra_invoice', $idCompraInvoice)->first();
+
+        $comments = Comentario::where('id_fornecedor_portfolio_item', $portfolioItem->id)
+        ->whereNull('visto_em')
+        ->where('id', '<=', $idLastSeenComment)->where('id_usuario', '!=', auth()->user()->id)->get();
+
+        foreach($comments as $comment)
+            $comment->update([
+                'visto_em' => now(),
+            ]);
+
+        return response()->json([], 200);
+    }
+
 }

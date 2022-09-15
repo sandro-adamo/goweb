@@ -933,3 +933,5 @@ Route::get('/inventario/dashboard', function() {
 	Route::post('/exemplo/cadastrar', 'ExemploController@store')->name('exemplo.store');
 
 	Route::post('/row/{id}/comments', 'PortfolioController@updateComments')->name('portfolio.comments');
+
+	Route::get('/row/{id}/comments/{lastSeen}/read', [App\Http\Controllers\PortfolioController::class, 'markCommentsAsRead'])->name('portfolio.comments.read');

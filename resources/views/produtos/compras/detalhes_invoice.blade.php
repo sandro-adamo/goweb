@@ -235,8 +235,12 @@
 
   document.addEventListener('DOMContentLoaded', function(){
     $(document).on('show.bs.modal', '.modal', function(e){
-      if(e.relatedTarget.querySelector('.badge'))
-        e.relatedTarget.querySelector('.badge').remove()
+      if(e.relatedTarget.querySelector('.badge')){
+          fetch('/row/'+e.target.getAttribute('data-portfolio-id')+'/comments/'+e.target.getAttribute('data-last-comment')+'/read')
+          .then(() => {
+              e.relatedTarget.querySelector('.badge').remove()
+          })
+      }
     })
   })
 
