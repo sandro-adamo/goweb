@@ -123,21 +123,25 @@
                 
               </td>
             
-            <td align="center" @isset(json_decode($itens->portfolioItem->erros)->item) class="field-error" @endisset>{{$itens->item}}</td>
-            <td align="center" @isset(json_decode($itens->portfolioItem->erros)->quantity) class="field-error" @endisset>{{$itens->qtd}}</td>
+            <td align="center" @isset(json_decode($itens->portfolioItem->erros ?? null)->item) class="field-error" @endisset>{{$itens->item}}</td>
+            <td align="center" @isset(json_decode($itens->portfolioItem->erros ?? null)->quantity) class="field-error" @endisset>{{$itens->qtd}}</td>
 			  <td align="center">{{$itens->idcompra}}</td>
-			  <td align="center" @isset(json_decode($itens->portfolioItem->erros)->price) class="field-error" @endisset>{{$itens->custo}}</td>
+			  <td align="center" @isset(json_decode($itens->portfolioItem->erros ?? null)->price) class="field-error" @endisset>{{$itens->custo}}</td>
 			<td>
-				<button class="btn btn-sm btn-success"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar</button>
-				<button class="btn btn-sm btn-warning" data-toggle="modal"
-				data-target="#addCommentsModal-{{$itens->id}}" data-row="{{$itens->id}}">
-          <i class="fa fa-comments"></i> &nbsp; Comentar
-          @if($itens->comentarios->where('id_usuario', '!=', auth()->user()->id)->where('visto_em', null)->first() != null)
-              <span class="badge bg-danger rounded-circle">
-                  {{ $itens->comentarios->where('id_usuario', '!=', auth()->user()->id)->where('visto_em', null)->count() }}
-              </span>
-          @endif
-        </button>
+        @isset($itens->portfolioItem)
+          <button class="btn btn-sm btn-success"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar</button>
+          <button class="btn btn-sm btn-warning" data-toggle="modal"
+          data-target="#addCommentsModal-{{$itens->id}}" data-row="{{$itens->id}}">
+            <i class="fa fa-comments"></i> &nbsp; Comentar
+            @isset($itens->comentarios)
+              @if($itens->comentarios->where('id_usuario', '!=', auth()->user()->id)->where('visto_em', null)->first() != null)
+                  <span class="badge bg-danger rounded-circle">
+                      {{ $itens->comentarios->where('id_usuario', '!=', auth()->user()->id)->where('visto_em', null)->count() }}
+                  </span>
+              @endif
+            @endisset
+          </button>
+        @endisset
 			</td>
           </tr>  
             @endforeach
