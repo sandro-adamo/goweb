@@ -153,7 +153,7 @@
       </table>
       @foreach($invoice as $item)
         @if($item->portfolioItem->aprovado_em != null)
-          <a href="/embarques/{{$item->portfolioItem->importacao}}/download" class="btn btn-primary pull-right"><i class="fa fa-download"></i> &nbsp; Download planilha embarques</a>
+          <a href="/embarques/{{$item->portfolioItem->importacao}}/download" class="btn btn-primary pull-right" style="margin-left: 5px;"><i class="fa fa-download"></i> &nbsp; Download planilha embarques</a>
           @break
         @endif
       @endforeach
