@@ -131,6 +131,8 @@
         @isset($itens->portfolioItem)
           @if(!isset($itens->portfolioItem->aprovado_em))
             <a href="/row/{{$itens->id}}/aprovar" class="btn btn-sm btn-success"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar</a>
+          @else
+            <a href="/row/{{$itens->id}}/desaprovar" class="btn btn-sm btn-danger"><i class="fa fa-thumbs-down"></i> &nbsp; Desaprovar</a>
           @endif
           <button class="btn btn-sm btn-warning" data-toggle="modal"
           data-target="#addCommentsModal-{{$itens->id}}" data-row="{{$itens->id}}">

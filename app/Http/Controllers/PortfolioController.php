@@ -81,7 +81,13 @@ class PortfolioController extends Controller
 
     public function desaprovar($idCompraInvoice){
 
+        $portfolioItem = PortfolioItem::where('id_compra_invoice', $idCompraInvoice)->first();
 
+        $portfolioItem->update([
+            'aprovado_em' => null,
+        ]);
+
+        return redirect()->back();
 
     }
 
