@@ -123,10 +123,10 @@
                 
               </td>
             
-            <td align="center">{{$itens->item}}</td>
-            <td align="center">{{$itens->qtd}}</td>
+            <td align="center" @isset(json_decode($itens->portfolioItem->erros)->item) class="field-error" @endisset>{{$itens->item}}</td>
+            <td align="center" @isset(json_decode($itens->portfolioItem->erros)->quantity) class="field-error" @endisset>{{$itens->qtd}}</td>
 			  <td align="center">{{$itens->idcompra}}</td>
-			  <td align="center">{{$itens->custo}}</td>
+			  <td align="center" @isset(json_decode($itens->portfolioItem->erros)->price) class="field-error" @endisset>{{$itens->custo}}</td>
 			<td>
 				<button class="btn btn-sm btn-success"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar</button>
 				<button class="btn btn-sm btn-warning" data-toggle="modal"
@@ -221,6 +221,10 @@
     .alert-danger {
         padding-left: 30px !important;
     }
+    .field-error {
+      background-color: red;
+      color: white;
+    }
 </style>
 
 <script>
@@ -231,7 +235,7 @@
         e.relatedTarget.querySelector('.badge').remove()
     })
   })
-  
+
 </script>
 
 @stop

@@ -737,6 +737,8 @@ from(select *,
 
           $portfolioItem = PortfolioItem::with('comentarios')->with('comentarios.usuario')->where('id_compra_invoice', $item->id)->first();
 
+          $item->portfolioItem = $portfolioItem;
+
           $item->comentarios = $portfolioItem->comentarios;
 
         }
