@@ -130,7 +130,14 @@
 			<td>
 				<button class="btn btn-sm btn-success"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar</button>
 				<button class="btn btn-sm btn-warning" data-toggle="modal"
-				data-target="#addCommentsModal-{{$itens->id}}" data-row="{{$itens->id}}"><i class="fa fa-comments"></i> &nbsp; Comentar</button>
+				data-target="#addCommentsModal-{{$itens->id}}" data-row="{{$itens->id}}">
+          <i class="fa fa-comments"></i> &nbsp; Comentar
+          @if($itens->comentarios->where('id_usuario', '!=', auth()->user()->id)->where('visto_em', null)->first() != null)
+              <span class="badge bg-danger rounded-circle">
+                  {{ $itens->comentarios->where('id_usuario', '!=', auth()->user()->id)->where('visto_em', null)->count() }}
+              </span>
+          @endif
+        </button>
 			</td>
           </tr>  
             @endforeach
@@ -215,5 +222,16 @@
         padding-left: 30px !important;
     }
 </style>
+
+<script>
+
+  document.addEventListener('DOMContentLoaded', function(){
+    $(document).on('show.bs.modal', '.modal', function(e){
+      if(e.relatedTarget.querySelector('.badge'))
+        e.relatedTarget.querySelector('.badge').remove()
+    })
+  })
+  
+</script>
 
 @stop
