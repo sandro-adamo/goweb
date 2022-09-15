@@ -59,7 +59,25 @@ class PortfolioController extends Controller
         ]);
 
         return redirect()->back();
-        
+
+    }
+
+    public function aprovarTodosItens($invoice){
+
+        $portfolioItens = PortfolioItem::where('importacao', $invoice)->get();
+
+        foreach($portfolioItens as $item){
+            $item->update([
+                'aprovado_em' => now(),
+            ]);
+        }
+
+    }
+
+    public function desaprovar($idCompraInvoice){
+
+
+
     }
 
 }
