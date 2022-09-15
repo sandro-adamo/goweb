@@ -151,7 +151,9 @@
 </div>
 
 @foreach ($invoice as $itens)
-	@include('produtos.compras.modal_comentarios', ['item' => $itens])
+  @isset($itens->comentarios)
+	  @include('produtos.compras.modal_comentarios', ['item' => $itens])
+  @endisset
 @endforeach
 
 <form action="/xpto/importa" id="frmImporta" method="post" enctype="multipart/form-data">
