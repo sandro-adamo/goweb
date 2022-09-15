@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Comentario;
+use App\Exports\EmbarquesExport;
 use App\Portfolio;
 use App\PortfolioItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class PortfolioController extends Controller
 {
@@ -79,6 +82,39 @@ class PortfolioController extends Controller
     public function desaprovar($idCompraInvoice){
 
 
+
+    }
+
+    public function embarquesDownload($invoice){
+
+        $portfolioItens = PortfolioItem::where('importacao', $invoice)
+        ->whereNotNull('aprovado_em')
+        ->get();
+
+        $linhas = [];
+
+        $linhas[] = [
+            'Referência',
+            'Quantidade',
+            'Valor Unitário',
+            'Qtde. Embarque 1',
+            'Qtde. Embarque 2',
+            'Qtde. Embarque 3',
+            'Qtde. Embarque 4',
+            'Qtde. Embarque 5',
+        ];
+
+        foreach($portfolioItens as $item){
+
+            $linhas[] = [
+                $item->secundario,
+                $item->qtde,
+                $item->valor,
+            ];
+
+        }
+
+        return Excel::download(new EmbarquesExport($linhas), 'invoices.xlsx');
 
     }
 

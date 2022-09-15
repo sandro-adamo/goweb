@@ -2,15 +2,22 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromArray;
 
-class EmbarquesExport implements FromCollection
+class EmbarquesExport implements FromArray
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
-    {
-        //
+
+    public $linhas;
+
+    public function __construct(array $linhas){
+
+        $this->linhas = $linhas;
+
     }
+
+    public function array(): array
+    {
+        return $this->linhas;
+    }
+
 }
