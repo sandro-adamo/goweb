@@ -12,8 +12,6 @@ class UsuarioController extends Controller
     
 	public function listaUsuarios(Request $request) {
 
-		dd('Em manutenção - Favor acionar a TI.');
-
 		if ($request->pesquisa) {
 
 			$usuarios = Usuario::where('email', 'LIKE', '%'.$request->pesquisa.'%')->orWhere('id_addressbook', $request->pesquisa)->orWhere('nome', 'like', '%'.$request->pesquisa.'%')->orderBy('nome')->paginate(10);
@@ -32,8 +30,6 @@ class UsuarioController extends Controller
 	}
 
 	public function novoUsuario() {
-
-		dd('Em manutenção - Favor acionar a TI.');
 
 		$usuario = new Usuario();
 
@@ -54,8 +50,6 @@ class UsuarioController extends Controller
 	}
 
 	public function gravaUsuario(Request $request) {
-
-		dd('Em manutenção - Favor acionar a TI.');
 
 		$client = \App\JDE::connectAddressBOOK();
 

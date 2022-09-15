@@ -14,7 +14,9 @@ $query_teste = \DB::select("
 select * from (
 	select pedido, tipo, invoice,  acao_capa, vinculo_infos, ped_jde, tipo_jde, desc_status,
 	group_concat(distinct tipoitem) tipoitem, group_concat(distinct fornecedor) fornecedor, group_concat(distinct agrup) agrup, 
-	group_concat(distinct colmod) colmod, sum(orcamentos) orcamentos, sum(itens_trans) itens_trans, sum(itens_prod) itens_prod, sum(mostruarios) mostruarios
+	group_concat(distinct colmod) colmod, sum(orcamentos) orcamentos, sum(itens_trans) itens_trans, sum(itens_prod) itens_prod, sum(mostruarios) mostruarios,
+	sum(qtde) qtde
+
 	from (
         select * from (
             select distinct pedido, tipo, ref_go invoice, 
@@ -38,7 +40,8 @@ select * from (
 				when prox_status = 379 then concat(ult_status, ' / ',prox_status ,' - registrado')
 				when prox_status = 385 then concat(ult_status, ' / ',prox_status ,' - nf_emitida')
 				when prox_status = 390 then concat(ult_status, ' / ',prox_status ,' - carregada')
-				when prox_status = 400 then concat(ult_status, ' / ',prox_status ,' - chegou_TO') else '' end as desc_status
+				when prox_status = 400 then concat(ult_status, ' / ',prox_status ,' - chegou_TO') else '' end as desc_status,
+			qtde_sol qtde
             
 			from importacoes_pedidos imp
 				left join compras_infos infosjde on infosjde.id_pedido = imp.pedido  and infosjde.tipo_pedido = imp.tipo
@@ -51,7 +54,9 @@ select * from (
 			and ((imp.tipo = 'op' and gl_clas  in ('AG01','rv01','pa01','mp01' )) or imp.tipo = 'oi')
 		) as fim1	
     
-			left join (select id_item, fornecedor, left(agrup,5) agrup, colmod, orcamento_liber+orcamento_bloq orcamentos,itens_trans, itens_prod, 
+			left join (select id_item, fornecedor, left(agrup,5) agrup, 
+			case when left(colmod,4) = year(now()) then colmod else left(colmod,4) end as colmod, 
+			orcamento_liber+orcamento_bloq orcamentos,itens_trans, itens_prod, 
 			mostruarios
             from go_storage.sintetico_estoque ) sint
             on sint.id_item = fim1.coditem
@@ -64,7 +69,7 @@ select * from (
             case when imp.ref_go is not null then 'pedido' else 'aguardar' end as acao_capa, 
             ci.id vinculo_infos,
             imp.pedido ped_jde, imp.tipo tipo_jde, '' desc_status, '' tipoitem, '' fornecedor, '' agrup, '' colmod, 0 orcamentos, 0 itens_trans,
-            0 itens_prod, 0 mostruarios
+            0 itens_prod, 0 mostruarios, 0 as qtde
             
             from compras_infos ci
             left join importacoes_pedidos imp on ci.num_temp = imp.ref_go	
@@ -156,15 +161,18 @@ select * from (
 		<tr>
 
 		<td colspan="1" align="center">Pedido</td>
-		<td></td>
+		<td>tipo</td>
+		<td>conex</td>
+			<td>b</td>
 		<td colspan="1" align="center">id_jde</td>						
 		<td colspan="1" align="center">id_temp</td>	
 		<td colspan="1" align="center">id_pedido_temp</td>		
 		<td colspan="1" align="center">acao</td>
 		<td colspan="1" align="center">invoice</td>
+		<td>Qtde_Invoice</td>
 		<td colspan="1" align="center">ped_jde</td>
 		<td colspan="1" align="center">tipo_jde</td>
-			<td></td><td></td><td></td><td></td>
+		<td colspan="1" align="center">colecao</td><td></td><td></td><td></td><td></td>
 		</tr>
 	</thead>
 
@@ -182,6 +190,9 @@ select * from (
 
 
 		<td align="left">{{$queryt->tipo.' '.$queryt->pedido}}</td>
+		<td align="left">{{$queryt->tipo_agrup}}</td>
+		<td align="left">{{$queryt->doc_agrup}}</td>	
+
 
 			
 		@php if($queryt->acao_capa=='ERRO'){ @endphp		
@@ -220,18 +231,21 @@ select * from (
 		@endphp
 				
 		
-
 		<td align="left">{{$queryt->pedido}}</td>
+	
+				
 		<td align="left">{{$queryt->tipo}}</td>
 		<td align="left">{{$queryt->id_pedido}}</td>
 		<td align="center">{{$queryt->acao_capa}}</td>
 		<td align="center">{{$queryt->invoice}}</td>
+				<td align="center">{{number_format($queryt->qtde,0,',','.')}}</td>
 		<td align="center">{{$queryt->fornecedor}}</td>
 		<td align="center">{{$queryt->agrup}}</td>
 		<td align="center">{{$queryt->colmod}}</td>
 		<td align="center">{{$queryt->itens_trans}}</td>
 		<td align="center">{{$queryt->itens_prod}}</td>
-				<td align="center">{{$queryt->desc_status}}</td>
+		<td align="center">{{$queryt->desc_status}}</td>
+
 		</tr></form>
 		@endforeach 
 	</table>
