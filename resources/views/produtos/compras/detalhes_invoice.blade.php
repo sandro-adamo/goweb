@@ -111,7 +111,7 @@
             <th align="center">Qtd</th>
 			<th align="center">Pedido consumido</th>
 			<th align="center">Custo</th>
-			<th>Ações</th>
+			<th align="center" class="text-center">Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -127,7 +127,7 @@
             <td align="center" @isset(json_decode($itens->portfolioItem->erros ?? null)->quantity) class="field-error" @endisset>{{$itens->qtd}}</td>
 			  <td align="center">{{$itens->idcompra}}</td>
 			  <td align="center" @isset(json_decode($itens->portfolioItem->erros ?? null)->price) class="field-error" @endisset>{{$itens->custo}}</td>
-			<td>
+			<td align="center">
         @isset($itens->portfolioItem)
           @if(!isset($itens->portfolioItem->aprovado_em))
             <a href="/row/{{$itens->id}}/aprovar" class="btn btn-sm btn-success"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar</a>
