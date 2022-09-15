@@ -159,7 +159,7 @@
       @endforeach
       @foreach($invoice as $item)
         @if($item->portfolioItem->aprovado_em == null)
-          <a href="/row/{{$item->portfolioItem->importacao}}/aprovar-todos" class="btn btn-primary pull-right"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar todos itens</a>
+          <a href="/row/{{$item->portfolioItem->importacao}}/aprovar-todos" class="btn btn-success pull-right"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar todos itens</a>
           @break
         @endif
       @endforeach
