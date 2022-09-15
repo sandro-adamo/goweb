@@ -72,6 +72,8 @@ class PortfolioController extends Controller
             ]);
         }
 
+        return redirect()->back();
+
     }
 
     public function desaprovar($idCompraInvoice){
