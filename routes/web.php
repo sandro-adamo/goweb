@@ -938,4 +938,6 @@ Route::get('/inventario/dashboard', function() {
 
 	Route::get('/row/{id}/aprovar', 'PortfolioController@aprovar')->name('portfolio.aprovar');
 
+	Route::get('/row/{id}/desaprovar', 'PortfolioController@aprovar')->name('portfolio.aprovar');
+
 	Route::get('/row/{invoice}/aprovar-todos', 'PortfolioController@aprovarTodosItens')->name('portfolio.aprovar-todos');
