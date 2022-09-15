@@ -129,8 +129,8 @@
 			  <td align="center">{{$itens->custo}}</td>
 			<td>
 				<button class="btn btn-sm btn-success"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar</button>
-				<button class="btn btn-sm btn-danger"><i class="fa fa-thumbs-down"></i> &nbsp; Reprovar</button>
-				<button class="btn btn-sm btn-warning"><i class="fa fa-comments"></i> &nbsp; Comentar</button>
+				<button class="btn btn-sm btn-warning" data-toggle="modal"
+				data-target="#addCommentsModal-{{$itens->id}}" data-row="{{$itens->id}}"><i class="fa fa-comments"></i> &nbsp; Comentar</button>
 			</td>
           </tr>  
             @endforeach
@@ -139,8 +139,9 @@
     </div>
 </div>
 
-
-
+@foreach ($invoice as $itens)
+	@include('produtos.compras.modal_comentarios', ['item' => $itens])
+@endforeach
 
 <form action="/xpto/importa" id="frmImporta" method="post" enctype="multipart/form-data">
     @csrf 
@@ -163,5 +164,56 @@
   </div>
 </div>
 </form>
+
+<style>
+    .modal-dialog {
+        max-width: 60% !important;
+    }
+    .comments-area {
+        width: 100%;
+        height: auto;
+    }
+    .my-comment-container {
+        display: flex;
+        justify-content: end;
+        margin: 10px;
+    }
+    .their-comment-container {
+        display: flex;
+        justify-content: start;
+        margin: 10px;
+    }
+    .comment-balloon {
+        width: 80%;
+        padding: 15px;
+        border-radius: 15px;
+    }
+    .my-comment-container > .comment-balloon {
+        background-color: lightblue;
+    }
+    .their-comment-container > .comment-balloon {
+        background-color: lightgray;
+    }
+    .card {
+        margin: 25px;
+    }
+
+    td {
+        vertical-align: middle !important;
+    }
+
+    .card-header>h3 {
+        margin-top: 5px;
+    }
+
+    form {
+        display: inline-block;
+        margin-block-end: unset;
+    }
+
+    .alert-danger {
+        padding-left: 30px !important;
+    }
+</style>
 
 @stop
