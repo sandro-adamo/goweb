@@ -129,7 +129,9 @@
 			  <td align="center" @isset(json_decode($itens->portfolioItem->erros ?? null)->price) class="field-error" @endisset>{{$itens->custo}}</td>
 			<td>
         @isset($itens->portfolioItem)
-          <button class="btn btn-sm btn-success"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar</button>
+          @if(!isset($itens->portfolioItem->aprovado_em))
+            <a href="/row/{{$itens->id}}/aprovar" class="btn btn-sm btn-success"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar</a>
+          @endif
           <button class="btn btn-sm btn-warning" data-toggle="modal"
           data-target="#addCommentsModal-{{$itens->id}}" data-row="{{$itens->id}}">
             <i class="fa fa-comments"></i> &nbsp; Comentar
@@ -147,6 +149,12 @@
             @endforeach
         </tbody>
       </table>
+      @foreach($invoice as $item)
+        @if($item->portfolioItem->aprovado_em != null)
+          <button class="btn btn-primary pull-right"><i class="fa fa-download"></i> &nbsp; Download planilha embarques</button>
+          @break
+        @endif
+      @endforeach
     </div>
 </div>
 

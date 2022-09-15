@@ -50,4 +50,16 @@ class PortfolioController extends Controller
         return response()->json([], 200);
     }
 
+    public function aprovar($idCompraInvoice){
+
+        $portfolioItem = PortfolioItem::where('id_compra_invoice', $idCompraInvoice)->first();
+
+        $portfolioItem->update([
+            'aprovado_em' => now(),
+        ]);
+
+        return redirect()->back();
+        
+    }
+
 }

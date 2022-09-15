@@ -935,3 +935,5 @@ Route::get('/inventario/dashboard', function() {
 	Route::post('/row/{id}/comments', 'PortfolioController@updateComments')->name('portfolio.comments');
 
 	Route::get('/row/{id}/comments/{lastSeen}/read', [App\Http\Controllers\PortfolioController::class, 'markCommentsAsRead'])->name('portfolio.comments.read');
+
+	Route::get('/row/{id}/aprovar', 'PortfolioController@aprovar')->name('portfolio.aprovar');
