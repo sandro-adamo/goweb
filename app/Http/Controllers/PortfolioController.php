@@ -103,6 +103,7 @@ class PortfolioController extends Controller
             'Referência',
             'Quantidade',
             'Valor Unitário',
+            'Tipo', //Montadas ou desmontadas
             'Qtde. Embarque 1',
             'Qtde. Embarque 2',
             'Qtde. Embarque 3',
