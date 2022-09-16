@@ -87,6 +87,13 @@ return [
             'driver' => 'errorlog',
             'level' => 'debug',
         ],
+
+        'acessos' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/acessos.log'),
+            'level' => 'info',
+        ],
+        
     ],
 
 ];
