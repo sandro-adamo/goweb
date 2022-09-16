@@ -943,3 +943,5 @@ Route::get('/inventario/dashboard', function() {
 	Route::get('/row/{invoice}/aprovar-todos', 'PortfolioController@aprovarTodosItens')->name('portfolio.aprovar-todos');
 
 	Route::get('embarques/{invoice}/download', 'PortfolioController@embarquesDownload')->name('embarquesDownload');
+
+	Route::get('embarques/{invoice}/upload', 'PortfolioController@embarquesUpload')->name('embarquesUpload');

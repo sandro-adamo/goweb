@@ -125,4 +125,10 @@ class PortfolioController extends Controller
 
     }
 
+    public function embarquesUpload($invoice){
+
+        return redirect()->back();
+        
+    }
+
 }
