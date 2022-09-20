@@ -153,14 +153,14 @@
       </table>
       @foreach($invoice as $item)
         @if($item->portfolioItem->aprovado_em ?? null != null)
-          <a href="/embarques/{{$item->portfolioItem->importacao}}/download" class="btn btn-primary pull-right" style="margin-left: 5px;"><i class="fa fa-download"></i> &nbsp; Download planilha embarques</a>
-          <a href="/embarques/{{$item->portfolioItem->importacao}}/upload" class="btn btn-primary pull-right" style="margin-left: 5px;"><i class="fa fa-upload"></i> &nbsp; Upload planilha embarques</a>
+          <a href="/embarques/{{$item->portfolioItem->importacao ?? null}}/download" class="btn btn-primary pull-right" style="margin-left: 5px;"><i class="fa fa-download"></i> &nbsp; Download planilha embarques</a>
+          <a href="/embarques/{{$item->portfolioItem->importacao ?? null}}/upload" class="btn btn-primary pull-right" style="margin-left: 5px;"><i class="fa fa-upload"></i> &nbsp; Upload planilha embarques</a>
           @break
         @endif
       @endforeach
       @foreach($invoice as $item)
         @if($item->portfolioItem->aprovado_em ?? null == null)
-          <a href="/row/{{$item->portfolioItem->importacao}}/aprovar-todos" class="btn btn-success pull-right"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar todos itens</a>
+          <a href="/row/{{$item->portfolioItem->importacao ?? null}}/aprovar-todos" class="btn btn-success pull-right"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar todos itens</a>
           @break
         @endif
       @endforeach
