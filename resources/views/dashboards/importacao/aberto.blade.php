@@ -22,9 +22,12 @@ select * from (
             select distinct pedido, tipo, ref_go invoice, 
             case when codtipoitem = '006' then 'peca' else 'parte' end as tipoitem,
             case when codtipoitem = '006' then cod_item else id_pai end as coditem,
+
 			case when infostemp.id_pedido is not null and infosjde.id_pedido is not null then 'ERRO'
 			when infosjde.id_pedido is not null then 'update' when infostemp.id_pedido is not null then 'vincular'
 			else 'insert' end as acao_capa,
+
+
             case when infosjde.id is not null then infosjde.id else infostemp.id end as vinculo_infos,
             '' ped_jde, '' tipo_jde, 
             case 
@@ -45,7 +48,7 @@ select * from (
             
 			from importacoes_pedidos imp
 				left join compras_infos infosjde on infosjde.id_pedido = imp.pedido  and infosjde.tipo_pedido = imp.tipo
-				left join compras_infos infostemp on infostemp.num_temp = imp.ref_go
+				left join compras_infos infostemp on infostemp.invoice_temp = imp.ref_go
 				left join itens on itens.id = imp.cod_item
 				left join itens_estrutura estrutura on  estrutura.id_filho = imp.cod_item
                 
@@ -65,7 +68,7 @@ select * from (
     
     union all 
     
-    select distinct ci.id_pedido pedido, ci.tipo_pedido tipo, ci.num_temp invoice,
+    select distinct ci.id_pedido pedido, ci.tipo_pedido tipo, ci.invoice_temp invoice,
             case when imp.ref_go is not null then 'pedido' else 'aguardar' end as acao_capa, 
             ci.id vinculo_infos,
             imp.pedido ped_jde, imp.tipo tipo_jde, '' desc_status, '' tipoitem, '' fornecedor, '' agrup, '' colmod, 0 orcamentos, 0 itens_trans,
@@ -143,14 +146,16 @@ select * from (
 					
 					
 <div class="active tab-pane" id="teste">
-	<form action="/import_form/grava" method="post" class="form-horizontal">
+	<form action="/import_form/gravatemp" method="post" class="form-horizontal">
 	@csrf
 		<input type="hidden" id="pedido" name="pedido" size="50" value={{$query_1[0]->prox}}>
 		
 		<input type="hidden" id="acao" name="acao" size="50" value=insnew >
-		<input type="hidden" id="tipo" name="tipo" size="50" value='new' >
+		<input type="hidden" id="tipo" name="tipo" size="50" value='new' >	
+	
 		
-		<input type="text" id="num_temp" name="num_temp" size="30" required>
+		<input type="text" id="invoice_temp" name="invoice_temp" size="30" required>
+		
 		<td align="left"><button type="submit"><i class="fa fa-refresh text-green">Adiciona Invoice</i></button>
 	</form>	
 	
@@ -172,7 +177,7 @@ select * from (
 		<td>Qtde_Invoice</td>
 		<td colspan="1" align="center">ped_jde</td>
 		<td colspan="1" align="center">tipo_jde</td>
-		<td colspan="1" align="center">colecao</td><td></td><td></td><td></td><td></td>
+		<td colspan="1" align="center">colecao</td><td></td><td></td><td></td>
 		</tr>
 	</thead>
 
