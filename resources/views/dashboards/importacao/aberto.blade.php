@@ -246,7 +246,7 @@ select * from (
 		<td align="left">{{$queryd->colmod}}</td>
 				
 		<td align="center">{{number_format($queryd->qtde,0,',','.')}}</td>
-		<td align="center">{{number_format($queryd->atende,0,',','.')}}</td>
+		<td align="center">{{number_format($queryd->orcamentos,0,',','.')}}</td>
 		<td align="center">{{$queryd->desc_status}}</td>
 
 		</tr></form>
