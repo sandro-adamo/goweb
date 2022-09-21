@@ -165,7 +165,7 @@ select * from (
 	<table class="tabela2 table-striped table-bordered compact" >
 	<thead>				
 		<tr>
-
+		<td></td>
 		<td colspan="1" align="center">Tipo Pedido</td>
 		<td>Invoice</td>
 			
@@ -233,7 +233,7 @@ select * from (
 				
 		@endphp
 		
-		<td></td>		
+			
 		<td align="left">{{$queryd->tipo.' '.$queryd->pedido}}</td>
 		<td align="left">{{$queryd->invoice}}</td>
 		<td align="left">{{$queryd->tipo_agrup}}</td>
