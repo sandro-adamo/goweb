@@ -171,16 +171,13 @@ select * from (
 			
 		<td>TP</td>
 		<td>Conex</td>
+		<td colspan="1" align="center">fornecedor</td>						
+		<td colspan="1" align="center">agrupamento</td>	
+		<td colspan="1" align="center">colecao</td>	
 			
-		<td colspan="1" align="center">id_jde</td>						
-		<td colspan="1" align="center">id_temp</td>	
-		<td colspan="1" align="center">id_pedido_temp</td>		
-		<td colspan="1" align="center">acao</td>
-		<td colspan="1" align="center">invoice</td>
-		<td>Qtde_Invoice</td>
-		<td colspan="1" align="center">ped_jde</td>
-		<td colspan="1" align="center">tipo_jde</td>
-		<td colspan="1" align="center">colecao</td><td></td><td></td><td></td>
+		<td colspan="1" align="center">Qtde</td>
+		<td colspan="1" align="center">Atende</td>
+		<td colspan="1" align="center">Status</td>
 		</tr>
 	</thead>
 
@@ -236,26 +233,20 @@ select * from (
 				
 		@endphp
 		
-				
+		<td></td>		
 		<td align="left">{{$queryd->tipo.' '.$queryd->pedido}}</td>
 		<td align="left">{{$queryd->invoice}}</td>
-				
 		<td align="left">{{$queryd->tipo_agrup}}</td>
 		<td align="left">{{$queryd->doc_agrup}}</td>	
-		
-		<td align="left">{{$queryd->pedido}}</td>
-	
 				
-		<td align="left">{{$queryd->tipo}}</td>
-		<td align="left">{{$queryd->id_pedido}}</td>
-		<td align="center">{{$queryd->acao_capa}}</td>
-		<td align="center">{{$queryd->invoice}}</td>
+				
+		
+		<td align="left">{{$queryd->fornecedor}}</td>			
+		<td align="left">{{$queryd->agrup}}</td>
+		<td align="left">{{$queryd->colmod}}</td>
+				
 		<td align="center">{{number_format($queryd->qtde,0,',','.')}}</td>
-		<td align="center">{{$queryd->fornecedor}}</td>
-		<td align="center">{{$queryd->agrup}}</td>
-		<td align="center">{{$queryd->colmod}}</td>
-		<td align="center">{{$queryd->itens_trans}}</td>
-		<td align="center">{{$queryd->itens_prod}}</td>
+		<td align="center">{{number_format($queryd->atende,0,',','.')}}</td>
 		<td align="center">{{$queryd->desc_status}}</td>
 
 		</tr></form>
