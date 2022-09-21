@@ -935,3 +935,17 @@ Route::get('/inventario/dashboard', function() {
 
 	Route::get('/exemplo', 'ExemploController@index')->name('exemplo.index');
 	Route::post('/exemplo/cadastrar', 'ExemploController@store')->name('exemplo.store');
+
+	Route::post('/row/{id}/comments', 'PortfolioController@updateComments')->name('portfolio.comments');
+
+	Route::get('/row/{id}/comments/{lastSeen}/read', [App\Http\Controllers\PortfolioController::class, 'markCommentsAsRead'])->name('portfolio.comments.read');
+
+	Route::get('/row/{id}/aprovar', 'PortfolioController@aprovar')->name('portfolio.aprovar');
+
+	Route::get('/row/{id}/desaprovar', 'PortfolioController@desaprovar')->name('portfolio.desaprovar');
+
+	Route::get('/row/{invoice}/aprovar-todos', 'PortfolioController@aprovarTodosItens')->name('portfolio.aprovar-todos');
+
+	Route::get('embarques/{invoice}/download', 'PortfolioController@embarquesDownload')->name('embarquesDownload');
+
+	Route::get('embarques/{invoice}/upload', 'PortfolioController@embarquesUpload')->name('embarquesUpload');

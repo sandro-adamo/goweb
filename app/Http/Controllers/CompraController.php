@@ -8,6 +8,7 @@ use PhpOffice\ PhpSpreadsheet\ Spreadsheet;
 use PhpOffice\ PhpSpreadsheet\ Writer\ Xlsx;
 use PHPMailer\ PHPMailer\ PHPMailer;
 use PHPMailer\ PHPMailer\ Exception;
+use App\PortfolioItem;
 
 class CompraController extends Controller {
 
@@ -722,7 +723,7 @@ from(select *,
   public function detalhesInvoice( Request $request, $invoices ) {
 	
 
-    $invoice = \DB::select( "select compras_invoices.invoice, compras_invoices.qtd as qtd, compras_invoices.item, compras_invoices.dt_invoice, compras_invoices.custo as custo, compras_invoices.pedido, compras_invoices.tipo,
+    $invoice = \DB::select( "select compras_invoices.id as id, compras_invoices.invoice, compras_invoices.qtd as qtd, compras_invoices.item, compras_invoices.dt_invoice, compras_invoices.custo as custo, compras_invoices.pedido, compras_invoices.tipo,
 (select id_compra from compras_entregas left join compras_itens on compras_itens.id = compras_entregas.id_compra_item where compras_entregas_invoices.id_compras_entrega = compras_entregas.id) as idcompra
 
 				from 	compras_invoices
@@ -731,6 +732,18 @@ from(select *,
 				and (compras_invoices.exclui is null or compras_invoices.exclui = 0)
 			
 				order by item asc" );
+
+        foreach($invoice as $item){
+
+          $portfolioItem = PortfolioItem::with('comentarios')->with('comentarios.usuario')->where('id_compra_invoice', $item->id)->first();
+
+          if(isset($portfolioItem))
+            $item->portfolioItem = $portfolioItem;
+
+          if(isset($portfolioItem->comentarios))
+            $item->comentarios = $portfolioItem->comentarios;
+
+        }
 
 
     $pedidos = \DB::select( "select id_compra 
@@ -747,24 +760,24 @@ from(select *,
     $sempedido = \DB::select( "select item, sum(qtd_entregue) as qtd, invoice from compras_entregas_invoices where invoice = '$invoices' and status = 'SEM PEDIDO'
 		and (compras_entregas_invoices.exclui is null or compras_entregas_invoices.exclui = 0)
 		group by item,invoice" );
+
+    $veririfcavalor = \DB::select( "select secundario, custos_2019.custo as custo_pedido, compras_invoices.custo as custo_invoice 
+		from compras_invoices 
+		left join custos_2019 on custos_2019.secundario = compras_invoices.item 
+		where custos_2019.custo <> compras_invoices.custo and invoice = '$invoices'
+		and (compras_invoices.exclui is null or compras_invoices.exclui = 0)" );
+
     if ( count( $sempedido ) > 0 ) {
 
       $sempedidototal = \DB::select( "select invoice, sum(qtd_entregue) as tt from compras_entregas_invoices where invoice = '$invoices' and status = 'SEM PEDIDO'
 		and (compras_entregas_invoices.exclui is null or compras_entregas_invoices.exclui = 0)
 		" );
-
-      $veririfcavalor = \DB::select( "select secundario, custos_2019.custo as custo_pedido, compras_invoices.custo as custo_invoice 
-		from custos_2019 
-		left join compras_invoices on custos_2019.secundario = compras_invoices.item 
-		where custos_2019.custo <> compras_invoices.custo and invoice = '$invoices'
-		and (compras_invoices.exclui is null or compras_invoices.exclui = 0)" );
-      
 	
 		return view( 'produtos.compras.detalhes_invoice' )->with( 'invoice', $invoice )->with( 'sempedido', $sempedido )->with( 'sempedidototal', $sempedidototal )->with( 'veririfcavalor', $veririfcavalor )->with( 'pedidos', $pedidos );;
 
 
     } else {
-      return view( 'produtos.compras.detalhes_invoice' )->with( 'invoice', $invoice )->with( 'sempedido', $sempedido )->with( 'pedidos', $pedidos );
+      return view( 'produtos.compras.detalhes_invoice' )->with( 'invoice', $invoice )->with( 'sempedido', $sempedido )->with('veririfcavalor', $veririfcavalor)->with( 'pedidos', $pedidos );
 
     }
 
