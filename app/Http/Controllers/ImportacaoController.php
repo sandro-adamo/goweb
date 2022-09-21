@@ -436,14 +436,10 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 	public function gravaTempImport(Request $request) {
 		
 	$id = $request->id_info;
-	$id_usuario = \Auth::id();
-
-	// dd($request->all());
-		
+	$id_usuario = \Auth::id();	
 	
 	$insert_temp = new \App\CompraTemp();
 	
-		
 		$verifica = \DB::select("
 			 select sum(linhas) linhas from (    
 				 select count(num_temp) as linhas from compras_infos where invoice_temp = '$request->invoice_temp'     
@@ -452,12 +448,10 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 				 from importacoes_pedidos ip left join compras_infos ci on ci.id_pedido = ip.pedido  and ci.tipo_pedido = ip.tipo where ref_go = '$request->invoice_temp'
  			) as final	");
 	
-				if ($verifica[0]->linhas > 0) { 
+				if ($verifica[0]->linhas > 10) { 
 					dd($verifica[0]->linhas);
 						return redirect()->back();
 				} else {
-		
-		
 		
 			$insert_temp->id_pedido 	= $request->pedido;		
 			$insert_temp->num_temp 		= $request->pedido;
@@ -513,8 +507,6 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 		$atualiza = \App\CompraAtualiza::find($id);
 		$atualiza->id_pedido =  $request->pedido;
 		$atualiza->tipo_pedido =  $request->tipo_pedido;
-		
-		
 		
 		$atualiza->save();	
 		
