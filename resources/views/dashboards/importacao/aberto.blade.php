@@ -201,7 +201,7 @@ select * from (
 
 
 			
-		@php if($queryt->acao_capa=='ERRO'){ @endphp		
+		@php if($queryd->acao_capa=='ERRO'){ @endphp		
 		<td>
 			<a href="/import_form/?tipo={{$queryd->tipo}}&pedido={{$queryd->pedido}}" target="_blank">
 				<span class="fa fa-exclamation-circle text-red btn-xs"></span></a>
