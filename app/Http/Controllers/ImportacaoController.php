@@ -448,7 +448,7 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 				 from importacoes_pedidos ip left join compras_infos ci on ci.id_pedido = ip.pedido  and ci.tipo_pedido = ip.tipo where ref_go = '$request->invoice_temp'
  			) as final	");
 	
-				if ($verifica[0]->linhas > 10) { 
+				if ($verifica[0]->linhas > 0) { 
 					dd($verifica[0]->linhas);
 						return redirect()->back();
 				} else {

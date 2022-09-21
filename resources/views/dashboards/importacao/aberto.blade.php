@@ -9,7 +9,8 @@ $query_1 = \DB::select("select ifnull(max(id_pedido)+1,900000) prox from compras
 $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order by created_at desc limit 1");
 
 
-$query_teste = \DB::select("	
+
+$query_dados = \DB::select("	
 																								   
 select * from (
 	select pedido, tipo, invoice,  acao_capa, vinculo_infos, ped_jde, tipo_jde, desc_status,
@@ -165,10 +166,12 @@ select * from (
 	<thead>				
 		<tr>
 
-		<td colspan="1" align="center">Pedido</td>
-		<td>tipo</td>
-		<td>conex</td>
-			<td>b</td>
+		<td colspan="1" align="center">Tipo Pedido</td>
+		<td>Invoice</td>
+			
+		<td>TP</td>
+		<td>Conex</td>
+			
 		<td colspan="1" align="center">id_jde</td>						
 		<td colspan="1" align="center">id_temp</td>	
 		<td colspan="1" align="center">id_pedido_temp</td>		
@@ -181,75 +184,79 @@ select * from (
 		</tr>
 	</thead>
 
-		@foreach ($query_teste as $queryt)
+		@foreach ($query_dados as $queryd)
 
 		
 		<tr>
 
 			<form action="/import_form/atualizareg" method="post" class="form-horizontal"> @csrf
 				
-			<input type="hidden" id="acao_capa" name="acao_capa" size="50" value={{$queryt->acao_capa}} >
-			<input type="hidden" id="id_temp" name="id_temp" size="50" value={{$queryt->vinculo_infos}} >	
-			<input type="hidden" id="pedido" name="pedido" size="50" value={{$queryt->pedido}} >
-			<input type="hidden" id="tipo_pedido" name="tipo_pedido" size="50" value={{$queryt->tipo}} >
+			<input type="hidden" id="acao_capa" name="acao_capa" size="50" value={{$queryd->acao_capa}} >
+			<input type="hidden" id="id_temp" name="id_temp" size="50" value={{$queryd->vinculo_infos}} >	
+			<input type="hidden" id="pedido" name="pedido" size="50" value={{$queryd->pedido}} >
+			<input type="hidden" id="tipo_pedido" name="tipo_pedido" size="50" value={{$queryd->tipo}} >
 
 
-		<td align="left">{{$queryt->tipo.' '.$queryt->pedido}}</td>
-		<td align="left">{{$queryt->tipo_agrup}}</td>
-		<td align="left">{{$queryt->doc_agrup}}</td>	
+			
 
 
 			
 		@php if($queryt->acao_capa=='ERRO'){ @endphp		
 		<td>
-			<a href="/import_form/?tipo={{$queryt->tipo}}&pedido={{$queryt->pedido}}" target="_blank">
+			<a href="/import_form/?tipo={{$queryd->tipo}}&pedido={{$queryd->pedido}}" target="_blank">
 				<span class="fa fa-exclamation-circle text-red btn-xs"></span></a>
 		</td>
 		 
-		@php } elseif ($queryt->acao_capa=='update'){ @endphp	
+		@php } elseif ($queryd->acao_capa=='update'){ @endphp	
 		<td>
-			<a href="/import_form/?tipo={{$queryt->tipo}}&pedido={{$queryt->pedido}}" target="_blank">
+			<a href="/import_form/?tipo={{$queryd->tipo}}&pedido={{$queryd->pedido}}" target="_blank">
 				<span><span class="fa fa-list-alt text-green"></span></span></a>
 		</td>	
 			
-		@php } elseif ($queryt->acao_capa=='aguardar'){ @endphp	
+		@php } elseif ($queryd->acao_capa=='aguardar'){ @endphp	
 		<td>
-			<a href="/import_form/?tipo={{$queryt->tipo}}&pedido={{$queryt->pedido}}" target="_blank">
+			<a href="/import_form/?tipo={{$queryd->tipo}}&pedido={{$queryd->pedido}}" target="_blank">
 			<span class="fa fa-list text-yellow"></span></a>
 		</td>	
 		
-		@php } elseif ($queryt->acao_capa=='insert'){ @endphp	
+		@php } elseif ($queryd->acao_capa=='insert'){ @endphp	
 		<td>
-			<a href="/import_form/?tipo={{$queryt->tipo}}&pedido={{$queryt->pedido}}" target="_blank">
+			<a href="/import_form/?tipo={{$queryd->tipo}}&pedido={{$queryd->pedido}}" target="_blank">
 			<span class="fa fa-file-o text-blue"></span></a>
 		</td>
 						
-		@php } elseif ($queryt->acao_capa=='vincular'){ @endphp		
+		@php } elseif ($queryd->acao_capa=='vincular'){ @endphp		
 		<td><button type="submit"><i class="fa fa-chain-broken text-blue"></i></button></td> 
 				
-		@php } elseif ($queryt->acao_capa=='pedido'){ @endphp		
+		@php } elseif ($queryd->acao_capa=='pedido'){ @endphp		
 		<td><button type="submit"><i class="fa fa-chain-broken text-gray"></i></button></td>		
 				
 		@php } else {$a=0; }
 			
 				
 		@endphp
-				
 		
-		<td align="left">{{$queryt->pedido}}</td>
+				
+		<td align="left">{{$queryd->tipo.' '.$queryd->pedido}}</td>
+		<td align="left">{{$queryd->invoice}}</td>
+				
+		<td align="left">{{$queryd->tipo_agrup}}</td>
+		<td align="left">{{$queryd->doc_agrup}}</td>	
+		
+		<td align="left">{{$queryd->pedido}}</td>
 	
 				
-		<td align="left">{{$queryt->tipo}}</td>
-		<td align="left">{{$queryt->id_pedido}}</td>
-		<td align="center">{{$queryt->acao_capa}}</td>
-		<td align="center">{{$queryt->invoice}}</td>
-				<td align="center">{{number_format($queryt->qtde,0,',','.')}}</td>
-		<td align="center">{{$queryt->fornecedor}}</td>
-		<td align="center">{{$queryt->agrup}}</td>
-		<td align="center">{{$queryt->colmod}}</td>
-		<td align="center">{{$queryt->itens_trans}}</td>
-		<td align="center">{{$queryt->itens_prod}}</td>
-		<td align="center">{{$queryt->desc_status}}</td>
+		<td align="left">{{$queryd->tipo}}</td>
+		<td align="left">{{$queryd->id_pedido}}</td>
+		<td align="center">{{$queryd->acao_capa}}</td>
+		<td align="center">{{$queryd->invoice}}</td>
+		<td align="center">{{number_format($queryd->qtde,0,',','.')}}</td>
+		<td align="center">{{$queryd->fornecedor}}</td>
+		<td align="center">{{$queryd->agrup}}</td>
+		<td align="center">{{$queryd->colmod}}</td>
+		<td align="center">{{$queryd->itens_trans}}</td>
+		<td align="center">{{$queryd->itens_prod}}</td>
+		<td align="center">{{$queryd->desc_status}}</td>
 
 		</tr></form>
 		@endforeach 
