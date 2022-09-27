@@ -67,7 +67,7 @@ class UsuarioObserver
         echo 'ORIGINAL: ' . $usuario->getOriginal('status') . PHP_EOL;
         echo 'NOVO: ' . $usuario->status . PHP_EOL;
         if($usuario->getOriginal('status') != $usuario->status){
-        Log::channel('acessos')->info("Coluna 'status' do usuario {$usuario->id} foi modificada de {$usuario->getOriginal('status')} para {$usuario->status} .");
+        Log::channel('acessos')->info("Coluna 'status' do usuario {$usuario->id} foi modificada de {$usuario->getOriginal('status')} para {$usuario->status} pelo usuario " . auth()->id);
       }
     }
 
@@ -76,7 +76,7 @@ class UsuarioObserver
         echo 'ORIGINAL: ' . $usuario->getOriginal('status') . PHP_EOL;
         echo 'NOVO: ' . $usuario->status . PHP_EOL;
         if($usuario->getOriginal('status') != $usuario->status){
-            Log::channel('acessos')->info("Coluna 'status' do usuario {$usuario->id} foi modificada de {$usuario->getOriginal('status')} para {$usuario->status} .");
+            Log::channel('acessos')->info("Coluna 'status' do usuario {$usuario->id} foi modificada de {$usuario->getOriginal('status')} para {$usuario->status} pelo usuario " . auth()->id);
         }
     }
 
