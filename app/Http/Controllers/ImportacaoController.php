@@ -340,22 +340,6 @@ from(
 		
 	}
 		
-		
-			$verifica = \DB::select("
-			 select sum(linhas) linhas from (    
-			 select count(num_temp) as linhas from compras_infos where num_temp = '$request->num_temp'     
-			 union all 
-			 select count(distinct pedido) linhas 
-			 from importacoes_pedidos ip left join compras_infos ci on ci.id_pedido = ip.pedido  and ci.tipo_pedido = ip.tipo where ref_go = '$request->num_temp'
- 			) as final			
-			");
-	
-		
-		
-				if ($verifica[0]->linhas > 1111110) { 
-					dd($verifica[0]->linhas);
-						return redirect()->back();
-				} else {
 
 		
 		
@@ -388,16 +372,18 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 	//	echo date('d/m/Y', strtotime('+5 days', strtotime('14-07-2014')));  strtotime('+5 days',strtotime($request->dt_aut_embarque))
 		
 		
-
-		$compra->id_pedido = $request->pedido;
+		$compra->id_pedido = $request->pedido;			
 		$compra->tipo_pedido = $request->tipo;
 		$compra->tipo_agrup = $request->tipo_agrup;
 		$compra->doc_agrup = $request->doc_agrup;
 		$compra->cubagem_m3 = $request->cubagem_m3;
 		
-		
-
-			$compra->num_temp = $request->num_temp;
+		//apagar essas 3 variaveis
+		// 			
+		// 	$compra->num_temp = $request->pedido;
+		// 	$compra->invoice_temp = $request->invoice_temp;
+					
+					
 			$compra->volumes = $request->volumes;
 			$compra->peso_bruto = $request->peso_bruto;
 			$compra->peso_liquido = $request->peso_liquido;
@@ -436,10 +422,47 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 		if ($request->icms_nac > 0 ) {	$compra->base_icms =  $request->icms_nac/$request->taxa_nac; }		
 		
 		$compra->save();
-			}
 		
 		return redirect()->back();
 		}
+	
+	
+	
+	
+	
+	
+	
+	//adicona pedido temporario sem vinculo jde //
+	public function gravaTempImport(Request $request) {
+		
+	$id = $request->id_info;
+	$id_usuario = \Auth::id();	
+	
+	$insert_temp = new \App\CompraTemp();
+	
+		$verifica = \DB::select("
+			 select sum(linhas) linhas from (    
+				 select count(num_temp) as linhas from compras_infos where invoice_temp = '$request->invoice_temp'     
+				 union all 
+				 select count(distinct pedido) linhas 
+				 from importacoes_pedidos ip left join compras_infos ci on ci.id_pedido = ip.pedido  and ci.tipo_pedido = ip.tipo where ref_go = '$request->invoice_temp'
+ 			) as final	");
+	
+				if ($verifica[0]->linhas > 0) { 
+					dd($verifica[0]->linhas);
+						return redirect()->back();
+				} else {
+		
+			$insert_temp->id_pedido 	= $request->pedido;		
+			$insert_temp->num_temp 		= $request->pedido;
+			$insert_temp->invoice_temp 	= $request->invoice_temp;
+			$insert_temp->tipo_pedido 	= $request->tipo;
+		
+			$insert_temp->save();	
+			}
+		
+		return redirect()->back();
+		}	
 	
 	
 	
@@ -470,15 +493,18 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 	
 
 	
+	
 	// funcao para vincular detalhe temporario ao pedido jde // 
 	public function atualizaRegistroImport(Request $request) {
 	$id_usuario = \Auth::id();
 	$id = $request->id_temp;
+				
+		
 	$request->acao_capa;
 
+		// 	dd($request->all());
 		
-	$atualiza = \App\CompraAtualiza::find($id);
-		
+		$atualiza = \App\CompraAtualiza::find($id);
 		$atualiza->id_pedido =  $request->pedido;
 		$atualiza->tipo_pedido =  $request->tipo_pedido;
 		

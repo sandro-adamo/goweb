@@ -9,7 +9,8 @@ $query_1 = \DB::select("select ifnull(max(id_pedido)+1,900000) prox from compras
 $query_r = \DB::select("select taxa1, taxa2, taxa3 from compras_registros order by created_at desc limit 1");
 
 
-$query_teste = \DB::select("	
+
+$query_dados = \DB::select("	
 																								   
 select * from (
 	select pedido, tipo, invoice,  acao_capa, vinculo_infos, ped_jde, tipo_jde, desc_status,
@@ -22,9 +23,12 @@ select * from (
             select distinct pedido, tipo, ref_go invoice, 
             case when codtipoitem = '006' then 'peca' else 'parte' end as tipoitem,
             case when codtipoitem = '006' then cod_item else id_pai end as coditem,
+
 			case when infostemp.id_pedido is not null and infosjde.id_pedido is not null then 'ERRO'
 			when infosjde.id_pedido is not null then 'update' when infostemp.id_pedido is not null then 'vincular'
 			else 'insert' end as acao_capa,
+
+
             case when infosjde.id is not null then infosjde.id else infostemp.id end as vinculo_infos,
             '' ped_jde, '' tipo_jde, 
             case 
@@ -45,7 +49,7 @@ select * from (
             
 			from importacoes_pedidos imp
 				left join compras_infos infosjde on infosjde.id_pedido = imp.pedido  and infosjde.tipo_pedido = imp.tipo
-				left join compras_infos infostemp on infostemp.num_temp = imp.ref_go
+				left join compras_infos infostemp on infostemp.invoice_temp = imp.ref_go
 				left join itens on itens.id = imp.cod_item
 				left join itens_estrutura estrutura on  estrutura.id_filho = imp.cod_item
                 
@@ -65,7 +69,7 @@ select * from (
     
     union all 
     
-    select distinct ci.id_pedido pedido, ci.tipo_pedido tipo, ci.num_temp invoice,
+    select distinct ci.id_pedido pedido, ci.tipo_pedido tipo, ci.invoice_temp invoice,
             case when imp.ref_go is not null then 'pedido' else 'aguardar' end as acao_capa, 
             ci.id vinculo_infos,
             imp.pedido ped_jde, imp.tipo tipo_jde, '' desc_status, '' tipoitem, '' fornecedor, '' agrup, '' colmod, 0 orcamentos, 0 itens_trans,
@@ -143,14 +147,16 @@ select * from (
 					
 					
 <div class="active tab-pane" id="teste">
-	<form action="/import_form/grava" method="post" class="form-horizontal">
+	<form action="/import_form/gravatemp" method="post" class="form-horizontal">
 	@csrf
 		<input type="hidden" id="pedido" name="pedido" size="50" value={{$query_1[0]->prox}}>
 		
 		<input type="hidden" id="acao" name="acao" size="50" value=insnew >
-		<input type="hidden" id="tipo" name="tipo" size="50" value='new' >
+		<input type="hidden" id="tipo" name="tipo" size="50" value='new' >	
+	
 		
-		<input type="text" id="num_temp" name="num_temp" size="30" required>
+		<input type="text" id="invoice_temp" name="invoice_temp" size="30" required>
+		
 		<td align="left"><button type="submit"><i class="fa fa-refresh text-green">Adiciona Invoice</i></button>
 	</form>	
 	
@@ -159,92 +165,89 @@ select * from (
 	<table class="tabela2 table-striped table-bordered compact" >
 	<thead>				
 		<tr>
-
-		<td colspan="1" align="center">Pedido</td>
-		<td>tipo</td>
-		<td>conex</td>
-			<td>b</td>
-		<td colspan="1" align="center">id_jde</td>						
-		<td colspan="1" align="center">id_temp</td>	
-		<td colspan="1" align="center">id_pedido_temp</td>		
-		<td colspan="1" align="center">acao</td>
-		<td colspan="1" align="center">invoice</td>
-		<td>Qtde_Invoice</td>
-		<td colspan="1" align="center">ped_jde</td>
-		<td colspan="1" align="center">tipo_jde</td>
-		<td colspan="1" align="center">colecao</td><td></td><td></td><td></td><td></td>
+		<td></td>
+		<td colspan="1" align="center">Tipo Pedido</td>
+		<td>Invoice</td>
+			
+		<td>TP</td>
+		<td>Conex</td>
+		<td colspan="1" align="center">fornecedor</td>						
+		<td colspan="1" align="center">agrupamento</td>	
+		<td colspan="1" align="center">colecao</td>	
+			
+		<td colspan="1" align="center">Qtde</td>
+		<td colspan="1" align="center">Atende</td>
+		<td colspan="1" align="center">Status</td>
 		</tr>
 	</thead>
 
-		@foreach ($query_teste as $queryt)
+		@foreach ($query_dados as $queryd)
 
 		
 		<tr>
 
 			<form action="/import_form/atualizareg" method="post" class="form-horizontal"> @csrf
 				
-			<input type="hidden" id="acao_capa" name="acao_capa" size="50" value={{$queryt->acao_capa}} >
-			<input type="hidden" id="id_temp" name="id_temp" size="50" value={{$queryt->vinculo_infos}} >	
-			<input type="hidden" id="pedido" name="pedido" size="50" value={{$queryt->pedido}} >
-			<input type="hidden" id="tipo_pedido" name="tipo_pedido" size="50" value={{$queryt->tipo}} >
-
-
-		<td align="left">{{$queryt->tipo.' '.$queryt->pedido}}</td>
-		<td align="left">{{$queryt->tipo_agrup}}</td>
-		<td align="left">{{$queryt->doc_agrup}}</td>	
+			<input type="hidden" id="acao_capa" name="acao_capa" size="50" value={{$queryd->acao_capa}} >
+			<input type="hidden" id="id_temp" name="id_temp" size="50" value={{$queryd->vinculo_infos}} >	
+			<input type="hidden" id="pedido" name="pedido" size="50" value={{$queryd->pedido}} >
+			<input type="hidden" id="tipo_pedido" name="tipo_pedido" size="50" value={{$queryd->tipo}} >
 
 
 			
-		@php if($queryt->acao_capa=='ERRO'){ @endphp		
+
+
+			
+		@php if($queryd->acao_capa=='ERRO'){ @endphp		
 		<td>
-			<a href="/import_form/?tipo={{$queryt->tipo}}&pedido={{$queryt->pedido}}" target="_blank">
+			<a href="/import_form/?tipo={{$queryd->tipo}}&pedido={{$queryd->pedido}}" target="_blank">
 				<span class="fa fa-exclamation-circle text-red btn-xs"></span></a>
 		</td>
 		 
-		@php } elseif ($queryt->acao_capa=='update'){ @endphp	
+		@php } elseif ($queryd->acao_capa=='update'){ @endphp	
 		<td>
-			<a href="/import_form/?tipo={{$queryt->tipo}}&pedido={{$queryt->pedido}}" target="_blank">
+			<a href="/import_form/?tipo={{$queryd->tipo}}&pedido={{$queryd->pedido}}" target="_blank">
 				<span><span class="fa fa-list-alt text-green"></span></span></a>
 		</td>	
 			
-		@php } elseif ($queryt->acao_capa=='aguardar'){ @endphp	
+		@php } elseif ($queryd->acao_capa=='aguardar'){ @endphp	
 		<td>
-			<a href="/import_form/?tipo={{$queryt->tipo}}&pedido={{$queryt->pedido}}" target="_blank">
+			<a href="/import_form/?tipo={{$queryd->tipo}}&pedido={{$queryd->pedido}}" target="_blank">
 			<span class="fa fa-list text-yellow"></span></a>
 		</td>	
 		
-		@php } elseif ($queryt->acao_capa=='insert'){ @endphp	
+		@php } elseif ($queryd->acao_capa=='insert'){ @endphp	
 		<td>
-			<a href="/import_form/?tipo={{$queryt->tipo}}&pedido={{$queryt->pedido}}" target="_blank">
+			<a href="/import_form/?tipo={{$queryd->tipo}}&pedido={{$queryd->pedido}}" target="_blank">
 			<span class="fa fa-file-o text-blue"></span></a>
 		</td>
 						
-		@php } elseif ($queryt->acao_capa=='vincular'){ @endphp		
+		@php } elseif ($queryd->acao_capa=='vincular'){ @endphp		
 		<td><button type="submit"><i class="fa fa-chain-broken text-blue"></i></button></td> 
 				
-		@php } elseif ($queryt->acao_capa=='pedido'){ @endphp		
+		@php } elseif ($queryd->acao_capa=='pedido'){ @endphp		
 		<td><button type="submit"><i class="fa fa-chain-broken text-gray"></i></button></td>		
 				
 		@php } else {$a=0; }
 			
 				
 		@endphp
+		
+			
+		<td align="left">{{$queryd->tipo.' '.$queryd->pedido}}</td>
+		<td align="left">{{$queryd->invoice}}</td>
+		<td align="left">{{$queryd->tipo_agrup}}</td>
+		<td align="left">{{$queryd->doc_agrup}}</td>	
+				
 				
 		
-		<td align="left">{{$queryt->pedido}}</td>
-	
+		<td align="left">{{$queryd->fornecedor}}</td>			
+		<td align="left">{{$queryd->agrup}}</td>
+		<td align="left">{{$queryd->colmod}}</td>
 				
-		<td align="left">{{$queryt->tipo}}</td>
-		<td align="left">{{$queryt->id_pedido}}</td>
-		<td align="center">{{$queryt->acao_capa}}</td>
-		<td align="center">{{$queryt->invoice}}</td>
-				<td align="center">{{number_format($queryt->qtde,0,',','.')}}</td>
-		<td align="center">{{$queryt->fornecedor}}</td>
-		<td align="center">{{$queryt->agrup}}</td>
-		<td align="center">{{$queryt->colmod}}</td>
-		<td align="center">{{$queryt->itens_trans}}</td>
-		<td align="center">{{$queryt->itens_prod}}</td>
-		<td align="center">{{$queryt->desc_status}}</td>
+		<td align="center">{{number_format($queryd->qtde,0,',','.')}}</td>
+		<td align="center">{{number_format($queryd->orcamentos,0,',','.')}}</td>
+		<td align="center">{{$queryd->desc_status}}</td>
 
 		</tr></form>
 		@endforeach 

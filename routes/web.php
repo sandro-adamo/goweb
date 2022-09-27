@@ -555,7 +555,11 @@ Route::get('/dsimportdet', function () {   return view('dashboards.importacao.da
 
 Route::get('/import_form', function () { return view('dashboards.importacao.insere_form');	});
 Route::post('/import_form/grava','ImportacaoController@gravaDadosImport');
+
 Route::post('/import_form/gravareg','ImportacaoController@gravaRegistroImport');
+Route::post('/import_form/gravatemp','ImportacaoController@gravaTempImport');
+
+
 Route::post('/import_form/atualizareg','ImportacaoController@atualizaRegistroImport');
 Route::post('/import_form/documento/upload', 'ImportacaoController@uploadDocumentos');
 
