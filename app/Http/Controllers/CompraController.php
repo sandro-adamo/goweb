@@ -1109,7 +1109,7 @@ where
  and ip.tipo = '$request->tipo'
  and ip.secundario like '%semi%'
 
- group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
+ group by ip.dt_pedido,  ip.tipo, ip.pedido,ip.ref_go,
 			item_destino, id_item_destino,
 			  ip.secundario , qtde ,i.id, ip.cod_item
 			
