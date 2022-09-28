@@ -810,9 +810,9 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
 			concat(nome, ' - ', fornecedor) as fornecedor, qtde_sol*vlr_unit as valor_tt
 			from(
 			select  ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ltrim(rtrim(ip.ref_go)) as invoice,
-			case when (item_filho like 'fr %' or item_filho like 'ponte %' or item_filho like 'am %') then ltrim(rtrim(id_pai)) 
+			case when tipo_filho = '002' then ltrim(rtrim(id_pai)) 
 			else ltrim(rtrim(i.id)) end as id_item,
-			case when (item_filho like 'fr %' or item_filho like 'ponte %' or item_filho like 'am %') then ltrim(rtrim(item_pai)) else ltrim(rtrim(ip.secundario)) end as item, qtde_sol as qtde_sol, vlr_unit vlr_unit,
+			case when tipo_filho = '002' then ltrim(rtrim(item_pai)) else ltrim(rtrim(ip.secundario)) end as item, qtde_sol as qtde_sol, vlr_unit vlr_unit,
 			qtde_sol* vlr_unit as tt_valor
 
 			from importacoes_pedidos ip
@@ -831,7 +831,7 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
        and ip.secundario not like '%semi%'
 			 group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
 			item_filho, id_pai,
-			  ip.secundario , qtde_sol , vlr_unit ,i.id, item_pai
+			  ip.secundario , qtde_sol , vlr_unit ,i.id, item_pai, tipo_filho
 			
 			 ) as base
 			  left join compras_invoices ci on ci.pedido = base.pedido and ci.item = base.item and ci.linha = base.linha and ci.qtd = base.qtde_sol and ci.dt_invoice = base.dt_pedido and ci.exclui <> 1
