@@ -109,14 +109,9 @@
             <th align="center">Foto</th>
             <th align="center">Item</th>
             <th align="center">Qtd</th>
-			  <th align="center">Pedido consumido</th>
-			   <th align="center">Custo</th>
-           
-            
-            
-
-
-
+			<th align="center">Pedido consumido</th>
+			<th align="center">Custo</th>
+			<th align="center" class="text-center">Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -128,22 +123,55 @@
                 
               </td>
             
-            <td align="center">{{$itens->item}}</td>
-            <td align="center">{{$itens->qtd}}</td>
+            <td align="center" @isset(json_decode($itens->portfolioItem->erros ?? null)->item) class="field-error" @endisset>{{$itens->item}}</td>
+            <td align="center" @isset(json_decode($itens->portfolioItem->erros ?? null)->quantity) class="field-error" @endisset>{{$itens->qtd}}</td>
 			  <td align="center">{{$itens->idcompra}}</td>
-			  <td align="center">{{$itens->custo}}</td>
-           
-            
-
+			  <td align="center" @isset(json_decode($itens->portfolioItem->erros ?? null)->price) class="field-error" @endisset>{{$itens->custo}}</td>
+			<td align="center">
+        @isset($itens->portfolioItem)
+          @if(!isset($itens->portfolioItem->aprovado_em))
+            <a href="/row/{{$itens->id}}/aprovar" class="btn btn-sm btn-success"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar</a>
+          @else
+            <a href="/row/{{$itens->id}}/desaprovar" class="btn btn-sm btn-danger"><i class="fa fa-thumbs-down"></i> &nbsp; Desaprovar</a>
+          @endif
+          <button class="btn btn-sm btn-warning" data-toggle="modal"
+          data-target="#addCommentsModal-{{$itens->id}}" data-row="{{$itens->id}}">
+            <i class="fa fa-comments"></i> &nbsp; Comentar
+            @isset($itens->comentarios)
+              @if($itens->comentarios->where('id_usuario', '!=', auth()->user()->id)->where('visto_em', null)->first() != null)
+                  <span class="badge bg-danger rounded-circle">
+                      {{ $itens->comentarios->where('id_usuario', '!=', auth()->user()->id)->where('visto_em', null)->count() }}
+                  </span>
+              @endif
+            @endisset
+          </button>
+        @endisset
+			</td>
           </tr>  
             @endforeach
         </tbody>
       </table>
+      @foreach($invoice as $item)
+        @if($item->portfolioItem->aprovado_em ?? null != null)
+          <a href="/embarques/{{$item->portfolioItem->importacao ?? null}}/download" class="btn btn-primary pull-right" style="margin-left: 5px;"><i class="fa fa-download"></i> &nbsp; Download planilha embarques</a>
+          <a href="/embarques/{{$item->portfolioItem->importacao ?? null}}/upload" class="btn btn-primary pull-right" style="margin-left: 5px;"><i class="fa fa-upload"></i> &nbsp; Upload planilha embarques</a>
+          @break
+        @endif
+      @endforeach
+      @foreach($invoice as $item)
+        @if($item->portfolioItem->aprovado_em ?? null == null)
+          <a href="/row/{{$item->portfolioItem->importacao ?? null}}/aprovar-todos" class="btn btn-success pull-right"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar todos itens</a>
+          @break
+        @endif
+      @endforeach
     </div>
 </div>
 
-
-
+@foreach ($invoice as $itens)
+  @isset($itens->comentarios)
+	  @include('produtos.compras.modal_comentarios', ['item' => $itens])
+  @endisset
+@endforeach
 
 <form action="/xpto/importa" id="frmImporta" method="post" enctype="multipart/form-data">
     @csrf 
@@ -166,5 +194,75 @@
   </div>
 </div>
 </form>
+
+<style>
+    .modal-dialog {
+        max-width: 60% !important;
+    }
+    .comments-area {
+        width: 100%;
+        height: auto;
+    }
+    .my-comment-container {
+        display: flex;
+        justify-content: end;
+        margin: 10px;
+    }
+    .their-comment-container {
+        display: flex;
+        justify-content: start;
+        margin: 10px;
+    }
+    .comment-balloon {
+        width: 80%;
+        padding: 15px;
+        border-radius: 15px;
+    }
+    .my-comment-container > .comment-balloon {
+        background-color: lightblue;
+    }
+    .their-comment-container > .comment-balloon {
+        background-color: lightgray;
+    }
+    .card {
+        margin: 25px;
+    }
+
+    td {
+        vertical-align: middle !important;
+    }
+
+    .card-header>h3 {
+        margin-top: 5px;
+    }
+
+    form {
+        display: inline-block;
+        margin-block-end: unset;
+    }
+
+    .alert-danger {
+        padding-left: 30px !important;
+    }
+    .field-error {
+      background-color: red;
+      color: white;
+    }
+</style>
+
+<script>
+
+  document.addEventListener('DOMContentLoaded', function(){
+    $(document).on('show.bs.modal', '.modal', function(e){
+      if(e.relatedTarget.querySelector('.badge')){
+          fetch('/row/'+e.target.getAttribute('data-portfolio-id')+'/comments/'+e.target.getAttribute('data-last-comment')+'/read')
+          .then(() => {
+              e.relatedTarget.querySelector('.badge').remove()
+          })
+      }
+    })
+  })
+
+</script>
 
 @stop

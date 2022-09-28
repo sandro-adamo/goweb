@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Observers\UsuarioObserver;
+use App\Usuario;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
 
         // $usuario = \App\Usuario::retornaUser();
 
+        Usuario::observe(UsuarioObserver::class);
     
     }
 

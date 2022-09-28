@@ -158,7 +158,6 @@ from (
 
 
 		$query_titulos = \DB::select("select * from compras_titulos where id_pedido =  '$pedido' and origem = '$tipo'");
-
 		
 		$query_parcelas = \DB::select("
 		select cp.*, ct.tipo tipo_ct 
@@ -177,10 +176,28 @@ from (
 		");
 
 
-		$query_4 = \DB::select("select itens.secundario, agrup, codgrife, modelo, 0 as ref, fornecedor, colmod, 0 ult_prox, 0 as atende , tipoitem, qtde_sol qtde
-		from importacoes_pedidos ip
-		left join itens on ip.cod_item = itens.id
-		where pedido = '$pedido' and tipo = '$tipo'");
+		$query_4 = \DB::select("	
+		
+		select * from (
+		select itempedido, cod_item,  case when codtipoitem = '006' then cod_item else id_pai end as coditem, qtde
+        from (
+			select ip.secundario itempedido, cod_item, codtipoitem, qtde_sol qtde
+            -- , itens.secundario, agrup, codgrife, modelo, 0 as ref, fornecedor, colmod, 0 ult_prox, 0 as atende , tipoitem, qtde_sol qtde
+			from importacoes_pedidos ip
+			left join itens on ip.cod_item = itens.id
+            
+			where pedido = '$pedido' and tipo = '$tipo'
+        ) as base
+        
+        left join (select * from itens_estrutura   ) as estrutura
+		on estrutura.id_filho = base.cod_item
+   		) as final 
+   
+		left join (select * from go_storage.sintetico_estoque ) as sint
+		on sint.id_item = coditem
+		");
+
+
 
 
 		$query_5 = \DB::select("select * from compras_docs where pedido = $id_info");
@@ -199,7 +216,7 @@ from (
 			  
 			  
 			<ul class="nav nav-tabs">
-              <li><a href="#dados" data-toggle="tab">Dados</a></li>
+              <li class="active"><a href="#dados" data-toggle="tab">Dados</a></li>
 			  <li><a href="#detalhes" data-toggle="tab">Detalhes</a></li>
               <li><a href="#financeiro" data-toggle="tab">financeiro</a></li>
               <li><a href="#timeline" data-toggle="tab">Timeline</a></li>
@@ -219,9 +236,8 @@ from (
 				
 				
 				
-              <div class="tab-pane" id="dados">
-				  		    
-				  
+              <div class="active tab-pane" id="dados">
+				  		    	  
 				<div class="box-header with-border">	  
 					 <h3 class="box-title">Pedido JDE </h3>
 					 <h6>
@@ -673,80 +689,47 @@ from (
 				
 				
 	<div class="tab-pane" id="detalhes">									
-		<div class="row"> 
-	
-		<div class="col-md-12">	
-		<div class="box box-title">
-		{{$tipo}} - {{$pedido}}
-		</div>
-
-		<div class="box box-body">
 		
+		<h6>
 		
-			
-		<table class="table table-bordered">
-			
-			
-		 <tr>	
-
-	 		<td colspan="12"></td>
-		
-				</tr>
-		  			
-					<tr>
-						<td ></td>	
-						<td colspan="1" align="center">ref_go</td>	
+		<table class="tabela2 table-striped table-bordered compact">
+		 		<thead>	
+				<tr>
+					<td>Foto</td>	
+					<td colspan="1" align="center">Produto</td>	
 					<td colspan="1" align="center">Secundario</td>
-						
-				
-					<td colspan="1" align="center">desc1</td>
-					
-					<td colspan="1" align="center">fornecedor</td>
-					<td colspan="1" align="center">ult_prox status</td>
-					<td colspan="1" align="center">Tipo_item</td>
-					<td colspan="1" align="center">Grifes </td>
-					<td colspan="1" align="center">Colecoes</td>
-					<td colspan="1" align="center">qtde pecas</td>
-					<td colspan="1" align="center">atende</td>
-				
-			</tr>
-			  
+					<td colspan="1" align="center">Colmod</td>
+					<td colspan="1" align="center">Clasmod</td>
+					<td colspan="1" align="center">Statual atual</td>	
+					<td colspan="1" align="center">Qtde pecas</td>
+					<td colspan="1" align="center">Atende</td>
+					<td colspan="1" align="center">Mostruarios</td>
+					<td colspan="1" align="center">disponivel</td>
+				</tr>
+				</thead>
 			  
 			@foreach ($query_4 as $query4)
 			  
 				<tr>
-					<td id="foto" align="center" style="min-height:60px;">
-               
-                <a href="" class="zoom" data-value="{{$query4->secundario}}"><img src="https://portal.goeyewear.com.br/teste999.php?referencia={{$query4->secundario}}" style="max-height: 60px;" class="img-responsive"></a>
-                
-              </td>
-					
-					<td align="left">{{$query4->tipoitem.' '.$query4->ref}}</td>	
+					<td id="foto" align="center" style="min-height:60px;"> 
+						<a href="" class="zoom" data-value="{{$query4->secundario}}">
+						<img src="https://portal.goeyewear.com.br/teste999.php?referencia={{$query4->secundario}}" style="max-height: 60px;" class="img-responsive"></a>
+					</td>					
+					<td align="left">{{$query4->itempedido}}</td>	
 					<td align="left"><a href="/painel/{{$query4->agrup}}/{{$query4->modelo}}">{{$query4->secundario}}</a></td>
-					
-					
-					<td align="center">{{$query4->ref}}</td>
-					
-					<td align="left">{{$query4->fornecedor}}</td>
-					<td align="center">{{$query4->ult_prox}}</td>
-					<td align="center">{{$query4->tipoitem}}</td>
-					<td align="center">{{$query4->codgrife}}</td>
 					<td align="center">{{$query4->colmod}}</td>
+					<td align="left">{{$query4->clasmod}}</td>
+					<td align="left">{{$query4->statusatual}}</td>
 					<td align="center">{{number_format($query4->qtde)}}</td>	
-					<td align="center">{{number_format($query4->atende,0)}}</td>
-				
-					
+					<td align="center">{{number_format($query4->orcamento_liber,0)}}</td>
+					<td align="center">{{number_format($query4->mostruarios,0)}}</td>
+					<td align="center">{{number_format($query4->disponivel,0)}}</td>
 				</tr>
 			@endforeach 
 			
-			</table>
-			
-			</div>
-		</div>	
-	</div>
-	</h6>	
-</div>			
-<!--fim detalhes -->				
+			</table></h6>	
+	</div>			
+	<!--fim detalhes -->				
 				
 				
 				
@@ -854,29 +837,25 @@ from (
 			 
 			 
 			  
-              <div class="active tab-pane" id="financeiro">
-		
-				  		
+              <div class="tab-pane" id="financeiro">			  		
 					  
-				<section class="content">
-						  
+				<section class="content">					  
 					
 					<div class="row">
-						
-						
+											
 						<div class="col-md-12">
-							<a  class="btn btn-default btn-flat pull-right"href="" class="pull-center" data-toggle="modal" 
-							data-target="#modalcadastratitulo">Cadastrar Titulo</a>
-
-							<a  class="btn btn-default btn-flat pull-right"href="" class="pull-center" data-toggle="modal" 
-							data-target="#modalcadastraparcela">Cadastrar parcelas</a>         
+												
+							<a class="btn btn-default btn-flat pull-right" href="" class="pull-center" data-toggle="modal" 
+							data-target="#modalcadastraPagamento">Cadastrar Pagamentos</a>
+							
+							<a  class="btn btn-default btn-flat pull-right" href="" class="pull-center" data-toggle="modal" 
+							data-target="#modalcadastraparcela">Cadastrar Parcelas</a> 
+							
+							<a  class="btn btn-default btn-flat pull-right" href="" class="pull-center" data-toggle="modal" 
+							data-target="#modalcadastraTitulo">Cadastrar Titulos</a>
 
 						</div>
 						
-						
-						
-
-				  
 				
 
 
@@ -892,7 +871,8 @@ from (
 												<tr>
 												<td align="center">Descricao</td>
 												<td align="center">Valor</td>
-												<td></td>
+												<td>vencemmanto</td>
+												
 											</tr>  											
 											@foreach ($query_titulos as $titulos)
 							
@@ -902,6 +882,7 @@ from (
 													<td align="left">{{$titulos->id}}</td>
 													<td align="center">{{$titulos->valor}}</td>
 													<td align="center">{{$titulos->vencimento}}</td>
+													
 												</tr>                
 
 											
@@ -920,6 +901,7 @@ from (
 												<td align="center">Descricao</td>
 												<td align="center">Valor</td>
 												<td align="center">Vencimento</td>
+												<td></td>
 											</tr>  
 												
 											@foreach ($query_parcelas as $parcelas)
@@ -928,6 +910,8 @@ from (
 												<td align="center">{{$parcelas->id_titulo}}</td>
 												<td align="center">{{$parcelas->valor}}</td>
 												<td align="center">{{$parcelas->vencimento}}</td>
+											
+												
 											</tr>  
 												@php ;} else  { @endphp  @php  ;} @endphp
 											@endforeach 
@@ -1058,13 +1042,10 @@ from (
 				  
 				  
 		
-		<!-- /.modal lanca parcelas -->				  
-					<form action="/dsimportdet/cadastrapagamento" id="frmcadastratitulo" class="form-horizontal" method="post">
+		<!-- /.modal lanca titulos -->				  
+			<form action="/dsimportdet/cadastratitulo" id="frmcadastratitulo" class="form-horizontal" method="post">
 						@csrf 
-
-
-
-					<div class="modal fade" id="modalcadastratitulo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			 <div class="modal fade" id="modalcadastraTitulo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 					   <input type="hidden" name="id_pedido" id="id_pedido" value="{{$pedido}}">
 					   <input type="hidden" name="tipo_pedido" id="tipo_pedido" value="{{$tipo}}">
 
@@ -1149,7 +1130,121 @@ from (
 					  </div>
 					</div>
 					</form> 
-          <!-- /.fim modal -->
+          <!-- /.fim modal titulos -->
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+			<!-- /.modal lanca pagamentos -->				  
+					<form action="/dsimportdet/cadastrapagamento" id="frmcadastraPagamento" class="form-horizontal" method="post">
+						@csrf 
+
+
+					<div class="modal fade" id="modalcadastraPagamento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+					   <input type="hidden" name="id_pedido" id="id_pedido" value="{{$pedido}}">
+					   <input type="hidden" name="tipo_pedido" id="tipo_pedido" value="{{$tipo}}">
+					
+						
+
+					  <div class="modal-dialog" role="document">
+						<div class="modal-content">
+						  <div class="modal-header bg-primary">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="myModalLabel">Cadastro Pagamento</h4>
+						  </div>
+						  <div class="modal-body">
+
+						  <div class="form-group">
+
+						   <label class="col-md-3 control-label">Tipo de pagamento</label>   
+							  <div class="col-md-8">
+					
+									<select  name="id_parcela" class="form-control" required>
+										@foreach ($query_parcelas as $parcelas)	
+									 <option value="{{$parcelas->id}}" >{{$parcelas->id}}.{{$parcelas->id_titulo}}</option>
+										@endforeach
+									</select>
+
+							  </div>        
+							  </div>
+
+							  <div class="form-group">
+								<label class="col-md-3 control-label">Data Emissão</label>
+								<div class="col-md-4">
+								  <small>Data Emissão</small>
+								  <input type="date" name="dt_emissao"  id="dt_emissao" class="form-control" required >
+								</div>     
+
+								<div class="col-md-4">
+								  <small>Data Vencimento</small>
+								  <input type="date" name="dt_vencimento" id="dt_vencimento"   class="form-control" required>
+								</div>        
+							  </div>
+
+							  <div class="form-group">
+								<label class="col-md-3 control-label">Moeda</label>
+								<div class="col-md-5">
+								  <select name="moeda" id="moeda" class="form-control" required>
+									<option value=""> @lang('padrao.selecione') </option>
+									<option value="USD"> USD </option>
+									<option value="EUR"> EUR </option>
+									<option value="BRL"> BRL </option>
+								  </select>
+								</div>        
+							  </div>
+
+							  <div class="form-group">
+								<label class="col-md-3 control-label">Valor</label>
+								<div class="col-md-5">
+								  <input name="valor" type="decimal"  required>
+								</div> 
+								  
+							  </div>
+						  <div class="form-group">
+								<label class="col-md-3 control-label">Criar parcelas</label>
+								<div class="col-md-5">
+								  <select name="criar_parcela" id="criar_parcela" class="form-control" required>
+									<option value="">Selecione </option>
+									<option value="parcela_unica"> Parcela única </option>
+									<option value="multiplas"> Multiplas parcelas </option>
+
+								  </select>
+								</div>        
+							  </div>
+
+							  <div class="form-group">
+								<label class="col-md-3 control-label">Observação</label>
+								<div class="col-md-8">
+									<textarea name="obs" class="form-control"></textarea>
+								</div>        
+							  </div>
+
+
+						  </div>
+						  <div class="modal-footer">
+							<button type="button" class="btn btn-flat btn-default" data-dismiss="modal">@lang('padrao.cancelar')</button>
+							<button type="submit" class="btn btn-flat btn-primary">@lang('padrao.salvar') </button>
+						  </div>
+						</div>
+					  </div>
+					</div>
+					</form> 
+          <!-- /.fim modal -->	  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
 				
 	</div>
 	<!-- /.tab-pane -->
@@ -1390,8 +1485,8 @@ from (
 					<td>Data</td>
 					<td>User</td>
 
-					<td>tamanho</td>
-					<td></td>
+					<td>extensao</td>
+					<td>arquivo</td>
 					</tr>
 					@foreach ($query_5 as $docs)
 					<tr>
@@ -1401,9 +1496,9 @@ from (
 					<td>{{$docs->tipo_arquivo}}</td>
 					<td>{{$docs->origem}}</td>
 					<td>{{$docs->data}}</td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td>{{$docs->usuario}}</td>
+					<td>{{$docs->extensao}}</td>
+					<td>{{$docs->arquivo}}</td>
 					</tr>
 					@endforeach	
 				</table> 											

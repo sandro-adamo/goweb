@@ -16,27 +16,34 @@ class ImportacaoController extends Controller
 	
 	
 	public function uploadDocumentos(Request $request) {
-	
+		$idusuario = \Auth::id();
+		$usuario  = \DB::select("select nome from usuarios where id = $idusuario limit 1");
+		$nome_usuario = $usuario[0]->nome;
+		
 		$id_info = $request->id_info;
 		$tipo = $request->tipo;
 		
 		$path = $request->file('arquivo')->store("uploads/historico/{$id_info}");
+		$arquivo = $request->arquivo->getClientOriginalName();
+		$arquivo_up = $_FILES['arquivo']['name'];
+		$extensao = pathinfo($arquivo_up);
+		$extensao = $extensao['extension'];
+		
 		
 		$usuario  = \DB::select("
-			insert into compras_docs (pedido, path, tipo_arquivo, origem, data) 
-			values('{$request->id_info}', '{$path}','{$request->tipo}', '{$request->origem}',now()) 
+		insert into compras_docs (pedido, path, tipo_arquivo, origem, data, arquivo, extensao, usuario) 
+		values('{$request->id_info}', '{$path}','{$request->tipo}', '{$request->origem}',now(),'{$arquivo}','{$extensao}','$nome_usuario') 
 			
-			");
-		
+		");
+				
 		return redirect()->back();
 	}
 	
 	
 	
 	
-	
-	
-	public function cadastraPagamento(Request $request) {
+	// modal cadatra titulo
+	public function cadastraTitulo(Request $request) {
 		
 			
 			$idusuario = \Auth::id();
@@ -70,6 +77,31 @@ class ImportacaoController extends Controller
 			  
 
 	}
+	
+	
+	
+	// modal cadatra pagamento
+	public function cadastraPagamento(Request $request) {
+		
+			
+			$idusuario = \Auth::id();
+			$usuario  = \DB::select("select nome from usuarios where id = $idusuario limit 1");
+			$nome_usuario = $usuario[0]->nome;
+			
+			$id_titulo = $request->id_parcela;
+		
+
+			//$numero_titulo = $request->id_pedido."_1";
+
+			$insert_pagamento  = \DB::select("INSERT INTO `compras_pagamentos`(`id_parcela`) VALUES ('$id_titulo') ");					  
+				  
+			return redirect()->back();
+
+	}
+	
+	
+	
+	
 
 	public function detalhesDSimport($tipo, $pedido) {
 		//dd($tipo);
@@ -307,7 +339,10 @@ from(
 		$compra = new \App\CompraInfo();
 		
 	}
+		
 
+		
+		
 if ($request->dt_invoice <> '') { $compra->dt_invoice = $request->dt_invoice;} else {$compra->dt_invoice = null;}
 if ($request->dt_sol_li <> '') 	{ $compra->dt_sol_li = $request->dt_sol_li;} else {$compra->dt_sol_li = null;}
 if ($request->dt_def_li <> '') 	{ $compra->dt_def_li = $request->dt_def_li;} else {$compra->dt_def_li = null;}
@@ -337,16 +372,18 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 	//	echo date('d/m/Y', strtotime('+5 days', strtotime('14-07-2014')));  strtotime('+5 days',strtotime($request->dt_aut_embarque))
 		
 		
-
-		$compra->id_pedido = $request->pedido;
+		$compra->id_pedido = $request->pedido;			
 		$compra->tipo_pedido = $request->tipo;
 		$compra->tipo_agrup = $request->tipo_agrup;
 		$compra->doc_agrup = $request->doc_agrup;
 		$compra->cubagem_m3 = $request->cubagem_m3;
 		
-		
-
-			$compra->num_temp = $request->num_temp;
+		//apagar essas 3 variaveis
+		// 			
+		// 	$compra->num_temp = $request->pedido;
+		// 	$compra->invoice_temp = $request->invoice_temp;
+					
+					
 			$compra->volumes = $request->volumes;
 			$compra->peso_bruto = $request->peso_bruto;
 			$compra->peso_liquido = $request->peso_liquido;
@@ -382,19 +419,50 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 		
 			
 		if ($request->impostos_nac > 0) { $compra->base_imposto =  $request->impostos_nac/$request->taxa_nac; }
-		if ($request->icms_nac > 0 ) {	$compra->base_icms =  $request->icms_nac/$request->taxa_nac; }
-			
-	// $idusuario = \Auth::id();	$usuario  = \DB::select("select nome from usuarios where id = $idusuario limit 1");
-		
+		if ($request->icms_nac > 0 ) {	$compra->base_icms =  $request->icms_nac/$request->taxa_nac; }		
 		
 		$compra->save();
-
+		
 		return redirect()->back();
 		}
 	
 	
 	
-
+	
+	
+	
+	
+	//adicona pedido temporario sem vinculo jde //
+	public function gravaTempImport(Request $request) {
+		
+	$id = $request->id_info;
+	$id_usuario = \Auth::id();	
+	
+	$insert_temp = new \App\CompraTemp();
+	
+		$verifica = \DB::select("
+			 select sum(linhas) linhas from (    
+				 select count(num_temp) as linhas from compras_infos where invoice_temp = '$request->invoice_temp'     
+				 union all 
+				 select count(distinct pedido) linhas 
+				 from importacoes_pedidos ip left join compras_infos ci on ci.id_pedido = ip.pedido  and ci.tipo_pedido = ip.tipo where ref_go = '$request->invoice_temp'
+ 			) as final	");
+	
+				if ($verifica[0]->linhas > 0) { 
+					dd($verifica[0]->linhas);
+						return redirect()->back();
+				} else {
+		
+			$insert_temp->id_pedido 	= $request->pedido;		
+			$insert_temp->num_temp 		= $request->pedido;
+			$insert_temp->invoice_temp 	= $request->invoice_temp;
+			$insert_temp->tipo_pedido 	= $request->tipo;
+		
+			$insert_temp->save();	
+			}
+		
+		return redirect()->back();
+		}	
 	
 	
 	
@@ -403,7 +471,7 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 	
 	
 	
-	
+	//adicona simulacao de registro //
 	public function gravaRegistroImport(Request $request) {
 		
 	$id = $request->id_info;
@@ -418,14 +486,41 @@ if ($request->data_pgto_nfc <> '') { $compra->data_pgto_nfc = $request->data_pgt
 		$registro->taxa2 =  $request->taxa2;
 		$registro->taxa3 =  $request->taxa3;
 		
-		$registro->save();
-		
+		$registro->save();	
 		
 		return redirect()->back();
-		}
+		}	
+	
+
 	
 	
-	
+	// funcao para vincular detalhe temporario ao pedido jde // 
+	public function atualizaRegistroImport(Request $request) {
+	$id_usuario = \Auth::id();
+	$id = $request->id_temp;
+				
 		
+	$request->acao_capa;
+
+		// 	dd($request->all());
+		
+		$atualiza = \App\CompraAtualiza::find($id);
+		$atualiza->id_pedido =  $request->pedido;
+		$atualiza->tipo_pedido =  $request->tipo_pedido;
+		
+		$atualiza->save();	
+		
+		return redirect()->back();
+		}	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
 }
 

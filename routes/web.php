@@ -555,12 +555,21 @@ Route::get('/dsimportdet', function () {   return view('dashboards.importacao.da
 
 Route::get('/import_form', function () { return view('dashboards.importacao.insere_form');	});
 Route::post('/import_form/grava','ImportacaoController@gravaDadosImport');
+
 Route::post('/import_form/gravareg','ImportacaoController@gravaRegistroImport');
+Route::post('/import_form/gravatemp','ImportacaoController@gravaTempImport');
+
+
+Route::post('/import_form/atualizareg','ImportacaoController@atualizaRegistroImport');
 Route::post('/import_form/documento/upload', 'ImportacaoController@uploadDocumentos');
 
 
 Route::get('/dsimportdet/{tipo}/{pedido}','ImportacaoController@detalhesDSimport');
+
+
+
 Route::post('/dsimportdet/cadastrapagamento','ImportacaoController@cadastraPagamento');
+Route::post('/dsimportdet/cadastratitulo','ImportacaoController@cadastraTiltulo');
 
 
 
@@ -592,6 +601,7 @@ Route::post('/painel/campanhas/{item}', 'PainelController@uploadFoto');
 Route::get('/painel/midias/{item}/excluir', 'PainelController@exclirMidia');
 Route::get('/painel/midias/{item}', 'PainelController@verMidias');
 Route::post('/painel/midias/{item}', 'PainelController@uploadFotoMidia');
+
 
 Route::get('/painel/imprimir/{modelo}', 'PainelController@imprimir');
 Route::get('/painel/{agrupamento}', 'PainelController@modelos');
@@ -925,3 +935,17 @@ Route::get('/inventario/dashboard', function() {
 
 	Route::get('/exemplo', 'ExemploController@index')->name('exemplo.index');
 	Route::post('/exemplo/cadastrar', 'ExemploController@store')->name('exemplo.store');
+
+	Route::post('/row/{id}/comments', 'PortfolioController@updateComments')->name('portfolio.comments');
+
+	Route::get('/row/{id}/comments/{lastSeen}/read', [App\Http\Controllers\PortfolioController::class, 'markCommentsAsRead'])->name('portfolio.comments.read');
+
+	Route::get('/row/{id}/aprovar', 'PortfolioController@aprovar')->name('portfolio.aprovar');
+
+	Route::get('/row/{id}/desaprovar', 'PortfolioController@desaprovar')->name('portfolio.desaprovar');
+
+	Route::get('/row/{invoice}/aprovar-todos', 'PortfolioController@aprovarTodosItens')->name('portfolio.aprovar-todos');
+
+	Route::get('embarques/{invoice}/download', 'PortfolioController@embarquesDownload')->name('embarquesDownload');
+
+	Route::get('embarques/{invoice}/upload', 'PortfolioController@embarquesUpload')->name('embarquesUpload');
