@@ -1012,36 +1012,19 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
   }
   public function detalhesOI( Request $request ) {
 
-	   $dtpedido = \DB::select( "
-select  ip.dt_pedido
-from importacoes_pedidos ip
-left join itens_estrutura  ie on ie.id_filho = ip.cod_item and ie.tipo_filho = '002'
-
-left join itens i on i.id = ip.cod_item
-where   -- ip.dt_pedido > '2020-09-01'and 
-ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
- 'FR METAL                 ','FR ACETATO               ','FRASCO 30ML              ')
- and (tipo = 'oi' or (tipo = 'op' and tipo_linha = 'bs'))
- and IFNULL(ie.clasitemfilho,'') <> 'PARTE CLIPON'
- and ult_status <> 980
- and ip.pedido = '$request->pedido'
- and ip.tipo = '$request->tipo'
- group by ip.dt_pedido
-		
-" );
-	  $dtpedido1 = $dtpedido[0]->dt_pedido;
+	   
 	  //dd($dtpedido);
     $oi = \DB::select( "
 select base.*,itens.agrup as grife,
 ifnull((select sum(compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0)) from compras_itens left join compras_entregas on compras_entregas.id_compra_item = compras_itens.id
 where (compras_entregas.exclui is null or compras_entregas.exclui = 0) and compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0) 
 and compras_itens.item = base.item and status in ('distribuido', 'producao', 'aguardando documentacao') 
---  and  pedido_dt <= '$dtpedido1'   
+
 ),0) as qtd_aberto,
 ifnull((select group_concat(distinct compras_itens.id_compra)from compras_itens left join compras_entregas on compras_entregas.id_compra_item = compras_itens.id
 where (compras_entregas.exclui is null or compras_entregas.exclui = 0) and compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0) 
 and compras_itens.item = base.item and status in ('distribuido', 'producao', 'aguardando documentacao') 
---  and  pedido_dt <= '$dtpedido1'   
+
 ),0) as id_compra1,
 format(vlr_unit,2),
 concat(nome, ' - ', fornecedor) as fornecedor, format(qtde_sol*vlr_unit,2) as valor_tt, modelo
@@ -1082,12 +1065,12 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
 ifnull((select sum(compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0)) from compras_itens left join compras_entregas on compras_entregas.id_compra_item = compras_itens.id
 where (compras_entregas.exclui is null or compras_entregas.exclui = 0) and compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0) 
 and compras_itens.item = base.item and status in ('distribuido', 'producao', 'aguardando documentacao') 
---  and  pedido_dt <= '$dtpedido1'   
+  
 ),0) as qtd_aberto,
 ifnull((select group_concat(distinct compras_itens.id_compra)from compras_itens left join compras_entregas on compras_entregas.id_compra_item = compras_itens.id
 where (compras_entregas.exclui is null or compras_entregas.exclui = 0) and compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0) 
 and compras_itens.item = base.item and status in ('distribuido', 'producao', 'aguardando documentacao') 
---  and  pedido_dt <= '$dtpedido1'   
+ 
 ),0) as id_compra1,
 format(vlr_unit,2),
 concat(nome, ' - ', fornecedor) as fornecedor, format(qtde_sol*vlr_unit,2) as valor_tt, modelo
