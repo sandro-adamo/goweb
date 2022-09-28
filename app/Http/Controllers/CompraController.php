@@ -862,26 +862,26 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
 			),0) as qtd_aberto, vlr_unit,
 			concat(nome, ' - ', fornecedor) as fornecedor, qtde_sol*vlr_unit as valor_tt
 			from(
-			select  ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ltrim(rtrim(ip.ref_go)) as invoice,
-			id_item_destino as id_item,
-			item_destino as item, qtde as qtde_sol, vlr_unit vlr_unit,
-			qtde* vlr_unit as tt_valor
-
-			from importacoes_pedidos ip
-	left join entrada_agrupada  ea on ea.id_item_invoice = ip.cod_item and ref_go = invoice and ip.pedido = ea.pedido
-	left join itens i on i.id = ea.id_item_destino
-
-			where 
-
-			 ult_status <> 980
-			 and ip.pedido = '$request->pedido'
-			 and ip.tipo = '$request->tipo'
-			 and (tipo = 'oi' or (tipo = 'op' and tipo_linha = 'bs'))
-       and ip.secundario like '%semi%'
-			 
-			 group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
-			item_destino, id_item_destino,
-			  ip.secundario , qtde, vlr_unit ,i.id
+        select  ip.dt_pedido, (select linha from importacoes_pedidos iplinha where iplinha.cod_item = ip.cod_item and iplinha.pedido = ip.pedido and iplinha.ult_status<>980  order by linha limit 1) as linha, ip.tipo, ip.pedido,
+        id_item_destino as id_item,
+        item_destino as item, format(qtde,0) as qtde_sol, format(avg(vlr_unit),2) vlr_unit,ltrim(rtrim(ip.ref_go)) as invoice,
+        qtde* avg(vlr_unit) as tt_valor
+        
+        from importacoes_pedidos ip
+          left join entrada_agrupada  ea on ea.id_item_invoice = ip.cod_item and ref_go = invoice and ip.pedido = ea.pedido
+          left join itens i on i.id = ea.id_item_destino
+        
+        where  
+         (tipo = 'oi' or (tipo = 'op' and tipo_linha = 'bs'))
+        
+         and ult_status <> 980
+         and ip.pedido = '$request->pedido'
+         and ip.tipo = '$request->tipo'
+         and ip.secundario like '%semi%'
+        
+         group by ip.dt_pedido,  ip.tipo, ip.pedido,ip.ref_go,
+              item_destino, id_item_destino,
+                ip.secundario , qtde ,i.id, ip.cod_item
 			
 			 ) as base
 			  left join compras_invoices ci on ci.pedido = base.pedido and ci.item = base.item and ci.linha = base.linha and ci.qtd = base.qtde_sol and ci.dt_invoice = base.dt_pedido and ci.exclui <> 1
