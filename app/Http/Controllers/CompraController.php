@@ -1170,10 +1170,10 @@ where
      and pedido_dt <= dt_pedido
     ),0) as qtd_aberto
     from(
-    select  ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ltrim(rtrim(ip.ref_go)) as invoice,
+    select  ip.dt_pedido, (select linha from importacoes_pedidos iplinha where iplinha.cod_item = ip.cod_item and iplinha.pedido = ip.pedido and iplinha.ult_status<>980  order by linha limit 1) as linha, ip.tipo, ip.pedido,ltrim(rtrim(ip.ref_go)) as invoice,
      ltrim(rtrim(ea.id_item_destino)) as id_item,
-    ltrim(rtrim(ea.item_destino)) as item, ea.qtde qtde_sol, vlr_unit,
-    qtde* vlr_unit as tt_valor
+    ltrim(rtrim(ea.item_destino)) as item, ea.qtde qtde_sol, avg(vlr_unit)vlr_unit ,
+    qtde* avg(vlr_unit) as tt_valor
     
     from importacoes_pedidos ip
     left join entrada_agrupada  ea on ea.id_item_invoice = ip.cod_item and ref_go = invoice and ip.pedido = ea.pedido
@@ -1190,8 +1190,8 @@ where
      and (tipo = 'oi' or (tipo = 'op' and tipo_linha = 'bs'))
       and (iip.codtipoitem = 006 )
     
-     group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
-           ea.qtde , vlr_unit ,ea.id_item_destino, item_destino
+     group by ip.dt_pedido,  ip.tipo, ip.pedido,ip.ref_go,
+           ea.qtde , ea.id_item_destino, item_destino, cod_item
           
      ) as base
      
