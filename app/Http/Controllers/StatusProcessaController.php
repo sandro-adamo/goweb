@@ -457,8 +457,8 @@ FROM
         *,
             CASE
                 
-                WHEN col_mod > '2022 08' THEN 'EM PRODUCAO'
-                WHEN col_item > '2022 08' THEN 'EM PRODUCAO'
+                WHEN col_mod > '2022 09' THEN 'EM PRODUCAO'
+                WHEN col_item > '2022 09' THEN 'EM PRODUCAO'
 				
                 
                 WHEN
@@ -475,6 +475,7 @@ FROM
                         AND (saldo_disponivel) > 5
                 THEN
                     'ENTREGA IMEDIATA'
+                WHEN fornecedor = 'WENZHOU ZHONGMIN GLASSES CO LTD' then 'ESGOTADO'
                 WHEN
                     ((saldo_15dias) > (potencial3))
                         AND (saldo_15dias) > 5
@@ -620,7 +621,7 @@ FROM
             itens.statusatual AS Status_atual,
             CASE
                 WHEN itens.grife IN ('ALEXANDER MCQUEEN' , 'ALTUZARRA', 'BOTTEGA VENETA', 'BOUCHERON', 'BRIONI', 'CARTIER', 'CHRISTOPHER KANE', 'GUCCI', 'MCQ', 'POMELLATO', 'PUMA', 'SAINT LAURENT', 'STELLA MCCARTNEY', 'TOMAS MAIER', 'AZZEDINE', 'MONTBLANC') THEN 'Kering'
-                ELSE 'China'
+                ELSE fornecedor
             END AS Fornecedor,
             itens.codtipoarmaz AS Liberacao_tablet,
             ifnull((existente),0) AS Existente,
