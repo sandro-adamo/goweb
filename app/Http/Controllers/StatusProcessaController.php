@@ -781,8 +781,7 @@ WHERE
         } else {
             echo 'erro';
         }
-	$var = "<script>javascript:history.back(-2)</script>";
-echo $var;
+        return redirect( "/produtos/status/processamentos");
     }	
 
 	
