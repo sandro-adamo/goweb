@@ -823,9 +823,9 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
 			concat(nome, ' - ', fornecedor) as fornecedor, qtde_sol*vlr_unit as valor_tt
 			from(
 			select  ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ltrim(rtrim(ip.ref_go)) as invoice,
-			case when (item_filho like 'fr %' or item_filho like 'ponte %' or item_filho like 'am %') then ltrim(rtrim(id_pai)) 
+			case when tipo_filho = '002' then ltrim(rtrim(id_pai)) 
 			else ltrim(rtrim(i.id)) end as id_item,
-			case when (item_filho like 'fr %' or item_filho like 'ponte %' or item_filho like 'am %') then ltrim(rtrim(item_pai)) else ltrim(rtrim(ip.secundario)) end as item, qtde_sol as qtde_sol, vlr_unit vlr_unit,
+			case when tipo_filho = '002' then ltrim(rtrim(item_pai)) else ltrim(rtrim(ip.secundario)) end as item, qtde_sol as qtde_sol, vlr_unit vlr_unit,
 			qtde_sol* vlr_unit as tt_valor
 
 			from importacoes_pedidos ip
@@ -844,7 +844,7 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
        and ip.secundario not like '%semi%'
 			 group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
 			item_filho, id_pai,
-			  ip.secundario , qtde_sol , vlr_unit ,i.id, item_pai
+			  ip.secundario , qtde_sol , vlr_unit ,i.id, item_pai, tipo_filho
 			
 			 ) as base
 			  left join compras_invoices ci on ci.pedido = base.pedido and ci.item = base.item and ci.linha = base.linha and ci.qtd = base.qtde_sol and ci.dt_invoice = base.dt_pedido and ci.exclui <> 1
@@ -862,10 +862,10 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
 			),0) as qtd_aberto, vlr_unit,
 			concat(nome, ' - ', fornecedor) as fornecedor, qtde_sol*vlr_unit as valor_tt
 			from(
-			select  ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ltrim(rtrim(ip.ref_go)) as invoice,
+			select  ip.dt_pedido, (select linha from importacoes_pedidos iplinha where iplinha.cod_item = ip.cod_item and iplinha.pedido = ip.pedido and iplinha.ult_status<>980  order by linha limit 1) as linha, ip.tipo, ip.pedido,ltrim(rtrim(ip.ref_go)) as invoice,
 			id_item_destino as id_item,
-			item_destino as item, qtde as qtde_sol, vlr_unit vlr_unit,
-			qtde* vlr_unit as tt_valor
+			item_destino as item, qtde as qtde_sol, avg(vlr_unit) vlr_unit,
+			qtde* avg(vlr_unit) as tt_valor
 
 			from importacoes_pedidos ip
 	left join entrada_agrupada  ea on ea.id_item_invoice = ip.cod_item and ref_go = invoice and ip.pedido = ea.pedido
@@ -879,9 +879,9 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
 			 and (tipo = 'oi' or (tipo = 'op' and tipo_linha = 'bs'))
        and ip.secundario like '%semi%'
 			 
-			 group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
+			 group by ip.dt_pedido,  ip.tipo, ip.pedido,ip.ref_go,
 			item_destino, id_item_destino,
-			  ip.secundario , qtde, vlr_unit ,i.id
+			  ip.secundario , qtde, i.id,cod_item
 			
 			 ) as base
 			  left join compras_invoices ci on ci.pedido = base.pedido and ci.item = base.item and ci.linha = base.linha and ci.qtd = base.qtde_sol and ci.dt_invoice = base.dt_pedido and ci.exclui <> 1
@@ -1012,43 +1012,26 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
   }
   public function detalhesOI( Request $request ) {
 
-	   $dtpedido = \DB::select( "
-select  ip.dt_pedido
-from importacoes_pedidos ip
-left join itens_estrutura  ie on ie.id_filho = ip.cod_item and ie.tipo_filho = '002'
-
-left join itens i on i.id = ip.cod_item
-where   -- ip.dt_pedido > '2020-09-01'and 
-ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
- 'FR METAL                 ','FR ACETATO               ','FRASCO 30ML              ')
- and (tipo = 'oi' or (tipo = 'op' and tipo_linha = 'bs'))
- and IFNULL(ie.clasitemfilho,'') <> 'PARTE CLIPON'
- and ult_status <> 980
- and ip.pedido = '$request->pedido'
- and ip.tipo = '$request->tipo'
- group by ip.dt_pedido
-		
-" );
-	  $dtpedido1 = $dtpedido[0]->dt_pedido;
+	   
 	  //dd($dtpedido);
     $oi = \DB::select( "
 select base.*,itens.agrup as grife,
 ifnull((select sum(compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0)) from compras_itens left join compras_entregas on compras_entregas.id_compra_item = compras_itens.id
 where (compras_entregas.exclui is null or compras_entregas.exclui = 0) and compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0) 
 and compras_itens.item = base.item and status in ('distribuido', 'producao', 'aguardando documentacao') 
---  and  pedido_dt <= '$dtpedido1'   
+
 ),0) as qtd_aberto,
 ifnull((select group_concat(distinct compras_itens.id_compra)from compras_itens left join compras_entregas on compras_entregas.id_compra_item = compras_itens.id
 where (compras_entregas.exclui is null or compras_entregas.exclui = 0) and compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0) 
 and compras_itens.item = base.item and status in ('distribuido', 'producao', 'aguardando documentacao') 
---  and  pedido_dt <= '$dtpedido1'   
+
 ),0) as id_compra1,
 format(vlr_unit,2),
 concat(nome, ' - ', fornecedor) as fornecedor, format(qtde_sol*vlr_unit,2) as valor_tt, modelo
 from(
 select  ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,
-case when (item_filho like 'fr %' or item_filho like 'ponte %' or item_filho like 'am %') then ltrim(rtrim(id_pai)) else ltrim(rtrim(i.id)) end as id_item,
-case when (item_filho like 'fr %' or item_filho like 'ponte %' or item_filho like 'am %') then ltrim(rtrim(item_pai)) else ltrim(rtrim(ip.secundario)) end as item, format(qtde_sol,0) as qtde_sol, format(vlr_unit,2) vlr_unit,ltrim(rtrim(ip.ref_go)) as invoice,
+case when tipo_filho = '002' then ltrim(rtrim(id_pai)) else ltrim(rtrim(i.id)) end as id_item,
+case when tipo_filho = '002' then ltrim(rtrim(item_pai)) else ltrim(rtrim(ip.secundario)) end as item, format(qtde_sol,0) as qtde_sol, format(vlr_unit,2) vlr_unit,ltrim(rtrim(ip.ref_go)) as invoice,
 qtde_sol* vlr_unit as tt_valor
 
 from importacoes_pedidos ip
@@ -1067,7 +1050,7 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
  and IFNULL(ie.clasitemfilho,'') <> 'PARTE CLIPON'
  group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
 			item_filho, id_pai,
-			  ip.secundario , qtde_sol , vlr_unit ,i.id, item_pai
+			  ip.secundario , qtde_sol , vlr_unit ,i.id, item_pai, tipo_filho
 			
  ) as base
  left join compras_invoices ci on ci.pedido = base.pedido and ci.id_item = base.id_item and ci.linha = base.linha and ci.qtd = base.qtde_sol and ci.dt_invoice = base.dt_pedido and ci.exclui <> 1	
@@ -1082,20 +1065,20 @@ ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
 ifnull((select sum(compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0)) from compras_itens left join compras_entregas on compras_entregas.id_compra_item = compras_itens.id
 where (compras_entregas.exclui is null or compras_entregas.exclui = 0) and compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0) 
 and compras_itens.item = base.item and status in ('distribuido', 'producao', 'aguardando documentacao') 
---  and  pedido_dt <= '$dtpedido1'   
+  
 ),0) as qtd_aberto,
 ifnull((select group_concat(distinct compras_itens.id_compra)from compras_itens left join compras_entregas on compras_entregas.id_compra_item = compras_itens.id
 where (compras_entregas.exclui is null or compras_entregas.exclui = 0) and compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0) 
 and compras_itens.item = base.item and status in ('distribuido', 'producao', 'aguardando documentacao') 
---  and  pedido_dt <= '$dtpedido1'   
+ 
 ),0) as id_compra1,
 format(vlr_unit,2),
 concat(nome, ' - ', fornecedor) as fornecedor, format(qtde_sol*vlr_unit,2) as valor_tt, modelo
 from(
-select  ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,
+select  ip.dt_pedido, (select linha from importacoes_pedidos iplinha where iplinha.cod_item = ip.cod_item and iplinha.pedido = ip.pedido and iplinha.ult_status<>980  order by linha limit 1) as linha, ip.tipo, ip.pedido,
 id_item_destino as id_item,
-item_destino as item, format(qtde,0) as qtde_sol, format(vlr_unit,2) vlr_unit,ltrim(rtrim(ip.ref_go)) as invoice,
-qtde* vlr_unit as tt_valor
+item_destino as item, format(qtde,0) as qtde_sol, format(avg(vlr_unit),2) vlr_unit,ltrim(rtrim(ip.ref_go)) as invoice,
+qtde* avg(vlr_unit) as tt_valor
 
 from importacoes_pedidos ip
 	left join entrada_agrupada  ea on ea.id_item_invoice = ip.cod_item and ref_go = invoice and ip.pedido = ea.pedido
@@ -1109,9 +1092,9 @@ where
  and ip.tipo = '$request->tipo'
  and ip.secundario like '%semi%'
 
- group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
+ group by ip.dt_pedido,  ip.tipo, ip.pedido,ip.ref_go,
 			item_destino, id_item_destino,
-			  ip.secundario , qtde , vlr_unit ,i.id
+			  ip.secundario , qtde ,i.id, ip.cod_item
 			
  ) as base
  left join compras_invoices ci on ci.pedido = base.pedido and ci.id_item = base.id_item and ci.linha = base.linha and ci.qtd = base.qtde_sol and ci.dt_invoice = base.dt_pedido and ci.exclui <> 1	
@@ -1130,48 +1113,100 @@ where
 
   }
   public function listaOI() {
-    $oi = \DB::select( "select dt_pedido,pedido, tipo, format(sum(qtde_sol),0) as qtd,format(sum(tt_valor),2)as tt_valor, group_concat(distinct codgrife separator ',') as grife, fornecedor, sum(qtd_aberto) as qtd_aberto, invoice
-from(
-select base.*, 
-ifnull((select sum(compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0)) from compras_itens left join compras_entregas on compras_entregas.id_compra_item = compras_itens.id
-where (compras_entregas.exclui is null or compras_entregas.exclui = 0) and compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0) 
-and compras_itens.id_item = base.id_item and status in ('distribuido', 'producao', 'aguardando documentacao') 
- and pedido_dt <= dt_pedido
-),0) as qtd_aberto
-from(
-select  ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ltrim(rtrim(ip.ref_go)) as invoice,
-case when (item_filho like 'fr %' or item_filho like 'ponte %' or item_filho like 'am %') then ltrim(rtrim(id_pai)) else ltrim(rtrim(i.id)) end as id_item,
-case when (item_filho like 'fr %' or item_filho like 'ponte %' or item_filho like 'am %') then ltrim(rtrim(item_pai)) else ltrim(rtrim(ip.secundario)) end as item, qtde_sol, vlr_unit,
-qtde_sol* vlr_unit as tt_valor
-
-from importacoes_pedidos ip
-left join itens_estrutura  ie on ie.id_filho = ip.cod_item and ie.tipo_filho = '002'
-left join itens i on i.id = ip.cod_item
-where  
--- ip.dt_pedido > '2020-09-01' and 
-ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
- 'FR METAL                 ','FR ACETATO               ','FRASCO 30ML              ')
- -- and ci.id is not null
- and ult_status <> 980
- and (tipo = 'oi' or (tipo = 'op' and tipo_linha = 'bs'))
- and IFNULL(ie.clasitemfilho,'') <> 'PARTE CLIPON'
- group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
-			item_filho, id_pai,
-			  ip.secundario , qtde_sol , vlr_unit ,i.id, item_pai
-			
- ) as base
- left join compras_invoices ci on ci.pedido = base.pedido and ci.id_item = base.id_item and ci.linha = base.linha and ci.qtd = base.qtde_sol and ci.dt_invoice = base.dt_pedido and ci.exclui <> 1
-where ci.id_item is null
- ) as base2
- left join itens on itens.id = base2.id_item
- where codtipoitem is not null
- and codtipoitem = 006
-  and fornecedor not in  ('WENZHOU ZHONGMIN GLASSES CO LTD')
- -- and fornecedor = 'KERING EYEWEAR SPA'
- and pedido <> 4542
- group by pedido, tipo, fornecedor,dt_pedido, invoice
- order by fornecedor asc, grife asc
- 
+    $oi = \DB::select( "-- left join entrada_agrupada  ea on ea.id_item_invoice = ip.cod_item and ref_go = invoice and ip.pedido = ea.pedido
+    select dt_pedido,pedido, tipo, format(sum(qtde_sol),0) as qtd,format(sum(tt_valor),2)as tt_valor, group_concat(distinct codgrife separator ',') as grife, fornecedor, sum(qtd_aberto) as qtd_aberto, invoice
+    from(
+    select base.*, 
+    ifnull((select sum(compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0)) from compras_itens left join compras_entregas on compras_entregas.id_compra_item = compras_itens.id
+    where (compras_entregas.exclui is null or compras_entregas.exclui = 0) and compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0) 
+    and compras_itens.id_item = base.id_item and status in ('distribuido', 'producao', 'aguardando documentacao') 
+     and pedido_dt <= dt_pedido
+    ),0) as qtd_aberto
+    from(
+    select  ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ltrim(rtrim(ip.ref_go)) as invoice,
+    case when tipo_filho = 002 then ltrim(rtrim(id_pai)) 
+    else ltrim(rtrim(i.id)) end as id_item,
+    case when tipo_filho = 002 then ltrim(rtrim(item_pai)) else ltrim(rtrim(ip.secundario)) end as item, qtde_sol, vlr_unit,
+    qtde_sol* vlr_unit as tt_valor
+    
+    from importacoes_pedidos ip
+    left join itens_estrutura  ie on ie.id_filho = ip.cod_item and ie.tipo_filho = '002'
+    left join itens i on i.id = ip.cod_item
+    left join itens iip on ip.cod_item = iip.id
+    -- left join entrada_agrupada  ea on ea.id_item_invoice = ip.cod_item and ref_go = invoice and ip.pedido = ea.pedido
+    where  
+    -- ip.dt_pedido > '2020-09-01' and 
+    ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ','FR METAL                 ','FR ACETATO               ','FRASCO 30ML              ') and
+    ip.secundario not like '%semi%'
+     -- and ci.id is not null
+     and ult_status <> 980
+     and (tipo = 'oi' or (tipo = 'op' and tipo_linha = 'bs'))
+      and IFNULL(ie.clasitemfilho,'') <> 'PARTE CLIPON'
+      and (iip.codtipoitem = 006 or ie.tipo_filho = '002')
+       -- and ref_go = '152_21'
+     group by ip.dt_pedido, ip.linha, ip.tipo, ip.pedido,ip.ref_go,
+          item_filho, id_pai,
+            ip.secundario , qtde_sol , vlr_unit ,i.id, item_pai, tipo_filho
+          
+     ) as base
+     left join compras_invoices ci on ci.pedido = base.pedido and ci.id_item = base.id_item and ci.linha = base.linha and ci.qtd = base.qtde_sol and ci.dt_invoice = base.dt_pedido and ci.exclui <> 1
+    where ci.id_item is null
+     ) as base2
+     left join itens on itens.id = base2.id_item
+     where codtipoitem is not null
+     and codtipoitem = 006
+      and codfornecedor <> 102606
+     -- and fornecedor = 'KERING EYEWEAR SPA'
+     and pedido <> 4542
+     group by pedido, tipo, fornecedor,dt_pedido, invoice
+    
+     union all
+     select dt_pedido,pedido, tipo, format(sum(qtde_sol),0) as qtd,format(sum(tt_valor),2)as tt_valor, group_concat(distinct codgrife separator ',') as grife, fornecedor, sum(qtd_aberto) as qtd_aberto, invoice
+    from(
+    select base.*, 
+    ifnull((select sum(compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0)) from compras_itens left join compras_entregas on compras_entregas.id_compra_item = compras_itens.id
+    where (compras_entregas.exclui is null or compras_entregas.exclui = 0) and compras_entregas.qtde_entrega-ifnull(compras_entregas.qtd_entregue,0) 
+    and compras_itens.id_item = base.id_item and status in ('distribuido', 'producao', 'aguardando documentacao') 
+     and pedido_dt <= dt_pedido
+    ),0) as qtd_aberto
+    from(
+    select  ip.dt_pedido, (select linha from importacoes_pedidos iplinha where iplinha.cod_item = ip.cod_item and iplinha.pedido = ip.pedido and iplinha.ult_status<>980  order by linha limit 1) as linha, ip.tipo, ip.pedido,ltrim(rtrim(ip.ref_go)) as invoice,
+     ltrim(rtrim(ea.id_item_destino)) as id_item,
+    ltrim(rtrim(ea.item_destino)) as item, ea.qtde qtde_sol, avg(vlr_unit)vlr_unit ,
+    qtde* avg(vlr_unit) as tt_valor
+    
+    from importacoes_pedidos ip
+    left join entrada_agrupada  ea on ea.id_item_invoice = ip.cod_item and ref_go = invoice and ip.pedido = ea.pedido
+    left join itens i on i.id = ip.cod_item
+    left join itens iip on ea.id_item_destino = iip.id
+     
+    where  
+    -- ip.dt_pedido > '2020-09-01' and 
+    ip.secundario not in ('FRJC 1928 C1             ','FR PLASTICO              ',
+     'FR METAL                 ','FR ACETATO               ','FRASCO 30ML              ')
+     and ip.secundario like '%semi%'
+     -- and ci.id is not null
+     and ult_status <> 980
+     and (tipo = 'oi' or (tipo = 'op' and tipo_linha = 'bs'))
+      and (iip.codtipoitem = 006 )
+    
+     group by ip.dt_pedido,  ip.tipo, ip.pedido,ip.ref_go,
+           ea.qtde , ea.id_item_destino, item_destino, cod_item
+          
+     ) as base
+     
+     left join compras_invoices ci on ci.pedido = base.pedido and ci.id_item = base.id_item and ci.linha = base.linha and ci.qtd = base.qtde_sol and ci.dt_invoice = base.dt_pedido and ci.exclui <> 1
+    where ci.id_item is null
+     ) as base2
+     left join itens on itens.id = base2.id_item
+     where codtipoitem is not null
+     and codtipoitem = 006
+      and codfornecedor <> 102606
+     -- and fornecedor = 'KERING EYEWEAR SPA'
+     and pedido <> 4542
+     group by pedido, tipo, fornecedor,dt_pedido, invoice
+     order by fornecedor asc, grife asc
+     
  
 
  
