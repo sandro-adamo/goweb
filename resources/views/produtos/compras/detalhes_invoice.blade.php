@@ -131,7 +131,7 @@
         @isset($itens->portfolioItem)
           @if(!isset($itens->portfolioItem->aprovado_em))
             <a href="/row/{{$itens->id}}/aprovar" class="btn btn-sm btn-success"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar</a>
-          @else
+          @elseif(!isset($itens->portfolioItem->portfolio->aprovado_em))
             <a href="/row/{{$itens->id}}/desaprovar" class="btn btn-sm btn-danger"><i class="fa fa-thumbs-down"></i> &nbsp; Desaprovar</a>
           @endif
           <button class="btn btn-sm btn-warning" data-toggle="modal"
@@ -159,7 +159,7 @@
         @endif
       @endforeach
       @foreach($invoice as $item)
-        @if($item->portfolioItem->aprovado_em ?? null == null)
+        @if(($item->portfolioItem->portfolio->aprovado_em ?? null) == null)
           <a href="/row/{{$item->portfolioItem->importacao ?? null}}/aprovar-todos" class="btn btn-success pull-right"><i class="fa fa-thumbs-up"></i> &nbsp; Aprovar todos itens</a>
           @break
         @endif
