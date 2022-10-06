@@ -61,6 +61,9 @@ class PortfolioController extends Controller
             'aprovado_em' => now(),
         ]);
 
+        if(!$portfolioItem->portfolio->itens()->whereNull('aprovado_em')->first())
+            $portfolioItem->portfolio->update(['aprovado_em' => now()]);
+
         return redirect()->back();
 
     }
@@ -74,6 +77,10 @@ class PortfolioController extends Controller
                 'aprovado_em' => now(),
             ]);
         }
+
+        $portfolioItens->first()->portfolio->update([
+            'aprovado_em' => now()
+        ]);
 
         return redirect()->back();
 
