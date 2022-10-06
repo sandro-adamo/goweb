@@ -351,6 +351,7 @@ from (
 						  <td>
 							  <select class="form-control" name="tipo_agrup" >	
 							  <option value="{{$query_1[0]->tipo_agrup}}">{{$query_1[0]->tipo_agrup}}</option> 
+							  <option value=" "></option>
 							  <option value="FR">FR</option>
 							  <option value="AC">AC</option>
 						      </select>

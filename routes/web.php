@@ -948,4 +948,4 @@ Route::get('/inventario/dashboard', function() {
 
 	Route::get('embarques/{invoice}/download', 'PortfolioController@embarquesDownload')->name('embarquesDownload');
 
-	Route::get('embarques/{invoice}/upload', 'PortfolioController@embarquesUpload')->name('embarquesUpload');
+	Route::post('embarques/{invoice}/upload', 'PortfolioController@embarquesUpload')->name('embarquesUpload');

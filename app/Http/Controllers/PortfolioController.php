@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comentario;
 use App\Exports\EmbarquesExport;
+use App\Imports\EmbarqueImport;
 use App\Portfolio;
 use App\PortfolioItem;
 use Illuminate\Http\Request;
@@ -61,6 +62,9 @@ class PortfolioController extends Controller
             'aprovado_em' => now(),
         ]);
 
+        if(!$portfolioItem->portfolio->itens()->whereNull('aprovado_em')->first())
+            $portfolioItem->portfolio->update(['aprovado_em' => now()]);
+
         return redirect()->back();
 
     }
@@ -74,6 +78,10 @@ class PortfolioController extends Controller
                 'aprovado_em' => now(),
             ]);
         }
+
+        $portfolioItens->first()->portfolio->update([
+            'aprovado_em' => now()
+        ]);
 
         return redirect()->back();
 
@@ -125,9 +133,27 @@ class PortfolioController extends Controller
 
     }
 
-    public function embarquesUpload($invoice){
+    public function embarquesUpload($invoice, Request $request){
 
-        return redirect()->back();
+        if(in_array($request->file('arquivo')->extension(), ['txt', 'csv'])){
+
+            $result = Excel::import(new EmbarqueImport($invoice), $request->file('arquivo'), null, \Maatwebsite\Excel\Excel::CSV);
+
+        }elseif($request->file('arquivo')->extension() == 'xlsx'){
+
+            $result = Excel::import(new EmbarqueImport($invoice), $request->file('arquivo'), null, \Maatwebsite\Excel\Excel::XLSX);
+
+        }elseif($request->file('arquivo')->extension() == 'xls'){
+
+            $result = Excel::import(new EmbarqueImport($invoice), $request->file('arquivo'), null, \Maatwebsite\Excel\Excel::XLS);
+
+        }else{
+
+            return redirect()->back()->withErrors(['error' => 'Formato do arquivo inv. Use .xlsx, .xls or .csv.']);
+
+        }
+
+        return redirect()->back()->with('success', 'Planilha de embarque enviada com sucesso!');
         
     }
 
