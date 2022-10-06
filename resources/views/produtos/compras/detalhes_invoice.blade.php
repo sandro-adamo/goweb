@@ -153,8 +153,12 @@
       </table>
       @foreach($invoice as $item)
         @if($item->portfolioItem->aprovado_em ?? null != null)
-          <a href="/embarques/{{$item->portfolioItem->importacao ?? null}}/download" class="btn btn-primary pull-right" style="margin-left: 5px;"><i class="fa fa-download"></i> &nbsp; Download planilha embarques</a>
-          <a href="/embarques/{{$item->portfolioItem->importacao ?? null}}/upload" class="btn btn-primary pull-right" style="margin-left: 5px;"><i class="fa fa-upload"></i> &nbsp; Upload planilha embarques</a>
+          <form id="upload-form" method="post" action="{{ route('embarquesUpload', ['invoice' => $item->portfolioItem->importacao ?? null]) }}" enctype="multipart/form-data" class="pull-right">
+            @csrf
+            <a href="/embarques/{{$item->portfolioItem->importacao ?? null}}/download" class="btn btn-primary pull-right" style="margin-left: 5px;"><i class="fa fa-download"></i> &nbsp; Download planilha embarques</a>
+            <label for="arquivo" class="btn btn-primary pull-right" style="margin-left: 5px;"><i class="fa fa-upload"></i> &nbsp; Upload planilha embarques</label>
+            <input type="file" name="arquivo" id="arquivo" accept=".xls, .xlsx, .csv" style="opacity: 0; height: 0px; width: 0;">
+          </form>
           @break
         @endif
       @endforeach
@@ -253,6 +257,13 @@
 <script>
 
   document.addEventListener('DOMContentLoaded', function(){
+
+    document.getElementById('arquivo').onchange = function(){
+      if(this?.files?.length){
+          document.getElementById('upload-form').submit()
+      }
+    }
+
     $(document).on('show.bs.modal', '.modal', function(e){
       if(e.relatedTarget.querySelector('.badge')){
           fetch('/row/'+e.target.getAttribute('data-portfolio-id')+'/comments/'+e.target.getAttribute('data-last-comment')+'/read')
