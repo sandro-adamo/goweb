@@ -237,6 +237,13 @@ where (ltrim(rtrim(item_pai)) = '$item' or ltrim(rtrim(secundario)) = '$item')
 
  	public function search(Request $request) {
 
+		$compra = \DB::select("select * from compras where id = '$request->busca' ");
+
+		if($compra){
+			return redirect('/compras/'.$request->busca);
+		}
+		else{
+
 		$grifes = \App\Permissao::getPermissao( \Auth::id() , 'grifes');
 
  		$modelo = Item::where('modelo', $request->busca)
@@ -262,10 +269,11 @@ where (ltrim(rtrim(item_pai)) = '$item' or ltrim(rtrim(secundario)) = '$item')
 	 		return view('produtos.painel.search')->with('itens',$itens);
 
  		}
-
+	}
 
 
  	}
+	 
 
 
 	public function agrupamentos() {
