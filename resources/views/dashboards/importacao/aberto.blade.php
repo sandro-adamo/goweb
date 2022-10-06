@@ -167,14 +167,12 @@ select * from (
 		<tr>
 		<td></td>
 		<td colspan="1" align="center">Tipo Pedido</td>
-		<td>Invoice</td>
-			
+		<td>Invoice</td>	
 		<td>TP</td>
 		<td>Conex</td>
 		<td colspan="1" align="center">fornecedor</td>						
 		<td colspan="1" align="center">agrupamento</td>	
-		<td colspan="1" align="center">colecao</td>	
-			
+		<td colspan="1" align="center">colecao</td>		
 		<td colspan="1" align="center">Qtde</td>
 		<td colspan="1" align="center">Atende</td>
 		<td colspan="1" align="center">Status</td>
